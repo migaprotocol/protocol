@@ -7,20 +7,20 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-lg border-b border-slate-700/50">
+    <header className="sticky top-0 z-50 bg-black/90 backdrop-blur-xl border-b border-zinc-800/50">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <Link to="/" className="flex items-center gap-3">
             <img src="/logo.png" alt="MIGA" className="h-10 w-10" />
-            <span className="text-2xl font-bold gradient-text">MIGA</span>
-            <span className="text-xs text-slate-400 hidden sm:block">Protocol</span>
+            <span className="text-2xl font-medium gradient-text tracking-tight">MIGA</span>
+            <span className="text-xs text-zinc-500 hidden sm:block uppercase tracking-widest">Protocol</span>
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-6">
-            <Link to="/token" className="text-gray-300 hover:text-white transition">Token</Link>
-            <Link to="/docs" className="text-gray-300 hover:text-white transition">Docs</Link>
-            <a href="https://miga.us.org" className="text-gray-300 hover:text-white transition">DAO</a>
+          <div className="hidden md:flex items-center gap-8">
+            <Link to="/token" className="text-zinc-400 hover:text-gold transition-colors text-sm tracking-wide">Token</Link>
+            <Link to="/docs" className="text-zinc-400 hover:text-gold transition-colors text-sm tracking-wide">Docs</Link>
+            <a href="https://miga.us.org" className="text-zinc-400 hover:text-gold transition-colors text-sm tracking-wide">DAO</a>
             <WalletMultiButton />
           </div>
 
@@ -28,7 +28,7 @@ export function Header() {
           <div className="md:hidden flex items-center gap-4">
             <WalletMultiButton />
             <button
-              className="text-gray-300"
+              className="text-zinc-400 hover:text-gold transition-colors"
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -38,11 +38,11 @@ export function Header() {
 
         {/* Mobile Nav */}
         {isOpen && (
-          <div className="md:hidden py-4 border-t border-slate-700/50">
+          <div className="md:hidden py-4 border-t border-zinc-800/50">
             <div className="flex flex-col gap-4">
-              <Link to="/token" className="text-gray-300 hover:text-white" onClick={() => setIsOpen(false)}>Token</Link>
-              <Link to="/docs" className="text-gray-300 hover:text-white" onClick={() => setIsOpen(false)}>Docs</Link>
-              <a href="https://miga.us.org" className="text-gray-300 hover:text-white">DAO</a>
+              <Link to="/token" className="text-zinc-400 hover:text-gold transition-colors text-sm" onClick={() => setIsOpen(false)}>Token</Link>
+              <Link to="/docs" className="text-zinc-400 hover:text-gold transition-colors text-sm" onClick={() => setIsOpen(false)}>Docs</Link>
+              <a href="https://miga.us.org" className="text-zinc-400 hover:text-gold transition-colors text-sm">DAO</a>
             </div>
           </div>
         )}
