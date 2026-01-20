@@ -211,6 +211,103 @@
   }
 }
 
+/* EPIC 3D GAME TYPOGRAPHY */
+.text-3d {
+  text-shadow:
+    0 1px 0 #8B6914,
+    0 2px 0 #8B6914,
+    0 3px 0 #6B5010,
+    0 4px 0 #5A4410,
+    0 5px 0 #4A3810,
+    0 6px 10px rgba(0,0,0,0.8),
+    0 6px 1px rgba(0,0,0,0.5),
+    0 0 60px rgba(201, 162, 39, 0.5);
+}
+
+.text-3d-massive {
+  text-shadow:
+    0 2px 0 #8B6914,
+    0 4px 0 #8B6914,
+    0 6px 0 #6B5010,
+    0 8px 0 #5A4410,
+    0 10px 0 #4A3810,
+    0 12px 20px rgba(0,0,0,0.9),
+    0 0 100px rgba(201, 162, 39, 0.6),
+    0 0 150px rgba(255, 215, 0, 0.3);
+  letter-spacing: 0.05em;
+}
+
+/* Perspective container for 3D effects */
+.perspective-dramatic {
+  perspective: 800px;
+  perspective-origin: center;
+}
+
+.transform-3d {
+  transform: rotateX(10deg) translateZ(50px);
+  transform-style: preserve-3d;
+}
+
+/* Sand/dust particle animations */
+@keyframes sandFloat {
+  0%, 100% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% {
+    transform: translateY(-100vh) translateX(50px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes sandDrift {
+  0% { transform: translateX(-10px); }
+  50% { transform: translateX(10px); }
+  100% { transform: translateX(-10px); }
+}
+
+.sand-particle {
+  animation: sandFloat 8s ease-in-out infinite, sandDrift 3s ease-in-out infinite;
+}
+
+/* Epic glow pulse */
+@keyframes epicGlow {
+  0%, 100% {
+    text-shadow:
+      0 0 20px rgba(201, 162, 39, 0.8),
+      0 0 40px rgba(201, 162, 39, 0.6),
+      0 0 60px rgba(201, 162, 39, 0.4);
+  }
+  50% {
+    text-shadow:
+      0 0 40px rgba(255, 215, 0, 1),
+      0 0 80px rgba(255, 215, 0, 0.8),
+      0 0 120px rgba(255, 215, 0, 0.6),
+      0 0 160px rgba(201, 162, 39, 0.4);
+  }
+}
+
+.animate-epic-glow {
+  animation: epicGlow 3s ease-in-out infinite;
+}
+
+/* Cinematic letterbox bars */
+.letterbox::before,
+.letterbox::after {
+  content: '';
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: black;
+  z-index: 100;
+  pointer-events: none;
+}
+.letterbox::before { top: 0; }
+.letterbox::after { bottom: 0; }
+
 /* 3D Coin Animations */
 @keyframes coinSpin {
   0% { transform: rotateY(0deg) rotateX(5deg); }

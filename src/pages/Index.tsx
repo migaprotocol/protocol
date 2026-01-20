@@ -12,94 +12,103 @@ export default function Index() {
       <Header />
 
       <main className="pt-16">
-        {/* Hero Section */}
-        <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden sacred-geometry-bg">
-          {/* Hex pattern overlay */}
-          <div className="absolute inset-0 hex-pattern opacity-50" />
+        {/* Hero Section - Epic Game Style */}
+        <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden">
+          {/* Persian architecture cinematic background */}
+          <div
+            className="absolute inset-0 bg-cover bg-center scale-110"
+            style={{
+              backgroundImage: `url('https://images.unsplash.com/photo-1564769662533-4f00a87b4056?w=1920&q=80')`,
+            }}
+          />
+          {/* Dark cinematic overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black" />
+          {/* Gold tint overlay */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-[#C9A227]/10 via-transparent to-[#FFD700]/5" />
 
-          {/* Radial gradient from center */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(201,162,39,0.1)_0%,_transparent_50%)]" />
+          {/* Floating sand particles */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {[...Array(20)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute w-1 h-1 bg-[#C9A227]/60 rounded-full sand-particle"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  bottom: '-10px',
+                  animationDelay: `${Math.random() * 8}s`,
+                  animationDuration: `${6 + Math.random() * 4}s`,
+                }}
+              />
+            ))}
+          </div>
 
-          {/* Content Grid */}
-          <div className="relative z-10 max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
-            {/* Text Content */}
-            <div className="text-center lg:text-left order-2 lg:order-1">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#C9A227]/30 bg-[#C9A227]/10 mb-8">
-                <span className="w-2 h-2 rounded-full bg-[#C9A227] animate-pulse" />
-                <span className="text-[#C9A227] text-sm font-medium">Fair Launch on Solana</span>
-              </div>
-
-              {/* Title */}
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight mb-6">
-                <span className="gradient-text">MIGA</span>
-                <span className="text-white"> Protocol</span>
-              </h1>
-
-              {/* Subtitle */}
-              <p className="text-xl md:text-2xl text-white/80 mb-4 max-w-xl font-light">
-                The Token Powering a Diaspora-Led Civic Operating System
-              </p>
-
-              {/* Quote - Farsi */}
-              <p className="text-base text-white/40 italic mb-2 max-w-xl" dir="rtl">
-                بنی آدم اعضای یکدیگرند
-              </p>
-              <p className="text-sm text-white/50 mb-8 max-w-xl">
-                "Building in code what tyrants cannot burn."
-              </p>
-
-              {/* CTAs */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                {connected ? (
-                  <a href="#buy" className="btn-primary inline-flex items-center gap-2">
-                    Get $MIGA <ArrowRight size={18} />
-                  </a>
-                ) : (
-                  <WalletMultiButton />
-                )}
-                <a href="https://miga.us.org" className="btn-outline">
-                  Explore the DAO
-                </a>
-              </div>
-            </div>
-
-            {/* 3D Coin */}
-            <div className="order-1 lg:order-2 flex justify-center items-center">
+          {/* Content */}
+          <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
+            {/* 3D Coin floating above */}
+            <div className="mb-8 flex justify-center">
               <div className="relative">
-                {/* Light rays background */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="light-rays w-[400px] h-[400px] md:w-[500px] md:h-[500px]" />
+                  <div className="w-40 h-40 rounded-full bg-[#C9A227]/20 blur-3xl animate-light-pulse" />
                 </div>
-
-                {/* Outer glow */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-64 h-64 md:w-80 md:h-80 rounded-full bg-[#C9A227]/10 blur-3xl animate-light-pulse" />
-                </div>
-
-                {/* Coin container with 3D perspective */}
                 <div className="perspective-1000 relative z-10">
                   <div className="coin-container animate-coin-float">
                     <img
                       src="/miga-coin.svg"
                       alt="MIGA Coin"
-                      className="w-64 h-64 md:w-80 md:h-80 animate-coin-glow"
+                      className="w-32 h-32 md:w-40 md:h-40 animate-coin-glow"
                     />
                   </div>
                 </div>
-
-                {/* Sparkle particles */}
-                <div className="absolute top-1/4 left-0 w-2 h-2 bg-[#FFD700] rounded-full animate-ping opacity-60" />
-                <div className="absolute bottom-1/3 right-0 w-1.5 h-1.5 bg-[#F4D03F] rounded-full animate-ping opacity-40" style={{ animationDelay: '0.5s' }} />
-                <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-white rounded-full animate-ping opacity-50" style={{ animationDelay: '1s' }} />
               </div>
+            </div>
+
+            {/* MASSIVE 3D Title */}
+            <div className="perspective-dramatic mb-6">
+              <h1 className="text-7xl md:text-9xl lg:text-[12rem] font-black tracking-tight leading-none">
+                <span className="text-[#C9A227] text-3d-massive animate-epic-glow">MIGA</span>
+              </h1>
+            </div>
+
+            {/* Subtitle with 3D effect */}
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white text-3d mb-4 tracking-wide">
+              PROTOCOL
+            </h2>
+
+            {/* Tagline */}
+            <p className="text-xl md:text-2xl text-white/80 mb-4 max-w-3xl mx-auto font-light tracking-wide">
+              The Token Powering a Diaspora-Led Civic Operating System
+            </p>
+
+            {/* Farsi quote */}
+            <p className="text-lg text-[#C9A227]/80 italic mb-8" dir="rtl">
+              بنی آدم اعضای یکدیگرند که در آفرینش ز یک گوهرند
+            </p>
+
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              {connected ? (
+                <a href="#buy" className="btn-primary inline-flex items-center gap-2 text-lg px-8 py-4">
+                  Get $MIGA <ArrowRight size={20} />
+                </a>
+              ) : (
+                <WalletMultiButton />
+              )}
+              <a href="https://miga.us.org" className="btn-outline text-lg px-8 py-4">
+                Explore the DAO
+              </a>
+            </div>
+
+            {/* Badge */}
+            <div className="mt-12 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#C9A227]/30 bg-black/50 backdrop-blur">
+              <span className="w-2 h-2 rounded-full bg-[#C9A227] animate-pulse" />
+              <span className="text-[#C9A227] text-sm font-medium">Fair Launch on Solana</span>
             </div>
           </div>
 
           {/* Scroll indicator */}
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-            <div className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-2">
-              <div className="w-1 h-2 bg-white/40 rounded-full animate-bounce" />
+            <div className="w-6 h-10 rounded-full border-2 border-[#C9A227]/30 flex items-start justify-center p-2">
+              <div className="w-1 h-2 bg-[#C9A227]/60 rounded-full animate-bounce" />
             </div>
           </div>
         </section>
