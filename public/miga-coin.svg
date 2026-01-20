@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Gold Gradient -->
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700"/>
+      <stop offset="30%" style="stop-color:#F4D03F"/>
+      <stop offset="50%" style="stop-color:#C9A227"/>
+      <stop offset="70%" style="stop-color:#B8860B"/>
+      <stop offset="100%" style="stop-color:#8B6914"/>
+    </linearGradient>
+
+    <!-- Radial Gold for coin face -->
+    <radialGradient id="coinFace" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" style="stop-color:#FFF8DC"/>
+      <stop offset="30%" style="stop-color:#FFD700"/>
+      <stop offset="60%" style="stop-color:#C9A227"/>
+      <stop offset="100%" style="stop-color:#8B6914"/>
+    </radialGradient>
+
+    <!-- White glow -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Outer glow -->
+    <filter id="outerGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="15" result="blur"/>
+      <feFlood flood-color="#FFD700" flood-opacity="0.6"/>
+      <feComposite in2="blur" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Inner shadow for 3D effect -->
+    <filter id="innerShadow">
+      <feOffset dx="2" dy="2"/>
+      <feGaussianBlur stdDeviation="3" result="shadow"/>
+      <feComposite in="SourceGraphic" in2="shadow" operator="over"/>
+    </filter>
+
+    <!-- Pattern for edge texture -->
+    <pattern id="edgePattern" patternUnits="userSpaceOnUse" width="8" height="8">
+      <rect width="8" height="8" fill="#B8860B"/>
+      <circle cx="4" cy="4" r="1" fill="#FFD700"/>
+    </pattern>
+  </defs>
+
+  <!-- Outer glow ring -->
+  <circle cx="200" cy="200" r="185" fill="none" stroke="#FFD700" stroke-width="2" opacity="0.3" filter="url(#outerGlow)"/>
+
+  <!-- Coin edge (3D rim) -->
+  <circle cx="200" cy="200" r="180" fill="#8B6914"/>
+  <circle cx="200" cy="200" r="178" fill="url(#edgePattern)"/>
+
+  <!-- Main coin face -->
+  <circle cx="200" cy="200" r="170" fill="url(#coinFace)" filter="url(#innerShadow)"/>
+
+  <!-- Inner decorative ring -->
+  <circle cx="200" cy="200" r="160" fill="none" stroke="#B8860B" stroke-width="2"/>
+  <circle cx="200" cy="200" r="155" fill="none" stroke="#FFD700" stroke-width="1" opacity="0.7"/>
+
+  <!-- Farsi inscription ring (placeholder poetry) -->
+  <circle cx="200" cy="200" r="145" fill="none" stroke="#8B6914" stroke-width="12" opacity="0.3"/>
+
+  <!-- Farsi text path -->
+  <path id="textPath" fill="none" d="M 200,200 m -130,0 a 130,130 0 1,1 260,0 a 130,130 0 1,1 -260,0"/>
+  <text fill="#8B6914" font-family="'Noto Sans Arabic', 'Traditional Arabic', serif" font-size="11" letter-spacing="2">
+    <textPath href="#textPath" startOffset="0%">
+      بنی آدم اعضای یکدیگرند • که در آفرینش ز یک گوهرند • چو عضوی به درد آورد روزگار • دگر عضوها را نماند قرار
+    </textPath>
+  </text>
+
+  <!-- Solomon's Seal / Hexagram (Star of David) base -->
+  <g transform="translate(200,200)" filter="url(#glow)">
+    <!-- Outer hexagram -->
+    <polygon points="0,-70 60.6,35 -60.6,35" fill="none" stroke="url(#goldGradient)" stroke-width="3"/>
+    <polygon points="0,70 60.6,-35 -60.6,-35" fill="none" stroke="url(#goldGradient)" stroke-width="3"/>
+
+    <!-- Inner hexagram (rotated 30deg) -->
+    <g transform="rotate(30)">
+      <polygon points="0,-50 43.3,25 -43.3,25" fill="none" stroke="#FFD700" stroke-width="2" opacity="0.7"/>
+      <polygon points="0,50 43.3,-25 -43.3,-25" fill="none" stroke="#FFD700" stroke-width="2" opacity="0.7"/>
+    </g>
+
+    <!-- Central circle with M -->
+    <circle cx="0" cy="0" r="35" fill="url(#goldGradient)"/>
+    <circle cx="0" cy="0" r="32" fill="none" stroke="#FFF8DC" stroke-width="1" opacity="0.8"/>
+
+    <!-- MIGA "M" -->
+    <text x="0" y="12" font-family="'Geist', 'Georgia', serif" font-size="40" font-weight="600" fill="#1a1a2e" text-anchor="middle">M</text>
+  </g>
+
+  <!-- 7 Archangel points (small circles around the seal) -->
+  <g fill="#FFD700" filter="url(#glow)">
+    <circle cx="200" cy="105" r="5"/>
+    <circle cx="282" cy="140" r="5"/>
+    <circle cx="282" cy="260" r="5"/>
+    <circle cx="200" cy="295" r="5"/>
+    <circle cx="118" cy="260" r="5"/>
+    <circle cx="118" cy="140" r="5"/>
+    <circle cx="200" cy="200" r="3" fill="#FFFACD"/>
+  </g>
+
+  <!-- Fibonacci spiral hints (golden ratio arcs) -->
+  <g fill="none" stroke="#FFD700" stroke-width="0.5" opacity="0.4">
+    <path d="M200,200 Q230,170 260,200"/>
+    <path d="M200,200 Q170,230 140,200"/>
+    <path d="M200,200 Q200,150 250,150"/>
+    <path d="M200,200 Q200,250 150,250"/>
+  </g>
+
+  <!-- Light rays emanating from center -->
+  <g stroke="#FFFACD" stroke-width="1" opacity="0.3">
+    <line x1="200" y1="200" x2="200" y2="30"/>
+    <line x1="200" y1="200" x2="347" y2="115"/>
+    <line x1="200" y1="200" x2="347" y2="285"/>
+    <line x1="200" y1="200" x2="200" y2="370"/>
+    <line x1="200" y1="200" x2="53" y2="285"/>
+    <line x1="200" y1="200" x2="53" y2="115"/>
+  </g>
+
+  <!-- Decorative corner flourishes (Persian geometric) -->
+  <g stroke="url(#goldGradient)" stroke-width="1.5" fill="none" opacity="0.6">
+    <!-- Top -->
+    <path d="M180,55 Q200,45 220,55"/>
+    <path d="M175,50 Q200,35 225,50"/>
+    <!-- Bottom -->
+    <path d="M180,345 Q200,355 220,345"/>
+    <path d="M175,350 Q200,365 225,350"/>
+    <!-- Left -->
+    <path d="M55,180 Q45,200 55,220"/>
+    <path d="M50,175 Q35,200 50,225"/>
+    <!-- Right -->
+    <path d="M345,180 Q355,200 345,220"/>
+    <path d="M350,175 Q365,200 350,225"/>
+  </g>
+</svg>

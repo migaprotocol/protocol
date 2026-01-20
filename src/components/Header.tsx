@@ -12,9 +12,7 @@ export function Header() {
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#C9A227] to-[#8B7355] flex items-center justify-center">
-              <span className="text-black font-bold text-sm">M</span>
-            </div>
+            <img src="/favicon.svg" alt="MIGA" className="w-9 h-9" />
             <span className="text-lg font-medium tracking-tight">MIGA</span>
           </Link>
 
