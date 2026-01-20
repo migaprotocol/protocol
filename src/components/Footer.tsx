@@ -8,9 +8,7 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#C9A227] to-[#8B7355] flex items-center justify-center">
-                <span className="text-black font-bold text-sm">M</span>
-              </div>
+              <img src="/favicon.svg" alt="MIGA" className="w-10 h-10" />
               <span className="text-lg font-medium">MIGA</span>
             </div>
             <p className="text-white/40 text-sm max-w-sm leading-relaxed">
