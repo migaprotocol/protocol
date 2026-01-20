@@ -2,25 +2,52 @@ import { Link } from 'react-router-dom';
 
 export function Footer() {
   return (
-    <footer className="bg-black border-t border-zinc-800/50 py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-3">
-            <img src="/logo.png" alt="MIGA" className="h-8 w-8" />
-            <span className="text-xl font-medium gradient-text">MIGA</span>
-            <span className="text-zinc-600 text-sm uppercase tracking-widest">Protocol</span>
+    <footer className="bg-black border-t border-white/5 py-16">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid md:grid-cols-4 gap-10 mb-12">
+          {/* Brand */}
+          <div className="md:col-span-2">
+            <div className="flex items-center gap-2.5 mb-4">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#C9A227] to-[#8B7355] flex items-center justify-center">
+                <span className="text-black font-bold text-sm">M</span>
+              </div>
+              <span className="text-lg font-medium">MIGA</span>
+            </div>
+            <p className="text-white/40 text-sm max-w-sm leading-relaxed">
+              A token powering a diaspora-led civic operating system for the Persian community worldwide.
+            </p>
           </div>
 
-          <div className="flex gap-8 text-sm text-zinc-500">
-            <Link to="/docs" className="hover:text-gold transition-colors">Docs</Link>
-            <a href="https://miga.us.org" className="hover:text-gold transition-colors">DAO</a>
-            <a href="https://github.com/miga-protocol" className="hover:text-gold transition-colors">GitHub</a>
-            <a href="https://twitter.com/migaprotocol" className="hover:text-gold transition-colors">Twitter</a>
+          {/* Protocol */}
+          <div>
+            <h4 className="text-sm font-medium text-white/80 mb-4">Protocol</h4>
+            <div className="flex flex-col gap-2.5 text-sm text-white/40">
+              <Link to="/token" className="hover:text-white transition-colors">Token</Link>
+              <Link to="/docs" className="hover:text-white transition-colors">Documentation</Link>
+              <a href="https://github.com/miga-protocol" className="hover:text-white transition-colors">GitHub</a>
+            </div>
           </div>
 
-          <p className="text-zinc-600 text-sm">
-            &copy; {new Date().getFullYear()} MIGA Protocol
+          {/* Community */}
+          <div>
+            <h4 className="text-sm font-medium text-white/80 mb-4">Community</h4>
+            <div className="flex flex-col gap-2.5 text-sm text-white/40">
+              <a href="https://miga.us.org" className="hover:text-white transition-colors">DAO</a>
+              <a href="https://discord.gg/miga" className="hover:text-white transition-colors">Discord</a>
+              <a href="https://twitter.com/migaprotocol" className="hover:text-white transition-colors">Twitter</a>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom */}
+        <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-white/30 text-sm">
+            &copy; {new Date().getFullYear()} MIGA Protocol. Building in code what tyrants cannot burn.
           </p>
+          <div className="flex gap-6 text-sm text-white/30">
+            <a href="https://realms.today/dao/miga" className="hover:text-white transition-colors">Governance</a>
+            <a href="https://app.meteora.ag" className="hover:text-white transition-colors">Trade</a>
+          </div>
         </div>
       </div>
     </footer>

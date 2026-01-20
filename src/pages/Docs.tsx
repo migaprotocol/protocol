@@ -7,40 +7,40 @@ export default function Docs() {
     <div className="min-h-screen flex flex-col bg-black">
       <Header />
 
-      <main className="flex-1 py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <main className="flex-1 pt-24 pb-16">
+        <div className="max-w-4xl mx-auto px-6">
           <h1 className="text-4xl lg:text-5xl font-medium mb-10 tracking-tight">
-            <span className="gradient-text">Documentation</span>
+            <span className="text-gold">Documentation</span>
           </h1>
 
           {/* Whitepaper CTA */}
           <a
             href="https://github.com/miga-protocol/miga/blob/main/whitepaper/MIGA-Whitepaper.md"
-            className="card-glass rounded-xl p-6 mb-12 flex items-center gap-4 hover:border-gold/30 transition-all group"
+            className="card rounded-xl p-6 mb-12 flex items-center gap-4 hover:border-[#C9A227]/30 transition-all group"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <div className="w-12 h-12 rounded-lg bg-gold/10 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-lg bg-[#C9A227]/10 flex items-center justify-center">
               <FileText className="text-gold" />
             </div>
             <div className="flex-1">
               <h3 className="text-base font-medium group-hover:text-gold transition-colors">MIGA Whitepaper</h3>
-              <p className="text-zinc-500 text-sm">Full technical documentation and protocol design</p>
+              <p className="text-white/50 text-sm">Full technical documentation and protocol design</p>
             </div>
-            <ExternalLink className="text-zinc-600 group-hover:text-gold transition-colors" size={18} />
+            <ExternalLink className="text-white/30 group-hover:text-gold transition-colors" size={18} />
           </a>
 
-          <div className="prose prose-invert prose-zinc max-w-none
+          <div className="prose prose-invert max-w-none
             prose-headings:font-medium prose-headings:tracking-tight
             prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:text-white
-            prose-h3:text-lg prose-h3:mt-8 prose-h3:mb-3 prose-h3:text-zinc-200
-            prose-p:text-zinc-400 prose-p:leading-relaxed prose-p:text-sm
-            prose-li:text-zinc-400 prose-li:text-sm
+            prose-h3:text-lg prose-h3:mt-8 prose-h3:mb-3 prose-h3:text-white/90
+            prose-p:text-white/60 prose-p:leading-relaxed prose-p:text-sm
+            prose-li:text-white/60 prose-li:text-sm
             prose-strong:text-gold prose-strong:font-medium
             prose-a:text-gold prose-a:no-underline hover:prose-a:underline
             prose-table:text-sm
-            prose-th:text-zinc-300 prose-th:font-medium prose-th:border-zinc-800
-            prose-td:text-zinc-400 prose-td:border-zinc-800
+            prose-th:text-white/80 prose-th:font-medium prose-th:border-white/10
+            prose-td:text-white/60 prose-td:border-white/10
           ">
             <h2>Overview</h2>
             <p>
@@ -48,7 +48,7 @@ export default function Docs() {
               and decentralized governance. The protocol uses Meteora DLMM for liquidity
               provisioning and a one-sided bonding curve for fair price discovery.
             </p>
-            <p className="text-gold font-medium">
+            <p className="text-emerald-400 font-medium">
               No VCs. No presales. No team allocation. Just fair launch + deep liquidity + community treasury.
             </p>
 
