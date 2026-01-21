@@ -301,71 +301,58 @@ function ChainCoin({
           <meshBasicMaterial transparent opacity={0} />
         </mesh>
 
-        {/* Main coin body - open-ended cylinder (edge ring only) */}
+        {/* Solid coin body - closed cylinder with flat top and bottom */}
         <mesh>
-          <cylinderGeometry args={[settings.radius, settings.radius, settings.thickness, 48, 1, true]} />
+          <cylinderGeometry args={[settings.radius, settings.radius, settings.thickness, 64]} />
           <meshStandardMaterial
             color={coinColor}
             emissive={coinEmissive}
             emissiveIntensity={emissiveIntensity * 0.4}
             metalness={0.85}
             roughness={0.15}
-            side={THREE.DoubleSide}
           />
         </mesh>
 
-        {/* Top cap - colored background for the face */}
-        <mesh position={[0, settings.thickness / 2 + 0.001, 0]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={5}>
-          <circleGeometry args={[settings.radius - 0.01, 48]} />
-          <meshStandardMaterial
-            color={coinColor}
-            emissive={coinEmissive}
-            emissiveIntensity={emissiveIntensity * 0.3}
-            metalness={0.7}
-            roughness={0.2}
-          />
-        </mesh>
-
-        {/* Bottom cap - colored background for the face */}
-        <mesh position={[0, -settings.thickness / 2 - 0.001, 0]} rotation={[Math.PI / 2, 0, 0]} renderOrder={5}>
-          <circleGeometry args={[settings.radius - 0.01, 48]} />
-          <meshStandardMaterial
-            color={coinColor}
-            emissive={coinEmissive}
-            emissiveIntensity={emissiveIntensity * 0.3}
-            metalness={0.7}
-            roughness={0.2}
-          />
-        </mesh>
-
-        {/* Gold edge rim - single torus around circumference */}
-        <mesh rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[settings.radius, settings.edgeWidth, 16, 48]} />
+        {/* Subtle edge bevel - thin ring at top edge */}
+        <mesh position={[0, settings.thickness / 2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <ringGeometry args={[settings.radius - 0.01, settings.radius, 64]} />
           <meshStandardMaterial
             color="#D4AF37"
             emissive="#FFD700"
-            emissiveIntensity={hovered ? 0.6 : 0.25}
+            emissiveIntensity={hovered ? 0.5 : 0.2}
             metalness={0.95}
-            roughness={0.08}
+            roughness={0.1}
           />
         </mesh>
 
-        {/* Front face with token icon - positioned above top cap */}
+        {/* Subtle edge bevel - thin ring at bottom edge */}
+        <mesh position={[0, -settings.thickness / 2, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <ringGeometry args={[settings.radius - 0.01, settings.radius, 64]} />
+          <meshStandardMaterial
+            color="#D4AF37"
+            emissive="#FFD700"
+            emissiveIntensity={hovered ? 0.5 : 0.2}
+            metalness={0.95}
+            roughness={0.1}
+          />
+        </mesh>
+
+        {/* Front face with token icon - flush with top surface */}
         {settings.showFaces && (
           <CoinFace
             iconPath={chain.icon}
-            position={[0, settings.thickness / 2 + settings.faceOffset, 0]}
+            position={[0, settings.thickness / 2 + 0.001, 0]}
             rotation={[-Math.PI / 2, 0, 0]}
             radius={settings.radius * settings.faceScale}
             opacity={1}
           />
         )}
 
-        {/* Back face with token icon - positioned below bottom cap */}
+        {/* Back face with token icon - flush with bottom surface */}
         {settings.showFaces && (
           <CoinFace
             iconPath={chain.icon}
-            position={[0, -settings.thickness / 2 - settings.faceOffset, 0]}
+            position={[0, -settings.thickness / 2 - 0.001, 0]}
             rotation={[Math.PI / 2, 0, 0]}
             radius={settings.radius * settings.faceScale}
             opacity={1}
