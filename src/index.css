@@ -2,8 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* MIGA Theme - Gold/Black based on Hanzo UI design system */
 @layer base {
   :root {
+    /* Hanzo-style CSS variables with MIGA gold */
+    --radius: 0.65rem;
     --background: 0 0% 0%;
     --foreground: 0 0% 98%;
     --card: 0 0% 4%;
@@ -23,7 +26,19 @@
     --border: 0 0% 14%;
     --input: 0 0% 14%;
     --ring: 43 74% 49%;
-    --radius: 0.75rem;
+
+    /* MIGA Gold Palette */
+    --gold: #C9A227;
+    --gold-light: #F4D03F;
+    --gold-dark: #8B6914;
+    --gold-bright: #FFD700;
+
+    /* Chart colors (gold gradient) */
+    --chart-1: 43 74% 70%;
+    --chart-2: 43 74% 60%;
+    --chart-3: 43 74% 49%;
+    --chart-4: 43 74% 40%;
+    --chart-5: 43 74% 30%;
   }
 }
 
@@ -31,33 +46,54 @@
   * {
     @apply border-border;
   }
+
   html {
     scroll-behavior: smooth;
   }
+
   body {
     @apply bg-black text-white antialiased;
     font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-feature-settings: 'rlig' 1, 'calt' 1;
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
   }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 500;
     letter-spacing: -0.025em;
   }
+
   code, pre {
     font-family: 'Geist Mono', 'SF Mono', Consolas, monospace;
   }
+
+  ::selection {
+    background: rgba(201, 162, 39, 0.3);
+    color: white;
+  }
+}
+
+/* ========================================
+   COMPONENT PATTERNS (Hanzo UI Style)
+   ======================================== */
+
+/* Container */
+.container {
+  @apply mx-auto w-full px-4 md:px-6 lg:px-8;
+  max-width: 1400px;
 }
 
 /* Gold color utilities */
 .text-gold {
-  color: #C9A227;
+  color: var(--gold);
 }
 .bg-gold {
-  background-color: #C9A227;
+  background-color: var(--gold);
 }
 .border-gold {
-  border-color: #C9A227;
+  border-color: var(--gold);
 }
 
 /* Gradient text */
@@ -68,23 +104,35 @@
   background-clip: text;
 }
 
-/* Card styles */
+/* ========================================
+   CARDS (Hanzo UI Pattern)
+   ======================================== */
+
 .card {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 0.75rem;
+  border-radius: var(--radius);
   transition: all 0.2s ease;
 }
+
 .card:hover {
   background: rgba(255, 255, 255, 0.04);
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Glass effect */
-.glass {
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+/* Feature card - larger padding */
+.feature-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: calc(var(--radius) + 4px);
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(201, 162, 39, 0.2);
+  transform: translateY(-2px);
 }
 
 /* Stat card */
@@ -92,126 +140,234 @@
   text-align: center;
   padding: 1.5rem;
 }
+
 .stat-card .stat-value {
   font-size: 2.5rem;
   font-weight: 500;
-  color: #C9A227;
+  color: var(--gold);
   letter-spacing: -0.02em;
 }
+
 .stat-card .stat-label {
   font-size: 0.875rem;
   color: rgba(255, 255, 255, 0.5);
   margin-top: 0.25rem;
 }
 
-/* Button styles */
+/* ========================================
+   BUTTONS (Hanzo UI CVA Pattern)
+   ======================================== */
+
 .btn-primary {
-  background: #C9A227;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--gold);
   color: black;
   font-weight: 500;
   padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
+  border-radius: 9999px;
   transition: all 0.15s ease;
+  white-space: nowrap;
 }
+
 .btn-primary:hover {
-  background: #D4AF37;
+  background: var(--gold-light);
   transform: translateY(-1px);
 }
 
 .btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   background: transparent;
   color: white;
   font-weight: 500;
   padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
+  border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.15s ease;
+  white-space: nowrap;
 }
+
 .btn-outline:hover {
   background: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Feature card */
-.feature-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 1rem;
-  padding: 2rem;
-  transition: all 0.3s ease;
-}
-.feature-card:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(201, 162, 39, 0.2);
-  transform: translateY(-2px);
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  transition: all 0.15s ease;
 }
 
-/* Divider */
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ========================================
+   GLASS & EFFECTS
+   ======================================== */
+
+.glass {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
 .divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
 }
 
-/* Wallet adapter overrides */
+/* ========================================
+   FUNDRAISING CTA PANEL (Hanzo Docs Inspired)
+   ======================================== */
+
+.cta-panel {
+  background: linear-gradient(135deg, rgba(201, 162, 39, 0.1) 0%, rgba(139, 105, 20, 0.1) 100%);
+  border: 1px solid rgba(201, 162, 39, 0.3);
+  border-radius: calc(var(--radius) + 8px);
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.5), transparent);
+}
+
+.cta-panel-featured {
+  background: linear-gradient(135deg, rgba(201, 162, 39, 0.15) 0%, rgba(0, 0, 0, 0.8) 100%);
+  border: 2px solid rgba(201, 162, 39, 0.4);
+  border-radius: calc(var(--radius) + 12px);
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-panel-featured::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(255, 215, 0, 0.05) 30deg,
+    transparent 60deg
+  );
+  animation: rotateRays 30s linear infinite;
+}
+
+/* Signup form styles */
+.signup-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  color: white;
+  width: 100%;
+  transition: all 0.15s ease;
+}
+
+.signup-input:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.1);
+}
+
+.signup-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ========================================
+   WALLET ADAPTER OVERRIDES
+   ======================================== */
+
 .wallet-adapter-button {
-  background: #C9A227 !important;
+  background: var(--gold) !important;
   color: black !important;
   font-weight: 500 !important;
-  border-radius: 0.5rem !important;
+  border-radius: 9999px !important;
 }
+
 .wallet-adapter-button:hover {
-  background: #D4AF37 !important;
+  background: var(--gold-light) !important;
 }
+
 .wallet-adapter-modal-wrapper {
   background: rgba(0, 0, 0, 0.9) !important;
 }
+
 .wallet-adapter-modal-container {
   background: #0a0a0a !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
-/* Scrollbar */
+/* ========================================
+   SCROLLBAR & LINKS
+   ======================================== */
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* Selection */
-::selection {
-  background: rgba(201, 162, 39, 0.3);
-  color: white;
-}
-
-/* Link hover */
 .nav-link {
   color: rgba(255, 255, 255, 0.6);
   transition: color 0.15s ease;
 }
+
 .nav-link:hover {
   color: white;
 }
 
-/* Section spacing */
+/* ========================================
+   SECTION SPACING
+   ======================================== */
+
 .section {
   padding: 6rem 0;
 }
+
 @media (max-width: 768px) {
   .section {
     padding: 4rem 0;
   }
 }
 
-/* EPIC 3D GAME TYPOGRAPHY */
+/* ========================================
+   EPIC 3D GAME TYPOGRAPHY (Prince of Persia)
+   ======================================== */
+
 .text-3d {
   text-shadow:
     0 1px 0 #8B6914,
@@ -247,6 +403,10 @@
   transform: rotateX(10deg) translateZ(50px);
   transform-style: preserve-3d;
 }
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
 
 /* Sand/dust particle animations */
 @keyframes sandFloat {
@@ -413,4 +573,40 @@
 /* Hexagon pattern overlay */
 .hex-pattern {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23c9a227' fill-opacity='0.03'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ========================================
+   TIER BADGES (For Donations)
+   ======================================== */
+
+.tier-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tier-platinum {
+  background: linear-gradient(135deg, #E5E4E2 0%, #B8B8B8 100%);
+  color: #1a1a1a;
+}
+
+.tier-gold {
+  background: linear-gradient(135deg, #FFD700 0%, #C9A227 100%);
+  color: #1a1a1a;
+}
+
+.tier-silver {
+  background: linear-gradient(135deg, #C0C0C0 0%, #8B8B8B 100%);
+  color: #1a1a1a;
+}
+
+.tier-bronze {
+  background: linear-gradient(135deg, #CD7F32 0%, #8B4513 100%);
+  color: white;
 }

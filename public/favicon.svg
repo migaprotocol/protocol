@@ -10,16 +10,34 @@
       <stop offset="50%" style="stop-color:#C9A227"/>
       <stop offset="100%" style="stop-color:#8B6914"/>
     </radialGradient>
+    <radialGradient id="center" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFFACD"/>
+      <stop offset="100%" style="stop-color:#FFD700"/>
+    </radialGradient>
   </defs>
   <!-- Coin -->
   <circle cx="50" cy="50" r="48" fill="#8B6914"/>
-  <circle cx="50" cy="50" r="44" fill="url(#face)"/>
-  <circle cx="50" cy="50" r="40" fill="none" stroke="#B8860B" stroke-width="1"/>
-  <!-- Hexagram -->
+  <circle cx="50" cy="50" r="45" fill="url(#face)"/>
+  <circle cx="50" cy="50" r="42" fill="none" stroke="#B8860B" stroke-width="1"/>
+  <!-- Solomon's Seal - Triple Hexagram -->
   <g transform="translate(50,50)">
-    <polygon points="0,-22 19,11 -19,11" fill="none" stroke="url(#gold)" stroke-width="2"/>
-    <polygon points="0,22 19,-11 -19,-11" fill="none" stroke="url(#gold)" stroke-width="2"/>
-    <circle cx="0" cy="0" r="12" fill="url(#gold)"/>
-    <text x="0" y="5" font-family="Georgia, serif" font-size="16" font-weight="bold" fill="#1a1a2e" text-anchor="middle">M</text>
+    <!-- Outer -->
+    <polygon points="0,-28 24.2,14 -24.2,14" fill="none" stroke="url(#gold)" stroke-width="2.5"/>
+    <polygon points="0,28 24.2,-14 -24.2,-14" fill="none" stroke="url(#gold)" stroke-width="2.5"/>
+    <!-- Middle -->
+    <polygon points="0,-20 17.3,10 -17.3,10" fill="none" stroke="#FFD700" stroke-width="1.5" opacity="0.7"/>
+    <polygon points="0,20 17.3,-10 -17.3,-10" fill="none" stroke="#FFD700" stroke-width="1.5" opacity="0.7"/>
+    <!-- Center glow -->
+    <circle cx="0" cy="0" r="8" fill="url(#center)"/>
+    <circle cx="0" cy="0" r="3" fill="#FFFACD"/>
+  </g>
+  <!-- 6 points -->
+  <g fill="#FFD700">
+    <circle cx="50" cy="18" r="3"/>
+    <circle cx="77" cy="34" r="3"/>
+    <circle cx="77" cy="66" r="3"/>
+    <circle cx="50" cy="82" r="3"/>
+    <circle cx="23" cy="66" r="3"/>
+    <circle cx="23" cy="34" r="3"/>
   </g>
 </svg>
