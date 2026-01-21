@@ -43,7 +43,7 @@ export default function Token() {
               <h1 className="text-4xl lg:text-5xl font-medium tracking-tight">
                 <span className="text-gold">$MIGA</span> Token
               </h1>
-              <p className="text-white/50 text-sm mt-1">Multi-chain collateral for the Civic OS</p>
+              <p className="text-white/50 text-sm mt-1">Collateral for the civil government OS. Ten DAOs. Quantum-safe privacy.</p>
             </div>
           </div>
 

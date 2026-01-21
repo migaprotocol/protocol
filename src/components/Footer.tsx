@@ -128,7 +128,7 @@ export function Footer() {
               <span className="text-base font-semibold text-[#EDEDF2]">MIGA</span>
             </Link>
             <p className="text-[#6B6B7B] text-sm leading-relaxed max-w-[200px]">
-              DeFi infrastructure for predictable yield across 7 chains.
+              Civil government OS for the global Persian community. Ten DAOs. Quantum-safe privacy.
             </p>
           </div>
 
