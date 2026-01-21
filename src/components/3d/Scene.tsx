@@ -128,15 +128,15 @@ function CoinFace({
   }, [texture])
 
   return (
-    <mesh position={position} rotation={rotation} renderOrder={999}>
+    <mesh position={position} rotation={rotation}>
       <circleGeometry args={[radius, 64]} />
       <meshBasicMaterial
         map={texture}
         transparent={true}
         opacity={opacity}
         side={THREE.DoubleSide}
-        depthWrite={false}
-        depthTest={false}
+        depthWrite={true}
+        depthTest={true}
         toneMapped={false}
       />
     </mesh>
@@ -314,42 +314,15 @@ function ChainCoin({
           />
         </mesh>
 
-        {/* Gold rim torus around the coin edge - wraps around the circumference */}
+        {/* Thin gold rim around coin edge - subtle accent */}
         <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
-          <torusGeometry args={[settings.radius, settings.thickness / 2 + 0.01, 16, 64]} />
+          <torusGeometry args={[settings.radius, 0.015, 12, 64]} />
           <meshStandardMaterial
             color="#D4AF37"
             emissive="#FFD700"
-            emissiveIntensity={hovered ? 0.5 : 0.25}
+            emissiveIntensity={hovered ? 0.6 : 0.3}
             metalness={0.95}
             roughness={0.08}
-            transparent={false}
-          />
-        </mesh>
-
-        {/* Inner color ring at top face edge */}
-        <mesh position={[0, settings.thickness / 2 + 0.002, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <ringGeometry args={[settings.radius * 0.85, settings.radius, 64]} />
-          <meshStandardMaterial
-            color={coinColor}
-            emissive={coinEmissive}
-            emissiveIntensity={emissiveIntensity * 0.3}
-            metalness={0.8}
-            roughness={0.2}
-            transparent={false}
-          />
-        </mesh>
-
-        {/* Inner color ring at bottom face edge */}
-        <mesh position={[0, -settings.thickness / 2 - 0.002, 0]} rotation={[Math.PI / 2, 0, 0]}>
-          <ringGeometry args={[settings.radius * 0.85, settings.radius, 64]} />
-          <meshStandardMaterial
-            color={coinColor}
-            emissive={coinEmissive}
-            emissiveIntensity={emissiveIntensity * 0.3}
-            metalness={0.8}
-            roughness={0.2}
-            transparent={false}
           />
         </mesh>
 
@@ -1637,12 +1610,12 @@ function CameraWithControls() {
 
 // Main scene content
 function SceneContent({ onChainHover }: { onChainHover?: (chain: ChainData | null) => void }) {
-  // Medallion controls
+  // Medallion controls - z=1.5 to be in front of pillars
   const { medallionX, medallionY, medallionZ, medallionScale, showMedallion } = useControls('Medallion', {
     showMedallion: { value: true, label: 'Show' },
-    medallionX: { value: 0.8, min: -5, max: 5, step: 0.1 },
+    medallionX: { value: 0.5, min: -5, max: 5, step: 0.1 },
     medallionY: { value: 2.9, min: 0, max: 10, step: 0.1 },
-    medallionZ: { value: 0, min: -5, max: 5, step: 0.1 },
+    medallionZ: { value: 1.5, min: -5, max: 5, step: 0.1 },
     medallionScale: { value: 2.8, min: 0.5, max: 5, step: 0.1 },
   })
 
@@ -1981,22 +1954,37 @@ export function MigaScene({ className = '' }: MigaSceneProps) {
 
       {/* Main scene - fades in when loaded */}
       <div className={`w-full h-full transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-        {/* Leva debug panel - wrapped for proper z-index */}
-        <div className="fixed top-0 left-0 z-[100]" style={{ pointerEvents: showPanel ? 'auto' : 'none' }}>
-          <Leva hidden={!showPanel} collapsed={false} />
-          {/* Close button for panel - positioned at top right of panel */}
-          {showPanel && (
+        {/* Leva debug panel - only render when shown */}
+        {showPanel && (
+          <div className="fixed top-4 right-4 z-[100]">
+            <Leva
+              fill
+              flat
+              titleBar={{
+                drag: false,
+                title: 'Scene Controls',
+                filter: false,
+              }}
+              theme={{
+                sizes: {
+                  rootWidth: '320px',
+                },
+              }}
+            />
+            {/* Close button */}
             <button
               onClick={() => setShowPanel(false)}
-              className="fixed top-2 left-[295px] w-8 h-8 rounded-full bg-red-500/80 hover:bg-red-500 border border-red-400 flex items-center justify-center text-white transition-all z-[101]"
+              className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-red-500 hover:bg-red-600 border-2 border-white/20 flex items-center justify-center text-white transition-all z-[101] shadow-lg"
               title="Close Settings"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                 <path d="M18 6L6 18M6 6l12 12" />
               </svg>
             </button>
-          )}
-        </div>
+          </div>
+        )}
+        {/* Hidden Leva to keep controls registered when panel is closed */}
+        {!showPanel && <Leva hidden />}
 
         {/* Control buttons - fixed position */}
         <div className="fixed top-20 right-4 z-50 flex flex-col gap-2">
