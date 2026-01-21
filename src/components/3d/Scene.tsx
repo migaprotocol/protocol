@@ -103,7 +103,7 @@ const chainData = [
 
 type ChainData = typeof chainData[number]
 
-// Coin face with token icon texture
+// Coin face with token icon texture - uses BasicMaterial for guaranteed visibility
 function CoinFace({
   iconPath,
   position,
@@ -118,39 +118,26 @@ function CoinFace({
   opacity?: number
 }) {
   const texture = useTexture(iconPath)
-  const materialRef = useRef<THREE.MeshStandardMaterial>(null)
 
-  // Configure texture on load
-  useEffect(() => {
+  // Configure texture once - drei handles most settings
+  useMemo(() => {
     if (texture) {
       texture.colorSpace = THREE.SRGBColorSpace
-      texture.minFilter = THREE.LinearFilter
-      texture.magFilter = THREE.LinearFilter
-      texture.generateMipmaps = false
       texture.needsUpdate = true
-      if (materialRef.current) {
-        materialRef.current.needsUpdate = true
-      }
     }
   }, [texture])
 
   return (
-    <mesh position={position} rotation={rotation} renderOrder={100}>
+    <mesh position={position} rotation={rotation} renderOrder={999}>
       <circleGeometry args={[radius, 64]} />
-      <meshStandardMaterial
-        ref={materialRef}
+      <meshBasicMaterial
         map={texture}
         transparent={true}
         opacity={opacity}
         side={THREE.DoubleSide}
-        depthWrite={true}
-        depthTest={true}
-        polygonOffset={true}
-        polygonOffsetFactor={-4}
-        polygonOffsetUnits={-4}
-        emissive="#ffffff"
-        emissiveIntensity={0.1}
-        emissiveMap={texture}
+        depthWrite={false}
+        depthTest={false}
+        toneMapped={false}
       />
     </mesh>
   )
@@ -195,8 +182,8 @@ function ChainCoin({
     innerOpacity: 0.3,
     outerOpacity: 0.5,
     glowIntensity: 1.5,
-    faceOffset: 0.02,
-    faceScale: 0.7,
+    faceOffset: 0.05,
+    faceScale: 0.8,
     showFaces: true,
   }
   const groupRef = useRef<THREE.Group>(null)
@@ -374,12 +361,12 @@ function ChainCoin({
           />
         )}
 
-        {/* Back face with token icon - positioned below bottom cap, mirrored */}
+        {/* Back face with token icon - positioned below bottom cap */}
         {settings.showFaces && (
           <CoinFace
             iconPath={chain.icon}
             position={[0, -settings.thickness / 2 - settings.faceOffset, 0]}
-            rotation={[Math.PI / 2, Math.PI, 0]}
+            rotation={[Math.PI / 2, 0, 0]}
             radius={settings.radius * settings.faceScale}
             opacity={1}
           />
@@ -1678,8 +1665,8 @@ function SceneContent({ onChainHover }: { onChainHover?: (chain: ChainData | nul
     coinBorder: { value: 0.04, min: 0.01, max: 0.15, step: 0.01, label: 'Border' },
     coinEdgeWidth: { value: 0.035, min: 0.01, max: 0.1, step: 0.005, label: 'Edge Width' },
     showCoinFaces: { value: true, label: 'Show Faces' },
-    coinFaceOffset: { value: 0.02, min: 0.005, max: 0.1, step: 0.005, label: 'Face Offset' },
-    coinFaceScale: { value: 0.7, min: 0.3, max: 0.95, step: 0.05, label: 'Face Scale' },
+    coinFaceOffset: { value: 0.05, min: 0.01, max: 0.2, step: 0.005, label: 'Face Offset' },
+    coinFaceScale: { value: 0.8, min: 0.3, max: 0.95, step: 0.05, label: 'Face Scale' },
     coinInnerOpacity: { value: 0.3, min: 0, max: 1, step: 0.05, label: 'Inner Glow' },
     coinOuterOpacity: { value: 0.5, min: 0, max: 1, step: 0.05, label: 'Outer Opacity' },
     coinGlowIntensity: { value: 1.5, min: 0, max: 5, step: 0.1, label: 'Light Intensity' },
