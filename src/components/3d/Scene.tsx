@@ -118,27 +118,35 @@ function CoinFace({
   opacity?: number
 }) {
   const texture = useTexture(iconPath)
+  const materialRef = useRef<THREE.MeshBasicMaterial>(null)
 
-  // Configure texture settings
-  useMemo(() => {
-    texture.minFilter = THREE.LinearFilter
-    texture.magFilter = THREE.LinearFilter
-    texture.generateMipmaps = false
-    texture.colorSpace = THREE.SRGBColorSpace
-    texture.needsUpdate = true
+  // Configure texture on load
+  useEffect(() => {
+    if (texture) {
+      texture.colorSpace = THREE.SRGBColorSpace
+      texture.minFilter = THREE.LinearFilter
+      texture.magFilter = THREE.LinearFilter
+      texture.needsUpdate = true
+      if (materialRef.current) {
+        materialRef.current.needsUpdate = true
+      }
+    }
   }, [texture])
 
   return (
     <mesh position={position} rotation={rotation} renderOrder={10}>
       <circleGeometry args={[radius, 64]} />
       <meshBasicMaterial
+        ref={materialRef}
         map={texture}
-        transparent
+        transparent={true}
         opacity={opacity}
-        side={THREE.DoubleSide}
+        side={THREE.FrontSide}
+        depthWrite={true}
         depthTest={true}
-        depthWrite={false}
-        toneMapped={false}
+        polygonOffset={true}
+        polygonOffsetFactor={-2}
+        polygonOffsetUnits={-2}
       />
     </mesh>
   )
@@ -348,18 +356,18 @@ function ChainCoin({
         {/* Front face with token icon - positioned above top cap */}
         <CoinFace
           iconPath={chain.icon}
-          position={[0, settings.thickness / 2 + 0.003, 0]}
+          position={[0, settings.thickness / 2 + 0.005, 0]}
           rotation={[-Math.PI / 2, 0, 0]}
-          radius={settings.radius * 0.65}
+          radius={settings.radius * 0.75}
           opacity={1}
         />
 
-        {/* Back face with token icon - positioned below bottom cap */}
+        {/* Back face with token icon - positioned below bottom cap, mirrored */}
         <CoinFace
           iconPath={chain.icon}
-          position={[0, -settings.thickness / 2 - 0.003, 0]}
-          rotation={[Math.PI / 2, 0, Math.PI]}
-          radius={settings.radius * 0.65}
+          position={[0, -settings.thickness / 2 - 0.005, 0]}
+          rotation={[Math.PI / 2, Math.PI, 0]}
+          radius={settings.radius * 0.75}
           opacity={1}
         />
 
