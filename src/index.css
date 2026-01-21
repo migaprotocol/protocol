@@ -2,43 +2,77 @@
 @tailwind components;
 @tailwind utilities;
 
-/* MIGA Theme - Gold/Black based on Hanzo UI design system */
+/* MIGA Protocol - Persian Heritage Design
+   Clean, editorial, high-contrast with Persian warmth */
+
 @layer base {
   :root {
-    /* Hanzo-style CSS variables with MIGA gold */
-    --radius: 0.65rem;
-    --background: 0 0% 0%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 4%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 4%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 43 74% 49%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 0 0% 10%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 64%;
-    --accent: 43 74% 49%;
-    --accent-foreground: 0 0% 0%;
+    --radius: 0.5rem;
+
+    /* MIGA Brand Foundation */
+    --miga-bg: #07070A;
+    --miga-surface: #0B0B12;
+    --miga-text: #EDEDF2;
+    --miga-muted: #B8B8C6;
+
+    /* MIGA Accent A - Persian Gold (Heritage/Trust) */
+    --miga-gold: #D6B15A;
+    --miga-gold-deep: #B8842A;
+    --miga-gold-ember: #FFB14A;
+
+    /* MIGA Accent B - Spectral (Tech Magic) */
+    --miga-cyan: #22F3E6;
+    --miga-violet: #7C3AED;
+    --miga-magenta: #FF4D9D;
+    --miga-teal: #2DD4BF;
+
+    /* Base: deep Persian night */
+    --background: 260 30% 4%;
+    --foreground: 0 0% 96%;
+
+    /* Persian accent palette (legacy aliases) */
+    --ember-gold: #D6B15A;
+    --ember-amber: #FFB14A;
+    --ember-orange: #FF7A2F;
+    --ember-deep: #B8842A;
+    --persian-purple: #4A1D6B;
+    --persian-sand: #C9A86C;
+
+    /* Neutral text */
+    --text-primary: #EDEDF2;
+    --text-secondary: #B8B8C6;
+    --text-muted: #6B6B7B;
+
+    /* Card/UI */
+    --card: 228 25% 7%;
+    --card-foreground: 0 0% 96%;
+    --popover: 228 25% 7%;
+    --popover-foreground: 0 0% 96%;
+
+    /* Primary = ember gold */
+    --primary: 43 100% 70%;
+    --primary-foreground: 228 30% 4%;
+
+    /* Secondary */
+    --secondary: 228 20% 12%;
+    --secondary-foreground: 0 0% 96%;
+
+    /* Muted */
+    --muted: 228 15% 15%;
+    --muted-foreground: 0 0% 60%;
+
+    /* Accent */
+    --accent: 32 100% 65%;
+    --accent-foreground: 228 30% 4%;
+
+    /* Borders */
+    --border: 228 15% 14%;
+    --input: 228 15% 14%;
+    --ring: 43 100% 70%;
+
+    /* Destructive */
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14%;
-    --input: 0 0% 14%;
-    --ring: 43 74% 49%;
-
-    /* MIGA Gold Palette */
-    --gold: #C9A227;
-    --gold-light: #F4D03F;
-    --gold-dark: #8B6914;
-    --gold-bright: #FFD700;
-
-    /* Chart colors (gold gradient) */
-    --chart-1: 43 74% 70%;
-    --chart-2: 43 74% 60%;
-    --chart-3: 43 74% 49%;
-    --chart-4: 43 74% 40%;
-    --chart-5: 43 74% 30%;
   }
 }
 
@@ -52,247 +86,934 @@
   }
 
   body {
-    @apply bg-black text-white antialiased;
-    font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-feature-settings: 'rlig' 1, 'calt' 1;
-    font-synthesis-weight: none;
+    @apply antialiased;
+    background: #07070A;
+    color: var(--text-primary);
+    font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-feature-settings: 'rlig' 1, 'calt' 1, 'ss01' 1;
     text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
   }
 
+  /* Modern grotesk headings */
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-weight: 500;
-    letter-spacing: -0.025em;
+    font-family: 'Space Grotesk', 'Inter', -apple-system, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
   }
 
-  code, pre {
-    font-family: 'Geist Mono', 'SF Mono', Consolas, monospace;
-  }
+  h1 { @apply text-5xl md:text-7xl lg:text-8xl; }
+  h2 { @apply text-3xl md:text-4xl lg:text-5xl; }
+  h3 { @apply text-xl md:text-2xl; }
 
   ::selection {
-    background: rgba(201, 162, 39, 0.3);
+    background: rgba(255, 211, 106, 0.25);
     color: white;
   }
 }
 
 /* ========================================
-   COMPONENT PATTERNS (Hanzo UI Style)
+   GRID SYSTEM (12-col Solana style)
    ======================================== */
 
-/* Container */
-.container {
-  @apply mx-auto w-full px-4 md:px-6 lg:px-8;
-  max-width: 1400px;
+.container-xl {
+  @apply mx-auto w-full px-6 md:px-8 lg:px-12;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* Gold color utilities */
-.text-gold {
-  color: var(--gold);
-}
-.bg-gold {
-  background-color: var(--gold);
-}
-.border-gold {
-  border-color: var(--gold);
+.container-lg {
+  @apply mx-auto w-full px-6 md:px-8;
+  max-width: 1200px;
 }
 
-/* Gradient text */
-.gradient-text {
-  background: linear-gradient(135deg, #C9A227 0%, #F4D03F 50%, #C9A227 100%);
+.container-md {
+  @apply mx-auto w-full px-6;
+  max-width: 960px;
+}
+
+/* ========================================
+   TYPOGRAPHY UTILITIES
+   ======================================== */
+
+.text-gradient-ember {
+  background: linear-gradient(135deg, #FFD36A 0%, #FFB14A 50%, #FF7A2F 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* ========================================
-   CARDS (Hanzo UI Pattern)
-   ======================================== */
-
-.card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: var(--radius);
-  transition: all 0.2s ease;
+.text-gradient-gold {
+  background: linear-gradient(135deg, #FFD36A 0%, #F4D03F 50%, #FFD36A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.card:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.1);
+.text-ember { color: var(--ember-gold); }
+.text-amber { color: var(--ember-amber); }
+.text-orange { color: var(--ember-orange); }
+
+/* Body copy - clean and readable */
+.body-lg {
+  @apply text-lg md:text-xl;
+  color: var(--text-secondary);
+  line-height: 1.7;
 }
 
-/* Feature card - larger padding */
-.feature-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: calc(var(--radius) + 4px);
-  padding: 2rem;
-  transition: all 0.3s ease;
+.body-md {
+  @apply text-base md:text-lg;
+  color: var(--text-secondary);
+  line-height: 1.6;
 }
 
-.feature-card:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(201, 162, 39, 0.2);
-  transform: translateY(-2px);
-}
-
-/* Stat card */
-.stat-card {
-  text-align: center;
-  padding: 1.5rem;
-}
-
-.stat-card .stat-value {
-  font-size: 2.5rem;
-  font-weight: 500;
-  color: var(--gold);
-  letter-spacing: -0.02em;
-}
-
-.stat-card .stat-label {
-  font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.5);
-  margin-top: 0.25rem;
+.body-sm {
+  @apply text-sm;
+  color: var(--text-muted);
+  line-height: 1.5;
 }
 
 /* ========================================
-   BUTTONS (Hanzo UI CVA Pattern)
+   BUTTONS (Solana style - clean, rounded)
    ======================================== */
 
 .btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  background: var(--gold);
-  color: black;
-  font-weight: 500;
-  padding: 0.75rem 1.5rem;
+  @apply inline-flex items-center justify-center gap-2 font-medium;
+  background: var(--ember-gold);
+  color: #07070A;
+  padding: 0.875rem 2rem;
   border-radius: 9999px;
+  font-size: 0.9375rem;
   transition: all 0.15s ease;
-  white-space: nowrap;
 }
 
 .btn-primary:hover {
-  background: var(--gold-light);
+  background: #FFE599;
   transform: translateY(-1px);
-}
-
-.btn-outline {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  background: transparent;
-  color: white;
-  font-weight: 500;
-  padding: 0.75rem 1.5rem;
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.15s ease;
-  white-space: nowrap;
-}
-
-.btn-outline:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 24px rgba(255, 211, 106, 0.25);
 }
 
 .btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  font-weight: 500;
-  padding: 0.75rem 1.5rem;
-  border-radius: var(--radius);
+  @apply inline-flex items-center justify-center gap-2 font-medium;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  padding: 0.875rem 2rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.9375rem;
   transition: all 0.15s ease;
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-ghost {
+  @apply inline-flex items-center justify-center gap-2 font-medium;
+  color: var(--text-secondary);
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  transition: color 0.15s ease;
+}
+
+/* Hero CTA Button - Persian Gold (PRIMARY) */
+.hero-cta-btn {
+  @apply inline-flex items-center justify-center font-semibold;
+  background: var(--miga-gold);
+  color: var(--miga-bg);
+  padding: 0.875rem 2rem;
+  border-radius: 9999px;
+  font-size: 0.9375rem;
+  letter-spacing: 0.01em;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 12px 28px rgba(0, 0, 0, 0.35),
+    0 0 28px rgba(124, 58, 237, 0.12);
+}
+
+.hero-cta-btn:hover {
+  background: #E5C774;
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 16px 32px rgba(0, 0, 0, 0.4),
+    0 0 36px rgba(124, 58, 237, 0.18);
+}
+
+/* Hero button - Ghost/Outline style (SECONDARY) */
+.hero-btn-outline {
+  @apply inline-flex items-center justify-center gap-2 font-medium;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--miga-text);
+  padding: 0.875rem 1.75rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 0.9375rem;
+  transition: all 0.15s ease;
+}
+
+.hero-btn-outline:hover {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+/* Hero link style (TERTIARY) */
+.hero-link {
+  @apply inline-flex items-center gap-1.5 font-medium;
+  color: var(--miga-muted);
+  font-size: 0.875rem;
+  transition: color 0.15s ease;
+}
+
+.hero-link:hover {
+  color: #FFFFFF;
+}
+
+.hero-link svg {
+  transition: transform 0.15s ease;
+}
+
+.hero-link:hover svg {
+  transform: translateX(2px);
+}
+
+.btn-ghost:hover {
+  color: var(--text-primary);
+}
+
+.btn-link {
+  @apply inline-flex items-center gap-1 font-medium;
+  color: var(--ember-gold);
+  font-size: 0.875rem;
+  transition: opacity 0.15s ease;
+}
+
+.btn-link:hover {
+  opacity: 0.8;
 }
 
 /* ========================================
-   GLASS & EFFECTS
+   CARDS (Minimal, high-contrast)
    ======================================== */
 
-.glass {
-  background: rgba(0, 0, 0, 0.5);
+.card {
+  background: rgba(15, 15, 22, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 1rem;
+  padding: 2rem;
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  background: rgba(20, 20, 30, 0.7);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.card-glass {
+  background: rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+}
+
+/* Persian-styled pillar cards with ornate borders */
+.pillar-card {
+  position: relative;
+  background: linear-gradient(180deg, rgba(255, 211, 106, 0.04) 0%, rgba(74, 29, 107, 0.02) 50%, transparent 100%);
+  border: 1px solid rgba(255, 211, 106, 0.12);
+  border-radius: 1.25rem;
+  padding: 2.5rem;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+/* Persepolis column-style top ornament */
+.pillar-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 4px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 211, 106, 0.3) 20%,
+    rgba(255, 211, 106, 0.5) 50%,
+    rgba(255, 211, 106, 0.3) 80%,
+    transparent 100%
+  );
+  border-radius: 0 0 4px 4px;
+}
+
+/* Gold trim accent at corners */
+.pillar-card::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  border: 1px solid transparent;
+  border-image: linear-gradient(135deg,
+    rgba(255, 211, 106, 0.15) 0%,
+    transparent 30%,
+    transparent 70%,
+    rgba(255, 211, 106, 0.15) 100%
+  ) 1;
+  pointer-events: none;
+  border-radius: 1rem;
+}
+
+.pillar-card:hover {
+  border-color: rgba(255, 211, 106, 0.3);
+  transform: translateY(-4px);
+  box-shadow:
+    0 20px 40px rgba(255, 177, 74, 0.1),
+    0 0 60px rgba(255, 211, 106, 0.05);
+}
+
+.pillar-card:hover::before {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 211, 106, 0.4) 20%,
+    rgba(255, 211, 106, 0.7) 50%,
+    rgba(255, 211, 106, 0.4) 80%,
+    transparent 100%
+  );
+}
+
+/* ========================================
+   SECTIONS
+   ======================================== */
+
+.section {
+  @apply py-24 md:py-32;
+}
+
+.section-sm {
+  @apply py-16 md:py-20;
 }
 
 .divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+}
+
+.divider-gold {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 211, 106, 0.3), transparent);
 }
 
 /* ========================================
-   FUNDRAISING CTA PANEL (Hanzo Docs Inspired)
+   TRUST ROW (TVL/APY/Audits)
    ======================================== */
 
-.cta-panel {
-  background: linear-gradient(135deg, rgba(201, 162, 39, 0.1) 0%, rgba(139, 105, 20, 0.1) 100%);
-  border: 1px solid rgba(201, 162, 39, 0.3);
-  border-radius: calc(var(--radius) + 8px);
-  padding: 2.5rem;
+.trust-item {
+  @apply flex items-center gap-3;
+}
+
+.trust-value {
+  @apply text-xl md:text-2xl font-semibold;
+  color: var(--text-primary);
+  font-feature-settings: 'tnum' 1;
+}
+
+.trust-label {
+  @apply text-sm;
+  color: var(--text-muted);
+}
+
+/* ========================================
+   STAT BADGES
+   ======================================== */
+
+.stat-badge {
+  @apply inline-flex items-center gap-2 px-4 py-2 rounded-full;
+  background: rgba(255, 211, 106, 0.08);
+  border: 1px solid rgba(255, 211, 106, 0.15);
+}
+
+.stat-badge-value {
+  @apply font-semibold;
+  color: var(--ember-gold);
+}
+
+.stat-badge-label {
+  @apply text-sm;
+  color: var(--text-secondary);
+}
+
+/* ========================================
+   NAV & HEADER (Glass bar style)
+   ======================================== */
+
+.nav-glass {
+  background: rgba(12, 12, 18, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 9999px;
+}
+
+.nav-container {
+  @apply mx-auto px-2;
+  max-width: 1200px;
+}
+
+.nav-link {
+  @apply text-sm font-medium;
+  color: var(--text-secondary);
+  transition: all 0.15s ease;
+}
+
+.nav-link:hover {
+  color: var(--text-primary);
+}
+
+.nav-link-active {
+  color: var(--ember-gold);
+}
+
+/* ========================================
+   PERSIAN BACKGROUND ELEMENTS
+   ======================================== */
+
+/* Desert/sand dune gradient background */
+.persian-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    /* Deep purple to warm gold gradient */
+    linear-gradient(180deg,
+      #0A0515 0%,
+      #1A0A2E 20%,
+      #2D1B4E 40%,
+      #1A1020 60%,
+      #0F0810 100%
+    );
+}
+
+/* Persian 8-pointed star pattern from SVG */
+.persian-stars-svg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60vh;
+  z-index: -1;
+  background-image: url('/bg-stars.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top center;
+  opacity: 0.7;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0) 100%);
+}
+
+/* Persian star pattern overlay (CSS fallback) */
+.persian-stars {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.4;
+  background-image:
+    /* Large stars */
+    radial-gradient(2px 2px at 20% 15%, #FFD36A 100%, transparent),
+    radial-gradient(2px 2px at 80% 25%, #FFFFFF 100%, transparent),
+    radial-gradient(1.5px 1.5px at 50% 10%, #FFD36A 100%, transparent),
+    radial-gradient(2px 2px at 10% 40%, #FFFFFF 100%, transparent),
+    radial-gradient(1.5px 1.5px at 90% 35%, #FFD36A 100%, transparent),
+    /* Medium stars */
+    radial-gradient(1px 1px at 35% 20%, #FFFFFF 100%, transparent),
+    radial-gradient(1px 1px at 65% 30%, #FFD36A 100%, transparent),
+    radial-gradient(1px 1px at 25% 45%, #FFFFFF 100%, transparent),
+    radial-gradient(1px 1px at 75% 15%, #FFD36A 100%, transparent),
+    radial-gradient(1px 1px at 45% 5%, #FFFFFF 100%, transparent),
+    /* Small stars */
+    radial-gradient(0.5px 0.5px at 15% 30%, #FFFFFF 100%, transparent),
+    radial-gradient(0.5px 0.5px at 55% 25%, #FFD36A 100%, transparent),
+    radial-gradient(0.5px 0.5px at 85% 45%, #FFFFFF 100%, transparent),
+    radial-gradient(0.5px 0.5px at 40% 35%, #FFD36A 100%, transparent);
+  animation: twinkle 4s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.3; }
+  100% { opacity: 0.5; }
+}
+
+/* Zagros/Alborz mountain silhouette from SVG */
+.persian-mountains-svg {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50vh;
+  z-index: -1;
+  background-image: url('/bg-mountains.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom center;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Mountain silhouette at bottom (CSS fallback) */
+.persian-mountains {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  z-index: -1;
+  background:
+    /* Mountain range silhouette */
+    linear-gradient(175deg, transparent 40%, #0A0515 40.5%),
+    linear-gradient(185deg, transparent 50%, #0D0818 50.5%),
+    linear-gradient(170deg, transparent 55%, #0A0515 55.5%),
+    linear-gradient(190deg, transparent 45%, #0D0818 45.5%);
+  opacity: 0.8;
+}
+
+/* Desert sand dunes from SVG */
+.persian-dunes-svg {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 35vh;
+  z-index: -1;
+  background-image: url('/bg-dunes.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom center;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* Sand dune glow effect */
+.persian-glow {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120%;
+  height: 300px;
+  z-index: -1;
+  background: radial-gradient(ellipse at center bottom,
+    rgba(255, 211, 106, 0.08) 0%,
+    rgba(201, 168, 108, 0.04) 30%,
+    transparent 70%
+  );
+}
+
+/* Persian geometric pattern overlay for sections */
+.persian-geometric-overlay {
   position: relative;
+}
+
+.persian-geometric-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    /* Repeating 8-pointed star pattern */
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 60px,
+      rgba(255, 211, 106, 0.02) 60px,
+      rgba(255, 211, 106, 0.02) 61px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 60px,
+      rgba(255, 211, 106, 0.02) 60px,
+      rgba(255, 211, 106, 0.02) 61px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 42px,
+      rgba(255, 177, 74, 0.015) 42px,
+      rgba(255, 177, 74, 0.015) 43px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 42px,
+      rgba(255, 177, 74, 0.015) 42px,
+      rgba(255, 177, 74, 0.015) 43px
+    );
+  opacity: 0.8;
+}
+
+/* ========================================
+   HERO SECTION
+   ======================================== */
+
+.hero-section {
+  @apply relative overflow-hidden;
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* Full-width 3D scene container */
+.hero-3d-full {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
   overflow: hidden;
 }
 
-.cta-panel::before {
-  content: '';
+/* Content overlay on left side */
+.hero-content-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  /* Mobile: content at bottom */
+  align-items: flex-end;
+  padding-top: 60px;
+  padding-bottom: 2rem;
+  /* Allow pointer events to pass through to 3D scene */
+  pointer-events: none;
+  /* Mobile: gradient from bottom for readability */
+  background: linear-gradient(
+    to top,
+    rgba(7, 7, 10, 0.95) 0%,
+    rgba(7, 7, 10, 0.8) 30%,
+    rgba(7, 7, 10, 0.3) 60%,
+    transparent 80%
+  );
+}
+
+.hero-content-overlay .hero-content {
+  padding: 1.25rem;
+  max-width: 100%;
+  /* Keep pointer-events none so 3D scene is clickable */
+  pointer-events: none;
+}
+
+/* Only enable pointer events on interactive elements */
+.hero-content-overlay .hero-content a,
+.hero-content-overlay .hero-content button {
+  pointer-events: auto;
+}
+
+/* Mobile-specific hero adjustments */
+@media (max-width: 767px) {
+  .hero-content-overlay .hero-content h1 {
+    font-size: 1.75rem;
+    line-height: 1.15;
+  }
+
+  .hero-content-overlay .hero-content .hero-subcopy {
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero-content-overlay .hero-content .hero-cta-btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .hero-content-overlay .hero-content .hero-btn-outline {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Tablet and up: content on left side */
+@media (min-width: 768px) {
+  .hero-content-overlay {
+    align-items: center;
+    padding-top: 80px;
+    padding-bottom: 0;
+    /* Gradient from left for side layout */
+    background: linear-gradient(
+      to right,
+      rgba(7, 7, 10, 0.85) 0%,
+      rgba(7, 7, 10, 0.6) 35%,
+      rgba(7, 7, 10, 0.2) 55%,
+      transparent 70%
+    );
+  }
+
+  .hero-content-overlay .hero-content {
+    padding: 3rem;
+    max-width: 580px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-content-overlay .hero-content {
+    padding: 4rem 3rem 4rem 6rem;
+    max-width: 620px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-content-overlay .hero-content {
+    padding: 4rem 4rem 4rem 8rem;
+    max-width: 650px;
+  }
+}
+
+.hero-content {
+  @apply relative z-20;
+  position: relative;
+  padding: 2rem;
+  max-width: 600px;
+}
+
+@media (min-width: 768px) {
+  .hero-content {
+    padding: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-content {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+/* Persian night sky for hero - with parallax effect */
+.hero-night-sky {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    /* Subtle overlay for text readability */
+    linear-gradient(to right, rgba(7, 7, 10, 0.6) 0%, rgba(7, 7, 10, 0.3) 40%, transparent 60%),
+    /* Bottom fade */
+    linear-gradient(to top, rgba(7, 7, 10, 0.8) 0%, transparent 30%),
+    /* The night sky image - fixed for parallax */
+    url('/images/persian-night-sky.jpg') center center / cover no-repeat fixed;
+  background-color: #07070A;
+}
+
+/* Parallax background that extends beyond hero */
+.parallax-night-sky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120vh;
+  z-index: -2;
+  background:
+    url('/images/persian-night-sky.jpg') center top / cover no-repeat;
+  background-attachment: fixed;
+  transform: translateZ(-1px) scale(1.5);
+  will-change: transform;
+}
+
+/* Page background with night sky - for other pages */
+.page-night-sky {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    /* Overlay for content readability */
+    linear-gradient(180deg, rgba(7, 7, 10, 0.7) 0%, rgba(7, 7, 10, 0.5) 50%, rgba(7, 7, 10, 0.8) 100%),
+    /* The night sky image */
+    url('/images/persian-night-sky.jpg') center center / cover no-repeat;
+  background-color: #07070A;
+}
+
+.hero-media {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.5), transparent);
-}
-
-.cta-panel-featured {
-  background: linear-gradient(135deg, rgba(201, 162, 39, 0.15) 0%, rgba(0, 0, 0, 0.8) 100%);
-  border: 2px solid rgba(201, 162, 39, 0.4);
-  border-radius: calc(var(--radius) + 12px);
-  padding: 3rem;
-  position: relative;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
   overflow: hidden;
+  /* Persian night sky background - Persepolis with Milky Way */
+  background:
+    linear-gradient(to bottom, rgba(2, 2, 8, 0.3) 0%, transparent 30%, transparent 70%, rgba(2, 2, 8, 0.4) 100%),
+    url('/images/persian-night-sky.jpg') center center / cover no-repeat;
+  background-color: #020208;
+  z-index: 1;
 }
 
-.cta-panel-featured::before {
+/* Text readability scrim - dark gradient on left for hero text */
+.hero-media::after {
   content: '';
   position: absolute;
-  inset: -50%;
-  background: conic-gradient(
-    from 0deg,
-    transparent 0deg,
-    rgba(255, 215, 0, 0.05) 30deg,
-    transparent 60deg
-  );
-  animation: rotateRays 30s linear infinite;
+  inset: 0;
+  background:
+    /* Strong left scrim for text */
+    linear-gradient(to right, rgba(7, 7, 10, 0.85) 0%, rgba(7, 7, 10, 0.6) 25%, rgba(7, 7, 10, 0.3) 45%, transparent 60%),
+    /* Bottom fade for grounding */
+    linear-gradient(to top, rgba(7, 7, 10, 0.7) 0%, rgba(7, 7, 10, 0.3) 15%, transparent 30%),
+    /* Subtle vignette */
+    radial-gradient(ellipse at center, transparent 40%, rgba(7, 7, 10, 0.25) 100%);
+  pointer-events: none;
+  z-index: 10;
 }
 
-/* Signup form styles */
-.signup-input {
+/* Persian geometric pattern overlay - right edge arabesque */
+.hero-geometric-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 40%;
+  z-index: 15;
+  pointer-events: none;
+  opacity: 0.5;
+  mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 30%, transparent 80%);
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 30%, transparent 80%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23D6B15A' stroke-width='0.5' opacity='0.4'%3E%3C!-- 8-pointed star --%3E%3Cpath d='M40 0 L45 35 L80 40 L45 45 L40 80 L35 45 L0 40 L35 35 Z'/%3E%3Cpath d='M40 10 L48 32 L70 40 L48 48 L40 70 L32 48 L10 40 L32 32 Z'/%3E%3C!-- Diamond accents --%3E%3Cpath d='M40 20 L50 40 L40 60 L30 40 Z'/%3E%3C!-- Corner elements --%3E%3Cpath d='M10 10 L20 15 L15 20 L10 10' /%3E%3Cpath d='M70 10 L60 15 L65 20 L70 10' /%3E%3Cpath d='M10 70 L20 65 L15 60 L10 70' /%3E%3Cpath d='M70 70 L60 65 L65 60 L70 70' /%3E%3C/g%3E%3C/svg%3E");
+  background-size: 80px 80px;
+}
+
+/* Cosmic nebula glow - Persian night sky */
+.hero-cosmic-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background:
+    /* Central gold glow around medallion */
+    radial-gradient(ellipse 40% 50% at 55% 45%, rgba(214, 177, 90, 0.15) 0%, transparent 60%),
+    /* Purple nebula accent */
+    radial-gradient(ellipse 60% 40% at 70% 30%, rgba(124, 58, 237, 0.12) 0%, transparent 50%),
+    /* Cyan accent */
+    radial-gradient(ellipse 50% 60% at 80% 60%, rgba(34, 243, 230, 0.08) 0%, transparent 50%),
+    /* Magenta accent */
+    radial-gradient(ellipse 35% 45% at 60% 70%, rgba(255, 77, 157, 0.06) 0%, transparent 50%);
+}
+
+/* Stars twinkle layer */
+.hero-stars {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0.6;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20% 15%, #FFFFFF 100%, transparent),
+    radial-gradient(1px 1px at 80% 25%, #FFD36A 100%, transparent),
+    radial-gradient(1.5px 1.5px at 50% 10%, #FFFFFF 100%, transparent),
+    radial-gradient(1px 1px at 10% 30%, #FFD36A 100%, transparent),
+    radial-gradient(2px 2px at 85% 15%, #FFFFFF 100%, transparent),
+    radial-gradient(1px 1px at 35% 8%, #FFD36A 100%, transparent),
+    radial-gradient(1.5px 1.5px at 65% 20%, #FFFFFF 100%, transparent),
+    radial-gradient(1px 1px at 25% 25%, #FFFFFF 100%, transparent),
+    radial-gradient(1px 1px at 75% 5%, #FFD36A 100%, transparent),
+    radial-gradient(1.5px 1.5px at 45% 18%, #FFFFFF 100%, transparent),
+    radial-gradient(1px 1px at 90% 35%, #FFD36A 100%, transparent),
+    radial-gradient(0.5px 0.5px at 15% 22%, #FFFFFF 100%, transparent),
+    radial-gradient(0.5px 0.5px at 55% 12%, #FFD36A 100%, transparent),
+    radial-gradient(0.5px 0.5px at 40% 28%, #FFFFFF 100%, transparent);
+  animation: twinkle 4s ease-in-out infinite alternate;
+}
+
+/* Hero subcopy - improved contrast */
+.hero-subcopy {
+  @apply text-base md:text-lg;
+  color: rgba(184, 184, 198, 0.9);
+  line-height: 1.7;
+  max-width: 28rem;
+  font-weight: 400;
+}
+
+/* ========================================
+   ICONS & BADGES
+   ======================================== */
+
+.icon-box {
+  @apply flex items-center justify-center;
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 211, 106, 0.1);
+  border-radius: 12px;
+}
+
+.icon-box-lg {
+  @apply flex items-center justify-center;
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, rgba(255, 211, 106, 0.15) 0%, rgba(255, 122, 47, 0.1) 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 211, 106, 0.2);
+}
+
+.chain-badge {
+  @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius);
-  padding: 0.75rem 1rem;
-  color: white;
-  width: 100%;
-  transition: all 0.15s ease;
+  color: var(--text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.signup-input:focus {
-  outline: none;
-  border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.1);
+/* ========================================
+   AUDIT/SECURITY BADGES
+   ======================================== */
+
+.audit-badge {
+  @apply flex items-center gap-3 px-5 py-3 rounded-xl;
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.2);
 }
 
-.signup-input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+.audit-badge-text {
+  @apply text-sm font-medium;
+  color: #22C55E;
+}
+
+/* ========================================
+   FLOW STEPS (How it works)
+   ======================================== */
+
+.flow-step {
+  @apply relative flex flex-col items-center text-center;
+}
+
+.flow-number {
+  @apply flex items-center justify-center w-12 h-12 rounded-full text-lg font-bold;
+  background: var(--ember-gold);
+  color: #07070A;
+}
+
+.flow-connector {
+  @apply absolute top-6 left-1/2 w-full h-px;
+  background: linear-gradient(90deg, transparent, rgba(255, 211, 106, 0.3), transparent);
+}
+
+/* ========================================
+   3D CANVAS CONTAINER
+   ======================================== */
+
+.canvas-container {
+  @apply relative w-full h-full min-h-[400px] md:min-h-[500px] lg:min-h-[600px];
+}
+
+.canvas-glow {
+  @apply absolute inset-0 pointer-events-none;
+  background: radial-gradient(ellipse at center, rgba(255, 177, 74, 0.15) 0%, transparent 70%);
 }
 
 /* ========================================
@@ -300,27 +1021,49 @@
    ======================================== */
 
 .wallet-adapter-button {
-  background: var(--gold) !important;
-  color: black !important;
-  font-weight: 500 !important;
+  background: #FFFFFF !important;
+  color: #07070A !important;
+  font-weight: 600 !important;
   border-radius: 9999px !important;
+  padding: 0.875rem 2rem !important;
+  border: 2px solid transparent !important;
+  transition: all 0.2s ease !important;
 }
 
 .wallet-adapter-button:hover {
-  background: var(--gold-light) !important;
+  background: transparent !important;
+  color: #FFFFFF !important;
+  border-color: #FFFFFF !important;
+}
+
+.wallet-adapter-button-trigger {
+  background: #FFFFFF !important;
+  color: #07070A !important;
+}
+
+.wallet-adapter-button-trigger:hover {
+  background: transparent !important;
+  color: #FFFFFF !important;
+  border-color: #FFFFFF !important;
+}
+
+/* Hide default text and show custom */
+.wallet-adapter-button-start-icon {
+  margin-right: 8px !important;
 }
 
 .wallet-adapter-modal-wrapper {
-  background: rgba(0, 0, 0, 0.9) !important;
+  background: rgba(7, 7, 10, 0.95) !important;
 }
 
 .wallet-adapter-modal-container {
-  background: #0a0a0a !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: #0F0F16 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 1rem !important;
 }
 
 /* ========================================
-   SCROLLBAR & LINKS
+   SCROLLBAR
    ======================================== */
 
 ::-webkit-scrollbar {
@@ -338,275 +1081,92 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.nav-link {
-  color: rgba(255, 255, 255, 0.6);
-  transition: color 0.15s ease;
-}
-
-.nav-link:hover {
-  color: white;
-}
-
-/* ========================================
-   SECTION SPACING
-   ======================================== */
-
-.section {
-  padding: 6rem 0;
-}
-
-@media (max-width: 768px) {
-  .section {
-    padding: 4rem 0;
-  }
-}
-
-/* ========================================
-   EPIC 3D GAME TYPOGRAPHY (Prince of Persia)
-   ======================================== */
-
-.text-3d {
-  text-shadow:
-    0 1px 0 #8B6914,
-    0 2px 0 #8B6914,
-    0 3px 0 #6B5010,
-    0 4px 0 #5A4410,
-    0 5px 0 #4A3810,
-    0 6px 10px rgba(0,0,0,0.8),
-    0 6px 1px rgba(0,0,0,0.5),
-    0 0 60px rgba(201, 162, 39, 0.5);
-}
-
-.text-3d-massive {
-  text-shadow:
-    0 2px 0 #8B6914,
-    0 4px 0 #8B6914,
-    0 6px 0 #6B5010,
-    0 8px 0 #5A4410,
-    0 10px 0 #4A3810,
-    0 12px 20px rgba(0,0,0,0.9),
-    0 0 100px rgba(201, 162, 39, 0.6),
-    0 0 150px rgba(255, 215, 0, 0.3);
-  letter-spacing: 0.05em;
-}
-
-/* Perspective container for 3D effects */
-.perspective-dramatic {
-  perspective: 800px;
-  perspective-origin: center;
-}
-
-.transform-3d {
-  transform: rotateX(10deg) translateZ(50px);
-  transform-style: preserve-3d;
+  background: rgba(255, 255, 255, 0.15);
 }
 
 /* ========================================
    ANIMATIONS
    ======================================== */
 
-/* Sand/dust particle animations */
-@keyframes sandFloat {
-  0%, 100% {
-    transform: translateY(0) translateX(0) rotate(0deg);
-    opacity: 0;
-  }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% {
-    transform: translateY(-100vh) translateX(50px) rotate(360deg);
-    opacity: 0;
-  }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes sandDrift {
-  0% { transform: translateX(-10px); }
-  50% { transform: translateX(10px); }
-  100% { transform: translateX(-10px); }
-}
-
-.sand-particle {
-  animation: sandFloat 8s ease-in-out infinite, sandDrift 3s ease-in-out infinite;
-}
-
-/* Epic glow pulse */
-@keyframes epicGlow {
-  0%, 100% {
-    text-shadow:
-      0 0 20px rgba(201, 162, 39, 0.8),
-      0 0 40px rgba(201, 162, 39, 0.6),
-      0 0 60px rgba(201, 162, 39, 0.4);
-  }
-  50% {
-    text-shadow:
-      0 0 40px rgba(255, 215, 0, 1),
-      0 0 80px rgba(255, 215, 0, 0.8),
-      0 0 120px rgba(255, 215, 0, 0.6),
-      0 0 160px rgba(201, 162, 39, 0.4);
-  }
-}
-
-.animate-epic-glow {
-  animation: epicGlow 3s ease-in-out infinite;
-}
-
-/* Cinematic letterbox bars */
-.letterbox::before,
-.letterbox::after {
-  content: '';
-  position: fixed;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background: black;
-  z-index: 100;
-  pointer-events: none;
-}
-.letterbox::before { top: 0; }
-.letterbox::after { bottom: 0; }
-
-/* 3D Coin Animations */
-@keyframes coinSpin {
-  0% { transform: rotateY(0deg) rotateX(5deg); }
-  100% { transform: rotateY(360deg) rotateX(5deg); }
-}
-
-@keyframes coinFloat {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-15px); }
-}
-
-@keyframes coinGlow {
-  0%, 100% {
-    filter: drop-shadow(0 0 20px rgba(201, 162, 39, 0.4));
-  }
-  50% {
-    filter: drop-shadow(0 0 40px rgba(201, 162, 39, 0.8)) drop-shadow(0 0 60px rgba(255, 215, 0, 0.4));
-  }
-}
-
-@keyframes lightPulse {
-  0%, 100% { opacity: 0.3; }
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
   50% { opacity: 0.8; }
 }
 
-@keyframes rotateRays {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.animate-fade-in {
+  animation: fadeIn 0.6s ease forwards;
 }
 
-.perspective-1000 {
-  perspective: 1000px;
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
 }
 
-.coin-container {
-  transform-style: preserve-3d;
-}
+/* Staggered animations */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
 
-.animate-coin-spin {
-  animation: coinSpin 8s linear infinite;
-}
+/* ========================================
+   RESPONSIVE UTILITIES
+   ======================================== */
 
-.animate-coin-float {
-  animation: coinFloat 4s ease-in-out infinite;
-}
+@media (max-width: 768px) {
+  h1 { @apply text-4xl; }
+  h2 { @apply text-2xl; }
 
-.animate-coin-glow {
-  animation: coinGlow 3s ease-in-out infinite;
-}
-
-.animate-light-pulse {
-  animation: lightPulse 2s ease-in-out infinite;
-}
-
-.animate-rotate-rays {
-  animation: rotateRays 30s linear infinite;
-}
-
-/* Mystical glow effect */
-.mystical-glow {
-  position: relative;
-}
-.mystical-glow::before {
-  content: '';
-  position: absolute;
-  inset: -20px;
-  background: radial-gradient(circle, rgba(201, 162, 39, 0.3) 0%, transparent 70%);
-  filter: blur(20px);
-  z-index: -1;
-  animation: lightPulse 3s ease-in-out infinite;
-}
-
-/* Light rays behind coin */
-.light-rays {
-  position: absolute;
-  inset: -50%;
-  background: conic-gradient(
-    from 0deg,
-    transparent 0deg,
-    rgba(255, 215, 0, 0.1) 10deg,
-    transparent 20deg,
-    transparent 30deg,
-    rgba(255, 215, 0, 0.1) 40deg,
-    transparent 50deg,
-    transparent 60deg,
-    rgba(255, 215, 0, 0.1) 70deg,
-    transparent 80deg,
-    transparent 90deg
-  );
-  animation: rotateRays 20s linear infinite;
-}
-
-/* Sacred geometry background pattern */
-.sacred-geometry-bg {
-  background-image:
-    radial-gradient(circle at 25% 25%, rgba(201, 162, 39, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(201, 162, 39, 0.03) 0%, transparent 50%),
-    linear-gradient(45deg, transparent 48%, rgba(201, 162, 39, 0.02) 50%, transparent 52%),
-    linear-gradient(-45deg, transparent 48%, rgba(201, 162, 39, 0.02) 50%, transparent 52%);
-  background-size: 100px 100px, 100px 100px, 50px 50px, 50px 50px;
-}
-
-/* Hexagon pattern overlay */
-.hex-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23c9a227' fill-opacity='0.03'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  .section { @apply py-16; }
+  .card { @apply p-5; }
+  .pillar-card { @apply p-5; }
 }
 
 /* ========================================
-   TIER BADGES (For Donations)
+   BOTTOM 3D SCENE SECTION
    ======================================== */
 
-.tier-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+.bottom-scene-section {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  min-height: 500px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #07070A 0%, #0a0815 50%, #07070A 100%);
 }
 
-.tier-platinum {
-  background: linear-gradient(135deg, #E5E4E2 0%, #B8B8B8 100%);
-  color: #1a1a1a;
+.bottom-scene-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.tier-gold {
-  background: linear-gradient(135deg, #FFD700 0%, #C9A227 100%);
-  color: #1a1a1a;
+/* Gradient fade at top for smooth transition from content */
+.bottom-scene-fade-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  z-index: 10;
+  pointer-events: none;
+  background: linear-gradient(to bottom, #07070A 0%, transparent 100%);
 }
 
-.tier-silver {
-  background: linear-gradient(135deg, #C0C0C0 0%, #8B8B8B 100%);
-  color: #1a1a1a;
+/* ========================================
+   FOOTER
+   ======================================== */
+
+.footer-link {
+  @apply text-sm;
+  color: var(--text-muted);
+  transition: color 0.15s ease;
 }
 
-.tier-bronze {
-  background: linear-gradient(135deg, #CD7F32 0%, #8B4513 100%);
-  color: white;
+.footer-link:hover {
+  color: var(--text-secondary);
 }

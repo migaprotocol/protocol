@@ -1,43 +1,39 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
   <defs>
-    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#FFD700"/>
-      <stop offset="50%" style="stop-color:#C9A227"/>
-      <stop offset="100%" style="stop-color:#8B6914"/>
+    <linearGradient id="coinGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFE5A0"/>
+      <stop offset="30%" style="stop-color:#FFD700"/>
+      <stop offset="60%" style="stop-color:#D4AF37"/>
+      <stop offset="100%" style="stop-color:#B8860B"/>
     </linearGradient>
-    <radialGradient id="face" cx="35%" cy="35%" r="65%">
-      <stop offset="0%" style="stop-color:#FFF8DC"/>
-      <stop offset="50%" style="stop-color:#C9A227"/>
-      <stop offset="100%" style="stop-color:#8B6914"/>
+    <radialGradient id="coinShine" cx="30%" cy="30%" r="60%">
+      <stop offset="0%" style="stop-color:#FFFACD;stop-opacity:0.9"/>
+      <stop offset="40%" style="stop-color:#FFD700;stop-opacity:0.6"/>
+      <stop offset="100%" style="stop-color:#B8860B;stop-opacity:0"/>
     </radialGradient>
-    <radialGradient id="center" cx="50%" cy="50%" r="50%">
+    <linearGradient id="mGradient" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#FFFACD"/>
       <stop offset="100%" style="stop-color:#FFD700"/>
-    </radialGradient>
+    </linearGradient>
   </defs>
-  <!-- Coin -->
-  <circle cx="50" cy="50" r="48" fill="#8B6914"/>
-  <circle cx="50" cy="50" r="45" fill="url(#face)"/>
-  <circle cx="50" cy="50" r="42" fill="none" stroke="#B8860B" stroke-width="1"/>
-  <!-- Solomon's Seal - Triple Hexagram -->
-  <g transform="translate(50,50)">
-    <!-- Outer -->
-    <polygon points="0,-28 24.2,14 -24.2,14" fill="none" stroke="url(#gold)" stroke-width="2.5"/>
-    <polygon points="0,28 24.2,-14 -24.2,-14" fill="none" stroke="url(#gold)" stroke-width="2.5"/>
-    <!-- Middle -->
-    <polygon points="0,-20 17.3,10 -17.3,10" fill="none" stroke="#FFD700" stroke-width="1.5" opacity="0.7"/>
-    <polygon points="0,20 17.3,-10 -17.3,-10" fill="none" stroke="#FFD700" stroke-width="1.5" opacity="0.7"/>
-    <!-- Center glow -->
-    <circle cx="0" cy="0" r="8" fill="url(#center)"/>
-    <circle cx="0" cy="0" r="3" fill="#FFFACD"/>
-  </g>
-  <!-- 6 points -->
-  <g fill="#FFD700">
-    <circle cx="50" cy="18" r="3"/>
-    <circle cx="77" cy="34" r="3"/>
-    <circle cx="77" cy="66" r="3"/>
-    <circle cx="50" cy="82" r="3"/>
-    <circle cx="23" cy="66" r="3"/>
-    <circle cx="23" cy="34" r="3"/>
-  </g>
+
+  <!-- Coin base -->
+  <circle cx="50" cy="50" r="46" fill="url(#coinGold)"/>
+
+  <!-- Shine overlay -->
+  <circle cx="50" cy="50" r="44" fill="url(#coinShine)"/>
+
+  <!-- Inner ring -->
+  <circle cx="50" cy="50" r="38" fill="none" stroke="#B8860B" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- M letter - bold and centered -->
+  <path
+    d="M28 68 L28 32 L38 32 L50 52 L62 32 L72 32 L72 68 L64 68 L64 46 L52 66 L48 66 L36 46 L36 68 Z"
+    fill="url(#mGradient)"
+    stroke="#B8860B"
+    stroke-width="0.5"
+  />
+
+  <!-- Outer glow ring -->
+  <circle cx="50" cy="50" r="48" fill="none" stroke="#FFD700" stroke-width="0.5" opacity="0.4"/>
 </svg>

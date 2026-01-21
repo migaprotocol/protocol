@@ -1,40 +1,120 @@
 import { Link } from 'react-router-dom';
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+const navLinks = [
+  { label: 'Iran', href: '/iran' },
+  { label: 'Token', href: '/token' },
+  { label: 'Vote', href: '/vote' },
+  { label: 'Docs', href: '/docs' },
+  { label: 'DAO', href: '/dao' },
+];
+
+// Mint progress (update this as mint progresses)
+const MINT_PROGRESS = 23; // percentage
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-white/5">
-      <nav className="max-w-7xl mx-auto px-6">
-        <div className="flex justify-between h-16 items-center">
+    <header className="fixed top-0 left-0 right-0 z-50 py-4 px-4 md:px-6">
+      <nav className="nav-glass max-w-[1200px] mx-auto py-2 px-4 rounded-2xl transition-all duration-300">
+        <div className="flex justify-between items-center">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5">
-            <img src="/favicon.svg" alt="MIGA" className="w-9 h-9" />
-            <span className="text-lg font-medium tracking-tight">MIGA</span>
+          <Link to="/" className="flex items-center gap-2.5 group">
+            <img
+              src="/images/migacoin.png"
+              alt="MIGA"
+              className="w-8 h-8 rounded-full object-cover transition-transform group-hover:scale-105"
+            />
+            <span className="text-base font-semibold tracking-tight text-[#EDEDF2]">
+              MIGA
+            </span>
           </Link>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-8">
-            <Link to="/token" className="nav-link text-sm">Token</Link>
-            <Link to="/docs" className="nav-link text-sm">Docs</Link>
-            <a href="https://miga.us.org" className="nav-link text-sm">DAO</a>
-            <a href="https://github.com/miga-protocol" className="nav-link text-sm">GitHub</a>
+          {/* Desktop Nav - Center */}
+          <div className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => (
+              link.external ? (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="nav-link px-4 py-2 rounded-lg hover:bg-white/[0.03]"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {link.label}
+                </a>
+              ) : link.href.startsWith('#') ? (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="nav-link px-4 py-2 rounded-lg hover:bg-white/[0.03]"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.label}
+                  to={link.href}
+                  className="nav-link px-4 py-2 rounded-lg hover:bg-white/[0.03]"
+                >
+                  {link.label}
+                </Link>
+              )
+            ))}
           </div>
 
-          {/* CTA */}
+          {/* Right side - Mint CTA */}
           <div className="hidden md:flex items-center gap-3">
-            <WalletMultiButton />
+            <a
+              href="https://jup.ag/swap/SOL-MIGA"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative group"
+            >
+              <div className="flex items-center gap-2 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-semibold px-5 py-2 rounded-full hover:shadow-lg hover:shadow-[#FFD700]/20 transition-all">
+                <span>Mint</span>
+                <span className="text-xs opacity-80">{MINT_PROGRESS}%</span>
+              </div>
+              {/* Progress bar */}
+              <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-black/20 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-black/40 transition-all"
+                  style={{ width: `${MINT_PROGRESS}%` }}
+                />
+              </div>
+            </a>
+            <span className="text-xs text-[#9999A5] hidden lg:flex items-center gap-1">
+              <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+              Solana
+            </span>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center gap-3">
-            <WalletMultiButton />
+          <div className="md:hidden flex items-center gap-2">
+            <a
+              href="https://jup.ag/swap/SOL-MIGA"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-semibold px-3 py-1.5 rounded-full text-sm"
+            >
+              <span>Mint</span>
+              <span className="text-xs opacity-80">{MINT_PROGRESS}%</span>
+            </a>
             <button
-              className="p-2 text-white/60 hover:text-white transition-colors"
+              className="p-2 text-[#B8B8C6] hover:text-[#EDEDF2] transition-colors rounded-lg hover:bg-white/[0.03]"
               onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle menu"
             >
               {isOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -43,12 +123,40 @@ export function Header() {
 
         {/* Mobile Nav */}
         {isOpen && (
-          <div className="md:hidden py-4 border-t border-white/5">
-            <div className="flex flex-col gap-3">
-              <Link to="/token" className="nav-link text-sm py-2" onClick={() => setIsOpen(false)}>Token</Link>
-              <Link to="/docs" className="nav-link text-sm py-2" onClick={() => setIsOpen(false)}>Docs</Link>
-              <a href="https://miga.us.org" className="nav-link text-sm py-2">DAO</a>
-              <a href="https://github.com/miga-protocol" className="nav-link text-sm py-2">GitHub</a>
+          <div className="md:hidden py-4 border-t border-white/[0.04]">
+            <div className="flex flex-col gap-1">
+              {navLinks.map((link) => (
+                link.external ? (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    className="nav-link px-4 py-3 rounded-lg hover:bg-white/[0.03]"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {link.label}
+                  </a>
+                ) : link.href.startsWith('#') ? (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    className="nav-link px-4 py-3 rounded-lg hover:bg-white/[0.03]"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.label}
+                    to={link.href}
+                    className="nav-link px-4 py-3 rounded-lg hover:bg-white/[0.03]"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                )
+              ))}
             </div>
           </div>
         )}

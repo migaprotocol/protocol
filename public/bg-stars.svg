@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- 8-pointed Persian star (Octagram) -->
+    <symbol id="persianStar" viewBox="-50 -50 100 100">
+      <polygon points="0,-50 10,-15 50,-15 18,10 28,50 0,25 -28,50 -18,10 -50,-15 -10,-15"
+               fill="currentColor"/>
+    </symbol>
+
+    <!-- Small 8-pointed star variation -->
+    <symbol id="persianStarSmall" viewBox="-30 -30 60 60">
+      <polygon points="0,-30 6,-9 30,-9 11,6 17,30 0,15 -17,30 -11,6 -30,-9 -6,-9"
+               fill="currentColor"/>
+    </symbol>
+
+    <!-- Geometric cross (Shamse pattern element) -->
+    <symbol id="shamseElement" viewBox="-20 -20 40 40">
+      <path d="M0,-20 L5,-5 L20,0 L5,5 L0,20 L-5,5 L-20,0 L-5,-5 Z"
+            fill="currentColor"/>
+    </symbol>
+
+    <!-- Radial fade for depth -->
+    <radialGradient id="starFade" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFD36A" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#FFD36A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Large stars - scattered across upper half -->
+  <g fill="#FFD36A" opacity="0.12">
+    <use href="#persianStar" x="150" y="80" width="60" height="60"/>
+    <use href="#persianStar" x="450" y="150" width="50" height="50"/>
+    <use href="#persianStar" x="800" y="60" width="70" height="70"/>
+    <use href="#persianStar" x="1100" y="120" width="55" height="55"/>
+    <use href="#persianStar" x="1400" y="80" width="65" height="65"/>
+    <use href="#persianStar" x="1700" y="140" width="45" height="45"/>
+  </g>
+
+  <!-- Medium stars - mid layer -->
+  <g fill="#FFB14A" opacity="0.08">
+    <use href="#persianStar" x="100" y="250" width="40" height="40"/>
+    <use href="#persianStar" x="320" y="320" width="35" height="35"/>
+    <use href="#persianStar" x="550" y="280" width="45" height="45"/>
+    <use href="#persianStar" x="720" y="350" width="38" height="38"/>
+    <use href="#persianStar" x="950" y="290" width="42" height="42"/>
+    <use href="#persianStar" x="1150" y="360" width="36" height="36"/>
+    <use href="#persianStar" x="1350" y="310" width="44" height="44"/>
+    <use href="#persianStar" x="1580" y="380" width="40" height="40"/>
+    <use href="#persianStar" x="1780" y="320" width="38" height="38"/>
+  </g>
+
+  <!-- Small stars - dense scatter -->
+  <g fill="#D4A846" opacity="0.06">
+    <use href="#persianStarSmall" x="50" y="180" width="20" height="20"/>
+    <use href="#persianStarSmall" x="180" y="140" width="18" height="18"/>
+    <use href="#persianStarSmall" x="280" y="220" width="22" height="22"/>
+    <use href="#persianStarSmall" x="380" y="90" width="16" height="16"/>
+    <use href="#persianStarSmall" x="500" y="200" width="24" height="24"/>
+    <use href="#persianStarSmall" x="620" y="160" width="20" height="20"/>
+    <use href="#persianStarSmall" x="750" y="240" width="18" height="18"/>
+    <use href="#persianStarSmall" x="870" y="180" width="22" height="22"/>
+    <use href="#persianStarSmall" x="980" y="220" width="16" height="16"/>
+    <use href="#persianStarSmall" x="1080" y="160" width="20" height="20"/>
+    <use href="#persianStarSmall" x="1200" y="240" width="24" height="24"/>
+    <use href="#persianStarSmall" x="1320" y="180" width="18" height="18"/>
+    <use href="#persianStarSmall" x="1450" y="220" width="22" height="22"/>
+    <use href="#persianStarSmall" x="1560" y="140" width="16" height="16"/>
+    <use href="#persianStarSmall" x="1680" y="200" width="20" height="20"/>
+    <use href="#persianStarSmall" x="1820" y="160" width="24" height="24"/>
+  </g>
+
+  <!-- Shamse (sun) elements - decorative crosses -->
+  <g fill="#FFD36A" opacity="0.04">
+    <use href="#shamseElement" x="200" y="400" width="30" height="30"/>
+    <use href="#shamseElement" x="600" y="450" width="25" height="25"/>
+    <use href="#shamseElement" x="1000" y="420" width="28" height="28"/>
+    <use href="#shamseElement" x="1400" y="480" width="26" height="26"/>
+    <use href="#shamseElement" x="1750" y="440" width="32" height="32"/>
+  </g>
+
+  <!-- Scattered dot stars for depth -->
+  <g fill="#EDEDF2" opacity="0.15">
+    <circle cx="120" cy="50" r="1.5"/>
+    <circle cx="340" cy="100" r="1"/>
+    <circle cx="520" cy="40" r="2"/>
+    <circle cx="680" cy="120" r="1.2"/>
+    <circle cx="850" cy="70" r="1.8"/>
+    <circle cx="1020" cy="90" r="1"/>
+    <circle cx="1180" cy="50" r="1.5"/>
+    <circle cx="1350" cy="110" r="2"/>
+    <circle cx="1520" cy="60" r="1.2"/>
+    <circle cx="1700" cy="100" r="1.5"/>
+    <circle cx="1850" cy="40" r="1.8"/>
+  </g>
+
+  <!-- Additional scattered stars in middle region -->
+  <g fill="#EDEDF2" opacity="0.08">
+    <circle cx="80" cy="300" r="1"/>
+    <circle cx="240" cy="380" r="1.5"/>
+    <circle cx="420" cy="340" r="1.2"/>
+    <circle cx="580" cy="400" r="1"/>
+    <circle cx="760" cy="360" r="1.8"/>
+    <circle cx="920" cy="420" r="1.2"/>
+    <circle cx="1100" cy="380" r="1.5"/>
+    <circle cx="1280" cy="440" r="1"/>
+    <circle cx="1440" cy="400" r="1.5"/>
+    <circle cx="1620" cy="460" r="1.2"/>
+    <circle cx="1800" cy="420" r="1.8"/>
+  </g>
+</svg>
