@@ -310,30 +310,46 @@ function ChainCoin({
             emissiveIntensity={emissiveIntensity * 0.4}
             metalness={0.85}
             roughness={0.15}
+            transparent={false}
           />
         </mesh>
 
-        {/* Subtle edge bevel - thin ring at top edge */}
-        <mesh position={[0, settings.thickness / 2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <ringGeometry args={[settings.radius - 0.01, settings.radius, 64]} />
+        {/* Gold rim torus around the coin edge - wraps around the circumference */}
+        <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
+          <torusGeometry args={[settings.radius, settings.thickness / 2 + 0.01, 16, 64]} />
           <meshStandardMaterial
             color="#D4AF37"
             emissive="#FFD700"
-            emissiveIntensity={hovered ? 0.5 : 0.2}
+            emissiveIntensity={hovered ? 0.5 : 0.25}
             metalness={0.95}
-            roughness={0.1}
+            roughness={0.08}
+            transparent={false}
           />
         </mesh>
 
-        {/* Subtle edge bevel - thin ring at bottom edge */}
-        <mesh position={[0, -settings.thickness / 2, 0]} rotation={[Math.PI / 2, 0, 0]}>
-          <ringGeometry args={[settings.radius - 0.01, settings.radius, 64]} />
+        {/* Inner color ring at top face edge */}
+        <mesh position={[0, settings.thickness / 2 + 0.002, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <ringGeometry args={[settings.radius * 0.85, settings.radius, 64]} />
           <meshStandardMaterial
-            color="#D4AF37"
-            emissive="#FFD700"
-            emissiveIntensity={hovered ? 0.5 : 0.2}
-            metalness={0.95}
-            roughness={0.1}
+            color={coinColor}
+            emissive={coinEmissive}
+            emissiveIntensity={emissiveIntensity * 0.3}
+            metalness={0.8}
+            roughness={0.2}
+            transparent={false}
+          />
+        </mesh>
+
+        {/* Inner color ring at bottom face edge */}
+        <mesh position={[0, -settings.thickness / 2 - 0.002, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <ringGeometry args={[settings.radius * 0.85, settings.radius, 64]} />
+          <meshStandardMaterial
+            color={coinColor}
+            emissive={coinEmissive}
+            emissiveIntensity={emissiveIntensity * 0.3}
+            metalness={0.8}
+            roughness={0.2}
+            transparent={false}
           />
         </mesh>
 
