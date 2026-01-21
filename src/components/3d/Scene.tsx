@@ -119,23 +119,26 @@ function CoinFace({
 }) {
   const texture = useTexture(iconPath)
 
-  // Configure texture for better quality
-  texture.minFilter = THREE.LinearFilter
-  texture.magFilter = THREE.LinearFilter
-  texture.generateMipmaps = false
+  // Configure texture settings
+  useMemo(() => {
+    texture.minFilter = THREE.LinearFilter
+    texture.magFilter = THREE.LinearFilter
+    texture.generateMipmaps = false
+    texture.colorSpace = THREE.SRGBColorSpace
+    texture.needsUpdate = true
+  }, [texture])
 
   return (
-    <mesh position={position} rotation={rotation}>
+    <mesh position={position} rotation={rotation} renderOrder={10}>
       <circleGeometry args={[radius, 64]} />
       <meshBasicMaterial
         map={texture}
         transparent
         opacity={opacity}
-        side={THREE.FrontSide}
-        depthWrite={true}
-        polygonOffset={true}
-        polygonOffsetFactor={-1}
-        polygonOffsetUnits={-1}
+        side={THREE.DoubleSide}
+        depthTest={true}
+        depthWrite={false}
+        toneMapped={false}
       />
     </mesh>
   )
@@ -190,8 +193,8 @@ function ChainCoin({
   useFrame((state) => {
     if (groupRef.current) {
       const time = state.clock.elapsedTime
-      // Float up and down
-      groupRef.current.position.y = position[1] + 4.2 + Math.sin(time * 0.5 + index) * 0.12
+      // Float up and down - position coins nicely above pillars
+      groupRef.current.position.y = position[1] + 3.8 + Math.sin(time * 0.5 + index) * 0.12
     }
     if (coinRef.current) {
       const time = state.clock.elapsedTime
@@ -237,7 +240,7 @@ function ChainCoin({
   // Mystery chain shows empty pedestal
   if (isMystery) {
     return (
-      <group ref={groupRef} position={[position[0], position[1] + 4.2, position[2]]}>
+      <group ref={groupRef} position={[position[0], position[1] + 3.8, position[2]]}>
         {/* Question mark orb - pulsing */}
         <mesh
           scale={coinScale}
@@ -280,7 +283,7 @@ function ChainCoin({
   }
 
   return (
-    <group ref={groupRef} position={[position[0], position[1] + 4.2, position[2]]}>
+    <group ref={groupRef} position={[position[0], position[1] + 3.8, position[2]]}>
       {/* Rotating coin */}
       <group ref={coinRef} scale={coinScale}>
         {/* Invisible hitbox for better hover detection */}
@@ -293,15 +296,40 @@ function ChainCoin({
           <meshBasicMaterial transparent opacity={0} />
         </mesh>
 
-        {/* Main coin body - solid metallic disc */}
+        {/* Main coin body - open-ended cylinder (edge ring only) */}
         <mesh>
-          <cylinderGeometry args={[settings.radius, settings.radius, settings.thickness, 48]} />
+          <cylinderGeometry args={[settings.radius, settings.radius, settings.thickness, 48, 1, true]} />
           <meshStandardMaterial
             color={coinColor}
             emissive={coinEmissive}
             emissiveIntensity={emissiveIntensity * 0.4}
             metalness={0.85}
             roughness={0.15}
+            side={THREE.DoubleSide}
+          />
+        </mesh>
+
+        {/* Top cap - colored background for the face */}
+        <mesh position={[0, settings.thickness / 2 + 0.001, 0]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={5}>
+          <circleGeometry args={[settings.radius - 0.01, 48]} />
+          <meshStandardMaterial
+            color={coinColor}
+            emissive={coinEmissive}
+            emissiveIntensity={emissiveIntensity * 0.3}
+            metalness={0.7}
+            roughness={0.2}
+          />
+        </mesh>
+
+        {/* Bottom cap - colored background for the face */}
+        <mesh position={[0, -settings.thickness / 2 - 0.001, 0]} rotation={[Math.PI / 2, 0, 0]} renderOrder={5}>
+          <circleGeometry args={[settings.radius - 0.01, 48]} />
+          <meshStandardMaterial
+            color={coinColor}
+            emissive={coinEmissive}
+            emissiveIntensity={emissiveIntensity * 0.3}
+            metalness={0.7}
+            roughness={0.2}
           />
         </mesh>
 
@@ -317,22 +345,22 @@ function ChainCoin({
           />
         </mesh>
 
-        {/* Front face with token icon */}
+        {/* Front face with token icon - positioned above top cap */}
         <CoinFace
           iconPath={chain.icon}
-          position={[0, settings.thickness / 2 + 0.01, 0]}
+          position={[0, settings.thickness / 2 + 0.003, 0]}
           rotation={[-Math.PI / 2, 0, 0]}
-          radius={settings.radius - settings.edgeWidth * 1.5}
-          opacity={opacity}
+          radius={settings.radius * 0.65}
+          opacity={1}
         />
 
-        {/* Back face with token icon */}
+        {/* Back face with token icon - positioned below bottom cap */}
         <CoinFace
           iconPath={chain.icon}
-          position={[0, -settings.thickness / 2 - 0.01, 0]}
+          position={[0, -settings.thickness / 2 - 0.003, 0]}
           rotation={[Math.PI / 2, 0, Math.PI]}
-          radius={settings.radius - settings.edgeWidth * 1.5}
-          opacity={opacity}
+          radius={settings.radius * 0.65}
+          opacity={1}
         />
 
         {/* Inner glow light */}
@@ -355,18 +383,6 @@ function ChainCoin({
         distance={4}
         decay={2}
       />
-
-      {/* Status indicator ring */}
-      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, -0.4, 0]}>
-        <torusGeometry args={[0.35, isLive ? 0.03 : 0.02, 16, 32]} />
-        <meshStandardMaterial
-          color={isLive ? '#14F195' : isNext ? '#FFA500' : '#666666'}
-          emissive={isLive ? '#14F195' : isNext ? '#FFA500' : '#333333'}
-          emissiveIntensity={isLive ? 0.5 : 0.2}
-          transparent
-          opacity={isLive ? 0.8 : 0.5}
-        />
-      </mesh>
     </group>
   )
 }
@@ -463,10 +479,22 @@ function PersianColumn({ position, height = 3 }: { position: [number, number, nu
         <meshStandardMaterial color="#DED5C8" metalness={0.04} roughness={0.75} />
       </mesh>
 
-      {/* Capital abacus (top plate) */}
+      {/* Capital abacus (top plate) - round disc instead of square */}
       <mesh position={[0, height + 0.42, 0]}>
-        <boxGeometry args={[radius * 3.6, 0.08, radius * 3.6]} />
+        <cylinderGeometry args={[radius * 1.8, radius * 1.8, 0.08, 32]} />
         <meshStandardMaterial color="#C9A86C" metalness={0.4} roughness={0.45} />
+      </mesh>
+
+      {/* Gold ring around top */}
+      <mesh position={[0, height + 0.42, 0]} rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[radius * 1.8, 0.02, 12, 32]} />
+        <meshStandardMaterial
+          color="#D4AF37"
+          metalness={0.9}
+          roughness={0.1}
+          emissive="#FFD700"
+          emissiveIntensity={0.15}
+        />
       </mesh>
     </group>
   )
@@ -1419,10 +1447,10 @@ function InteractiveCameraControls() {
 // Static camera with subtle mouse parallax
 function CameraController() {
   const { camera } = useThree()
-  // Base position from user's settings: [-14.27, 5.75, 10.60]
-  const baseX = -14.27
-  const baseY = 5.75
-  const baseZ = 10.60
+  // Base position - looking down at scene from above
+  const baseX = 0
+  const baseY = 12
+  const baseZ = 10
 
   useFrame(() => {
     // Subtle mouse parallax around the fixed position
@@ -1519,19 +1547,23 @@ function CameraWithControls() {
   const { camera, gl } = useThree()
   const controlsRef = useRef<any>(null)
 
-  const { camFov, targetX, targetY, targetZ } = useControls('Camera', {
-    camFov: { value: 40, min: 10, max: 120, step: 1 },
-    targetX: { value: 0.5, min: -10, max: 10, step: 0.1 },
-    targetY: { value: 2, min: -5, max: 10, step: 0.1 },
-    targetZ: { value: 0, min: -10, max: 10, step: 0.1 },
+  const { camFov, camPosX, camPosY, camPosZ, targetX, targetY, targetZ } = useControls('Camera', {
+    camFov: { value: 45, min: 10, max: 120, step: 1, label: 'FOV' },
+    camPosX: { value: 0, min: -20, max: 20, step: 0.5, label: 'Camera X' },
+    camPosY: { value: 12, min: 1, max: 25, step: 0.5, label: 'Camera Y (Height)' },
+    camPosZ: { value: 10, min: 0, max: 25, step: 0.5, label: 'Camera Z (Distance)' },
+    targetX: { value: 0.5, min: -10, max: 10, step: 0.1, label: 'Look At X' },
+    targetY: { value: 2, min: -5, max: 10, step: 0.1, label: 'Look At Y' },
+    targetZ: { value: 0, min: -10, max: 10, step: 0.1, label: 'Look At Z' },
   })
 
   useEffect(() => {
     if (camera instanceof THREE.PerspectiveCamera) {
       camera.fov = camFov
+      camera.position.set(camPosX, camPosY, camPosZ)
       camera.updateProjectionMatrix()
     }
-  }, [camera, camFov])
+  }, [camera, camFov, camPosX, camPosY, camPosZ])
 
   // Update target when controls change
   useEffect(() => {
@@ -1547,10 +1579,10 @@ function CameraWithControls() {
       enableZoom={true}
       enableRotate={true}
       target={[targetX, targetY, targetZ]}
-      minDistance={5}
-      maxDistance={30}
-      minPolarAngle={0.2}
-      maxPolarAngle={Math.PI / 2}
+      minDistance={3}
+      maxDistance={40}
+      minPolarAngle={0}
+      maxPolarAngle={Math.PI * 0.85}
       // Damping for smoother movement
       enableDamping={true}
       dampingFactor={0.05}
@@ -1671,13 +1703,7 @@ function SceneContent({ onChainHover }: { onChainHover?: (chain: ChainData | nul
           </group>
         ))}
 
-        {/* Energy connections between coins - dancing light particles */}
-        {showPillars && (
-          <EnergyConnections
-            positions={columnPositions}
-            pillarsHeight={pillarsHeight}
-          />
-        )}
+        {/* Energy connections removed - was too busy */}
 
         {/* Effects outside intro animation so they're visible immediately */}
         {showEffects && (
@@ -1703,8 +1729,10 @@ interface MigaSceneProps {
 export function MigaScene({ className = '' }: MigaSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isLoaded, setIsLoaded] = useState(false)
+  const [isModelLoaded, setIsModelLoaded] = useState(false)
   const [showPanel, setShowPanel] = useState(false) // Hidden by default
   const [hoveredChain, setHoveredChain] = useState<ChainData | null>(null)
+  const [loadingProgress, setLoadingProgress] = useState(0)
 
   // Screenshot function
   const takeScreenshot = useCallback(() => {
@@ -1751,52 +1779,123 @@ export function MigaScene({ className = '' }: MigaSceneProps) {
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
 
-  // Trigger fade-in after a short delay to ensure model is ready
+  // Simulate loading progress
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoaded(true), 300)
-    return () => clearTimeout(timer)
+    let progress = 0
+    const interval = setInterval(() => {
+      progress += Math.random() * 15
+      if (progress >= 100) {
+        progress = 100
+        clearInterval(interval)
+        setIsModelLoaded(true)
+      }
+      setLoadingProgress(Math.min(progress, 100))
+    }, 200)
+    return () => clearInterval(interval)
   }, [])
+
+  // Trigger fade-in after model loaded
+  useEffect(() => {
+    if (isModelLoaded) {
+      const timer = setTimeout(() => setIsLoaded(true), 300)
+      return () => clearTimeout(timer)
+    }
+  }, [isModelLoaded])
 
   return (
     <div
       ref={containerRef}
-      className={`w-full h-full transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${className}`}
+      className={`w-full h-full relative ${className}`}
     >
-      {/* Leva debug panel - wrapped for proper z-index */}
-      <div className="fixed top-0 left-0 z-[100]" style={{ pointerEvents: showPanel ? 'auto' : 'none' }}>
-        <Leva hidden={!showPanel} collapsed={false} />
-      </div>
+      {/* Loading overlay */}
+      {!isLoaded && (
+        <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-black/90 backdrop-blur-sm transition-opacity duration-500">
+          {/* MIGA logo spinner */}
+          <div className="relative w-24 h-24 mb-6">
+            <img
+              src="/images/migacoin.png"
+              alt="MIGA"
+              className="w-full h-full rounded-full animate-pulse"
+              style={{ filter: 'drop-shadow(0 0 20px #FFD700)' }}
+            />
+            {/* Spinning ring */}
+            <div
+              className="absolute inset-0 rounded-full border-2 border-transparent animate-spin"
+              style={{
+                borderTopColor: '#FFD700',
+                borderRightColor: '#FFA500',
+                animationDuration: '1.5s'
+              }}
+            />
+          </div>
 
-      {/* Control buttons - fixed position */}
-      <div className="fixed top-20 right-4 z-50 flex flex-col gap-2">
-        {/* Toggle button for debug panel - gear icon */}
-        <button
-          onClick={() => setShowPanel(!showPanel)}
-          className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${
-            showPanel
-              ? 'bg-white/20 border-white/40 text-white'
-              : 'bg-black/50 border-white/20 text-white/70 hover:text-white hover:bg-black/70'
-          }`}
-          title={showPanel ? 'Hide Settings' : 'Show Settings'}
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="12" cy="12" r="3" />
-            <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
-          </svg>
-        </button>
+          {/* Loading text */}
+          <div className="text-white/90 text-lg font-medium mb-4">
+            Loading 3D Scene...
+          </div>
 
-        {/* Screenshot button */}
-        <button
-          onClick={takeScreenshot}
-          className="w-10 h-10 rounded-full bg-black/50 border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:bg-black/70 transition-all"
-          title="Take Screenshot"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2v11z" />
-            <circle cx="12" cy="13" r="4" />
-          </svg>
-        </button>
-      </div>
+          {/* Progress bar */}
+          <div className="w-64 h-2 bg-white/10 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-[#FFD700] to-[#FFA500] transition-all duration-300 ease-out rounded-full"
+              style={{ width: `${loadingProgress}%` }}
+            />
+          </div>
+          <div className="text-white/50 text-sm mt-2">
+            {Math.round(loadingProgress)}%
+          </div>
+        </div>
+      )}
+
+      {/* Main scene - fades in when loaded */}
+      <div className={`w-full h-full transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+        {/* Leva debug panel - wrapped for proper z-index */}
+        <div className="fixed top-0 left-0 z-[100]" style={{ pointerEvents: showPanel ? 'auto' : 'none' }}>
+          <Leva hidden={!showPanel} collapsed={false} />
+          {/* Close button for panel - positioned at top right of panel */}
+          {showPanel && (
+            <button
+              onClick={() => setShowPanel(false)}
+              className="fixed top-2 left-[295px] w-8 h-8 rounded-full bg-red-500/80 hover:bg-red-500 border border-red-400 flex items-center justify-center text-white transition-all z-[101]"
+              title="Close Settings"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
+          )}
+        </div>
+
+        {/* Control buttons - fixed position */}
+        <div className="fixed top-20 right-4 z-50 flex flex-col gap-2">
+          {/* Toggle button for debug panel - gear icon */}
+          <button
+            onClick={() => setShowPanel(!showPanel)}
+            className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${
+              showPanel
+                ? 'bg-white/20 border-white/40 text-white'
+                : 'bg-black/50 border-white/20 text-white/70 hover:text-white hover:bg-black/70'
+            }`}
+            title={showPanel ? 'Hide Settings' : 'Show Settings'}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="3" />
+              <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
+            </svg>
+          </button>
+
+          {/* Screenshot button */}
+          <button
+            onClick={takeScreenshot}
+            className="w-10 h-10 rounded-full bg-black/50 border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:bg-black/70 transition-all"
+            title="Take Screenshot"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2v11z" />
+              <circle cx="12" cy="13" r="4" />
+            </svg>
+          </button>
+        </div>
 
       {/* Chain tooltip overlay with icon */}
       {hoveredChain && (
@@ -1854,24 +1953,26 @@ export function MigaScene({ className = '' }: MigaSceneProps) {
         </div>
       )}
 
-      <Canvas
-        gl={{
-          antialias: true,
-          alpha: true,
-          powerPreference: 'high-performance',
-          preserveDrawingBuffer: true, // Required for screenshots
-          toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1.2,
-          outputColorSpace: THREE.SRGBColorSpace,
-        }}
-        dpr={[1, Math.min(window.devicePixelRatio, 2)]}
-        camera={{ position: [-1.85, 4.60, 14.62], fov: 40 }}
-        style={{ background: 'transparent' }}
-      >
-        <Suspense fallback={<Loader />}>
-          <SceneContent onChainHover={setHoveredChain} />
-        </Suspense>
-      </Canvas>
+        {/* 3D Canvas */}
+        <Canvas
+          gl={{
+            antialias: true,
+            alpha: true,
+            powerPreference: 'high-performance',
+            preserveDrawingBuffer: true, // Required for screenshots
+            toneMapping: THREE.ACESFilmicToneMapping,
+            toneMappingExposure: 1.2,
+            outputColorSpace: THREE.SRGBColorSpace,
+          }}
+          dpr={[1, Math.min(window.devicePixelRatio, 2)]}
+          camera={{ position: [0, 12, 10], fov: 45 }}
+          style={{ background: 'transparent' }}
+        >
+          <Suspense fallback={<Loader />}>
+            <SceneContent onChainHover={setHoveredChain} />
+          </Suspense>
+        </Canvas>
+      </div>
     </div>
   )
 }
