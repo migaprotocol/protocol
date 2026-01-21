@@ -118,7 +118,7 @@ function CoinFace({
   opacity?: number
 }) {
   const texture = useTexture(iconPath)
-  const materialRef = useRef<THREE.MeshBasicMaterial>(null)
+  const materialRef = useRef<THREE.MeshStandardMaterial>(null)
 
   // Configure texture on load
   useEffect(() => {
@@ -126,6 +126,7 @@ function CoinFace({
       texture.colorSpace = THREE.SRGBColorSpace
       texture.minFilter = THREE.LinearFilter
       texture.magFilter = THREE.LinearFilter
+      texture.generateMipmaps = false
       texture.needsUpdate = true
       if (materialRef.current) {
         materialRef.current.needsUpdate = true
@@ -134,19 +135,22 @@ function CoinFace({
   }, [texture])
 
   return (
-    <mesh position={position} rotation={rotation} renderOrder={10}>
+    <mesh position={position} rotation={rotation} renderOrder={100}>
       <circleGeometry args={[radius, 64]} />
-      <meshBasicMaterial
+      <meshStandardMaterial
         ref={materialRef}
         map={texture}
         transparent={true}
         opacity={opacity}
-        side={THREE.FrontSide}
+        side={THREE.DoubleSide}
         depthWrite={true}
         depthTest={true}
         polygonOffset={true}
-        polygonOffsetFactor={-2}
-        polygonOffsetUnits={-2}
+        polygonOffsetFactor={-4}
+        polygonOffsetUnits={-4}
+        emissive="#ffffff"
+        emissiveIntensity={0.1}
+        emissiveMap={texture}
       />
     </mesh>
   )
@@ -161,6 +165,9 @@ interface CoinSettings {
   innerOpacity: number
   outerOpacity: number
   glowIntensity: number
+  faceOffset: number
+  faceScale: number
+  showFaces: boolean
 }
 
 // Interactive floating coin above pillar - rotates around X axis
@@ -188,6 +195,9 @@ function ChainCoin({
     innerOpacity: 0.3,
     outerOpacity: 0.5,
     glowIntensity: 1.5,
+    faceOffset: 0.02,
+    faceScale: 0.7,
+    showFaces: true,
   }
   const groupRef = useRef<THREE.Group>(null)
   const coinRef = useRef<THREE.Group>(null)
@@ -354,22 +364,26 @@ function ChainCoin({
         </mesh>
 
         {/* Front face with token icon - positioned above top cap */}
-        <CoinFace
-          iconPath={chain.icon}
-          position={[0, settings.thickness / 2 + 0.005, 0]}
-          rotation={[-Math.PI / 2, 0, 0]}
-          radius={settings.radius * 0.75}
-          opacity={1}
-        />
+        {settings.showFaces && (
+          <CoinFace
+            iconPath={chain.icon}
+            position={[0, settings.thickness / 2 + settings.faceOffset, 0]}
+            rotation={[-Math.PI / 2, 0, 0]}
+            radius={settings.radius * settings.faceScale}
+            opacity={1}
+          />
+        )}
 
         {/* Back face with token icon - positioned below bottom cap, mirrored */}
-        <CoinFace
-          iconPath={chain.icon}
-          position={[0, -settings.thickness / 2 - 0.005, 0]}
-          rotation={[Math.PI / 2, Math.PI, 0]}
-          radius={settings.radius * 0.75}
-          opacity={1}
-        />
+        {settings.showFaces && (
+          <CoinFace
+            iconPath={chain.icon}
+            position={[0, -settings.thickness / 2 - settings.faceOffset, 0]}
+            rotation={[Math.PI / 2, Math.PI, 0]}
+            radius={settings.radius * settings.faceScale}
+            opacity={1}
+          />
+        )}
 
         {/* Inner glow light */}
         <pointLight
@@ -1550,12 +1564,13 @@ function SceneWrapper({ children }: { children: React.ReactNode }) {
   return <group>{children}</group>
 }
 
-// Camera controls component with leva
+// Camera controls component with leva - bidirectional sync
 function CameraWithControls() {
   const { camera, gl } = useThree()
   const controlsRef = useRef<any>(null)
+  const isUserInteracting = useRef(false)
 
-  const { camFov, camPosX, camPosY, camPosZ, targetX, targetY, targetZ } = useControls('Camera', {
+  const [{ camFov, camPosX, camPosY, camPosZ, targetX, targetY, targetZ }, set] = useControls('Camera', () => ({
     camFov: { value: 45, min: 10, max: 120, step: 1, label: 'FOV' },
     camPosX: { value: 0, min: -20, max: 20, step: 0.5, label: 'Camera X' },
     camPosY: { value: 12, min: 1, max: 25, step: 0.5, label: 'Camera Y (Height)' },
@@ -1563,10 +1578,11 @@ function CameraWithControls() {
     targetX: { value: 0.5, min: -10, max: 10, step: 0.1, label: 'Look At X' },
     targetY: { value: 2, min: -5, max: 10, step: 0.1, label: 'Look At Y' },
     targetZ: { value: 0, min: -10, max: 10, step: 0.1, label: 'Look At Z' },
-  })
+  }))
 
+  // Update camera from Leva values (when not interacting)
   useEffect(() => {
-    if (camera instanceof THREE.PerspectiveCamera) {
+    if (!isUserInteracting.current && camera instanceof THREE.PerspectiveCamera) {
       camera.fov = camFov
       camera.position.set(camPosX, camPosY, camPosZ)
       camera.updateProjectionMatrix()
@@ -1575,10 +1591,37 @@ function CameraWithControls() {
 
   // Update target when controls change
   useEffect(() => {
-    if (controlsRef.current) {
+    if (!isUserInteracting.current && controlsRef.current) {
       controlsRef.current.target.set(targetX, targetY, targetZ)
     }
   }, [targetX, targetY, targetZ])
+
+  // Sync Leva when user moves camera with OrbitControls
+  useFrame(() => {
+    if (isUserInteracting.current && controlsRef.current && camera instanceof THREE.PerspectiveCamera) {
+      const pos = camera.position
+      const target = controlsRef.current.target
+
+      // Only update if values have changed significantly
+      const posChanged = Math.abs(pos.x - camPosX) > 0.1 ||
+                         Math.abs(pos.y - camPosY) > 0.1 ||
+                         Math.abs(pos.z - camPosZ) > 0.1
+      const targetChanged = Math.abs(target.x - targetX) > 0.05 ||
+                            Math.abs(target.y - targetY) > 0.05 ||
+                            Math.abs(target.z - targetZ) > 0.05
+
+      if (posChanged || targetChanged) {
+        set({
+          camPosX: Math.round(pos.x * 10) / 10,
+          camPosY: Math.round(pos.y * 10) / 10,
+          camPosZ: Math.round(pos.z * 10) / 10,
+          targetX: Math.round(target.x * 10) / 10,
+          targetY: Math.round(target.y * 10) / 10,
+          targetZ: Math.round(target.z * 10) / 10,
+        })
+      }
+    }
+  })
 
   return (
     <OrbitControls
@@ -1591,9 +1634,13 @@ function CameraWithControls() {
       maxDistance={40}
       minPolarAngle={0}
       maxPolarAngle={Math.PI * 0.85}
-      // Damping for smoother movement
       enableDamping={true}
       dampingFactor={0.05}
+      onStart={() => { isUserInteracting.current = true }}
+      onEnd={() => {
+        // Delay turning off to allow final sync
+        setTimeout(() => { isUserInteracting.current = false }, 100)
+      }}
     />
   )
 }
@@ -1625,11 +1672,14 @@ function SceneContent({ onChainHover }: { onChainHover?: (chain: ChainData | nul
   })
 
   // Coin controls
-  const { coinRadius, coinThickness, coinBorder, coinEdgeWidth, coinInnerOpacity, coinOuterOpacity, coinGlowIntensity } = useControls('Coins', {
+  const { coinRadius, coinThickness, coinBorder, coinEdgeWidth, coinInnerOpacity, coinOuterOpacity, coinGlowIntensity, coinFaceOffset, coinFaceScale, showCoinFaces } = useControls('Coins', {
     coinRadius: { value: 0.42, min: 0.1, max: 1.0, step: 0.02, label: 'Size' },
     coinThickness: { value: 0.12, min: 0.05, max: 0.6, step: 0.02, label: 'Thickness' },
-    coinBorder: { value: 0.04, min: 0.01, max: 0.15, step: 0.01, label: 'Face Inset' },
+    coinBorder: { value: 0.04, min: 0.01, max: 0.15, step: 0.01, label: 'Border' },
     coinEdgeWidth: { value: 0.035, min: 0.01, max: 0.1, step: 0.005, label: 'Edge Width' },
+    showCoinFaces: { value: true, label: 'Show Faces' },
+    coinFaceOffset: { value: 0.02, min: 0.005, max: 0.1, step: 0.005, label: 'Face Offset' },
+    coinFaceScale: { value: 0.7, min: 0.3, max: 0.95, step: 0.05, label: 'Face Scale' },
     coinInnerOpacity: { value: 0.3, min: 0, max: 1, step: 0.05, label: 'Inner Glow' },
     coinOuterOpacity: { value: 0.5, min: 0, max: 1, step: 0.05, label: 'Outer Opacity' },
     coinGlowIntensity: { value: 1.5, min: 0, max: 5, step: 0.1, label: 'Light Intensity' },
@@ -1706,6 +1756,9 @@ function SceneContent({ onChainHover }: { onChainHover?: (chain: ChainData | nul
                 innerOpacity: coinInnerOpacity,
                 outerOpacity: coinOuterOpacity,
                 glowIntensity: coinGlowIntensity,
+                faceOffset: coinFaceOffset,
+                faceScale: coinFaceScale,
+                showFaces: showCoinFaces,
               }}
             />
           </group>
@@ -1759,10 +1812,85 @@ export function MigaScene({ className = '' }: MigaSceneProps) {
     }
   }, [])
 
+  // Export settings function - captures all Leva storage
+  const exportSettings = useCallback(() => {
+    // Collect all settings from localStorage (Leva stores values there)
+    const settings: Record<string, any> = {}
+
+    // Get all localStorage keys that might contain leva data
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i)
+      if (key) {
+        try {
+          const value = localStorage.getItem(key)
+          if (value) {
+            // Try to parse as JSON, otherwise store as string
+            try {
+              settings[key] = JSON.parse(value)
+            } catch {
+              settings[key] = value
+            }
+          }
+        } catch (e) {
+          console.warn('Failed to read key:', key)
+        }
+      }
+    }
+
+    // Add metadata
+    settings._exportMeta = {
+      timestamp: new Date().toISOString(),
+      version: '1.0',
+      source: 'miga-scene'
+    }
+
+    // Create downloadable JSON
+    const blob = new Blob([JSON.stringify(settings, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.download = `miga-scene-settings-${new Date().toISOString().slice(0,10)}.json`
+    link.href = url
+    link.click()
+    URL.revokeObjectURL(url)
+
+    console.log('Settings exported!')
+    alert('Settings exported! Check your downloads folder.')
+  }, [])
+
+  // Import settings function
+  const importSettings = useCallback(() => {
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = '.json'
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0]
+      if (!file) return
+
+      const reader = new FileReader()
+      reader.onload = (event) => {
+        try {
+          const settings = JSON.parse(event.target?.result as string)
+
+          // Apply settings to localStorage
+          Object.entries(settings).forEach(([key, value]) => {
+            localStorage.setItem(key, typeof value === 'string' ? value : JSON.stringify(value))
+          })
+
+          // Reload to apply settings
+          window.location.reload()
+        } catch (err) {
+          console.error('Failed to import settings:', err)
+          alert('Failed to import settings. Invalid file format.')
+        }
+      }
+      reader.readAsText(file)
+    }
+    input.click()
+  }, [])
+
   // Presets control - exposed for leva
   useControls('Presets', () => ({
     'Full Effects': button(() => {
-      // Apply full effects preset by dispatching custom events
       window.dispatchEvent(new CustomEvent('miga-preset', { detail: 'full' }))
     }),
     'Minimal': button(() => {
@@ -1773,6 +1901,12 @@ export function MigaScene({ className = '' }: MigaSceneProps) {
     }),
     'Screenshot': button(takeScreenshot),
   }), [takeScreenshot])
+
+  // Export/Import controls
+  useControls('Settings I/O', () => ({
+    'Export Settings': button(exportSettings),
+    'Import Settings': button(importSettings),
+  }), [exportSettings, importSettings])
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {

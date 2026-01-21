@@ -93,10 +93,10 @@ export default function Docs() {
               <p><strong>We are not stateless. We are the state-in-exile.</strong></p>
             </blockquote>
 
-            <h2 id="vision">The MIGA Vision: Civic OS</h2>
+            <h2 id="vision">The MIGA Vision: Civil Government OS</h2>
             <p>
-              MIGA is not another DAO. MIGA is a <strong>Civic Operating System</strong>—a programmable
-              commons that can:
+              MIGA is not another DAO. MIGA is a <strong>civil government operating system</strong>—starting
+              as an NGO, programmable commons that can:
             </p>
             <ol>
               <li><strong>Start as infrastructure</strong>: Coordination tools for diaspora</li>

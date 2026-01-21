@@ -4,14 +4,10 @@ import { MigaScene } from '@/components/3d'
 import {
   ArrowRight,
   Shield,
-  TrendingUp,
-  Landmark,
-  Layers,
   CheckCircle2,
   ExternalLink,
   Lock,
   FileCheck,
-  Bug,
   ChevronRight
 } from 'lucide-react'
 import { useWallet } from '@solana/wallet-adapter-react'
@@ -70,14 +66,15 @@ export default function Index() {
               </h1>
 
               <p className="hero-subcopy mb-6">
-                MIGA = reconstruction-grade capital OS for the global Persian community.
-                Build wealth. Fund public goods. Prove every dollar.
+                A civil government operating system for the global Persian community.
+                Ten DAOs. Full transparency. Quantum-safe privacy.
               </p>
 
               {/* Hidden on mobile for cleaner look */}
               <p className="hidden md:block text-sm text-[#9999A5] mb-8">
                 <span className="text-[#FFD36A]">pars.network</span> — First Persian blockchain.
                 Powered by <span className="text-[#B8B8C6]">Lux quantum-safe FHE technology</span>.
+                Private participation, publicly verifiable execution.
               </p>
 
               {/* Button hierarchy: Primary, Secondary, Link */}
@@ -127,64 +124,49 @@ export default function Index() {
         </section>
 
         {/* ============================================
-            THREE PILLARS SECTION
+            TEN DAOs SECTION
             ============================================ */}
         <section className="section border-t border-white/[0.04]">
           <div className="container-lg">
             <div className="text-center mb-16">
               <h2 className="mb-4">
-                Three pillars of <span className="text-gradient-ember">compliant DeFi</span>
+                Ten DAOs. <span className="text-gradient-ember">One mission.</span>
               </h2>
               <p className="body-md max-w-2xl mx-auto">
-                Simple primitives, sophisticated execution. Shariah-attestable. Choose how you participate.
+                Core functions of civil governance, each funded automatically by 1% of protocol fees.
+                Voted, timelocked, and auditable with receipts.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
-              {/* Earn */}
-              <div className="pillar-card">
-                <div className="icon-box-lg mb-6">
-                  <TrendingUp className="text-[#FFD36A]" size={28} />
+            <div className="grid md:grid-cols-5 gap-4 mb-8">
+              {[
+                { name: 'Security', icon: '🛡️', desc: 'Protection & defense' },
+                { name: 'Treasury', icon: '🏦', desc: 'Capital allocation' },
+                { name: 'Health', icon: '🏥', desc: 'Medical programs' },
+                { name: 'Culture', icon: '🎭', desc: 'Arts & heritage' },
+                { name: 'Research', icon: '🔬', desc: 'Science & innovation' },
+              ].map((dao) => (
+                <div key={dao.name} className="pillar-card text-center py-6">
+                  <div className="text-3xl mb-3">{dao.icon}</div>
+                  <h3 className="text-base mb-1">{dao.name}</h3>
+                  <p className="text-xs text-[#6B6B7B]">{dao.desc}</p>
                 </div>
-                <h3 className="mb-3">Earn</h3>
-                <p className="body-sm mb-6">
-                  Deposit into compliant yield strategies with transparent risk bands.
-                  Fee-based returns, no interest (riba-free).
-                </p>
-                <a href="#" className="btn-link">
-                  Learn more <ChevronRight size={16} />
-                </a>
-              </div>
-
-              {/* Advance (formerly Borrow) */}
-              <div className="pillar-card">
-                <div className="icon-box-lg mb-6">
-                  <Landmark className="text-[#FFB14A]" size={28} />
+              ))}
+            </div>
+            <div className="grid md:grid-cols-5 gap-4">
+              {[
+                { name: 'Infrastructure', icon: '🏗️', desc: 'Building & utilities' },
+                { name: 'Partnerships', icon: '🤝', desc: 'Global relations' },
+                { name: 'Investing', icon: '📈', desc: 'Growth capital' },
+                { name: 'Oversight', icon: '⚖️', desc: 'Accountability' },
+                { name: 'Humanitarian', icon: '❤️', desc: 'Aid & relief' },
+              ].map((dao) => (
+                <div key={dao.name} className="pillar-card text-center py-6">
+                  <div className="text-3xl mb-3">{dao.icon}</div>
+                  <h3 className="text-base mb-1">{dao.name}</h3>
+                  <p className="text-xs text-[#6B6B7B]">{dao.desc}</p>
                 </div>
-                <h3 className="mb-3">Advance</h3>
-                <p className="body-sm mb-6">
-                  Unlock liquidity against future yield. Your vault yield
-                  repays the balance over time—no interest, just fees.
-                </p>
-                <a href="#" className="btn-link">
-                  Learn more <ChevronRight size={16} />
-                </a>
-              </div>
-
-              {/* Stake */}
-              <div className="pillar-card">
-                <div className="icon-box-lg mb-6">
-                  <Layers className="text-[#FF7A2F]" size={28} />
-                </div>
-                <h3 className="mb-3">Stake</h3>
-                <p className="body-sm mb-6">
-                  Govern treasury allocation, risk parameters, and impact funding
-                  via vePARS. Direct where value flows.
-                </p>
-                <a href="#" className="btn-link">
-                  Learn more <ChevronRight size={16} />
-                </a>
-              </div>
+              ))}
             </div>
           </div>
         </section>
@@ -197,38 +179,47 @@ export default function Index() {
             <div className="text-center mb-12">
               <h2 className="mb-4">How it works</h2>
               <p className="body-md max-w-xl mx-auto">
-                Self-repaying advances: deposit, unlock liquidity, yield repays.
+                All mint proceeds seed the treasury. Protocol fees fund ongoing operations.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8 relative">
+            <div className="grid md:grid-cols-4 gap-6 relative">
               {/* Connector line */}
-              <div className="hidden md:block absolute top-6 left-[16%] right-[16%] h-px bg-gradient-to-r from-transparent via-[#FFD36A]/30 to-transparent" />
+              <div className="hidden md:block absolute top-6 left-[12%] right-[12%] h-px bg-gradient-to-r from-transparent via-[#FFD36A]/30 to-transparent" />
 
               {/* Step 1 */}
               <div className="flow-step">
                 <div className="flow-number mb-4">1</div>
-                <h3 className="mb-2">Deposit</h3>
+                <h3 className="mb-2">Mint</h3>
                 <p className="body-sm">
-                  Connect wallet and deposit assets to compliant vault strategies.
+                  Fair launch token sale. 100% of proceeds go to DAO treasury.
                 </p>
               </div>
 
               {/* Step 2 */}
               <div className="flow-step">
                 <div className="flow-number mb-4">2</div>
-                <h3 className="mb-2">Advance</h3>
+                <h3 className="mb-2">Vote</h3>
                 <p className="body-sm">
-                  Take an advance against future yield. No interest—fixed fee only.
+                  All decisions voted on-chain. Timelocked execution. Full receipts.
                 </p>
               </div>
 
               {/* Step 3 */}
               <div className="flow-step">
                 <div className="flow-number mb-4">3</div>
-                <h3 className="mb-2">Auto-Repay</h3>
+                <h3 className="mb-2">Fund</h3>
                 <p className="body-sm">
-                  Vault yield repays your balance over time. Withdraw when clear.
+                  1% of protocol fees auto-distributed to each of the 10 DAOs.
+                </p>
+              </div>
+
+              {/* Step 4 */}
+              <div className="flow-step">
+                <div className="flow-number mb-4">4</div>
+                <h3 className="mb-2">Build</h3>
+                <p className="body-sm">
+                  Humanitarian programs, partnerships, and long-term nation-building.
                 </p>
               </div>
             </div>
@@ -236,8 +227,8 @@ export default function Index() {
             {/* Metric callout */}
             <div className="mt-12 text-center">
               <div className="stat-badge inline-flex">
-                <span className="stat-badge-value">~12 blocks</span>
-                <span className="stat-badge-label">average rebalance time</span>
+                <span className="stat-badge-value">10%</span>
+                <span className="stat-badge-label">of protocol fees → DAOs</span>
               </div>
             </div>
           </div>
@@ -254,7 +245,7 @@ export default function Index() {
               </h2>
               <p className="body-md max-w-2xl mx-auto">
                 Fair launch. No VCs. No presales. No team allocation.
-                50% directly to DAO treasury.
+                All mint proceeds seed the treasury. Starting as an NGO.
               </p>
             </div>
 
@@ -304,60 +295,60 @@ export default function Index() {
           <div className="container-lg">
             <div className="text-center mb-16">
               <h2 className="mb-4">
-                Risk & <span className="text-gradient-ember">Compliance</span>
+                Privacy & <span className="text-gradient-ember">Security</span>
               </h2>
               <p className="body-md max-w-2xl mx-auto">
-                Defense in depth. Independent audits, on-chain proofs,
-                and Shariah attestation for compliant strategies.
+                Built for high-threat environments. Private participation protects people.
+                Publicly verifiable execution ensures accountability.
               </p>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {/* Audits */}
+              {/* Quantum Security */}
               <div className="card">
-                <FileCheck className="text-emerald-400 mb-4" size={24} />
-                <h3 className="text-lg mb-2">Smart Contract Audits</h3>
+                <Shield className="text-emerald-400 mb-4" size={24} />
+                <h3 className="text-lg mb-2">Quantum-Safe</h3>
                 <p className="body-sm mb-4">
-                  Independent security audits in progress. Results published on-chain.
+                  Post-quantum cryptography via Lux FHE. Future-proof against quantum attacks.
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="text-xs px-2 py-1 bg-amber-500/20 text-amber-400 rounded">In Progress</span>
+                  <span className="text-xs px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded">Active</span>
                 </div>
               </div>
 
-              {/* Shariah Attestation */}
+              {/* Private Participation */}
               <div className="card">
-                <CheckCircle2 className="text-[#FFD36A] mb-4" size={24} />
-                <h3 className="text-lg mb-2">Shariah Attestation</h3>
+                <Lock className="text-[#FFD36A] mb-4" size={24} />
+                <h3 className="text-lg mb-2">Private Participation</h3>
                 <p className="body-sm mb-4">
-                  Compliant strategies reviewed by qualified scholars. Attestations on IPFS.
+                  Identity protection for contributors. Shielded voting to prevent coercion.
                 </p>
                 <a href="#" className="btn-link text-xs">
-                  View attestations <ExternalLink size={12} />
+                  Learn more <ChevronRight size={12} />
                 </a>
               </div>
 
-              {/* Risk Bands */}
+              {/* Public Verification */}
               <div className="card">
-                <Shield className="text-[#FFB14A] mb-4" size={24} />
-                <h3 className="text-lg mb-2">Risk Bands</h3>
+                <FileCheck className="text-[#FFB14A] mb-4" size={24} />
+                <h3 className="text-lg mb-2">Public Verification</h3>
                 <p className="body-sm mb-4">
-                  LTV limits, liquidation thresholds, and circuit breakers per vault.
-                </p>
-                <a href="#" className="btn-link text-xs">
-                  View parameters <ChevronRight size={12} />
-                </a>
-              </div>
-
-              {/* On-chain Proofs */}
-              <div className="card">
-                <Lock className="text-[#FF7A2F] mb-4" size={24} />
-                <h3 className="text-lg mb-2">On-chain Proofs</h3>
-                <p className="body-sm mb-4">
-                  Verifiable reserves and real-time proof of solvency.
+                  All execution auditable on-chain. Full receipts for every transaction.
                 </p>
                 <a href="#" className="btn-link text-xs">
                   View proofs <ExternalLink size={12} />
+                </a>
+              </div>
+
+              {/* Timelocked Governance */}
+              <div className="card">
+                <CheckCircle2 className="text-[#FF7A2F] mb-4" size={24} />
+                <h3 className="text-lg mb-2">Timelocked Governance</h3>
+                <p className="body-sm mb-4">
+                  All decisions voted and timelocked. No unilateral action possible.
+                </p>
+                <a href="#" className="btn-link text-xs">
+                  View governance <ChevronRight size={12} />
                 </a>
               </div>
             </div>
@@ -429,8 +420,8 @@ export default function Index() {
               Build with <span className="text-gradient-ember">MIGA</span>
             </h2>
             <p className="body-lg mb-10 max-w-xl mx-auto">
-              Join the movement. Participate in governance, fund public goods,
-              and prove every dollar on-chain.
+              Join the movement. Humanitarian programs, partnerships, and
+              long-term nation-building with every dollar proven on-chain.
             </p>
 
             <div className="flex flex-wrap justify-center gap-4">
