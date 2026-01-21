@@ -33,11 +33,11 @@ export function Header() {
           <Link to="/" className="flex items-center gap-2.5 group">
             <img
               src="/images/migacoin.png"
-              alt="MIGA"
+              alt="MIGA Protocol"
               className="w-8 h-8 rounded-full object-cover transition-transform group-hover:scale-105"
             />
             <span className="text-base font-semibold tracking-tight text-[#EDEDF2]">
-              MIGA
+              MIGA Protocol
             </span>
           </Link>
 
@@ -76,6 +76,11 @@ export function Header() {
 
           {/* Right side - Mint CTA */}
           <div className="hidden md:flex items-center gap-3">
+            {/* Active chain indicator - LEFT of mint button */}
+            <span className="text-sm text-[#14F195] hidden lg:flex items-center gap-1.5 font-medium">
+              <span className="w-2 h-2 bg-[#14F195] rounded-full animate-pulse" />
+              Solana Live
+            </span>
             <a
               href="https://jup.ag/swap/SOL-MIGA"
               target="_blank"
@@ -94,10 +99,6 @@ export function Header() {
                 />
               </div>
             </a>
-            <span className="text-xs text-[#9999A5] hidden lg:flex items-center gap-1">
-              <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-              Solana
-            </span>
           </div>
 
           {/* Mobile Menu Button */}

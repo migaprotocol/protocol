@@ -88,10 +88,15 @@ export default function Index() {
                   rel="noopener noreferrer"
                   className="hero-cta-btn"
                 >
-                  Fund the Movement
+                  Join the Movement
                 </a>
-                <a href="#tokenomics" className="hero-btn-outline">
-                  Tokenomics
+                <a
+                  href="https://github.com/migaprotocol/miga/blob/main/whitepaper/MIGA-Whitepaper.md"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hero-btn-outline"
+                >
+                  Whitepaper
                 </a>
                 <a href="/docs" className="hero-link hidden md:flex">
                   Read docs <ArrowRight size={14} />
@@ -435,7 +440,7 @@ export default function Index() {
                 rel="noopener noreferrer"
                 className="btn-primary"
               >
-                Fund the Movement <ArrowRight size={18} />
+                Join the Movement <ArrowRight size={18} />
               </a>
               <a href="/docs" className="btn-secondary">
                 Documentation
