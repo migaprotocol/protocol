@@ -1,0 +1,181 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 600" preserveAspectRatio="xMidYMax slice">
+  <defs>
+    <!-- Zagros/Alborz mountain gradients - deep purple to dark -->
+    <linearGradient id="mountainGradient1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2D1B4E" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#1a1030" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#0a0512" stop-opacity="0.5"/>
+    </linearGradient>
+    <linearGradient id="mountainGradient2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3D2B5E" stop-opacity="0.7"/>
+      <stop offset="60%" stop-color="#1a1025" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#0a0510" stop-opacity="0.3"/>
+    </linearGradient>
+    <linearGradient id="mountainGradient3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4D3B6E" stop-opacity="0.5"/>
+      <stop offset="50%" stop-color="#2a1a40" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#0a0510" stop-opacity="0.2"/>
+    </linearGradient>
+
+    <!-- Snow cap gradient -->
+    <linearGradient id="snowCap" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#EDEDF2" stop-opacity="0.4"/>
+      <stop offset="40%" stop-color="#B8B8C6" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#3D2B5E" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Atmospheric haze -->
+    <linearGradient id="atmosphericHaze" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0a0512" stop-opacity="0"/>
+      <stop offset="70%" stop-color="#0a0512" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#07070A" stop-opacity="0.6"/>
+    </linearGradient>
+
+    <!-- Subtle gold rim light -->
+    <linearGradient id="rimLight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFD36A" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#FFD36A" stop-opacity="0.08"/>
+      <stop offset="70%" stop-color="#FFB14A" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#FFD36A" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Back mountain range (furthest - Alborz style) -->
+  <path d="M0 450
+           L 100 380
+           L 180 400
+           L 280 320
+           L 350 360
+           L 450 280
+           L 520 310
+           L 620 250
+           L 700 290
+           L 780 240
+           L 850 280
+           L 950 200
+           L 1020 250
+           L 1100 190
+           L 1180 240
+           L 1280 180
+           L 1350 230
+           L 1450 170
+           L 1520 220
+           L 1620 160
+           L 1700 210
+           L 1780 180
+           L 1850 220
+           L 1920 190
+           L 1920 600 L 0 600 Z"
+        fill="url(#mountainGradient3)"/>
+
+  <!-- Snow caps on back range -->
+  <path d="M 620 250
+           L 700 290
+           L 780 240
+           L 850 280
+           L 950 200
+           L 1020 250
+           L 1100 190
+           L 1180 240
+           L 1280 180
+           L 1350 230
+           L 1450 170
+           L 1520 220
+           L 1620 160"
+        fill="none"
+        stroke="url(#snowCap)"
+        stroke-width="20"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+  <!-- Middle mountain range (Zagros style - more rugged) -->
+  <path d="M0 520
+           L 80 450
+           L 150 480
+           L 220 420
+           L 300 460
+           L 380 380
+           L 450 420
+           L 540 350
+           L 620 400
+           L 720 330
+           L 800 380
+           L 900 300
+           L 980 360
+           L 1080 290
+           L 1160 350
+           L 1250 280
+           L 1340 340
+           L 1420 270
+           L 1500 330
+           L 1600 260
+           L 1680 320
+           L 1780 270
+           L 1850 310
+           L 1920 280
+           L 1920 600 L 0 600 Z"
+        fill="url(#mountainGradient2)"/>
+
+  <!-- Front mountain range (closest - bold silhouette) -->
+  <path d="M0 550
+           L 60 500
+           L 120 520
+           L 200 460
+           L 280 500
+           L 360 440
+           L 440 480
+           L 520 410
+           L 600 460
+           L 700 390
+           L 780 440
+           L 880 370
+           L 960 430
+           L 1060 360
+           L 1140 420
+           L 1240 350
+           L 1320 410
+           L 1420 340
+           L 1500 400
+           L 1600 330
+           L 1680 390
+           L 1780 340
+           L 1860 380
+           L 1920 350
+           L 1920 600 L 0 600 Z"
+        fill="url(#mountainGradient1)"/>
+
+  <!-- Rim lighting on front range peaks -->
+  <path d="M 200 460
+           L 280 500
+           L 360 440
+           L 440 480
+           L 520 410
+           L 600 460
+           L 700 390
+           L 780 440
+           L 880 370
+           L 960 430
+           L 1060 360
+           L 1140 420
+           L 1240 350
+           L 1320 410
+           L 1420 340
+           L 1500 400
+           L 1600 330
+           L 1680 390
+           L 1780 340"
+        fill="none"
+        stroke="url(#rimLight)"
+        stroke-width="3"/>
+
+  <!-- Atmospheric haze overlay -->
+  <rect x="0" y="300" width="1920" height="300" fill="url(#atmosphericHaze)"/>
+
+  <!-- Damavand-style peak highlight (tallest peak) -->
+  <path d="M 1240 350
+           L 1280 380
+           L 1200 380
+           Z"
+        fill="#EDEDF2"
+        opacity="0.15"/>
+</svg>
