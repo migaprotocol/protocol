@@ -3,12 +3,12 @@
 
 import type { ChainConfig, DAOWalletConfig, DonationAsset } from './types';
 
-// MIGA DAO Treasury configuration - 5-of-5 Utila MPC
+// MIGA DAO Treasury configuration - 3-of-5 Utila MPC
 export const MIGA_DAO_WALLET: DAOWalletConfig = {
   name: 'MIGA DAO Treasury',
   backend: 'utila',
   signers: 5,
-  threshold: 5,
+  threshold: 3,
   addresses: {
     // These will be populated with actual DAO wallet addresses
     BITCOIN_MAINNET: '', // Bitcoin P2WSH address

@@ -26,8 +26,8 @@ const steps = [
 const features = [
   {
     icon: Shield,
-    title: '5-of-5 MPC Security',
-    description: 'All donations are secured by Utila MPC with 5 DAO signers required for any transaction.',
+    title: '3-of-5 MPC Security',
+    description: 'All donations are secured by Utila MPC with 3-of-5 DAO signers required for any transaction.',
   },
   {
     icon: Users,
