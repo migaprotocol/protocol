@@ -5,6 +5,7 @@ import { WalletProvider } from "@/components/WalletProvider";
 import { GlobalChatWidget } from "@/components/GlobalChatWidget";
 import Index from "./pages/Index";
 import Token from "./pages/Token";
+import Mint from "./pages/Mint";
 import Docs from "./pages/Docs";
 import DAO from "./pages/DAO";
 import Propose from "./pages/Propose";
@@ -26,6 +27,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/token" element={<Token />} />
+          <Route path="/mint" element={<Mint />} />
           <Route path="/docs" element={<Docs />} />
           <Route path="/dao" element={<DAO />} />
           <Route path="/propose" element={<Propose />} />

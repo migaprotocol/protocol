@@ -702,7 +702,7 @@ function EnergyConnections({ positions, pillarsHeight }: {
         speed={0.8}
         opacity={0.5}
         color="#FFD700"
-        position={[0.5, pillarsHeight + 4.2, -2]}
+        position={[0, pillarsHeight + 4.2, -2]}
       />
       <Sparkles
         count={60}
@@ -711,7 +711,7 @@ function EnergyConnections({ positions, pillarsHeight }: {
         speed={1.0}
         opacity={0.4}
         color="#FFFFFF"
-        position={[0.5, pillarsHeight + 4.5, -2]}
+        position={[0, pillarsHeight + 4.5, -2]}
       />
     </group>
   )
@@ -969,7 +969,7 @@ function OrbitingReflectionLight({ color, speed, radius, yOffset, intensity, rev
   useFrame((state) => {
     if (lightRef.current) {
       const time = state.clock.elapsedTime * speed * (reverse ? -1 : 1)
-      lightRef.current.position.x = Math.cos(time) * radius + 0.8
+      lightRef.current.position.x = Math.cos(time) * radius
       lightRef.current.position.z = Math.sin(time) * radius
       lightRef.current.position.y = yOffset + Math.sin(time * 0.8) * 0.3
       // Pulsing intensity
@@ -1038,7 +1038,7 @@ function LightRibbon({ color, speed, radius, yOffset, reverse = false }: {
 // Multiple light ribbon trails - tighter arcs around medallion
 function LightRibbons() {
   return (
-    <group position={[0.8, 0, 0]}>
+    <group position={[0, 0, 0]}>
       {/* Outer arcs - tighter */}
       <LightRibbon color="#FFD700" speed={0.25} radius={2.8} yOffset={2.8} />
       <LightRibbon color="#FFA500" speed={0.22} radius={3.0} yOffset={3.0} reverse />
@@ -1069,7 +1069,7 @@ function FogSwirl({ radius, speed, yOffset, opacity, color, reverse = false }: {
   useFrame((state) => {
     if (meshRef.current) {
       const time = state.clock.elapsedTime * speed * (reverse ? -1 : 1)
-      meshRef.current.position.x = Math.cos(time) * radius + 0.8
+      meshRef.current.position.x = Math.cos(time) * radius
       meshRef.current.position.z = Math.sin(time) * radius
       meshRef.current.position.y = yOffset + Math.sin(time * 0.7) * 0.4
       meshRef.current.rotation.x = time * 0.3
@@ -1217,7 +1217,7 @@ function BlackHolePortal() {
     },
     setPortal
   ] = useControls('Portal', () => ({
-    portalX: { value: 0.5, min: -10, max: 10, step: 0.1 },
+    portalX: { value: 0, min: -10, max: 10, step: 0.1 },
     portalY: { value: 0.05, min: -5, max: 5, step: 0.01 },
     portalZ: { value: 0, min: -10, max: 10, step: 0.1 },
     portalRotX: { value: 0, min: -Math.PI, max: Math.PI, step: 0.01 },
@@ -1443,7 +1443,7 @@ function AmbientSparkles() {
         speed={0.6}
         opacity={0.55}
         color="#FFD700"
-        position={[0.8, 2.8, 0]}
+        position={[0, 2.8, 0]}
       />
       {/* Purple accent field - smaller */}
       <Sparkles
@@ -1471,7 +1471,7 @@ function AmbientSparkles() {
         speed={0.8}
         opacity={0.5}
         color="#FFFACD"
-        position={[0.8, 2.6, 0]}
+        position={[0, 2.6, 0]}
       />
       {/* Cream particles - tighter */}
       <Sparkles
@@ -1518,7 +1518,7 @@ function InteractiveCameraControls() {
       enablePan={true}
       enableZoom={true}
       enableRotate={true}
-      target={[0.5, 2, 0]}
+      target={[0, 2, 0]}
       minDistance={5}
       maxDistance={30}
       minPolarAngle={0.2}
@@ -1541,7 +1541,7 @@ function CameraController() {
     camera.position.y = THREE.MathUtils.lerp(camera.position.y, baseY + mouseState.y * 0.2, 0.02)
     camera.position.z = THREE.MathUtils.lerp(camera.position.z, baseZ, 0.02)
     // Look at scene center
-    camera.lookAt(0.5, 2, 0)
+    camera.lookAt(0, 2, 0)
   })
 
   return null
@@ -1633,12 +1633,12 @@ function CameraWithControls() {
 
   const [{ camFov, camPosX, camPosY, camPosZ, targetX, targetY, targetZ }, set] = useControls('Camera', () => ({
     camFov: { value: 50, min: 10, max: 120, step: 1, label: 'FOV' },
-    camPosX: { value: 2, min: -20, max: 20, step: 0.5, label: 'Camera X' },
-    camPosY: { value: 18, min: 1, max: 30, step: 0.5, label: 'Camera Y (Height)' },
-    camPosZ: { value: 6, min: 0, max: 25, step: 0.5, label: 'Camera Z (Distance)' },
-    targetX: { value: 2, min: -10, max: 10, step: 0.1, label: 'Look At X' },
-    targetY: { value: 1, min: -5, max: 10, step: 0.1, label: 'Look At Y' },
-    targetZ: { value: -3, min: -10, max: 10, step: 0.1, label: 'Look At Z' },
+    camPosX: { value: 0, min: -20, max: 20, step: 0.5, label: 'Camera X' },
+    camPosY: { value: 12, min: 1, max: 30, step: 0.5, label: 'Camera Y (Height)' },
+    camPosZ: { value: 10, min: 0, max: 25, step: 0.5, label: 'Camera Z (Distance)' },
+    targetX: { value: 0, min: -10, max: 10, step: 0.1, label: 'Look At X' },
+    targetY: { value: 1.5, min: -5, max: 10, step: 0.1, label: 'Look At Y' },
+    targetZ: { value: 0, min: -10, max: 10, step: 0.1, label: 'Look At Z' },
   }))
 
   // Update camera from Leva values (when not interacting)
@@ -1708,19 +1708,19 @@ function CameraWithControls() {
 
 // Main scene content
 function SceneContent({ onChainHover }: { onChainHover?: (chain: ChainData | null) => void }) {
-  // Medallion controls - z=1.5 to be in front of pillars
+  // Medallion controls - centered at x=0, z=0 above pool
   const { medallionX, medallionY, medallionZ, medallionScale, showMedallion } = useControls('Medallion', {
     showMedallion: { value: true, label: 'Show' },
-    medallionX: { value: 0.5, min: -5, max: 5, step: 0.1 },
+    medallionX: { value: 0, min: -5, max: 5, step: 0.1 },
     medallionY: { value: 2.9, min: 0, max: 10, step: 0.1 },
-    medallionZ: { value: 1.5, min: -5, max: 5, step: 0.1 },
+    medallionZ: { value: 0, min: -5, max: 5, step: 0.1 },
     medallionScale: { value: 2.8, min: 0.5, max: 5, step: 0.1 },
   })
 
-  // Pool controls - smaller default for tighter composition
+  // Pool controls - centered at x=0, flat perpendicular to terrain
   const { poolX, poolZ, poolRadius, showPool } = useControls('Pool', {
     showPool: { value: true, label: 'Show' },
-    poolX: { value: 0.5, min: -5, max: 5, step: 0.1 },
+    poolX: { value: 0, min: -5, max: 5, step: 0.1 },
     poolZ: { value: 0, min: -5, max: 5, step: 0.1 },
     poolRadius: { value: 3.5, min: 1, max: 10, step: 0.5 },
   })
@@ -1754,21 +1754,27 @@ function SceneContent({ onChainHover }: { onChainHover?: (chain: ChainData | nul
     showSparkles: { value: true, label: 'Sparkles' },
   })
 
-  // 7 columns arranged in a horizontal line from left to right
+  // 7 columns arranged in semicircle arc around the pool
   // Height scales based on deposit amounts - more deposits = taller pillar
   const maxDeposit = Math.max(...chainData.map(c => c.depositAmount || 1))
 
   const columnPositions: [number, number, number][] = useMemo(() => {
-    const spacing = 2.2 // horizontal spacing between pillars
-    const startX = -4 // start position (left side)
-    const zPos = -4 // all pillars at same Z (behind medallion)
+    const numPillars = chainData.length // 7 pillars
+    const arcRadius = pillarsRadius // Distance from center
+    // Arrange in semicircle behind the pool (from camera's perspective)
+    // Arc spans from ~30° to ~150° (behind the pool, facing camera)
+    const arcAngleStart = Math.PI * 0.15 // Start angle (right side)
+    const arcAngleEnd = Math.PI * 0.85 // End angle (left side)
 
-    return chainData.map((_, i) => [
-      startX + i * spacing,
-      0,
-      zPos - (i % 2) * 0.5 // slight Z stagger for depth
-    ] as [number, number, number])
-  }, [])
+    return chainData.map((_, i) => {
+      // Spread pillars evenly across the arc
+      const t = numPillars > 1 ? i / (numPillars - 1) : 0.5
+      const angle = arcAngleStart + t * (arcAngleEnd - arcAngleStart)
+      const x = Math.cos(angle) * arcRadius
+      const z = -Math.sin(angle) * arcRadius // Negative Z places them behind pool
+      return [x, 0, z] as [number, number, number]
+    })
+  }, [pillarsRadius])
 
   // Calculate individual pillar heights based on deposits
   const pillarHeights = useMemo(() => {
