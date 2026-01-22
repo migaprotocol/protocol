@@ -188,13 +188,18 @@ Be concise, helpful, and knowledgeable about MIGA's mission to support the Persi
 
   return (
     <>
-      {/* Floating chat button */}
+      {/* Floating chat button - Lion face from Cyrus coin */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-lg flex items-center justify-center bg-[#0f0f1a] border border-[#D4AF37]/30 hover:border-[#D4AF37]/50 transition-all hover:scale-105"
+          className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-lg flex items-center justify-center bg-[#0f0f1a] border-2 border-[#D4AF37]/50 hover:border-[#D4AF37] transition-all hover:scale-105 overflow-hidden"
+          style={{ boxShadow: '0 0 20px rgba(212, 175, 55, 0.3)' }}
         >
-          <MessageSquare className="w-6 h-6 text-[#D4AF37]" />
+          <img
+            src="/images/freedom-lion.png"
+            alt="MIGA Chat"
+            className="w-full h-full object-cover"
+          />
           <span className="absolute inset-0 rounded-full animate-ping opacity-20 bg-[#D4AF37]" />
         </button>
       )}
@@ -211,8 +216,8 @@ Be concise, helpful, and knowledgeable about MIGA's mission to support the Persi
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-[#D4AF37]/10 bg-[#0f0f1a]">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#1a1a2e] border border-[#D4AF37]/20">
-                <img src="/images/migacoin.png" alt="MIGA" className="w-5 h-5 rounded-full object-cover" />
+              <div className="w-8 h-8 rounded-full overflow-hidden border border-[#D4AF37]/40" style={{ boxShadow: '0 0 10px rgba(212, 175, 55, 0.2)' }}>
+                <img src="/images/freedom-lion.png" alt="MIGA" className="w-full h-full object-cover" />
               </div>
               <div>
                 <div className="text-white text-sm font-medium">MIGA Assistant</div>

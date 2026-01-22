@@ -1,6 +1,9 @@
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { MigaScene } from '@/components/3d'
+import { RaceToNowruz } from '@/components/RaceToNowruz'
+import { SocialFeed } from '@/components/SocialFeed'
+import { RezaNews } from '@/components/RezaNews'
 import {
   ArrowRight,
   Shield,
@@ -121,6 +124,11 @@ export default function Index() {
             </div>
           </div>
         </section>
+
+        {/* ============================================
+            RACE TO NOWRUZ - Chain Investment Competition
+            ============================================ */}
+        <RaceToNowruz />
 
         {/* ============================================
             TEN DAOs SECTION
@@ -624,6 +632,16 @@ export default function Index() {
             </div>
           </div>
         </section>
+
+        {/* ============================================
+            SOCIAL FEED - X.com & Farcaster
+            ============================================ */}
+        <SocialFeed />
+
+        {/* ============================================
+            REZA NEWS - Video & News from Cyrus Foundation
+            ============================================ */}
+        <RezaNews />
 
       </main>
 
