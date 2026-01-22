@@ -28,6 +28,7 @@ const DEPOSIT_ADDRESS = '0x14aa5a41133199c68d06f4dfa5417abb4eef44e9'
 
 // Chain data - 7 chains for 7 pillars
 // Status: live = minting complete, next = coming soon, mystery = vote to decide
+// depositAmount: Dynamic value from MPC wallet deposits (in USD equivalent)
 const chainData = [
   {
     name: 'Solana',
@@ -38,6 +39,7 @@ const chainData = [
     mintUrl: '/mint/solana',
     contractAddress: '0x...',
     description: 'Fair launch complete on Solana',
+    depositAmount: 125000, // Dynamic - fetched from MPC wallet
   },
   {
     name: 'Lux',
@@ -48,6 +50,7 @@ const chainData = [
     mintUrl: '/mint/lux',
     contractAddress: '0x...',
     description: 'Live on Lux Network',
+    depositAmount: 89500, // Dynamic - fetched from MPC wallet
   },
   {
     name: 'Zoo',
@@ -58,6 +61,7 @@ const chainData = [
     mintUrl: '/mint/zoo',
     contractAddress: '0x...',
     description: 'Minting complete on Zoo',
+    depositAmount: 67200, // Dynamic - fetched from MPC wallet
   },
   {
     name: 'Base',
@@ -68,6 +72,7 @@ const chainData = [
     mintUrl: '/mint/base',
     contractAddress: '0x...',
     description: 'Coming soon to Base',
+    depositAmount: 0, // Coming soon - no deposits yet
   },
   {
     name: 'Ethereum',
@@ -78,6 +83,7 @@ const chainData = [
     mintUrl: '/mint/ethereum',
     contractAddress: '0x...',
     description: 'Coming soon to Ethereum',
+    depositAmount: 0, // Coming soon - no deposits yet
   },
   {
     name: 'TON',
@@ -88,6 +94,7 @@ const chainData = [
     mintUrl: '/mint/ton',
     contractAddress: '0x...',
     description: 'Coming soon to TON',
+    depositAmount: 0, // Coming soon - no deposits yet
   },
   {
     name: 'Mystery',
@@ -98,46 +105,59 @@ const chainData = [
     mintUrl: '/vote',
     description: 'Vote with LuxFHE for the 7th chain',
     voteOptions: ['Bitcoin', 'Avalanche', 'BSC', 'Cardano', 'Polygon', 'Arbitrum'],
+    depositAmount: 0, // Mystery chain - TBD
   },
 ]
 
 type ChainData = typeof chainData[number]
 
-// Coin face with token icon texture - uses BasicMaterial for guaranteed visibility
+// Coin face with token icon texture - matches Cyrus coin approach exactly
 function CoinFace({
   iconPath,
   position,
   rotation,
   radius = 0.26,
-  opacity = 1,
+  color = '#E8C547',
+  isBack = false,
 }: {
   iconPath: string
   position: [number, number, number]
   rotation: [number, number, number]
   radius?: number
-  opacity?: number
+  color?: string
+  isBack?: boolean
 }) {
-  const texture = useTexture(iconPath)
+  const baseTexture = useTexture(iconPath)
+  const { gl } = useThree()
 
-  // Configure texture once - drei handles most settings
-  useMemo(() => {
-    if (texture) {
-      texture.colorSpace = THREE.SRGBColorSpace
-      texture.needsUpdate = true
+  // Clone and configure texture - need separate instance for back face to flip
+  const texture = useMemo(() => {
+    const tex = baseTexture.clone()
+    const maxAniso = gl.capabilities.getMaxAnisotropy?.() ?? 1
+    tex.colorSpace = THREE.SRGBColorSpace
+    tex.anisotropy = maxAniso
+    // Flip texture on back face so it shows correctly when viewed from outside
+    if (isBack) {
+      tex.repeat.set(-1, 1)
+      tex.offset.set(1, 0)
+      tex.wrapS = THREE.RepeatWrapping
     }
-  }, [texture])
+    tex.needsUpdate = true
+    return tex
+  }, [baseTexture, gl, isBack])
 
   return (
     <mesh position={position} rotation={rotation}>
       <circleGeometry args={[radius, 64]} />
-      <meshBasicMaterial
+      <meshStandardMaterial
         map={texture}
-        transparent={true}
-        opacity={opacity}
+        metalness={0.8}
+        roughness={0.15}
+        color={color}
+        emissive={color}
+        emissiveIntensity={0.3}
+        envMapIntensity={2.0}
         side={THREE.DoubleSide}
-        depthWrite={true}
-        depthTest={true}
-        toneMapped={false}
       />
     </mesh>
   )
@@ -199,7 +219,7 @@ function ChainCoin({
     if (groupRef.current) {
       const time = state.clock.elapsedTime
       // Float up and down - position coins nicely above pillars
-      groupRef.current.position.y = position[1] + 3.8 + Math.sin(time * 0.5 + index) * 0.12
+      groupRef.current.position.y = position[1] + 0.8 + Math.sin(time * 0.5 + index) * 0.12
     }
     if (coinRef.current) {
       const time = state.clock.elapsedTime
@@ -209,14 +229,16 @@ function ChainCoin({
       coinRef.current.rotation.y = Math.sin(time * 0.3 + index) * 0.1
     }
     if (glowRef.current) {
-      const baseIntensity = isLive ? 2 : isNext ? 1 : 0.5
-      glowRef.current.intensity = baseIntensity + Math.sin(state.clock.elapsedTime * 1.2 + index) * 0.5
+      // Enhanced brightness - brighter base intensities
+      const baseIntensity = isLive ? 4 : isNext ? 2.5 : 1.5
+      glowRef.current.intensity = baseIntensity + Math.sin(state.clock.elapsedTime * 1.2 + index) * 1.0
     }
   })
 
-  const opacity = isLive ? 1 : isNext ? 0.7 : 0.4
-  const baseEmissive = isLive ? 0.6 : isNext ? 0.3 : 0.1
-  const emissiveIntensity = hovered ? 1.2 : baseEmissive
+  const opacity = isLive ? 1 : isNext ? 0.8 : 0.5
+  // Enhanced emissive - brighter coins
+  const baseEmissive = isLive ? 1.0 : isNext ? 0.6 : 0.3
+  const emissiveIntensity = hovered ? 1.8 : baseEmissive
   const coinScale = hovered ? 1.15 : 1
   // On hover, coin turns golden
   const coinColor = hovered ? '#FFD700' : chain.color
@@ -245,7 +267,7 @@ function ChainCoin({
   // Mystery chain shows empty pedestal
   if (isMystery) {
     return (
-      <group ref={groupRef} position={[position[0], position[1] + 3.8, position[2]]}>
+      <group ref={groupRef} position={[position[0], position[1] + 0.8, position[2]]}>
         {/* Question mark orb - pulsing */}
         <mesh
           scale={coinScale}
@@ -288,7 +310,7 @@ function ChainCoin({
   }
 
   return (
-    <group ref={groupRef} position={[position[0], position[1] + 3.8, position[2]]}>
+    <group ref={groupRef} position={[position[0], position[1] + 0.8, position[2]]}>
       {/* Rotating coin */}
       <group ref={coinRef} scale={coinScale}>
         {/* Invisible hitbox for better hover detection */}
@@ -301,50 +323,38 @@ function ChainCoin({
           <meshBasicMaterial transparent opacity={0} />
         </mesh>
 
-        {/* Solid coin body - closed cylinder with flat top and bottom */}
+        {/* Coin edge - open-ended cylinder (side only, no caps) */}
         <mesh>
-          <cylinderGeometry args={[settings.radius, settings.radius, settings.thickness, 64]} />
+          <cylinderGeometry args={[settings.radius, settings.radius, settings.thickness, 64, 1, true]} />
           <meshStandardMaterial
             color={coinColor}
             emissive={coinEmissive}
             emissiveIntensity={emissiveIntensity * 0.4}
-            metalness={0.85}
-            roughness={0.15}
-            transparent={false}
-          />
-        </mesh>
-
-        {/* Thin gold rim around coin edge - subtle accent */}
-        <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
-          <torusGeometry args={[settings.radius, 0.015, 12, 64]} />
-          <meshStandardMaterial
-            color="#D4AF37"
-            emissive="#FFD700"
-            emissiveIntensity={hovered ? 0.6 : 0.3}
             metalness={0.95}
-            roughness={0.08}
+            roughness={0.18}
           />
         </mesh>
 
-        {/* Front face with token icon - flush with top surface */}
+        {/* Front face with token icon - uses chain color */}
         {settings.showFaces && (
           <CoinFace
             iconPath={chain.icon}
             position={[0, settings.thickness / 2 + 0.001, 0]}
             rotation={[-Math.PI / 2, 0, 0]}
-            radius={settings.radius * settings.faceScale}
-            opacity={1}
+            radius={settings.radius}
+            color={chain.color}
           />
         )}
 
-        {/* Back face with token icon - flush with bottom surface */}
+        {/* Back face with token icon - uses chain color */}
         {settings.showFaces && (
           <CoinFace
             iconPath={chain.icon}
             position={[0, -settings.thickness / 2 - 0.001, 0]}
             rotation={[Math.PI / 2, 0, 0]}
-            radius={settings.radius * settings.faceScale}
-            opacity={1}
+            radius={settings.radius}
+            color={chain.color}
+            isBack={true}
           />
         )}
 
@@ -359,27 +369,61 @@ function ChainCoin({
 
       </group>
 
-      {/* Glow light */}
+      {/* Glow light - enhanced brightness */}
       <pointLight
         ref={glowRef}
         position={[0, 0, 0]}
-        intensity={isLive ? 2.5 : 1.5}
+        intensity={isLive ? 5 : 3}
         color={chain.color}
-        distance={4}
+        distance={6}
+        decay={2}
+      />
+      {/* Secondary warm highlight */}
+      <pointLight
+        position={[0, 0.2, 0.2]}
+        intensity={isLive ? 2 : 1}
+        color="#FFD700"
+        distance={3}
         decay={2}
       />
     </group>
   )
 }
 
-// Persian Column with shadow/glow at base
-function PersianColumn({ position, height = 3 }: { position: [number, number, number], height?: number }) {
+// Persian Column with shadow/glow at base and dynamic deposit display
+function PersianColumn({
+  position,
+  height = 3,
+  depositAmount = 0,
+  chainColor = '#FFD700',
+  chainSymbol = ''
+}: {
+  position: [number, number, number],
+  height?: number,
+  depositAmount?: number,
+  chainColor?: string,
+  chainSymbol?: string
+}) {
   const groupRef = useRef<THREE.Group>(null)
+  const textRef = useRef<THREE.Mesh>(null)
+  const glowRef = useRef<THREE.PointLight>(null)
   const radius = 0.18
+
+  // Format deposit amount for display
+  const formatAmount = (amount: number) => {
+    if (amount >= 1000000) return `${(amount / 1000000).toFixed(1)}M`
+    if (amount >= 1000) return `${(amount / 1000).toFixed(1)}K`
+    return amount.toFixed(0)
+  }
 
   useFrame((state) => {
     if (groupRef.current) {
       groupRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.12 + position[0]) * 0.002
+    }
+    // Pulse the deposit glow based on amount
+    if (glowRef.current && depositAmount > 0) {
+      const pulseIntensity = Math.min(depositAmount / 10000, 2) // Scale with deposit
+      glowRef.current.intensity = 0.5 + pulseIntensity + Math.sin(state.clock.elapsedTime * 1.5) * 0.3
     }
   })
 
@@ -481,6 +525,60 @@ function PersianColumn({ position, height = 3 }: { position: [number, number, nu
           emissiveIntensity={0.15}
         />
       </mesh>
+
+      {/* Dynamic deposit display */}
+      {depositAmount > 0 && (
+        <>
+          {/* Deposit amount text */}
+          <Text
+            ref={textRef}
+            position={[0, height * 0.5 + 0.24, radius * 1.2]}
+            fontSize={0.15}
+            color={chainColor}
+            anchorX="center"
+            anchorY="middle"
+            outlineWidth={0.01}
+            outlineColor="#000000"
+          >
+            {formatAmount(depositAmount)}
+          </Text>
+
+          {/* Chain symbol below amount */}
+          <Text
+            position={[0, height * 0.5 + 0.05, radius * 1.2]}
+            fontSize={0.08}
+            color="#FFFFFF"
+            anchorX="center"
+            anchorY="middle"
+            outlineWidth={0.005}
+            outlineColor="#000000"
+          >
+            {chainSymbol}
+          </Text>
+
+          {/* Deposit glow ring - intensity scales with amount */}
+          <mesh position={[0, height * 0.5 + 0.24, 0]} rotation={[Math.PI / 2, 0, 0]}>
+            <torusGeometry args={[radius * 1.1, 0.02, 12, 32]} />
+            <meshStandardMaterial
+              color={chainColor}
+              emissive={chainColor}
+              emissiveIntensity={Math.min(depositAmount / 5000, 1.5)}
+              transparent
+              opacity={0.7}
+            />
+          </mesh>
+
+          {/* Point light that glows based on deposit amount */}
+          <pointLight
+            ref={glowRef}
+            position={[0, height * 0.5 + 0.24, 0.3]}
+            intensity={0.5}
+            color={chainColor}
+            distance={2}
+            decay={2}
+          />
+        </>
+      )}
     </group>
   )
 }
@@ -1534,13 +1632,13 @@ function CameraWithControls() {
   const isUserInteracting = useRef(false)
 
   const [{ camFov, camPosX, camPosY, camPosZ, targetX, targetY, targetZ }, set] = useControls('Camera', () => ({
-    camFov: { value: 45, min: 10, max: 120, step: 1, label: 'FOV' },
-    camPosX: { value: 0, min: -20, max: 20, step: 0.5, label: 'Camera X' },
-    camPosY: { value: 12, min: 1, max: 25, step: 0.5, label: 'Camera Y (Height)' },
-    camPosZ: { value: 10, min: 0, max: 25, step: 0.5, label: 'Camera Z (Distance)' },
-    targetX: { value: 0.5, min: -10, max: 10, step: 0.1, label: 'Look At X' },
-    targetY: { value: 2, min: -5, max: 10, step: 0.1, label: 'Look At Y' },
-    targetZ: { value: 0, min: -10, max: 10, step: 0.1, label: 'Look At Z' },
+    camFov: { value: 50, min: 10, max: 120, step: 1, label: 'FOV' },
+    camPosX: { value: 2, min: -20, max: 20, step: 0.5, label: 'Camera X' },
+    camPosY: { value: 18, min: 1, max: 30, step: 0.5, label: 'Camera Y (Height)' },
+    camPosZ: { value: 6, min: 0, max: 25, step: 0.5, label: 'Camera Z (Distance)' },
+    targetX: { value: 2, min: -10, max: 10, step: 0.1, label: 'Look At X' },
+    targetY: { value: 1, min: -5, max: 10, step: 0.1, label: 'Look At Y' },
+    targetZ: { value: -3, min: -10, max: 10, step: 0.1, label: 'Look At Z' },
   }))
 
   // Update camera from Leva values (when not interacting)
@@ -1656,21 +1754,32 @@ function SceneContent({ onChainHover }: { onChainHover?: (chain: ChainData | nul
     showSparkles: { value: true, label: 'Sparkles' },
   })
 
-  // 7 columns arranged in a semicircle behind the pool - WIDER spacing to prevent intersection
-  // Now dynamically positioned based on pillarsRadius
+  // 7 columns arranged in a horizontal line from left to right
+  // Height scales based on deposit amounts - more deposits = taller pillar
+  const maxDeposit = Math.max(...chainData.map(c => c.depositAmount || 1))
+
   const columnPositions: [number, number, number][] = useMemo(() => {
-    const r = pillarsRadius
-    return [
-      // Semicircle arrangement - 7 pillars with proper spacing
-      [-r * 1.14, 0, -r * 0.14],      // Far left front
-      [-r * 0.86, 0, -r * 0.57],      // Left back
-      [-r * 0.43, 0, -r * 0.86],      // Left center back
-      [0.5, 0, -r],                    // Center back (behind pool)
-      [r * 0.57, 0, -r * 0.86],       // Right center back
-      [r, 0, -r * 0.57],              // Right back
-      [r * 1.28, 0, -r * 0.14],       // Far right front
-    ]
-  }, [pillarsRadius])
+    const spacing = 2.2 // horizontal spacing between pillars
+    const startX = -4 // start position (left side)
+    const zPos = -4 // all pillars at same Z (behind medallion)
+
+    return chainData.map((_, i) => [
+      startX + i * spacing,
+      0,
+      zPos - (i % 2) * 0.5 // slight Z stagger for depth
+    ] as [number, number, number])
+  }, [])
+
+  // Calculate individual pillar heights based on deposits
+  const pillarHeights = useMemo(() => {
+    const minHeight = 1.5
+    const maxHeight = 4.5
+    return chainData.map(chain => {
+      if (chain.depositAmount === 0) return minHeight
+      const ratio = chain.depositAmount / maxDeposit
+      return minHeight + ratio * (maxHeight - minHeight)
+    })
+  }, [maxDeposit])
 
   return (
     <>
@@ -1702,12 +1811,18 @@ function SceneContent({ onChainHover }: { onChainHover?: (chain: ChainData | nul
           )}
         </IntroAnimatedGroup>
 
-        {/* Persian columns behind the pool with chain coins */}
+        {/* Persian columns from left to right - height based on deposits */}
         {showPillars && columnPositions.map((pos, i) => (
           <group key={i}>
-            <PersianColumn position={pos} height={pillarsHeight} />
-            <ChainCoin
+            <PersianColumn
               position={pos}
+              height={pillarHeights[i]}
+              depositAmount={chainData[i].depositAmount}
+              chainColor={chainData[i].color}
+              chainSymbol={chainData[i].symbol}
+            />
+            <ChainCoin
+              position={[pos[0], pillarHeights[i], pos[2]]}
               chain={chainData[i]}
               index={i}
               onHover={onChainHover}
