@@ -1,7 +1,8 @@
-import { useRef, useMemo } from 'react'
-import { useFrame } from '@react-three/fiber'
+import { useRef, useMemo, useEffect } from 'react'
+import { useFrame, useLoader, useThree } from '@react-three/fiber'
 import { Float, Sparkles } from '@react-three/drei'
 import * as THREE from 'three'
+import coinEdgeTexture from '@/assets/coin-edge.png'
 
 // Create octagram (8-pointed star) shape
 function createOctagramShape(outerRadius: number, innerRadius: number, indent: number): THREE.Shape {
@@ -71,18 +72,141 @@ function OrnateFrame() {
   )
 }
 
-// Inner ornate ring
+// Inner ornate ring with coin edge texture
 function InnerRing() {
+  const edgeTexture = useLoader(THREE.TextureLoader, coinEdgeTexture)
+  const { gl } = useThree()
+
+  useEffect(() => {
+    const maxAniso = gl.capabilities.getMaxAnisotropy?.() ?? 1
+    edgeTexture.colorSpace = THREE.SRGBColorSpace
+    edgeTexture.wrapS = THREE.RepeatWrapping
+    edgeTexture.wrapT = THREE.RepeatWrapping
+    edgeTexture.repeat.set(12, 1)
+    edgeTexture.anisotropy = maxAniso
+    edgeTexture.needsUpdate = true
+  }, [edgeTexture, gl])
+
   return (
-    <mesh position={[0, 0, 0.05]}>
-      <torusGeometry args={[1.3, 0.12, 16, 64]} />
+    <mesh position={[0, 0, 0.05]} rotation={[Math.PI / 2, 0, 0]}>
+      <torusGeometry args={[1.3, 0.12, 16, 128]} />
       <meshStandardMaterial
-        color="#8B6914"
-        metalness={0.9}
-        roughness={0.25}
+        map={edgeTexture}
+        bumpMap={edgeTexture}
+        bumpScale={0.2}
+        color="#D4A846"
+        metalness={0.95}
+        roughness={0.15}
         envMapIntensity={1.5}
       />
     </mesh>
+  )
+}
+
+// Outer reeded edge rings with parallax effect
+function ReededEdgeRings() {
+  const ring1Ref = useRef<THREE.Group>(null)
+  const ring2Ref = useRef<THREE.Group>(null)
+  const ring3Ref = useRef<THREE.Group>(null)
+
+  const edgeTexture = useLoader(THREE.TextureLoader, coinEdgeTexture)
+  const { gl } = useThree()
+
+  useEffect(() => {
+    const maxAniso = gl.capabilities.getMaxAnisotropy?.() ?? 1
+    edgeTexture.colorSpace = THREE.SRGBColorSpace
+    edgeTexture.wrapS = THREE.RepeatWrapping
+    edgeTexture.wrapT = THREE.RepeatWrapping
+    edgeTexture.anisotropy = maxAniso
+    edgeTexture.needsUpdate = true
+  }, [edgeTexture, gl])
+
+  // Fibonacci-inspired spacing for rings
+  const ringThickness = 0.04
+  const rings = useMemo(() => [
+    { radius: 2.45, repeat: 16 },
+    { radius: 2.70, repeat: 18 },
+    { radius: 3.00, repeat: 20 },
+  ], [])
+
+  // Parallax rotation - rings follow at different speeds
+  useFrame((state) => {
+    const t = state.clock.elapsedTime
+
+    if (ring1Ref.current) {
+      ring1Ref.current.rotation.x = Math.sin(t * 0.3) * 0.08
+      ring1Ref.current.rotation.y = t * 0.1
+    }
+    if (ring2Ref.current) {
+      ring2Ref.current.rotation.x = Math.sin(t * 0.25 + 1) * 0.06
+      ring2Ref.current.rotation.y = t * 0.08
+    }
+    if (ring3Ref.current) {
+      ring3Ref.current.rotation.x = Math.sin(t * 0.2 + 2) * 0.04
+      ring3Ref.current.rotation.y = t * 0.06
+    }
+  })
+
+  const createRingMaterial = (repeat: number) => {
+    const tex = edgeTexture.clone()
+    tex.repeat.set(repeat, 1)
+    tex.needsUpdate = true
+    return tex
+  }
+
+  return (
+    <Float speed={0.5} rotationIntensity={0.01} floatIntensity={0.05}>
+      {/* Inner ring */}
+      <group ref={ring1Ref}>
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[rings[0].radius, ringThickness, 16, 128]} />
+          <meshStandardMaterial
+            map={createRingMaterial(rings[0].repeat)}
+            bumpMap={createRingMaterial(rings[0].repeat)}
+            bumpScale={0.15}
+            metalness={0.95}
+            roughness={0.15}
+            color="#D4AF37"
+            emissive="#C9A227"
+            emissiveIntensity={0.2}
+          />
+        </mesh>
+      </group>
+
+      {/* Middle ring */}
+      <group ref={ring2Ref}>
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[rings[1].radius, ringThickness, 16, 128]} />
+          <meshStandardMaterial
+            map={createRingMaterial(rings[1].repeat)}
+            bumpMap={createRingMaterial(rings[1].repeat)}
+            bumpScale={0.15}
+            metalness={0.95}
+            roughness={0.15}
+            color="#C9A227"
+            emissive="#B8860B"
+            emissiveIntensity={0.15}
+          />
+        </mesh>
+      </group>
+
+      {/* Outer ring */}
+      <group ref={ring3Ref}>
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[rings[2].radius, ringThickness, 16, 128]} />
+          <meshStandardMaterial
+            map={createRingMaterial(rings[2].repeat)}
+            bumpMap={createRingMaterial(rings[2].repeat)}
+            bumpScale={0.15}
+            metalness={0.95}
+            roughness={0.15}
+            color="#B8860B"
+            emissive="#8B7500"
+            emissiveIntensity={0.1}
+          />
+        </mesh>
+      </group>
+    </Float>
   )
 }
 
@@ -135,15 +259,29 @@ function CenterDisc() {
   )
 }
 
-// The M logo (three pillars) with glass-like material
+// The M logo (three pillars) with glowing crystal material
 function MLogo() {
   const groupRef = useRef<THREE.Group>(null)
+  const leftGlowRef = useRef<THREE.PointLight>(null)
+  const centerGlowRef = useRef<THREE.PointLight>(null)
+  const rightGlowRef = useRef<THREE.PointLight>(null)
 
   useFrame((state) => {
     if (groupRef.current) {
       // Subtle breathing effect
       const scale = 1 + Math.sin(state.clock.elapsedTime * 2) * 0.02
       groupRef.current.scale.set(scale, scale, scale)
+    }
+    // Pulsing glow lights for each crystal
+    const t = state.clock.elapsedTime
+    if (leftGlowRef.current) {
+      leftGlowRef.current.intensity = 1.5 + Math.sin(t * 1.8) * 0.5
+    }
+    if (centerGlowRef.current) {
+      centerGlowRef.current.intensity = 2.0 + Math.sin(t * 2.0 + 1) * 0.6
+    }
+    if (rightGlowRef.current) {
+      rightGlowRef.current.intensity = 1.5 + Math.sin(t * 1.6 + 2) * 0.5
     }
   })
 
@@ -165,34 +303,72 @@ function MLogo() {
     })
   }, [])
 
-  // Glass-like material settings
-  const glassMaterial = (color: string) => (
+  // Glowing crystal material - enhanced with emissive glow
+  const crystalMaterial = (color: string, emissiveColor: string) => (
     <meshPhysicalMaterial
       color={color}
-      metalness={0.1}
+      emissive={emissiveColor}
+      emissiveIntensity={0.8}
+      metalness={0.15}
       roughness={0.05}
-      transmission={0.6}
+      transmission={0.5}
       thickness={0.5}
       clearcoat={1}
-      clearcoatRoughness={0.1}
-      ior={1.5}
+      clearcoatRoughness={0.08}
+      ior={1.6}
+      envMapIntensity={2.0}
     />
   )
 
   return (
     <group ref={groupRef} position={[0, 0, 0.1]}>
-      {/* Left pillar */}
+      {/* Left pillar - cyan crystal */}
       <mesh geometry={pillarGeometry} position={[-0.35, 0, 0]}>
-        {glassMaterial('#88DDFF')}
+        {crystalMaterial('#88DDFF', '#44AAFF')}
       </mesh>
-      {/* Center pillar */}
+      <pointLight
+        ref={leftGlowRef}
+        position={[-0.35, 0, 0.15]}
+        intensity={1.5}
+        color="#88DDFF"
+        distance={1.5}
+        decay={2}
+      />
+
+      {/* Center pillar - magenta crystal (brightest) */}
       <mesh geometry={pillarGeometry} position={[0, 0.05, 0]}>
-        {glassMaterial('#FFB6FF')}
+        {crystalMaterial('#FFB6FF', '#FF66FF')}
       </mesh>
-      {/* Right pillar */}
+      <pointLight
+        ref={centerGlowRef}
+        position={[0, 0.05, 0.15]}
+        intensity={2.0}
+        color="#FFB6FF"
+        distance={2}
+        decay={2}
+      />
+
+      {/* Right pillar - green crystal */}
       <mesh geometry={pillarGeometry} position={[0.35, 0, 0]}>
-        {glassMaterial('#88FFAA')}
+        {crystalMaterial('#88FFAA', '#44FF88')}
       </mesh>
+      <pointLight
+        ref={rightGlowRef}
+        position={[0.35, 0, 0.15]}
+        intensity={1.5}
+        color="#88FFAA"
+        distance={1.5}
+        decay={2}
+      />
+
+      {/* Central combined glow for overall illumination */}
+      <pointLight
+        position={[0, 0, 0.2]}
+        intensity={1.0}
+        color="#FFFFFF"
+        distance={2}
+        decay={2}
+      />
     </group>
   )
 }
@@ -288,7 +464,7 @@ function GlowRing() {
 }
 
 // Main Medallion component
-export function MigaMedallion({ enableEffects = true }: { enableEffects?: boolean }) {
+export function MigaMedallion({ enableEffects = true, showRings = true }: { enableEffects?: boolean; showRings?: boolean }) {
   const groupRef = useRef<THREE.Group>(null)
 
   useFrame((state) => {
@@ -308,7 +484,7 @@ export function MigaMedallion({ enableEffects = true }: { enableEffects?: boolea
         {/* Main frame */}
         <OrnateFrame />
 
-        {/* Inner decorative ring */}
+        {/* Inner decorative ring with coin edge texture */}
         <InnerRing />
 
         {/* Amber gems */}
@@ -335,6 +511,9 @@ export function MigaMedallion({ enableEffects = true }: { enableEffects?: boolea
           />
         )}
       </group>
+
+      {/* Reeded edge rings with parallax */}
+      {showRings && <ReededEdgeRings />}
     </Float>
   )
 }
