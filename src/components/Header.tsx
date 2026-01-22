@@ -79,12 +79,10 @@ export function Header() {
             {/* Active chain indicator - LEFT of mint button */}
             <span className="text-sm text-[#14F195] hidden lg:flex items-center gap-1.5 font-medium">
               <span className="w-2 h-2 bg-[#14F195] rounded-full animate-pulse" />
-              Solana Live
+              7 Chains Live
             </span>
-            <a
-              href="https://jup.ag/swap/SOL-MIGA"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/mint"
               className="relative group"
             >
               <div className="flex items-center gap-2 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-semibold px-5 py-2 rounded-full hover:shadow-lg hover:shadow-[#FFD700]/20 transition-all">
@@ -98,20 +96,18 @@ export function Header() {
                   style={{ width: `${MINT_PROGRESS}%` }}
                 />
               </div>
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center gap-2">
-            <a
-              href="https://jup.ag/swap/SOL-MIGA"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/mint"
               className="flex items-center gap-1.5 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-semibold px-3 py-1.5 rounded-full text-sm"
             >
               <span>Mint</span>
               <span className="text-xs opacity-80">{MINT_PROGRESS}%</span>
-            </a>
+            </Link>
             <button
               className="p-2 text-[#B8B8C6] hover:text-[#EDEDF2] transition-colors rounded-lg hover:bg-white/[0.03]"
               onClick={() => setIsOpen(!isOpen)}
