@@ -4,85 +4,30 @@ import { TrendingUp, TrendingDown, Trophy, Flame, Clock, ExternalLink } from 'lu
 // Nowruz 2025 - March 20, 2025 at 09:01 UTC (vernal equinox)
 const NOWRUZ_DATE = new Date('2025-03-20T09:01:00Z')
 
-// Chain data with live investment tracking
+// Chain data - Solana-only for initial launch
+// More chains will be announced as we expand
 const chainRaceData = [
   {
     name: 'Solana',
     symbol: 'SOL',
-    color: '#14F195',
+    color: '#9945FF',
     icon: '/images/tokens/solana.png',
-    depositAmount: 125000,
-    previousAmount: 118000, // For +/- calculation
-    tokenAllocation: 0, // Will be calculated based on deposit ratio
-    mintUrl: 'https://migaprotocol.xyz/mint/solana',
+    depositAmount: 0,
+    previousAmount: 0,
+    tokenAllocation: 0,
+    mintUrl: '/mint',
     status: 'live',
   },
-  {
-    name: 'Lux',
-    symbol: 'LUX',
-    color: '#FFD700',
-    icon: '/images/tokens/lux.png',
-    depositAmount: 89500,
-    previousAmount: 82000,
-    tokenAllocation: 0,
-    mintUrl: 'https://migaprotocol.xyz/mint/lux',
-    status: 'live',
-  },
-  {
-    name: 'Zoo',
-    symbol: 'ZOO',
-    color: '#FF6B6B',
-    icon: '/images/tokens/zoo.png',
-    depositAmount: 67200,
-    previousAmount: 61500,
-    tokenAllocation: 0,
-    mintUrl: 'https://migaprotocol.xyz/mint/zoo',
-    status: 'live',
-  },
-  {
-    name: 'Base',
-    symbol: 'BASE',
-    color: '#0052FF',
-    icon: '/images/tokens/base.png',
-    depositAmount: 42100,
-    previousAmount: 38000,
-    tokenAllocation: 0,
-    mintUrl: 'https://migaprotocol.xyz/mint/base',
-    status: 'next',
-  },
-  {
-    name: 'Ethereum',
-    symbol: 'ETH',
-    color: '#627EEA',
-    icon: '/images/tokens/ethereum.png',
-    depositAmount: 38500,
-    previousAmount: 35000,
-    tokenAllocation: 0,
-    mintUrl: 'https://migaprotocol.xyz/mint/ethereum',
-    status: 'next',
-  },
-  {
-    name: 'TON',
-    symbol: 'TON',
-    color: '#0098EA',
-    icon: '/images/tokens/ton.png',
-    depositAmount: 28300,
-    previousAmount: 25000,
-    tokenAllocation: 0,
-    mintUrl: 'https://migaprotocol.xyz/mint/ton',
-    status: 'next',
-  },
-  {
-    name: 'Mystery',
-    symbol: '?',
-    color: '#9D7AED',
-    icon: '/images/tokens/mystery.png',
-    depositAmount: 15200,
-    previousAmount: 12000,
-    tokenAllocation: 0,
-    mintUrl: 'https://migaprotocol.xyz/vote',
-    status: 'mystery',
-  },
+]
+
+// Future chains (hidden for now, coming soon)
+const _futureChains = [
+  { name: 'Pars Network', symbol: 'PARS', color: '#FFD700', status: 'next' },
+  { name: 'Lux', symbol: 'LUX', color: '#FFFFFF', status: 'next' },
+  { name: 'Ethereum', symbol: 'ETH', color: '#627EEA', status: 'next' },
+  { name: 'Base', symbol: 'BASE', color: '#0052FF', status: 'next' },
+  { name: 'TON', symbol: 'TON', color: '#0098EA', status: 'next' },
+  { name: 'Bitcoin', symbol: 'BTC', color: '#F7931A', status: 'next' },
 ]
 
 // Calculate token allocation based on deposit ratio
@@ -153,14 +98,14 @@ export function RaceToNowruz() {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#FFD36A]/10 border border-[#FFD36A]/20 rounded-full mb-6">
             <Flame className="w-4 h-4 text-[#FFD36A]" />
-            <span className="text-sm text-[#FFD36A] font-medium">Race to Nowruz</span>
+            <span className="text-sm text-[#FFD36A] font-medium">MIGA Launch</span>
           </div>
           <h2 className="mb-4">
-            <span className="text-gradient-ember">7 Chains</span> compete for <span className="text-gradient-ember">2.8B</span> MIGA
+            <span className="text-gradient-ember">Mint MIGA</span> on <span className="text-gradient-ember">Solana</span>
           </h2>
           <p className="body-md max-w-2xl mx-auto">
-            The more your chain invests, the more tokens it gets. Race ends at Nowruz.
-            All proceeds fund the DAO treasury. 10% reserved for liquidity.
+            Fair launch on Solana. Teleport-ready for multi-chain expansion.
+            All proceeds fund the DAO treasury. More chains coming soon.
           </p>
         </div>
 
@@ -211,9 +156,9 @@ export function RaceToNowruz() {
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-medium flex items-center gap-2">
               <Trophy className="w-5 h-5 text-[#FFD36A]" />
-              Chain Leaderboard
+              Live Chains
             </h3>
-            <span className="text-sm text-[#6B6B7B]">Sorted by investment</span>
+            <span className="text-sm text-[#6B6B7B]">More chains coming soon</span>
           </div>
 
           <div className="space-y-3">
@@ -342,13 +287,13 @@ export function RaceToNowruz() {
         {/* CTA */}
         <div className="mt-12 text-center">
           <p className="text-sm text-[#9999A5] mb-4">
-            Deposit to your chain's MPC wallet. Tokens distributed proportionally at Nowruz.
+            Mint MIGA on Solana. Teleport to other chains as they launch.
           </p>
           <a
             href="/mint"
             className="btn-primary inline-flex items-center gap-2"
           >
-            Join the Race <Flame className="w-4 h-4" />
+            Mint on Solana <Flame className="w-4 h-4" />
           </a>
         </div>
       </div>

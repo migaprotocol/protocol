@@ -1,4 +1,4 @@
-// MIGA Bridge Types - Multi-chain donation integration
+// MIGA Bridge Types - Multi-chain minting integration
 
 export type MPCBackend = 'utila' | 'fireblocks' | 't-chain' | 'threshold-vm' | 'mpc-go';
 

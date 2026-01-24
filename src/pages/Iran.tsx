@@ -1,8 +1,184 @@
+import { useState, useEffect, useCallback } from 'react'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
-import { Globe, Mountain, Users, Utensils, Palette, Building2, Heart, Sun } from 'lucide-react'
+import { Globe, Mountain, Utensils, Palette, Building2, Heart, Sun, Volume2, VolumeX, Minimize2, Maximize2, X, Maximize, Mail, ArrowRight, Send, Check } from 'lucide-react'
+
+// Video playlist - Iran travel documentaries and vlogs
+const videoPlaylist = [
+  { id: 'ZXvjKn1Fst8', title: 'Mio Iran - Sebastian Linda', description: 'A German tourist shares the experience of travelling to Iran' },
+  { id: 'CYoa9hI3CXg', title: 'Rick Steves\' Iran', description: '55-minute documentary exploring Tehran, Shiraz, Esfahan, Persepolis' },
+  { id: 'l2DVlpo6dds', title: 'Is IRAN Safe? - Drew Binsky', description: 'Realizations from 14 days in Iran' },
+  { id: 'gW00UM85KaA', title: 'My First 24 Hours in IRAN - Drew Binsky', description: 'Exploring the North-Western city of Tabriz' },
+]
 
 export default function Iran() {
+  // Video rotation state
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
+
+  // Video state
+  const [isMuted, setIsMuted] = useState(true)
+  const [isPiP, setIsPiP] = useState(false)
+  const [showPiP, setShowPiP] = useState(true)
+  const [pipSize, setPipSize] = useState<'normal' | 'double' | 'fullscreen'>('normal')
+  const [isMobile, setIsMobile] = useState(false)
+  const [isHeroHovered, setIsHeroHovered] = useState(false)
+  const [isPipHovered, setIsPipHovered] = useState(false)
+
+  // PiP dragging state
+  const [pipPosition, setPipPosition] = useState(() => {
+    const pipWidth = 384
+    const pipHeight = pipWidth * 9 / 16
+    const margin = 24
+    return {
+      x: typeof window !== 'undefined' ? window.innerWidth - pipWidth - margin : 0,
+      y: typeof window !== 'undefined' ? window.innerHeight - pipHeight - margin : 0
+    }
+  })
+  const [isDragging, setIsDragging] = useState(false)
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
+  const [hasDragged, setHasDragged] = useState(false)
+  const [lastMousePosition, setLastMousePosition] = useState({ x: 0, y: 0, time: 0 })
+
+  // Newsletter state
+  const [email, setEmail] = useState('')
+  const [isSubscribed, setIsSubscribed] = useState(false)
+
+  const PIP_WIDTH_BASE = 384
+  const PIP_MARGIN = 24
+
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  // Cycle videos every 60 seconds (longer for documentaries)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentVideoIndex((prev) => (prev + 1) % videoPlaylist.length)
+    }, 60000) // 60 seconds
+    return () => clearInterval(interval)
+  }, [])
+
+  // Get current video info
+  const currentVideo = videoPlaylist[currentVideoIndex]
+
+  // Scroll detection for PiP
+  useEffect(() => {
+    const handleScroll = () => {
+      const videoSection = document.getElementById('video-hero-section')
+      if (videoSection) {
+        const rect = videoSection.getBoundingClientRect()
+        const shouldShowPiP = rect.bottom < 100
+        setIsPiP(shouldShowPiP)
+      }
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // Calculate current PiP width based on size mode
+  const getCurrentPipWidth = useCallback(() => {
+    return pipSize === 'double' ? PIP_WIDTH_BASE * 2 : PIP_WIDTH_BASE
+  }, [pipSize])
+
+  const snapToEdgeOrCorner = useCallback(() => {
+    const pipWidth = getCurrentPipWidth()
+    const pipHeight = pipWidth * 9 / 16
+    const maxX = window.innerWidth - pipWidth - PIP_MARGIN
+    const maxY = window.innerHeight - pipHeight - PIP_MARGIN
+    return { x: maxX, y: maxY }
+  }, [getCurrentPipWidth])
+
+  // PiP dragging handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (pipSize === 'fullscreen') return
+    setIsDragging(true)
+    setHasDragged(false)
+    setDragStart({
+      x: e.clientX - pipPosition.x,
+      y: e.clientY - pipPosition.y
+    })
+  }
+
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!isDragging || pipSize === 'fullscreen') return
+
+    const currentTime = Date.now()
+    const newX = e.clientX - dragStart.x
+    const newY = e.clientY - dragStart.y
+
+    const distanceMoved = Math.sqrt(Math.pow(newX - pipPosition.x, 2) + Math.pow(newY - pipPosition.y, 2))
+    if (distanceMoved > 5) {
+      setHasDragged(true)
+    }
+
+    setLastMousePosition({
+      x: e.clientX,
+      y: e.clientY,
+      time: currentTime
+    })
+
+    const pipWidth = getCurrentPipWidth()
+    const maxX = window.innerWidth - pipWidth - PIP_MARGIN
+    const maxY = window.innerHeight - (pipWidth * 9 / 16) - PIP_MARGIN
+
+    setPipPosition({
+      x: Math.max(PIP_MARGIN, Math.min(newX, maxX)),
+      y: Math.max(PIP_MARGIN, Math.min(newY, maxY))
+    })
+  }, [isDragging, pipSize, dragStart.x, dragStart.y, pipPosition.x, pipPosition.y, getCurrentPipWidth])
+
+  const handleMouseUp = useCallback(() => {
+    if (isDragging && hasDragged) {
+      const snapped = snapToEdgeOrCorner()
+      setPipPosition(snapped)
+    }
+    setIsDragging(false)
+    setHasDragged(false)
+  }, [isDragging, hasDragged, snapToEdgeOrCorner])
+
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener('mousemove', handleMouseMove)
+      window.addEventListener('mouseup', handleMouseUp)
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove)
+        window.removeEventListener('mouseup', handleMouseUp)
+      }
+    }
+  }, [isDragging, handleMouseMove, handleMouseUp])
+
+  // Initialize PiP position
+  useEffect(() => {
+    const pipWidth = getCurrentPipWidth()
+    const pipHeight = pipWidth * 9 / 16
+    const defaultX = window.innerWidth - pipWidth - PIP_MARGIN
+    const defaultY = window.innerHeight - pipHeight - PIP_MARGIN
+    setPipPosition({ x: defaultX, y: defaultY })
+  }, [getCurrentPipWidth])
+
+  // Recalculate position when size changes
+  useEffect(() => {
+    if (pipSize !== 'fullscreen') {
+      const snapped = snapToEdgeOrCorner()
+      setPipPosition(snapped)
+    }
+  }, [pipSize, snapToEdgeOrCorner])
+
+  const handleNewsletterSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (email) {
+      // Handle newsletter subscription
+      setIsSubscribed(true)
+      setEmail('')
+    }
+  }
+
   return (
     <div className="min-h-screen bg-[#07070A]">
       {/* Persian-themed background elements */}
@@ -12,44 +188,249 @@ export default function Iran() {
 
       <Header />
 
-      <main className="pt-24 pb-20">
-        {/* Hero Section with Video */}
-        <section className="container-xl mb-16">
-          <div className="text-center max-w-4xl mx-auto mb-12">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-              <span className="text-gradient-ember">Iran</span>
-              <span className="text-[#EDEDF2] block mt-2">The Land of Unexpected Wonders</span>
-            </h1>
-            <p className="text-lg text-[#9999A5] leading-relaxed">
-              Iran, the former great Persian Empire, is probably among the most misunderstood
-              countries of our time. This is in itself a very good reason to come and experience
-              a unique and unforgettable journey on its lands.
-            </p>
-          </div>
+      <main>
+        {/* Full-Width Video Hero Section */}
+        <section
+          id="video-hero-section"
+          className="relative h-screen flex items-center justify-center overflow-hidden"
+          style={{
+            background: 'radial-gradient(ellipse 120% 80% at center center, rgba(26,10,46,0.8) 0%, rgba(15,8,24,0.9) 35%, rgba(7,7,10,1) 70%)',
+            paddingTop: '70px',
+            paddingBottom: '10px'
+          }}
+        >
+          {/* Cinematic Video Container */}
+          <div className="relative w-full h-full flex items-center justify-center px-2 animate-fade-in">
+            <div
+              className="relative w-full max-h-full aspect-video bg-black rounded-[30px] overflow-hidden group transition-all duration-500"
+              style={{ maxWidth: '90vw', maxHeight: 'calc(100vh - 140px)' }}
+              onMouseEnter={() => setIsHeroHovered(true)}
+              onMouseLeave={() => setIsHeroHovered(false)}
+            >
+              {/* Underlit glow effects - Persian Gold theme */}
+              <div className="absolute -inset-24 bg-gradient-radial from-amber-500/30 via-amber-500/10 to-transparent blur-[100px] opacity-60" />
+              <div className="absolute -inset-12 bg-gradient-radial from-amber-400/20 via-amber-400/10 to-transparent blur-[60px] opacity-50" />
 
-          {/* YouTube Video Embed */}
-          <div className="max-w-4xl mx-auto mb-16">
-            <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+              {/* Outer glow ring - gold accent */}
+              <div className="absolute -inset-2 rounded-[30px] bg-gradient-to-r from-amber-500/40 via-amber-400/30 to-amber-500/40 opacity-75 blur-xl animate-pulse-glow" />
+
+              {/* Border frame */}
+              <div className="absolute inset-0 rounded-[30px] border border-amber-500/20 shadow-[0_0_60px_rgba(214,177,90,0.3)]" />
+
+              {/* Inner frame with glass effect */}
+              <div className="absolute inset-0 pointer-events-none z-10">
+                <div
+                  className="absolute inset-0 rounded-[30px] border border-white/10 bg-gradient-to-b from-white/5 to-transparent"
+                  style={{
+                    boxShadow: 'inset 0 2px 20px rgba(255,255,255,0.05), inset 0 -2px 20px rgba(0,0,0,0.5)',
+                  }}
+                />
+              </div>
+
+              {/* Cinematic Vignette */}
+              <div
+                className="absolute inset-0 z-20 pointer-events-none"
+                style={{
+                  boxShadow: 'inset 0 0 120px 60px rgba(0,0,0,0.7)',
+                }}
+              />
+
+              {/* YouTube Video */}
               <iframe
                 className="absolute inset-0 w-full h-full"
-                src="https://www.youtube.com/embed/ZXvjKn1Fst8"
-                title="Mio Iran - A Journey Through the Land of Unexpected Wonders"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                src={`https://www.youtube.com/embed/${currentVideo.id}?autoplay=1&mute=${isPiP || isMuted ? '1' : '0'}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=${currentVideo.id}`}
+                title="Mio Iran - Journey Through the Land of Unexpected Wonders"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
+
+              {/* Video Controls - fade in on hover */}
+              <div
+                className={`absolute bottom-6 left-6 flex items-center gap-3 z-30 transition-opacity duration-300 ${isHeroHovered ? 'opacity-100' : 'opacity-0'}`}
+              >
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setIsMuted(!isMuted)
+                  }}
+                  className="flex items-center gap-2 bg-black/80 backdrop-blur-md px-4 py-2 rounded-full hover:bg-black transition-all duration-300 border border-white/10"
+                >
+                  {isMuted ? <VolumeX className="h-4 w-4 text-white" /> : <Volume2 className="h-4 w-4 text-white" />}
+                  <span className="text-xs text-white/90 font-medium tracking-wider uppercase">{isMuted ? 'Unmute' : 'Mute'}</span>
+                </button>
+
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    const elem = document.getElementById('video-hero-section')
+                    if (elem) {
+                      if (document.fullscreenElement) {
+                        document.exitFullscreen()
+                      } else {
+                        elem.requestFullscreen()
+                      }
+                    }
+                  }}
+                  className="flex items-center gap-2 bg-black/80 backdrop-blur-md px-4 py-2 rounded-full hover:bg-black transition-all duration-300 border border-white/10"
+                >
+                  <Maximize className="h-4 w-4 text-white" />
+                  <span className="text-xs text-white/90 font-medium tracking-wider uppercase">Fullscreen</span>
+                </button>
+              </div>
+
+              {/* Video Title Badge */}
+              <div className="absolute top-6 left-6 flex items-center gap-2 bg-black/80 backdrop-blur-md px-4 py-2 rounded-full border border-amber-500/20 z-30">
+                <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(214,177,90,0.8)]" />
+                <span className="text-xs text-white/90 font-medium tracking-widest uppercase">Iran</span>
+              </div>
             </div>
-            <p className="text-center mt-4 text-sm text-[#6B6B7B]">
-              "Mio Iran" by Sebastian Linda — A tourist from Germany shares the experience of
-              travelling to Iran, the land of unexpected wonders.
-            </p>
+          </div>
+
+          {/* Hero Text Overlay at bottom */}
+          <div className="absolute bottom-0 left-0 right-0 z-30 pb-8">
+            <div className="container-xl">
+              <div className="text-center max-w-3xl mx-auto">
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3">
+                  <span className="text-gradient-ember">Iran</span>
+                  <span className="text-[#EDEDF2] block mt-1 text-xl md:text-2xl lg:text-3xl">The Land of Unexpected Wonders</span>
+                </h1>
+                <p className="text-sm md:text-base text-[#9999A5] max-w-2xl mx-auto">
+                  The former great Persian Empire — probably among the most misunderstood countries of our time.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
 
+        {/* Picture-in-Picture Video - Desktop only */}
+        {isPiP && showPiP && !isMobile && (
+          <div
+            className={`fixed z-50 transition-all ease-out group ${
+              pipSize === 'fullscreen' ? 'inset-0 bg-black/98 backdrop-blur-xl duration-500' : isDragging ? 'duration-75' : 'duration-300'
+            } ${isDragging ? 'cursor-grabbing scale-105 shadow-2xl' : pipSize === 'fullscreen' ? '' : 'cursor-grab hover:scale-105'}`}
+            style={
+              pipSize !== 'fullscreen'
+                ? {
+                    left: `${pipPosition.x}px`,
+                    top: `${pipPosition.y}px`,
+                    filter: isDragging ? 'brightness(1.1) drop-shadow(0 20px 40px rgba(0,0,0,0.5))' : 'brightness(1)',
+                  }
+                : {}
+            }
+            onMouseDown={handleMouseDown}
+            onMouseEnter={() => setIsPipHovered(true)}
+            onMouseLeave={() => setIsPipHovered(false)}
+          >
+            <div
+              className={`relative bg-black overflow-hidden transition-all duration-500 ${
+                pipSize === 'fullscreen'
+                  ? 'w-full h-full'
+                  : pipSize === 'double'
+                  ? 'aspect-video rounded-2xl'
+                  : 'w-96 aspect-video rounded-2xl'
+              }`}
+              style={pipSize === 'double' ? { width: '768px' } : {}}
+            >
+              {/* PiP Glow Effects */}
+              {pipSize !== 'fullscreen' && (
+                <>
+                  <div className="absolute -inset-12 rounded-full bg-gradient-radial from-amber-500/20 via-amber-500/5 to-transparent blur-3xl opacity-60" />
+                  <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-amber-500/30 via-amber-400/15 to-amber-500/30 opacity-75 blur-xl animate-pulse-glow" />
+                  <div className="absolute inset-0 pointer-events-none z-10">
+                    <div
+                      className="absolute inset-0 rounded-2xl border border-white/10 bg-gradient-to-b from-white/5 to-transparent"
+                      style={{
+                        boxShadow: 'inset 0 2px 20px rgba(255,255,255,0.05), inset 0 -2px 20px rgba(0,0,0,0.5)',
+                      }}
+                    />
+                  </div>
+                </>
+              )}
+
+              {/* YouTube Video */}
+              <div className="absolute inset-0 overflow-hidden">
+                <iframe
+                  className={`absolute top-0 left-0 w-full h-full object-cover ${pipSize !== 'fullscreen' ? 'rounded-2xl' : ''}`}
+                  style={{
+                    aspectRatio: '16 / 9',
+                    pointerEvents: 'none',
+                  }}
+                  src={`https://www.youtube.com/embed/${currentVideo.id}?autoplay=1&mute=${!isPiP || isMuted ? '1' : '0'}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=${currentVideo.id}`}
+                  title="Mio Iran PiP"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+                <div className="absolute inset-0 z-5" />
+              </div>
+
+              {/* PiP Controls */}
+              <div
+                className={`absolute ${pipSize === 'fullscreen' ? 'bottom-10 right-10' : 'bottom-3 right-3'} flex items-center gap-2 z-30 transition-opacity duration-300 ${isPipHovered ? 'opacity-100' : 'opacity-0'}`}
+              >
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setIsMuted(!isMuted)
+                  }}
+                  className="relative p-2.5 bg-black/90 backdrop-blur-md rounded-full hover:bg-black transition-all duration-300 shadow-lg hover:scale-110 border border-white/10"
+                  title={isMuted ? 'Unmute' : 'Mute'}
+                >
+                  {isMuted ? <VolumeX className="h-4 w-4 text-white" /> : <Volume2 className="h-4 w-4 text-white" />}
+                </button>
+
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    if (pipSize === 'normal') {
+                      setPipSize('double')
+                    } else if (pipSize === 'double') {
+                      setPipSize('fullscreen')
+                    } else {
+                      setPipSize('normal')
+                    }
+                  }}
+                  className="relative p-2.5 bg-black/90 backdrop-blur-md rounded-full hover:bg-black transition-all duration-300 shadow-lg hover:scale-110 border border-white/10"
+                  title={pipSize === 'fullscreen' ? 'Normal Size' : pipSize === 'double' ? 'Fullscreen' : 'Double Size'}
+                >
+                  {pipSize === 'fullscreen' ? (
+                    <Minimize2 className="h-4 w-4 text-white" />
+                  ) : (
+                    <Maximize2 className="h-4 w-4 text-white" />
+                  )}
+                </button>
+
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setShowPiP(false)
+                  }}
+                  className="relative p-2.5 bg-black/90 backdrop-blur-md rounded-full hover:bg-red-600 transition-all duration-300 shadow-lg hover:scale-110 border border-white/10"
+                  title="Close"
+                >
+                  <X className="h-4 w-4 text-white" />
+                </button>
+              </div>
+
+              {/* PiP Badge */}
+              {pipSize !== 'fullscreen' && (
+                <div className="absolute top-3 right-3 z-20">
+                  <div className="flex items-center gap-2 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-amber-500/20">
+                    <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(214,177,90,0.8)]" />
+                    <span className="text-[10px] text-white/80 font-medium tracking-widest uppercase">Iran</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Introduction */}
-        <section className="container-xl mb-20">
+        <section className="container-xl py-16">
           <div className="max-w-4xl mx-auto">
-            <div className="prose-custom">
-              <p className="text-lg text-[#B8B8C6] leading-relaxed mb-6">
+            <div className="prose-custom text-center">
+              <p className="text-lg text-[#B8B8C6] leading-relaxed">
                 Most visitors who experienced Iran agree that they lived an experience beyond expectations!
                 Because Iran is simply nothing as you can expect and moreover nothing like what Western media
                 and politics depict. So, here is a bite of what Iran truly is!
@@ -59,7 +440,7 @@ export default function Iran() {
         </section>
 
         {/* Content Sections */}
-        <div className="container-xl">
+        <section className="container-xl pb-20">
           <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
 
             {/* Persian Empire */}
@@ -198,10 +579,10 @@ export default function Iran() {
               </p>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Closing Section */}
-        <section className="container-xl mt-20">
+        {/* Closing CTA Section */}
+        <section className="container-xl py-16">
           <div className="max-w-4xl mx-auto text-center">
             <div className="glass-card p-10 rounded-2xl">
               <Sun className="w-16 h-16 text-amber-400 mx-auto mb-6" />
@@ -225,6 +606,64 @@ export default function Iran() {
                   Learn About MIGA
                 </a>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Newsletter Section */}
+        <section className="py-20 border-t border-white/5">
+          <div className="container-xl">
+            <div className="max-w-3xl mx-auto text-center">
+              <div className="mb-8">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 mb-6">
+                  <Mail className="w-8 h-8 text-amber-400" />
+                </div>
+                <h2 className="text-3xl md:text-4xl font-bold text-[#EDEDF2] mb-4">
+                  Stay Connected with Iran
+                </h2>
+                <p className="text-lg text-[#9999A5] max-w-xl mx-auto">
+                  Subscribe to receive updates about Iran, Persian culture, and the MIGA Protocol's mission
+                  to support the Iranian people.
+                </p>
+              </div>
+
+              {isSubscribed ? (
+                <div className="glass-card p-8 rounded-2xl">
+                  <div className="flex items-center justify-center gap-3 text-emerald-400 mb-4">
+                    <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                      <ArrowRight className="w-5 h-5" />
+                    </div>
+                    <span className="text-xl font-semibold">Thank you for subscribing!</span>
+                  </div>
+                  <p className="text-[#9999A5]">
+                    You'll receive our updates about Iran and the MIGA Protocol.
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+                  <div className="flex-1 relative">
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Enter your email"
+                      className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-full text-white placeholder-[#6B6B7B] focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-all"
+                      required
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="hero-cta-btn flex items-center justify-center gap-2 px-8"
+                  >
+                    <Send className="w-4 h-4" />
+                    Subscribe
+                  </button>
+                </form>
+              )}
+
+              <p className="text-xs text-[#6B6B7B] mt-6">
+                We respect your privacy. Unsubscribe at any time.
+              </p>
             </div>
           </div>
         </section>

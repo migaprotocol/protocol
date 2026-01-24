@@ -1,4 +1,4 @@
-// MIGA Bridge - Multi-chain Donation Widget
+// MIGA Bridge - Multi-chain Minting Widget
 // Supports 7 chains: Bitcoin, Ethereum, BNB, Solana, TON, Lux, Zoo
 // Uses Utila MPC for 5-signer DAO treasury wallet
 
@@ -14,7 +14,7 @@ import {
   QrCode,
   Info
 } from 'lucide-react';
-import { MIGA_CHAINS, DONATION_ASSETS, MIGA_DAO_WALLET, getChainAssets } from './networks';
+import { MIGA_CHAINS, MINT_ASSETS, MIGA_DAO_WALLET, getChainAssets } from './networks';
 import type { ChainConfig, DonationAsset } from './types';
 
 interface MigaBridgeProps {
@@ -66,7 +66,7 @@ export function MigaBridge({ className = '', compact = false, defaultChain = 'SO
       <div className="flex items-center justify-between p-4 border-b border-neutral-800">
         <div className="flex items-center gap-2">
           <Wallet className="text-gold" size={20} />
-          <h3 className="text-base font-medium">Donate to MIGA</h3>
+          <h3 className="text-base font-medium">Mint MIGA</h3>
         </div>
         <div className="flex items-center gap-1.5 text-xs text-neutral-400">
           <Shield size={14} className="text-emerald-500" />
@@ -271,7 +271,7 @@ export function MigaBridge({ className = '', compact = false, defaultChain = 'SO
           <Info size={16} className="text-blue-400 mt-0.5 flex-shrink-0" />
           <div className="text-xs text-blue-200">
             <p className="mb-1">Send <span className="font-medium">{asset?.symbol || chain?.symbol}</span> on <span className="font-medium">{chain?.name}</span> to this address.</p>
-            <p className="text-blue-300/70">Donations go directly to the DAO treasury and are used for protocol development and community initiatives.</p>
+            <p className="text-blue-300/70">Funds go directly to the DAO treasury and are used for protocol development and community initiatives.</p>
           </div>
         </div>
 

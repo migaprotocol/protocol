@@ -13,7 +13,7 @@ const steps = [
   },
   {
     number: '2',
-    title: 'Send Donation',
+    title: 'Send Payment',
     description: 'Send tokens to the DAO treasury address',
   },
   {
@@ -27,7 +27,7 @@ const features = [
   {
     icon: Shield,
     title: '3-of-5 MPC Security',
-    description: 'All donations are secured by Utila MPC with 3-of-5 DAO signers required for any transaction.',
+    description: 'All funds are secured by Utila MPC with 3-of-5 DAO signers required for any transaction.',
   },
   {
     icon: Users,
@@ -57,13 +57,13 @@ export default function Mint() {
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/10 border border-gold/20 text-gold text-sm mb-6">
               <Sparkles size={16} />
-              <span>Multi-Chain Donations Open</span>
+              <span>Multi-Chain Minting Open</span>
             </div>
             <h1 className="text-4xl lg:text-6xl font-medium tracking-tight mb-4">
               Mint <span className="text-gold">$MIGA</span>
             </h1>
             <p className="text-white/60 max-w-2xl mx-auto">
-              Donate from any of 7 supported chains. All donations go directly to the DAO treasury
+              Mint from any of 7 supported chains. All funds go directly to the DAO treasury
               and are used for protocol development and community initiatives.
             </p>
           </div>
@@ -133,7 +133,7 @@ export default function Mint() {
 
           {/* Features */}
           <section className="mb-16">
-            <h2 className="text-2xl font-medium text-center mb-8">Why Donate to MIGA?</h2>
+            <h2 className="text-2xl font-medium text-center mb-8">Why Mint MIGA?</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
               {features.map((feature) => (
                 <div key={feature.title} className="card rounded-xl p-6">

@@ -322,6 +322,21 @@
   border-radius: 1rem;
 }
 
+/* Glass card style with border glow on hover */
+.glass-card {
+  background: rgba(15, 15, 22, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  background: rgba(20, 20, 30, 0.7);
+  border-color: rgba(214, 177, 90, 0.2);
+  box-shadow: 0 8px 32px rgba(214, 177, 90, 0.08);
+}
+
 /* Persian-styled pillar cards with ornate borders */
 .pillar-card {
   position: relative;
