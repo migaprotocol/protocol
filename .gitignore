@@ -15,3 +15,14 @@ dist
 # OS
 .DS_Store
 .claude/settings.local.json
+
+# ===========================================
+# LOCAL DEV ONLY - Never commit these files
+# ===========================================
+src/dev/
+.env.local
+.env.development.local
+vite.config.local.ts
+dev-lite.cmd
+dev-lite.sh
+dist-dev/
