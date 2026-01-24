@@ -11,12 +11,20 @@ import {
   TransformControls,
   Text,
   useTexture,
+  Preload,
 } from '@react-three/drei'
 import { useControls, Leva, button, folder } from 'leva'
 import * as THREE from 'three'
+import { usePerformance, type PerformanceSettings } from '@/contexts/PerformanceContext'
 
-// Preload medallion model
-useGLTF.preload('/models/MIGA-3D.glb')
+// Lazy preload - will be triggered when scene mounts
+let modelPreloaded = false
+function preloadModel() {
+  if (!modelPreloaded) {
+    useGLTF.preload('/models/MIGA-3D.glb')
+    modelPreloaded = true
+  }
+}
 
 // Mouse position for parallax
 const mouseState = { x: 0, y: 0 }
@@ -752,13 +760,30 @@ function IntroAnimatedGroup({ children }: { children: React.ReactNode }) {
 }
 
 // Reflective Pool with proper reflections from HDRI - larger and more prominent
-function ReflectivePool({ x = 0.5, z = 0, radius = 5 }: { x?: number; z?: number; radius?: number }) {
+function ReflectivePool({ x = 0.5, z = 0, radius = 5, perfSettings }: { x?: number; z?: number; radius?: number; perfSettings?: PerformanceSettings }) {
+  const resolution = perfSettings?.reflectionResolution || 1024
+  const segments = perfSettings?.geometrySegments ? perfSettings.geometrySegments * 1.5 : 96
+
+  // If reflections are disabled, render a simple material
+  if (perfSettings && !perfSettings.enableReflections) {
+    return (
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[x, 0.01, z]}>
+        <circleGeometry args={[radius, segments]} />
+        <meshStandardMaterial
+          color="#0a1825"
+          metalness={0.95}
+          roughness={0.15}
+        />
+      </mesh>
+    )
+  }
+
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[x, 0.01, z]} receiveShadow>
-      <circleGeometry args={[radius, 96]} />
+      <circleGeometry args={[radius, segments]} />
       <MeshReflectorMaterial
         blur={[400, 200]}
-        resolution={1024}
+        resolution={resolution}
         mixBlur={0.8}
         mixStrength={40}
         depthScale={1.5}
@@ -1001,12 +1026,13 @@ function OrbitingReflectionLights() {
 }
 
 // Light Ribbon Trail - orbiting around medallion
-function LightRibbon({ color, speed, radius, yOffset, reverse = false }: {
+function LightRibbon({ color, speed, radius, yOffset, reverse = false, trailLength = 8 }: {
   color: string
   speed: number
   radius: number
   yOffset: number
   reverse?: boolean
+  trailLength?: number
 }) {
   const meshRef = useRef<THREE.Mesh>(null)
 
@@ -1022,7 +1048,7 @@ function LightRibbon({ color, speed, radius, yOffset, reverse = false }: {
   return (
     <Trail
       width={0.12}
-      length={8}
+      length={trailLength}
       color={color}
       attenuation={(t) => t * t}
       decay={1}
@@ -1036,21 +1062,21 @@ function LightRibbon({ color, speed, radius, yOffset, reverse = false }: {
 }
 
 // Multiple light ribbon trails - tighter arcs around medallion
-function LightRibbons() {
+function LightRibbons({ trailLength = 8 }: { trailLength?: number }) {
   return (
     <group position={[0, 0, 0]}>
       {/* Outer arcs - tighter */}
-      <LightRibbon color="#FFD700" speed={0.25} radius={2.8} yOffset={2.8} />
-      <LightRibbon color="#FFA500" speed={0.22} radius={3.0} yOffset={3.0} reverse />
-      <LightRibbon color="#FFE4B5" speed={0.28} radius={3.2} yOffset={2.5} />
+      <LightRibbon color="#FFD700" speed={0.25} radius={2.8} yOffset={2.8} trailLength={trailLength} />
+      <LightRibbon color="#FFA500" speed={0.22} radius={3.0} yOffset={3.0} reverse trailLength={trailLength} />
+      <LightRibbon color="#FFE4B5" speed={0.28} radius={3.2} yOffset={2.5} trailLength={trailLength} />
       {/* Mid-range arcs - closer */}
-      <LightRibbon color="#FF8866" speed={0.3} radius={2.4} yOffset={2.9} />
-      <LightRibbon color="#7C3AED" speed={0.26} radius={2.6} yOffset={2.6} reverse />
-      <LightRibbon color="#C9A86C" speed={0.32} radius={2.2} yOffset={2.4} />
+      <LightRibbon color="#FF8866" speed={0.3} radius={2.4} yOffset={2.9} trailLength={trailLength} />
+      <LightRibbon color="#7C3AED" speed={0.26} radius={2.6} yOffset={2.6} reverse trailLength={trailLength} />
+      <LightRibbon color="#C9A86C" speed={0.32} radius={2.2} yOffset={2.4} trailLength={trailLength} />
       {/* Inner accent arcs - tight */}
-      <LightRibbon color="#FFCC00" speed={0.35} radius={1.8} yOffset={3.1} reverse />
-      <LightRibbon color="#E8A838" speed={0.38} radius={1.6} yOffset={2.7} />
-      <LightRibbon color="#9D7AED" speed={0.34} radius={2.0} yOffset={2.8} reverse />
+      <LightRibbon color="#FFCC00" speed={0.35} radius={1.8} yOffset={3.1} reverse trailLength={trailLength} />
+      <LightRibbon color="#E8A838" speed={0.38} radius={1.6} yOffset={2.7} trailLength={trailLength} />
+      <LightRibbon color="#9D7AED" speed={0.34} radius={2.0} yOffset={2.8} reverse trailLength={trailLength} />
     </group>
   )
 }
@@ -1414,12 +1440,15 @@ function BlackHolePortal() {
 }
 
 // More sparkles for magical atmosphere - smaller and tighter
-function AmbientSparkles() {
+function AmbientSparkles({ multiplier = 1 }: { multiplier?: number }) {
+  // Scale all counts by multiplier for performance adjustment
+  const scale = (count: number) => Math.max(10, Math.round(count * multiplier))
+
   return (
     <>
       {/* Main field of micro particles - smaller */}
       <Sparkles
-        count={120}
+        count={scale(120)}
         scale={[12, 6, 12]}
         size={0.15}
         speed={0.3}
@@ -1428,7 +1457,7 @@ function AmbientSparkles() {
       />
       {/* Gold dust spread - tighter */}
       <Sparkles
-        count={80}
+        count={scale(80)}
         scale={[10, 5, 10]}
         size={0.12}
         speed={0.4}
@@ -1437,7 +1466,7 @@ function AmbientSparkles() {
       />
       {/* Concentrated near coin - tiny */}
       <Sparkles
-        count={50}
+        count={scale(50)}
         scale={[4, 3, 4]}
         size={0.18}
         speed={0.6}
@@ -1446,51 +1475,61 @@ function AmbientSparkles() {
         position={[0, 2.8, 0]}
       />
       {/* Purple accent field - smaller */}
-      <Sparkles
-        count={60}
-        scale={[10, 4, 10]}
-        size={0.1}
-        speed={0.3}
-        opacity={0.3}
-        color="#9D7AED"
-      />
+      {multiplier > 0.5 && (
+        <Sparkles
+          count={scale(60)}
+          scale={[10, 4, 10]}
+          size={0.1}
+          speed={0.3}
+          opacity={0.3}
+          color="#9D7AED"
+        />
+      )}
       {/* Amber micro dust */}
-      <Sparkles
-        count={50}
-        scale={[8, 4, 8]}
-        size={0.08}
-        speed={0.4}
-        opacity={0.35}
-        color="#FF9944"
-      />
+      {multiplier > 0.5 && (
+        <Sparkles
+          count={scale(50)}
+          scale={[8, 4, 8]}
+          size={0.08}
+          speed={0.4}
+          opacity={0.35}
+          color="#FF9944"
+        />
+      )}
       {/* Tiny fast magic dust near coin */}
-      <Sparkles
-        count={60}
-        scale={[5, 3, 5]}
-        size={0.1}
-        speed={0.8}
-        opacity={0.5}
-        color="#FFFACD"
-        position={[0, 2.6, 0]}
-      />
+      {multiplier > 0.3 && (
+        <Sparkles
+          count={scale(60)}
+          scale={[5, 3, 5]}
+          size={0.1}
+          speed={0.8}
+          opacity={0.5}
+          color="#FFFACD"
+          position={[0, 2.6, 0]}
+        />
+      )}
       {/* Cream particles - tighter */}
-      <Sparkles
-        count={70}
-        scale={[12, 5, 12]}
-        size={0.08}
-        speed={0.35}
-        opacity={0.3}
-        color="#E8D5B5"
-      />
+      {multiplier > 0.7 && (
+        <Sparkles
+          count={scale(70)}
+          scale={[12, 5, 12]}
+          size={0.08}
+          speed={0.35}
+          opacity={0.3}
+          color="#E8D5B5"
+        />
+      )}
       {/* Micro white dust - smaller spread */}
-      <Sparkles
-        count={80}
-        scale={[14, 4, 14]}
-        size={0.06}
-        speed={0.5}
-        opacity={0.25}
-        color="#FFFFFF"
-      />
+      {multiplier > 0.7 && (
+        <Sparkles
+          count={scale(80)}
+          scale={[14, 4, 14]}
+          size={0.06}
+          speed={0.5}
+          opacity={0.25}
+          color="#FFFFFF"
+        />
+      )}
     </>
   )
 }
@@ -1707,7 +1746,7 @@ function CameraWithControls() {
 }
 
 // Main scene content
-function SceneContent({ onChainHover }: { onChainHover?: (chain: ChainData | null) => void }) {
+function SceneContent({ onChainHover, perfSettings }: { onChainHover?: (chain: ChainData | null) => void; perfSettings?: PerformanceSettings }) {
   // Medallion controls - centered at x=0, z=0 above pool
   const { medallionX, medallionY, medallionZ, medallionScale, showMedallion } = useControls('Medallion', {
     showMedallion: { value: true, label: 'Show' },
@@ -1808,7 +1847,7 @@ function SceneContent({ onChainHover }: { onChainHover?: (chain: ChainData | nul
         <IntroAnimatedGroup>
           {showPool && (
             <>
-              <ReflectivePool x={poolX} z={poolZ} radius={poolRadius} />
+              <ReflectivePool x={poolX} z={poolZ} radius={poolRadius} perfSettings={perfSettings} />
               <PoolEdge x={poolX} z={poolZ} radius={poolRadius} />
             </>
           )}
@@ -1853,10 +1892,14 @@ function SceneContent({ onChainHover }: { onChainHover?: (chain: ChainData | nul
         {/* Effects outside intro animation so they're visible immediately */}
         {showEffects && (
           <>
-            {showRibbons && <LightRibbons />}
-            {showFog && <VolumetricFogSwirls />}
+            {showRibbons && (perfSettings?.enableTrails !== false) && (
+              <LightRibbons trailLength={perfSettings?.trailLength || 8} />
+            )}
+            {showFog && (perfSettings?.enableFogSwirls !== false) && <VolumetricFogSwirls />}
             <OrbitingReflectionLights />
-            {showSparkles && <AmbientSparkles />}
+            {showSparkles && (perfSettings?.enableSparkles !== false) && (
+              <AmbientSparkles multiplier={(perfSettings?.sparkleCount || 120) / 120} />
+            )}
           </>
         )}
       </SceneWrapper>
@@ -1871,13 +1914,22 @@ interface MigaSceneProps {
   className?: string
 }
 
-export function MigaScene({ className = '' }: MigaSceneProps) {
+// Internal scene component that uses performance context
+function MigaSceneInternal({ className = '' }: MigaSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const [isModelLoaded, setIsModelLoaded] = useState(false)
   const [showPanel, setShowPanel] = useState(false) // Hidden by default
   const [hoveredChain, setHoveredChain] = useState<ChainData | null>(null)
   const [loadingProgress, setLoadingProgress] = useState(0)
+
+  // Get performance settings from context
+  const { settings: perfSettings } = usePerformance()
+
+  // Trigger model preload when component mounts
+  useEffect(() => {
+    preloadModel()
+  }, [])
 
   // Screenshot function
   const takeScreenshot = useCallback(() => {
@@ -2197,7 +2249,7 @@ export function MigaScene({ className = '' }: MigaSceneProps) {
         {/* 3D Canvas */}
         <Canvas
           gl={{
-            antialias: true,
+            antialias: perfSettings ? perfSettings.maxDpr > 1 : true,
             alpha: true,
             powerPreference: 'high-performance',
             preserveDrawingBuffer: true, // Required for screenshots
@@ -2205,17 +2257,24 @@ export function MigaScene({ className = '' }: MigaSceneProps) {
             toneMappingExposure: 1.2,
             outputColorSpace: THREE.SRGBColorSpace,
           }}
-          dpr={[1, Math.min(window.devicePixelRatio, 2)]}
+          dpr={[1, Math.min(window.devicePixelRatio, perfSettings?.maxDpr || 2)]}
           camera={{ position: [0, 12, 10], fov: 45 }}
           style={{ background: 'transparent' }}
+          frameloop={perfSettings?.maxDpr === 1 ? 'demand' : 'always'}
         >
           <Suspense fallback={<Loader />}>
-            <SceneContent onChainHover={setHoveredChain} />
+            <SceneContent onChainHover={setHoveredChain} perfSettings={perfSettings} />
           </Suspense>
+          <Preload all />
         </Canvas>
       </div>
     </div>
   )
+}
+
+// Wrapper component that provides fallback if context is missing
+export function MigaScene({ className = '' }: MigaSceneProps) {
+  return <MigaSceneInternal className={className} />
 }
 
 export function MigaSceneLite({ className = '' }: { className?: string }) {

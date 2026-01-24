@@ -3,6 +3,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { WalletProvider } from "@/components/WalletProvider";
 import { GlobalChatWidget } from "@/components/GlobalChatWidget";
+import { PerformanceProvider } from "@/contexts/PerformanceContext";
 import Index from "./pages/Index";
 import Token from "./pages/Token";
 import Mint from "./pages/Mint";
@@ -20,8 +21,9 @@ import NotFound from "./pages/NotFound";
 const basename = import.meta.env.BASE_URL || '/';
 
 const App = () => (
-  <WalletProvider>
-    <TooltipProvider>
+  <PerformanceProvider>
+    <WalletProvider>
+      <TooltipProvider>
       <Toaster />
       <BrowserRouter basename={basename}>
         <Routes>
@@ -41,8 +43,9 @@ const App = () => (
         </Routes>
         <GlobalChatWidget />
       </BrowserRouter>
-    </TooltipProvider>
-  </WalletProvider>
+      </TooltipProvider>
+    </WalletProvider>
+  </PerformanceProvider>
 );
 
 export default App;

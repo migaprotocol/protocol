@@ -1,6 +1,6 @@
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
-import { MigaScene } from '@/components/3d'
+import { LazyMigaScene } from '@/components/3d'
 import { RaceToNowruz } from '@/components/RaceToNowruz'
 import { SocialFeed } from '@/components/SocialFeed'
 import { RezaNews } from '@/components/RezaNews'
@@ -51,9 +51,9 @@ export default function Index() {
           {/* Night sky background with scroll parallax */}
           <div ref={heroSkyRef} className="hero-night-sky" />
 
-          {/* Full-width 3D Scene */}
+          {/* Full-width 3D Scene - Lazy loaded for better performance */}
           <div className="hero-3d-full">
-            <MigaScene />
+            <LazyMigaScene />
           </div>
 
           {/* Content overlay on left */}
