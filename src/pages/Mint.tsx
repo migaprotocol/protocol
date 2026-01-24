@@ -71,7 +71,6 @@ export default function Mint() {
       ripple: 'XRP',
       ton: 'TON',
       lux: 'LUX',
-      zoo: 'ZOO',
     };
     return chainMap[slug] || 'SOLANA';
   };
