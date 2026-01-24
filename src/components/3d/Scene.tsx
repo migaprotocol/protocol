@@ -26,35 +26,10 @@ const mouseState = { x: 0, y: 0 }
 // Deposit address for bridge minting
 const DEPOSIT_ADDRESS = '0x14aa5a41133199c68d06f4dfa5417abb4eef44e9'
 
-// Chain data - Solana-only for initial launch
-// More chains will be announced as we expand (teleport-ready)
+// Chain data - 7 chains for 7 pillars (imported from chainData.ts)
 // Status: live = accepting deposits, next = coming soon, mystery = vote to decide
 // depositAmount: Dynamic value from MPC wallet deposits (in USD equivalent)
-const chainData = [
-  {
-    name: 'Solana',
-    symbol: 'SOL',
-    color: '#9945FF', // Purple
-    icon: '/images/tokens/solana.png',
-    status: 'live',
-    mintUrl: '/mint',
-    contractAddress: '...',
-    description: 'Mint MIGA on Solana - teleport ready',
-    depositAmount: 0, // Will update with real deposits
-  },
-]
-
-// Future chains (hidden for now, will be announced)
-const _futureChains = [
-  { name: 'Pars', symbol: 'PARS', color: '#FFD700', status: 'next' },
-  { name: 'Lux', symbol: 'LUX', color: '#FFFFFF', status: 'next' },
-  { name: 'Ethereum', symbol: 'ETH', color: '#8C8C8C', status: 'next' },
-  { name: 'Bitcoin', symbol: 'BTC', color: '#F7931A', status: 'next' },
-  { name: 'BNB Chain', symbol: 'BNB', color: '#F0B90B', status: 'next' },
-  { name: 'TON', symbol: 'TON', color: '#0098EA', status: 'next' },
-]
-
-type ChainData = typeof chainData[number]
+import { chainData, type ChainData } from './chainData'
 
 // Coin face with token icon texture - shows actual token image
 function CoinFace({
