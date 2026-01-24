@@ -6,6 +6,7 @@ import { GlobalChatWidget } from "@/components/GlobalChatWidget";
 import Index from "./pages/Index";
 import Token from "./pages/Token";
 import Mint from "./pages/Mint";
+import Team from "./pages/Team";
 import Docs from "./pages/Docs";
 import DAO from "./pages/DAO";
 import Propose from "./pages/Propose";
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/token" element={<Token />} />
           <Route path="/mint" element={<Mint />} />
           <Route path="/mint/:chain" element={<Mint />} />
+          <Route path="/team" element={<Team />} />
           <Route path="/docs" element={<Docs />} />
           <Route path="/dao" element={<DAO />} />
           <Route path="/propose" element={<Propose />} />
