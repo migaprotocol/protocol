@@ -28,6 +28,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/token" element={<Token />} />
           <Route path="/mint" element={<Mint />} />
+          <Route path="/mint/:chain" element={<Mint />} />
           <Route path="/docs" element={<Docs />} />
           <Route path="/dao" element={<DAO />} />
           <Route path="/propose" element={<Propose />} />

@@ -1,30 +1,46 @@
 // MIGA Protocol - Supported Networks for Minting
-// 7 chains: Bitcoin, Ethereum, BNB, Solana, TON, Lux, Zoo
+// 7 native chains: BTC, ETH, SOL, BNB, XRP, TON, LUX
+// Stablecoins (USDC/USDT) accepted but auto-swapped to native tokens
 
 import type { ChainConfig, DAOWalletConfig, DonationAsset } from './types';
 
+// Deposit addresses by chain
+const DEPOSIT_ADDRESSES = {
+  BITCOIN: 'bc1qem8jywyuc9wtgf7y5n9tyq6tknpj3l85tzg9y6',
+  EVM: '0xAaf3a7253c73a58f2713f454717C5338c6573d62', // ETH, Base, Optimism, Arbitrum, BSC
+  SOLANA: 'BPTZhkTdRwqnrb7PnWvi6SkCWQHcvUZrfaYvPkZ2YD8R',
+  XRP: 'raBQUYdAhnnojJQ6Xi3eXztZ74ot24RDq1',
+  XRP_MEMO: '3943970694',
+  TON: 'UQCx0_0l9AxIouVBxThCRAwO7Yrz6rpQGI-1CS7h-lwjqRTW',
+  TON_MEMO: 'GEMGW3X626VA3',
+  LUX: '0x14542918a9032248ef30d9bc1d57983691e3ade4',
+};
+
 // MIGA DAO Treasury configuration - 3-of-5 Utila MPC
+// Treasury only holds 7 native tokens: BTC, ETH, SOL, BNB, XRP, TON, LUX
 export const MIGA_DAO_WALLET: DAOWalletConfig = {
   name: 'MIGA DAO Treasury',
   backend: 'utila',
   signers: 5,
   threshold: 3,
   addresses: {
-    // These will be populated with actual DAO wallet addresses
-    BITCOIN_MAINNET: '', // Bitcoin P2WSH address
-    ETHEREUM_MAINNET: '', // EVM address
-    BSC_MAINNET: '', // Same as ETH (EVM compatible)
-    SOLANA_MAINNET: '', // Solana address
-    TON_MAINNET: '', // TON address
-    LUX_MAINNET: '', // Lux address
-    ZOO_MAINNET: '', // Zoo address
+    BITCOIN: DEPOSIT_ADDRESSES.BITCOIN,
+    ETHEREUM: DEPOSIT_ADDRESSES.EVM,
+    BASE: DEPOSIT_ADDRESSES.EVM,
+    OPTIMISM: DEPOSIT_ADDRESSES.EVM,
+    ARBITRUM: DEPOSIT_ADDRESSES.EVM,
+    BSC: DEPOSIT_ADDRESSES.EVM,
+    SOLANA: DEPOSIT_ADDRESSES.SOLANA,
+    XRP: DEPOSIT_ADDRESSES.XRP,
+    TON: DEPOSIT_ADDRESSES.TON,
+    LUX: DEPOSIT_ADDRESSES.LUX,
   }
 };
 
 // Supported chains for MIGA minting
 export const MIGA_CHAINS: ChainConfig[] = [
   {
-    id: 'BITCOIN_MAINNET',
+    id: 'BITCOIN',
     name: 'Bitcoin',
     symbol: 'BTC',
     chainId: null,
@@ -35,10 +51,10 @@ export const MIGA_CHAINS: ChainConfig[] = [
     nativeAsset: 'BTC',
     decimals: 8,
     enabled: true,
-    depositAddress: MIGA_DAO_WALLET.addresses.BITCOIN_MAINNET,
+    depositAddress: DEPOSIT_ADDRESSES.BITCOIN,
   },
   {
-    id: 'ETHEREUM_MAINNET',
+    id: 'ETHEREUM',
     name: 'Ethereum',
     symbol: 'ETH',
     chainId: 1,
@@ -50,10 +66,55 @@ export const MIGA_CHAINS: ChainConfig[] = [
     nativeAsset: 'ETH',
     decimals: 18,
     enabled: true,
-    depositAddress: MIGA_DAO_WALLET.addresses.ETHEREUM_MAINNET,
+    depositAddress: DEPOSIT_ADDRESSES.EVM,
   },
   {
-    id: 'BSC_MAINNET',
+    id: 'BASE',
+    name: 'Base',
+    symbol: 'ETH',
+    chainId: 8453,
+    type: 'evm',
+    color: '#0052FF',
+    icon: '/images/tokens/base.png',
+    explorer: 'https://basescan.org',
+    rpc: 'https://mainnet.base.org',
+    nativeAsset: 'ETH',
+    decimals: 18,
+    enabled: true,
+    depositAddress: DEPOSIT_ADDRESSES.EVM,
+  },
+  {
+    id: 'OPTIMISM',
+    name: 'Optimism',
+    symbol: 'ETH',
+    chainId: 10,
+    type: 'evm',
+    color: '#FF0420',
+    icon: '/images/tokens/optimism.png',
+    explorer: 'https://optimistic.etherscan.io',
+    rpc: 'https://mainnet.optimism.io',
+    nativeAsset: 'ETH',
+    decimals: 18,
+    enabled: true,
+    depositAddress: DEPOSIT_ADDRESSES.EVM,
+  },
+  {
+    id: 'ARBITRUM',
+    name: 'Arbitrum',
+    symbol: 'ETH',
+    chainId: 42161,
+    type: 'evm',
+    color: '#28A0F0',
+    icon: '/images/tokens/arbitrum.png',
+    explorer: 'https://arbiscan.io',
+    rpc: 'https://arb1.arbitrum.io/rpc',
+    nativeAsset: 'ETH',
+    decimals: 18,
+    enabled: true,
+    depositAddress: DEPOSIT_ADDRESSES.EVM,
+  },
+  {
+    id: 'BSC',
     name: 'BNB Chain',
     symbol: 'BNB',
     chainId: 56,
@@ -65,10 +126,10 @@ export const MIGA_CHAINS: ChainConfig[] = [
     nativeAsset: 'BNB',
     decimals: 18,
     enabled: true,
-    depositAddress: MIGA_DAO_WALLET.addresses.BSC_MAINNET,
+    depositAddress: DEPOSIT_ADDRESSES.EVM,
   },
   {
-    id: 'SOLANA_MAINNET',
+    id: 'SOLANA',
     name: 'Solana',
     symbol: 'SOL',
     chainId: null,
@@ -80,10 +141,26 @@ export const MIGA_CHAINS: ChainConfig[] = [
     nativeAsset: 'SOL',
     decimals: 9,
     enabled: true,
-    depositAddress: MIGA_DAO_WALLET.addresses.SOLANA_MAINNET,
+    depositAddress: DEPOSIT_ADDRESSES.SOLANA,
+    minAmount: 0.05,
   },
   {
-    id: 'TON_MAINNET',
+    id: 'XRP',
+    name: 'XRP Ledger',
+    symbol: 'XRP',
+    chainId: null,
+    type: 'xrp',
+    color: '#23292F',
+    icon: '/images/tokens/xrp.png',
+    explorer: 'https://xrpscan.com',
+    nativeAsset: 'XRP',
+    decimals: 6,
+    enabled: true,
+    depositAddress: DEPOSIT_ADDRESSES.XRP,
+    memo: DEPOSIT_ADDRESSES.XRP_MEMO,
+  },
+  {
+    id: 'TON',
     name: 'TON',
     symbol: 'TON',
     chainId: -239,
@@ -94,10 +171,11 @@ export const MIGA_CHAINS: ChainConfig[] = [
     nativeAsset: 'TON',
     decimals: 9,
     enabled: true,
-    depositAddress: MIGA_DAO_WALLET.addresses.TON_MAINNET,
+    depositAddress: DEPOSIT_ADDRESSES.TON,
+    memo: DEPOSIT_ADDRESSES.TON_MEMO,
   },
   {
-    id: 'LUX_MAINNET',
+    id: 'LUX',
     name: 'Lux',
     symbol: 'LUX',
     chainId: 96369,
@@ -109,57 +187,50 @@ export const MIGA_CHAINS: ChainConfig[] = [
     nativeAsset: 'LUX',
     decimals: 18,
     enabled: true,
-    depositAddress: MIGA_DAO_WALLET.addresses.LUX_MAINNET,
-  },
-  {
-    id: 'ZOO_MAINNET',
-    name: 'Zoo',
-    symbol: 'ZOO',
-    chainId: 200200,
-    type: 'evm',
-    color: '#8B5CF6',
-    icon: '/images/tokens/zoo.png',
-    explorer: 'https://explore.zoo.network',
-    rpc: 'https://api.zoo.network',
-    nativeAsset: 'ZOO',
-    decimals: 18,
-    enabled: true,
-    depositAddress: MIGA_DAO_WALLET.addresses.ZOO_MAINNET,
+    depositAddress: DEPOSIT_ADDRESSES.LUX,
   },
 ];
 
-// Supported assets for minting (stablecoins and native tokens)
+// Supported assets for minting
+// IMPORTANT: Stablecoins (USDC/USDT) are auto-swapped to native tokens
+// Treasury only holds: BTC, ETH, SOL, BNB, XRP, TON, LUX
 export const MINT_ASSETS: Record<string, DonationAsset[]> = {
-  BITCOIN_MAINNET: [
+  BITCOIN: [
     { symbol: 'BTC', name: 'Bitcoin', decimals: 8, logo: '/images/tokens/bitcoin.png', enabled: true },
   ],
-  ETHEREUM_MAINNET: [
+  ETHEREUM: [
     { symbol: 'ETH', name: 'Ethereum', decimals: 18, logo: '/images/tokens/ethereum.png', enabled: true },
-    { symbol: 'USDC', name: 'USD Coin', decimals: 6, contractAddress: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', logo: '/images/tokens/usdc.png', enabled: true },
-    { symbol: 'USDT', name: 'Tether', decimals: 6, contractAddress: '0xdAC17F958D2ee523a2206206994597C13D831ec7', logo: '/images/tokens/usdt.png', enabled: true },
-    { symbol: 'DAI', name: 'Dai', decimals: 18, contractAddress: '0x6B175474E89094C44Da98b954EescdeCB5A36bEe', logo: '/images/tokens/dai.png', enabled: true },
+    { symbol: 'USDC', name: 'USD Coin → ETH', decimals: 6, contractAddress: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', logo: '/images/tokens/usdc.png', enabled: true },
+    { symbol: 'USDT', name: 'Tether → ETH', decimals: 6, contractAddress: '0xdAC17F958D2ee523a2206206994597C13D831ec7', logo: '/images/tokens/usdt.png', enabled: true },
   ],
-  BSC_MAINNET: [
+  BASE: [
+    { symbol: 'ETH', name: 'Ethereum', decimals: 18, logo: '/images/tokens/ethereum.png', enabled: true },
+    { symbol: 'USDC', name: 'USD Coin → ETH', decimals: 6, contractAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', logo: '/images/tokens/usdc.png', enabled: true },
+  ],
+  OPTIMISM: [
+    { symbol: 'ETH', name: 'Ethereum', decimals: 18, logo: '/images/tokens/ethereum.png', enabled: true },
+    { symbol: 'USDC', name: 'USD Coin → ETH', decimals: 6, contractAddress: '0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85', logo: '/images/tokens/usdc.png', enabled: true },
+  ],
+  ARBITRUM: [
+    { symbol: 'ETH', name: 'Ethereum', decimals: 18, logo: '/images/tokens/ethereum.png', enabled: true },
+    { symbol: 'USDC', name: 'USD Coin → ETH', decimals: 6, contractAddress: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831', logo: '/images/tokens/usdc.png', enabled: true },
+  ],
+  BSC: [
     { symbol: 'BNB', name: 'BNB', decimals: 18, logo: '/images/tokens/bnb.png', enabled: true },
-    { symbol: 'USDC', name: 'USD Coin', decimals: 18, contractAddress: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d', logo: '/images/tokens/usdc.png', enabled: true },
-    { symbol: 'USDT', name: 'Tether', decimals: 18, contractAddress: '0x55d398326f99059fF775485246999027B3197955', logo: '/images/tokens/usdt.png', enabled: true },
   ],
-  SOLANA_MAINNET: [
-    { symbol: 'SOL', name: 'Solana', decimals: 9, logo: '/images/tokens/solana.png', enabled: true },
-    { symbol: 'USDC', name: 'USD Coin', decimals: 6, contractAddress: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', logo: '/images/tokens/usdc.png', enabled: true },
-    { symbol: 'MIGA', name: 'MIGA', decimals: 9, contractAddress: '', logo: '/images/migacoin.png', enabled: true }, // MIGA token address TBD
+  SOLANA: [
+    { symbol: 'SOL', name: 'Solana', decimals: 9, logo: '/images/tokens/solana.png', enabled: true, minAmount: 0.05 },
+    { symbol: 'USDC', name: 'USD Coin → SOL', decimals: 6, contractAddress: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', logo: '/images/tokens/usdc.png', enabled: true },
+    { symbol: 'USDT', name: 'Tether → SOL', decimals: 6, contractAddress: 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB', logo: '/images/tokens/usdt.png', enabled: true },
   ],
-  TON_MAINNET: [
+  XRP: [
+    { symbol: 'XRP', name: 'XRP', decimals: 6, logo: '/images/tokens/xrp.png', enabled: true },
+  ],
+  TON: [
     { symbol: 'TON', name: 'TON', decimals: 9, logo: '/images/tokens/ton.png', enabled: true },
-    { symbol: 'USDC', name: 'jUSDC', decimals: 6, contractAddress: 'EQB-MPwrd1G6WKNkLz_VnV6WqBDd142KMQv-g1O-8QUA3728', logo: '/images/tokens/usdc.png', enabled: true },
   ],
-  LUX_MAINNET: [
+  LUX: [
     { symbol: 'LUX', name: 'Lux', decimals: 18, logo: '/images/tokens/lux.png', enabled: true },
-    { symbol: 'LUSD', name: 'Lux Dollar', decimals: 18, contractAddress: '0x848Cff46eb323f323b6Bbe1Df274E40793d7f2c2', logo: '/images/tokens/lusd.png', enabled: true },
-  ],
-  ZOO_MAINNET: [
-    { symbol: 'ZOO', name: 'Zoo', decimals: 18, logo: '/images/tokens/zoo.png', enabled: true },
-    { symbol: 'ZUSD', name: 'Zoo Dollar', decimals: 18, contractAddress: '0x848Cff46eb323f323b6Bbe1Df274E40793d7f2c2', logo: '/images/tokens/zusd.png', enabled: true },
   ],
 };
 
