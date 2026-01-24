@@ -3,7 +3,7 @@ import { Footer } from '@/components/Footer';
 import { MigaBridge } from '@/components/bridge';
 import { MIGA_CHAINS, MIGA_DAO_WALLET } from '@/components/bridge/networks';
 import { Wallet, Shield, ExternalLink, ArrowRight, Sparkles, Users, Lock, TrendingUp } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const steps = [
   {
@@ -47,6 +47,37 @@ const features = [
 ];
 
 export default function Mint() {
+  const { chain } = useParams<{ chain?: string }>();
+  
+  // Map URL param to chain ID (e.g., 'solana' -> 'SOLANA')
+  const getChainId = (chainSlug?: string): string => {
+    if (!chainSlug) return 'SOLANA';
+    const slug = chainSlug.toLowerCase();
+    const chainMap: Record<string, string> = {
+      bitcoin: 'BITCOIN',
+      btc: 'BITCOIN',
+      ethereum: 'ETHEREUM',
+      eth: 'ETHEREUM',
+      base: 'BASE',
+      optimism: 'OPTIMISM',
+      op: 'OPTIMISM',
+      arbitrum: 'ARBITRUM',
+      arb: 'ARBITRUM',
+      bnb: 'BSC',
+      bsc: 'BSC',
+      solana: 'SOLANA',
+      sol: 'SOLANA',
+      xrp: 'XRP',
+      ripple: 'XRP',
+      ton: 'TON',
+      lux: 'LUX',
+      zoo: 'ZOO',
+    };
+    return chainMap[slug] || 'SOLANA';
+  };
+  
+  const defaultChain = getChainId(chain);
+
   return (
     <div className="min-h-screen flex flex-col bg-black">
       <Header />
@@ -72,7 +103,7 @@ export default function Mint() {
           <div className="grid lg:grid-cols-2 gap-8 mb-16">
             {/* Bridge Widget */}
             <div>
-              <MigaBridge className="sticky top-24" />
+              <MigaBridge className="sticky top-24" defaultChain={defaultChain} />
             </div>
 
             {/* How It Works */}

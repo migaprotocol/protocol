@@ -7,7 +7,7 @@ export interface ChainConfig {
   name: string;
   symbol: string;
   chainId: number | string | null;
-  type: 'evm' | 'solana' | 'ton' | 'bitcoin';
+  type: 'evm' | 'solana' | 'ton' | 'bitcoin' | 'xrp';
   color: string;
   icon: string;
   explorer: string;
@@ -15,7 +15,9 @@ export interface ChainConfig {
   nativeAsset: string;
   decimals: number;
   enabled: boolean;
-  depositAddress?: string; // DAO wallet address for this chain
+  depositAddress?: string;
+  memo?: string; // Required memo for XRP/TON
+  minAmount?: number; // Minimum deposit amount
 }
 
 export interface DonationAsset {
@@ -25,6 +27,7 @@ export interface DonationAsset {
   contractAddress?: string;
   logo: string;
   enabled: boolean;
+  minAmount?: number;
 }
 
 export interface DAOWalletConfig {

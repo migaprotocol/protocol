@@ -1,88 +1,87 @@
-// Chain data - 7 chains for 7 pillars (matches bridge/networks.ts)
-// Status: live = accepting deposits, next = coming soon, mystery = vote to decide
-// depositAmount: Dynamic value from MPC wallet deposits (in USD equivalent)
+// Chain data for 3D scene - 7 pillars for 7 native tokens
+// Treasury only holds: BTC, ETH, SOL, BNB, XRP, TON, LUX
+// Pillar height scales based on depositAmount (real-time from deposits)
 
 export const chainData = [
   {
     name: 'Bitcoin',
     symbol: 'BTC',
-    color: '#F7931A', // Orange
+    color: '#F7931A',
     icon: '/images/tokens/bitcoin.png',
     status: 'live',
-    mintUrl: '/mint',
-    contractAddress: 'bc1q...',
-    description: 'Bitcoin mainnet deposits',
-    depositAmount: 245000,
+    mintUrl: '/mint/bitcoin',
+    depositAddress: 'bc1qem8jywyuc9wtgf7y5n9tyq6tknpj3l85tzg9y6',
+    description: 'Bitcoin mainnet',
+    depositAmount: 0,
   },
   {
     name: 'Ethereum',
     symbol: 'ETH',
-    color: '#8C8C8C', // Gray/silver (the diamond)
+    color: '#627EEA',
     icon: '/images/tokens/ethereum.png',
     status: 'live',
-    mintUrl: '/mint',
-    contractAddress: '0x...',
-    description: 'Ethereum mainnet deposits',
-    depositAmount: 189000,
-  },
-  {
-    name: 'BNB Chain',
-    symbol: 'BNB',
-    color: '#F0B90B', // Yellow
-    icon: '/images/tokens/bnb.png',
-    status: 'live',
-    mintUrl: '/mint',
-    contractAddress: '0x...',
-    description: 'BNB Chain deposits',
-    depositAmount: 125000,
+    mintUrl: '/mint/ethereum',
+    depositAddress: '0xAaf3a7253c73a58f2713f454717C5338c6573d62',
+    description: 'ETH mainnet + L2s',
+    depositAmount: 0,
   },
   {
     name: 'Solana',
     symbol: 'SOL',
-    color: '#9945FF', // Purple
+    color: '#9945FF',
     icon: '/images/tokens/solana.png',
     status: 'live',
-    mintUrl: '/mint',
-    contractAddress: '...',
-    description: 'Solana deposits',
-    depositAmount: 98500,
+    mintUrl: '/mint/solana',
+    depositAddress: 'BPTZhkTdRwqnrb7PnWvi6SkCWQHcvUZrfaYvPkZ2YD8R',
+    description: 'Solana (min 0.05 SOL)',
+    depositAmount: 0,
+  },
+  {
+    name: 'BNB',
+    symbol: 'BNB',
+    color: '#F0B90B',
+    icon: '/images/tokens/bnb.png',
+    status: 'live',
+    mintUrl: '/mint/bnb',
+    depositAddress: '0xAaf3a7253c73a58f2713f454717C5338c6573d62',
+    description: 'BNB Chain',
+    depositAmount: 0,
+  },
+  {
+    name: 'XRP',
+    symbol: 'XRP',
+    color: '#23292F',
+    icon: '/images/tokens/xrp.png',
+    status: 'live',
+    mintUrl: '/mint/xrp',
+    depositAddress: 'raBQUYdAhnnojJQ6Xi3eXztZ74ot24RDq1',
+    memo: '3943970694',
+    description: 'XRP Ledger (memo required)',
+    depositAmount: 0,
   },
   {
     name: 'TON',
     symbol: 'TON',
-    color: '#0098EA', // Blue
+    color: '#0088CC',
     icon: '/images/tokens/ton.png',
     status: 'live',
-    mintUrl: '/mint',
-    contractAddress: 'UQ...',
-    description: 'TON blockchain deposits',
-    depositAmount: 67200,
+    mintUrl: '/mint/ton',
+    depositAddress: 'UQCx0_0l9AxIouVBxThCRAwO7Yrz6rpQGI-1CS7h-lwjqRTW',
+    memo: 'GEMGW3X626VA3',
+    description: 'TON (memo required)',
+    depositAmount: 0,
   },
   {
     name: 'Lux',
     symbol: 'LUX',
-    color: '#FFFFFF', // White (black & white brand)
+    color: '#C9A227',
     icon: '/images/tokens/lux.png',
     status: 'live',
-    mintUrl: '/mint',
-    contractAddress: '0x...',
-    description: 'Lux Network - native chain',
-    depositAmount: 45000,
-  },
-  {
-    name: 'Zoo',
-    symbol: 'ZOO',
-    color: '#FF00FF', // Magenta (rainbow represented as magenta)
-    icon: '/images/tokens/zoo.png',
-    status: 'live',
-    mintUrl: '/mint',
-    contractAddress: '0x...',
-    description: 'Zoo Chain deposits',
-    depositAmount: 28500,
+    mintUrl: '/mint/lux',
+    depositAddress: '0x14542918a9032248ef30d9bc1d57983691e3ade4',
+    description: 'Lux Network',
+    depositAmount: 0,
   },
 ] as const
 
 export type ChainData = (typeof chainData)[number]
-
-// Deposit address for bridge minting
-export const DEPOSIT_ADDRESS = '0x14aa5a41133199c68d06f4dfa5417abb4eef44e9'

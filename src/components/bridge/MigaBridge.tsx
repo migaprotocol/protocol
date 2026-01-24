@@ -23,7 +23,7 @@ interface MigaBridgeProps {
   defaultChain?: string;
 }
 
-export function MigaBridge({ className = '', compact = false, defaultChain = 'SOLANA_MAINNET' }: MigaBridgeProps) {
+export function MigaBridge({ className = '', compact = false, defaultChain = 'SOLANA' }: MigaBridgeProps) {
   const [selectedChain, setSelectedChain] = useState<string>(defaultChain);
   const [selectedAsset, setSelectedAsset] = useState<string>('');
   const [showChainDropdown, setShowChainDropdown] = useState(false);
@@ -264,6 +264,37 @@ export function MigaBridge({ className = '', compact = false, defaultChain = 'SO
               </div>
             )}
           </div>
+
+          {/* Memo (required for XRP/TON) */}
+          {chain?.memo && (
+            <div className="mt-3 p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg">
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-xs text-amber-400 font-medium">⚠️ MEMO REQUIRED</label>
+                <button
+                  onClick={async () => {
+                    await navigator.clipboard.writeText(chain.memo!);
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 2000);
+                  }}
+                  className="text-xs text-amber-400 hover:text-amber-300 flex items-center gap-1"
+                >
+                  <Copy size={12} />
+                  Copy
+                </button>
+              </div>
+              <code className="text-sm font-mono text-amber-300 break-all">{chain.memo}</code>
+              <p className="text-xs text-amber-400/70 mt-2">Include this memo or your deposit will be lost!</p>
+            </div>
+          )}
+
+          {/* Min amount warning */}
+          {chain?.minAmount && (
+            <div className="mt-3 p-2 bg-neutral-800/50 border border-neutral-700 rounded-lg">
+              <p className="text-xs text-neutral-400">
+                Minimum deposit: <span className="text-gold font-medium">{chain.minAmount} {chain.symbol}</span>
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Info */}
