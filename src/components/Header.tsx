@@ -26,29 +26,29 @@ export function Header() {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 py-4 px-4 md:px-6">
-      <nav className="nav-glass max-w-[1200px] mx-auto py-2 px-4 rounded-2xl transition-all duration-300">
+    <header className="fixed top-0 left-0 right-0 z-50 py-6 px-4 md:px-8">
+      <nav className="nav-glass max-w-[1600px] mx-auto py-4 px-8 rounded-3xl transition-all duration-300">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 group">
+          <Link to="/" className="flex items-center gap-4 group">
             <img
               src="/images/migacoin.png"
               alt="MIGA Protocol"
-              className="w-8 h-8 rounded-full object-cover transition-transform group-hover:scale-105"
+              className="w-14 h-14 rounded-full object-cover transition-transform group-hover:scale-105 shadow-lg shadow-[#FFD700]/20"
             />
-            <span className="text-base font-semibold tracking-tight text-[#EDEDF2]">
+            <span className="text-2xl font-bold tracking-tight text-[#EDEDF2]">
               MIGA Protocol
             </span>
           </Link>
 
           {/* Desktop Nav - Center */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-4">
             {navLinks.map((link) => (
               link.external ? (
                 <a
                   key={link.label}
                   href={link.href}
-                  className="nav-link px-4 py-2 rounded-lg hover:bg-white/[0.03]"
+                  className="nav-link text-xl font-semibold px-6 py-3 rounded-xl hover:bg-white/[0.08] transition-all"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -58,7 +58,7 @@ export function Header() {
                 <a
                   key={link.label}
                   href={link.href}
-                  className="nav-link px-4 py-2 rounded-lg hover:bg-white/[0.03]"
+                  className="nav-link text-xl font-semibold px-6 py-3 rounded-xl hover:bg-white/[0.08] transition-all"
                 >
                   {link.label}
                 </a>
@@ -66,7 +66,7 @@ export function Header() {
                 <Link
                   key={link.label}
                   to={link.href}
-                  className="nav-link px-4 py-2 rounded-lg hover:bg-white/[0.03]"
+                  className="nav-link text-xl font-semibold px-6 py-3 rounded-xl hover:bg-white/[0.08] transition-all"
                 >
                   {link.label}
                 </Link>
@@ -75,22 +75,22 @@ export function Header() {
           </div>
 
           {/* Right side - Mint CTA */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-4">
             {/* Active chain indicator - LEFT of mint button */}
-            <span className="text-sm text-[#14F195] hidden lg:flex items-center gap-1.5 font-medium">
-              <span className="w-2 h-2 bg-[#14F195] rounded-full animate-pulse" />
+            <span className="text-base text-[#14F195] hidden lg:flex items-center gap-2 font-semibold">
+              <span className="w-3 h-3 bg-[#14F195] rounded-full animate-pulse" />
               7 Chains Live
             </span>
             <Link
               to="/mint"
               className="relative group"
             >
-              <div className="flex items-center gap-2 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-semibold px-5 py-2 rounded-full hover:shadow-lg hover:shadow-[#FFD700]/20 transition-all">
+              <div className="flex items-center gap-3 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold text-lg px-8 py-3 rounded-full hover:shadow-xl hover:shadow-[#FFD700]/30 transition-all">
                 <span>Mint</span>
-                <span className="text-xs opacity-80">{MINT_PROGRESS}%</span>
+                <span className="text-sm opacity-80">{MINT_PROGRESS}%</span>
               </div>
               {/* Progress bar */}
-              <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-black/20 rounded-full overflow-hidden">
+              <div className="absolute -bottom-1 left-0 right-0 h-1 bg-black/20 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-black/40 transition-all"
                   style={{ width: `${MINT_PROGRESS}%` }}

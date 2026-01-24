@@ -1,4 +1,4 @@
-// MIGA Protocol - Supported Networks for Donations
+// MIGA Protocol - Supported Networks for Minting
 // 7 chains: Bitcoin, Ethereum, BNB, Solana, TON, Lux, Zoo
 
 import type { ChainConfig, DAOWalletConfig, DonationAsset } from './types';
@@ -21,7 +21,7 @@ export const MIGA_DAO_WALLET: DAOWalletConfig = {
   }
 };
 
-// Supported chains for MIGA donations
+// Supported chains for MIGA minting
 export const MIGA_CHAINS: ChainConfig[] = [
   {
     id: 'BITCOIN_MAINNET',
@@ -128,8 +128,8 @@ export const MIGA_CHAINS: ChainConfig[] = [
   },
 ];
 
-// Supported assets for donation (stablecoins and native tokens)
-export const DONATION_ASSETS: Record<string, DonationAsset[]> = {
+// Supported assets for minting (stablecoins and native tokens)
+export const MINT_ASSETS: Record<string, DonationAsset[]> = {
   BITCOIN_MAINNET: [
     { symbol: 'BTC', name: 'Bitcoin', decimals: 8, logo: '/images/tokens/bitcoin.png', enabled: true },
   ],
@@ -170,7 +170,7 @@ export const getChain = (chainId: string): ChainConfig | undefined => {
 
 // Get assets for a chain
 export const getChainAssets = (chainId: string): DonationAsset[] => {
-  return DONATION_ASSETS[chainId] || [];
+  return MINT_ASSETS[chainId] || [];
 };
 
 // Get enabled chains

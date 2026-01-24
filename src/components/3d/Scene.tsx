@@ -26,105 +26,50 @@ const mouseState = { x: 0, y: 0 }
 // Deposit address for bridge minting
 const DEPOSIT_ADDRESS = '0x14aa5a41133199c68d06f4dfa5417abb4eef44e9'
 
-// Chain data - 7 chains for 7 pillars
-// Status: live = minting complete, next = coming soon, mystery = vote to decide
+// Chain data - Solana-only for initial launch
+// More chains will be announced as we expand (teleport-ready)
+// Status: live = accepting deposits, next = coming soon, mystery = vote to decide
 // depositAmount: Dynamic value from MPC wallet deposits (in USD equivalent)
 const chainData = [
   {
     name: 'Solana',
     symbol: 'SOL',
-    color: '#14F195',
+    color: '#9945FF', // Purple
     icon: '/images/tokens/solana.png',
     status: 'live',
-    mintUrl: '/mint/solana',
-    contractAddress: '0x...',
-    description: 'Fair launch complete on Solana',
-    depositAmount: 125000, // Dynamic - fetched from MPC wallet
+    mintUrl: '/mint',
+    contractAddress: '...',
+    description: 'Mint MIGA on Solana - teleport ready',
+    depositAmount: 0, // Will update with real deposits
   },
-  {
-    name: 'Lux',
-    symbol: 'LUX',
-    color: '#FFD700',
-    icon: '/images/tokens/lux.png',
-    status: 'live',
-    mintUrl: '/mint/lux',
-    contractAddress: '0x...',
-    description: 'Live on Lux Network',
-    depositAmount: 89500, // Dynamic - fetched from MPC wallet
-  },
-  {
-    name: 'Zoo',
-    symbol: 'ZOO',
-    color: '#FF6B6B',
-    icon: '/images/tokens/zoo.png',
-    status: 'live',
-    mintUrl: '/mint/zoo',
-    contractAddress: '0x...',
-    description: 'Minting complete on Zoo',
-    depositAmount: 67200, // Dynamic - fetched from MPC wallet
-  },
-  {
-    name: 'Base',
-    symbol: 'BASE',
-    color: '#0052FF',
-    icon: '/images/tokens/base.png',
-    status: 'next',
-    mintUrl: '/mint/base',
-    contractAddress: '0x...',
-    description: 'Coming soon to Base',
-    depositAmount: 0, // Coming soon - no deposits yet
-  },
-  {
-    name: 'Ethereum',
-    symbol: 'ETH',
-    color: '#627EEA',
-    icon: '/images/tokens/ethereum.png',
-    status: 'next',
-    mintUrl: '/mint/ethereum',
-    contractAddress: '0x...',
-    description: 'Coming soon to Ethereum',
-    depositAmount: 0, // Coming soon - no deposits yet
-  },
-  {
-    name: 'TON',
-    symbol: 'TON',
-    color: '#0098EA',
-    icon: '/images/tokens/ton.png',
-    status: 'next',
-    mintUrl: '/mint/ton',
-    contractAddress: '0x...',
-    description: 'Coming soon to TON',
-    depositAmount: 0, // Coming soon - no deposits yet
-  },
-  {
-    name: 'Mystery',
-    symbol: '?',
-    color: '#9D7AED',
-    icon: '/images/tokens/mystery.png',
-    status: 'mystery',
-    mintUrl: '/vote',
-    description: 'Vote with LuxFHE for the 7th chain',
-    voteOptions: ['Bitcoin', 'Avalanche', 'BSC', 'Cardano', 'Polygon', 'Arbitrum'],
-    depositAmount: 0, // Mystery chain - TBD
-  },
+]
+
+// Future chains (hidden for now, will be announced)
+const _futureChains = [
+  { name: 'Pars', symbol: 'PARS', color: '#FFD700', status: 'next' },
+  { name: 'Lux', symbol: 'LUX', color: '#FFFFFF', status: 'next' },
+  { name: 'Ethereum', symbol: 'ETH', color: '#8C8C8C', status: 'next' },
+  { name: 'Bitcoin', symbol: 'BTC', color: '#F7931A', status: 'next' },
+  { name: 'BNB Chain', symbol: 'BNB', color: '#F0B90B', status: 'next' },
+  { name: 'TON', symbol: 'TON', color: '#0098EA', status: 'next' },
 ]
 
 type ChainData = typeof chainData[number]
 
-// Coin face with token icon texture - matches Cyrus coin approach exactly
+// Coin face with token icon texture - shows actual token image
 function CoinFace({
   iconPath,
   position,
   rotation,
   radius = 0.26,
-  color = '#E8C547',
+  edgeColor = '#E8C547',
   isBack = false,
 }: {
   iconPath: string
   position: [number, number, number]
   rotation: [number, number, number]
   radius?: number
-  color?: string
+  edgeColor?: string
   isBack?: boolean
 }) {
   const baseTexture = useTexture(iconPath)
@@ -151,12 +96,10 @@ function CoinFace({
       <circleGeometry args={[radius, 64]} />
       <meshStandardMaterial
         map={texture}
-        metalness={0.8}
-        roughness={0.15}
-        color={color}
-        emissive={color}
-        emissiveIntensity={0.3}
-        envMapIntensity={2.0}
+        metalness={0.2}
+        roughness={0.3}
+        color="#FFFFFF"
+        envMapIntensity={1.5}
         side={THREE.DoubleSide}
       />
     </mesh>
@@ -175,6 +118,7 @@ interface CoinSettings {
   faceOffset: number
   faceScale: number
   showFaces: boolean
+  heightOffset: number
 }
 
 // Interactive floating coin above pillar - rotates around X axis
@@ -205,6 +149,7 @@ function ChainCoin({
     faceOffset: 0.05,
     faceScale: 0.8,
     showFaces: true,
+    heightOffset: 1.2,
   }
   const groupRef = useRef<THREE.Group>(null)
   const coinRef = useRef<THREE.Group>(null)
@@ -218,8 +163,8 @@ function ChainCoin({
   useFrame((state) => {
     if (groupRef.current) {
       const time = state.clock.elapsedTime
-      // Float up and down - position coins nicely above pillars
-      groupRef.current.position.y = position[1] + 0.8 + Math.sin(time * 0.5 + index) * 0.12
+      // Float up and down - position coins at adjustable height above pillars
+      groupRef.current.position.y = position[1] + settings.heightOffset + Math.sin(time * 0.5 + index) * 0.12
     }
     if (coinRef.current) {
       const time = state.clock.elapsedTime
@@ -267,7 +212,7 @@ function ChainCoin({
   // Mystery chain shows empty pedestal
   if (isMystery) {
     return (
-      <group ref={groupRef} position={[position[0], position[1] + 0.8, position[2]]}>
+      <group ref={groupRef} position={[position[0], position[1] + settings.heightOffset, position[2]]}>
         {/* Question mark orb - pulsing */}
         <mesh
           scale={coinScale}
@@ -310,7 +255,7 @@ function ChainCoin({
   }
 
   return (
-    <group ref={groupRef} position={[position[0], position[1] + 0.8, position[2]]}>
+    <group ref={groupRef} position={[position[0], position[1] + settings.heightOffset, position[2]]}>
       {/* Rotating coin */}
       <group ref={coinRef} scale={coinScale}>
         {/* Invisible hitbox for better hover detection */}
@@ -335,25 +280,25 @@ function ChainCoin({
           />
         </mesh>
 
-        {/* Front face with token icon - uses chain color */}
+        {/* Front face with token icon - shows actual token image */}
         {settings.showFaces && (
           <CoinFace
             iconPath={chain.icon}
             position={[0, settings.thickness / 2 + 0.001, 0]}
             rotation={[-Math.PI / 2, 0, 0]}
-            radius={settings.radius}
-            color={chain.color}
+            radius={settings.radius * 0.92}
+            edgeColor={chain.color}
           />
         )}
 
-        {/* Back face with token icon - uses chain color */}
+        {/* Back face with token icon - shows actual token image */}
         {settings.showFaces && (
           <CoinFace
             iconPath={chain.icon}
             position={[0, -settings.thickness / 2 - 0.001, 0]}
             rotation={[Math.PI / 2, 0, 0]}
-            radius={settings.radius}
-            color={chain.color}
+            radius={settings.radius * 0.92}
+            edgeColor={chain.color}
             isBack={true}
           />
         )}
@@ -367,23 +312,43 @@ function ChainCoin({
           decay={2}
         />
 
+        {/* Glow rings - rotate vertically with coin */}
+        <mesh rotation={[0, 0, 0]}>
+          <torusGeometry args={[settings.radius * 1.5, 0.05, 16, 64]} />
+          <meshBasicMaterial
+            color={chain.color}
+            transparent
+            opacity={isLive ? 0.5 : 0.3}
+            blending={THREE.AdditiveBlending}
+          />
+        </mesh>
+        <mesh rotation={[0, 0, Math.PI / 8]}>
+          <torusGeometry args={[settings.radius * 1.7, 0.035, 16, 64]} />
+          <meshBasicMaterial
+            color={chain.color}
+            transparent
+            opacity={isLive ? 0.35 : 0.2}
+            blending={THREE.AdditiveBlending}
+          />
+        </mesh>
+
       </group>
 
       {/* Glow light - enhanced brightness */}
       <pointLight
         ref={glowRef}
         position={[0, 0, 0]}
-        intensity={isLive ? 5 : 3}
+        intensity={isLive ? 8 : 5}
         color={chain.color}
-        distance={6}
+        distance={8}
         decay={2}
       />
       {/* Secondary warm highlight */}
       <pointLight
         position={[0, 0.2, 0.2]}
-        intensity={isLive ? 2 : 1}
+        intensity={isLive ? 3 : 1.5}
         color="#FFD700"
-        distance={3}
+        distance={4}
         decay={2}
       />
     </group>
@@ -529,52 +494,52 @@ function PersianColumn({
       {/* Dynamic deposit display */}
       {depositAmount > 0 && (
         <>
-          {/* Deposit amount text */}
+          {/* Deposit amount text - larger and more visible */}
           <Text
             ref={textRef}
-            position={[0, height * 0.5 + 0.24, radius * 1.2]}
-            fontSize={0.15}
+            position={[0, height * 0.6 + 0.5, radius * 1.5]}
+            fontSize={0.35}
             color={chainColor}
+            anchorX="center"
+            anchorY="middle"
+            outlineWidth={0.02}
+            outlineColor="#000000"
+          >
+            ${formatAmount(depositAmount)}
+          </Text>
+
+          {/* Chain symbol below amount */}
+          <Text
+            position={[0, height * 0.6 + 0.15, radius * 1.5]}
+            fontSize={0.18}
+            color="#FFFFFF"
             anchorX="center"
             anchorY="middle"
             outlineWidth={0.01}
             outlineColor="#000000"
           >
-            {formatAmount(depositAmount)}
-          </Text>
-
-          {/* Chain symbol below amount */}
-          <Text
-            position={[0, height * 0.5 + 0.05, radius * 1.2]}
-            fontSize={0.08}
-            color="#FFFFFF"
-            anchorX="center"
-            anchorY="middle"
-            outlineWidth={0.005}
-            outlineColor="#000000"
-          >
             {chainSymbol}
           </Text>
 
-          {/* Deposit glow ring - intensity scales with amount */}
-          <mesh position={[0, height * 0.5 + 0.24, 0]} rotation={[Math.PI / 2, 0, 0]}>
-            <torusGeometry args={[radius * 1.1, 0.02, 12, 32]} />
+          {/* Deposit glow ring - brighter intensity */}
+          <mesh position={[0, height * 0.6 + 0.3, 0]} rotation={[Math.PI / 2, 0, 0]}>
+            <torusGeometry args={[radius * 1.3, 0.03, 16, 48]} />
             <meshStandardMaterial
               color={chainColor}
               emissive={chainColor}
-              emissiveIntensity={Math.min(depositAmount / 5000, 1.5)}
+              emissiveIntensity={Math.min(depositAmount / 3000, 2.5)}
               transparent
-              opacity={0.7}
+              opacity={0.85}
             />
           </mesh>
 
-          {/* Point light that glows based on deposit amount */}
+          {/* Point light that glows based on deposit amount - brighter */}
           <pointLight
             ref={glowRef}
-            position={[0, height * 0.5 + 0.24, 0.3]}
-            intensity={0.5}
+            position={[0, height * 0.6 + 0.3, 0.5]}
+            intensity={1.5 + Math.min(depositAmount / 5000, 2)}
             color={chainColor}
-            distance={2}
+            distance={4}
             decay={2}
           />
         </>
@@ -788,46 +753,22 @@ function PoolEdge({ x = 0.5, z = 0, radius = 5 }: { x?: number; z?: number; radi
 
   return (
     <group position={[x, 0, z]}>
-      {/* Inner stone edge */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]}>
-        <ringGeometry args={[r - 0.1, r + 0.1, 96]} />
-        <meshStandardMaterial color="#1a0f08" metalness={0.18} roughness={0.82} />
-      </mesh>
-
-      {/* Inner gold trim - prominent */}
-      <mesh ref={innerGoldRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.025, 0]}>
-        <ringGeometry args={[r, r + 0.25, 96]} />
+      {/* Simple thin gold ring - minimal edge */}
+      <mesh ref={innerGoldRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]}>
+        <ringGeometry args={[r - 0.02, r + 0.05, 96]} />
         <meshStandardMaterial
           color="#D4AF37"
           metalness={0.96}
           roughness={0.04}
           emissive="#FFD700"
-          emissiveIntensity={0.25}
+          emissiveIntensity={0.2}
         />
       </mesh>
 
-      {/* Middle stone */}
+      {/* Thin outer accent */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.018, 0]}>
-        <ringGeometry args={[r + 0.25, r + 0.6, 96]} />
-        <meshStandardMaterial color="#2a1a0a" metalness={0.12} roughness={0.88} />
-      </mesh>
-
-      {/* Outer gold accent */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.022, 0]}>
-        <ringGeometry args={[r + 0.58, r + 0.72, 96]} />
-        <meshStandardMaterial
-          color="#C9A86C"
-          metalness={0.85}
-          roughness={0.12}
-          emissive="#FFD700"
-          emissiveIntensity={0.15}
-        />
-      </mesh>
-
-      {/* Outer stone edge */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.015, 0]}>
-        <ringGeometry args={[r + 0.72, r + 1.2, 96]} />
-        <meshStandardMaterial color="#1a0f08" metalness={0.08} roughness={0.92} />
+        <ringGeometry args={[r + 0.05, r + 0.12, 96]} />
+        <meshStandardMaterial color="#1a0f08" metalness={0.1} roughness={0.9} />
       </mesh>
     </group>
   )
@@ -1527,21 +1468,21 @@ function InteractiveCameraControls() {
   )
 }
 
-// Static camera with subtle mouse parallax
+// Static camera with subtle mouse parallax - top-down view of pillars around pool
 function CameraController() {
   const { camera } = useThree()
-  // Base position - looking down at scene from above
+  // Base position - looking down at scene from above (flat top-down)
   const baseX = 0
-  const baseY = 12
-  const baseZ = 10
+  const baseY = 18
+  const baseZ = 4
 
   useFrame(() => {
     // Subtle mouse parallax around the fixed position
     camera.position.x = THREE.MathUtils.lerp(camera.position.x, baseX + mouseState.x * 0.5, 0.02)
     camera.position.y = THREE.MathUtils.lerp(camera.position.y, baseY + mouseState.y * 0.2, 0.02)
     camera.position.z = THREE.MathUtils.lerp(camera.position.z, baseZ, 0.02)
-    // Look at scene center
-    camera.lookAt(0, 2, 0)
+    // Look at pool center
+    camera.lookAt(0, 1, 0)
   })
 
   return null
@@ -1625,21 +1566,154 @@ function SceneWrapper({ children }: { children: React.ReactNode }) {
   return <group>{children}</group>
 }
 
-// Camera controls component with leva - bidirectional sync
+// Camera tour state - shared between components
+const cameraTourState = {
+  isTouring: false,
+  currentStop: -1, // -1 = overview, 0-6 = pillars, 7 = medallion
+  autoPlay: false,
+}
+
+// Tour stops: overview + 7 pillars (around pool in arc) + medallion
+const TOUR_STOPS = [
+  { name: 'Overview', x: 0, y: 6, z: 16, targetX: 0, targetY: 2.5, targetZ: 0 },
+  { name: 'Zoo (1)', x: -4, y: 8, z: 6, targetX: -5, targetY: 3, targetZ: -3 },
+  { name: 'Lux (2)', x: -6, y: 8, z: 3, targetX: -6, targetY: 3, targetZ: -1 },
+  { name: 'TON (3)', x: -5, y: 8, z: -2, targetX: -5, targetY: 3, targetZ: 2 },
+  { name: 'Solana (4)', x: 0, y: 8, z: -4, targetX: 0, targetY: 3, targetZ: 4 },
+  { name: 'BNB (5)', x: 5, y: 8, z: -2, targetX: 5, targetY: 3.5, targetZ: 2 },
+  { name: 'Ethereum (6)', x: 6, y: 8, z: 3, targetX: 6, targetY: 4, targetZ: -1 },
+  { name: 'Bitcoin (7)', x: 4, y: 8, z: 6, targetX: 5, targetY: 4.5, targetZ: -3 },
+  { name: 'MIGA Medallion', x: 0, y: 8, z: 5, targetX: 0, targetY: 4.5, targetZ: 0 },
+]
+
+// Camera controls component with leva - bidirectional sync + tour
 function CameraWithControls() {
   const { camera, gl } = useThree()
   const controlsRef = useRef<any>(null)
   const isUserInteracting = useRef(false)
+  const [tourStop, setTourStop] = useState(-1)
+  const [autoTour, setAutoTour] = useState(false)
+  const tourTimerRef = useRef<number | null>(null)
 
   const [{ camFov, camPosX, camPosY, camPosZ, targetX, targetY, targetZ }, set] = useControls('Camera', () => ({
     camFov: { value: 50, min: 10, max: 120, step: 1, label: 'FOV' },
     camPosX: { value: 0, min: -20, max: 20, step: 0.5, label: 'Camera X' },
-    camPosY: { value: 12, min: 1, max: 30, step: 0.5, label: 'Camera Y (Height)' },
-    camPosZ: { value: 10, min: 0, max: 25, step: 0.5, label: 'Camera Z (Distance)' },
+    camPosY: { value: 6, min: 1, max: 30, step: 0.5, label: 'Camera Y (Height)' },
+    camPosZ: { value: 16, min: 0, max: 25, step: 0.5, label: 'Camera Z (Distance)' },
     targetX: { value: 0, min: -10, max: 10, step: 0.1, label: 'Look At X' },
-    targetY: { value: 1.5, min: -5, max: 10, step: 0.1, label: 'Look At Y' },
+    targetY: { value: 2.5, min: -5, max: 10, step: 0.1, label: 'Look At Y' },
     targetZ: { value: 0, min: -10, max: 10, step: 0.1, label: 'Look At Z' },
   }))
+
+  // Tour controls
+  useControls('🎬 Camera Tour', () => ({
+    '⏮ Prev': button(() => {
+      const newStop = tourStop <= 0 ? TOUR_STOPS.length - 1 : tourStop - 1
+      goToStop(newStop)
+    }),
+    '⏭ Next': button(() => {
+      const newStop = (tourStop + 1) % TOUR_STOPS.length
+      goToStop(newStop)
+    }),
+    '🏠 Overview': button(() => goToStop(0)),
+    '🎯 MIGA': button(() => goToStop(TOUR_STOPS.length - 1)),
+    '▶️ Auto Tour': button(() => {
+      setAutoTour(!autoTour)
+    }),
+  }), [tourStop, autoTour])
+
+  // Go to specific tour stop
+  const goToStop = useCallback((stopIndex: number) => {
+    const stop = TOUR_STOPS[stopIndex]
+    if (stop) {
+      setTourStop(stopIndex)
+      set({
+        camPosX: stop.x,
+        camPosY: stop.y,
+        camPosZ: stop.z,
+        targetX: stop.targetX,
+        targetY: stop.targetY,
+        targetZ: stop.targetZ,
+      })
+      cameraTourState.currentStop = stopIndex
+      console.log(`📍 Tour Stop: ${stop.name}`)
+    }
+  }, [set])
+
+  // Auto tour timer
+  useEffect(() => {
+    if (autoTour) {
+      tourTimerRef.current = window.setInterval(() => {
+        setTourStop(prev => {
+          const next = (prev + 1) % TOUR_STOPS.length
+          goToStop(next)
+          return next
+        })
+      }, 3000) // 3 seconds per stop
+    } else {
+      if (tourTimerRef.current) {
+        clearInterval(tourTimerRef.current)
+        tourTimerRef.current = null
+      }
+    }
+    return () => {
+      if (tourTimerRef.current) clearInterval(tourTimerRef.current)
+    }
+  }, [autoTour, goToStop])
+
+  // Keyboard controls for tour
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight' || e.key === 'n') {
+        const newStop = (tourStop + 1) % TOUR_STOPS.length
+        goToStop(newStop)
+      } else if (e.key === 'ArrowLeft' || e.key === 'p') {
+        const newStop = tourStop <= 0 ? TOUR_STOPS.length - 1 : tourStop - 1
+        goToStop(newStop)
+      } else if (e.key === 'Home' || e.key === 'o') {
+        goToStop(0)
+      } else if (e.key === 'm' || e.key === 'M') {
+        goToStop(TOUR_STOPS.length - 1)
+      } else if (e.key === ' ') {
+        e.preventDefault()
+        setAutoTour(prev => !prev)
+      } else if (e.key >= '1' && e.key <= '8') {
+        goToStop(parseInt(e.key))
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [tourStop, goToStop])
+
+  // UI button event listeners
+  useEffect(() => {
+    const handleNext = () => {
+      const newStop = (tourStop + 1) % TOUR_STOPS.length
+      goToStop(newStop)
+    }
+    const handlePrev = () => {
+      const newStop = tourStop <= 0 ? TOUR_STOPS.length - 1 : tourStop - 1
+      goToStop(newStop)
+    }
+    const handleGoto = (e: CustomEvent<number>) => {
+      goToStop(e.detail)
+    }
+    const handleAuto = () => {
+      setAutoTour(prev => !prev)
+    }
+
+    window.addEventListener('tour-next', handleNext)
+    window.addEventListener('tour-prev', handlePrev)
+    window.addEventListener('tour-goto', handleGoto as EventListener)
+    window.addEventListener('tour-auto', handleAuto)
+
+    return () => {
+      window.removeEventListener('tour-next', handleNext)
+      window.removeEventListener('tour-prev', handlePrev)
+      window.removeEventListener('tour-goto', handleGoto as EventListener)
+      window.removeEventListener('tour-auto', handleAuto)
+    }
+  }, [tourStop, goToStop])
 
   // Update camera from Leva values (when not interacting)
   useEffect(() => {
@@ -1684,66 +1758,50 @@ function CameraWithControls() {
     }
   })
 
-  return (
-    <OrbitControls
-      ref={controlsRef}
-      enablePan={true}
-      enableZoom={true}
-      enableRotate={true}
-      target={[targetX, targetY, targetZ]}
-      minDistance={3}
-      maxDistance={40}
-      minPolarAngle={0}
-      maxPolarAngle={Math.PI * 0.85}
-      enableDamping={true}
-      dampingFactor={0.05}
-      onStart={() => { isUserInteracting.current = true }}
-      onEnd={() => {
-        // Delay turning off to allow final sync
-        setTimeout(() => { isUserInteracting.current = false }, 100)
-      }}
-    />
-  )
+  // OrbitControls disabled by default - cleaner UX, doesn't capture scroll
+  // Enable via showPanel state if needed for debugging
+  return null
 }
 
 // Main scene content
 function SceneContent({ onChainHover }: { onChainHover?: (chain: ChainData | null) => void }) {
-  // Medallion controls - centered at x=0, z=0 above pool
+  // Medallion controls - positioned above pool center
   const { medallionX, medallionY, medallionZ, medallionScale, showMedallion } = useControls('Medallion', {
     showMedallion: { value: true, label: 'Show' },
     medallionX: { value: 0, min: -5, max: 5, step: 0.1 },
-    medallionY: { value: 2.9, min: 0, max: 10, step: 0.1 },
+    medallionY: { value: 3.5, min: 0, max: 10, step: 0.1 },
     medallionZ: { value: 0, min: -5, max: 5, step: 0.1 },
-    medallionScale: { value: 2.8, min: 0.5, max: 5, step: 0.1 },
+    medallionScale: { value: 1.0, min: 0.5, max: 5, step: 0.1 },
   })
 
-  // Pool controls - centered at x=0, flat perpendicular to terrain
+  // Pool controls - centered, pillars wrap around it
   const { poolX, poolZ, poolRadius, showPool } = useControls('Pool', {
     showPool: { value: true, label: 'Show' },
     poolX: { value: 0, min: -5, max: 5, step: 0.1 },
     poolZ: { value: 0, min: -5, max: 5, step: 0.1 },
-    poolRadius: { value: 3.5, min: 1, max: 10, step: 0.5 },
+    poolRadius: { value: 2.0, min: 1, max: 10, step: 0.5 },
   })
 
-  // Pillars controls - tighter default
+  // Pillars controls - arc radius around pool
   const { showPillars, pillarsRadius, pillarsHeight } = useControls('Pillars', {
     showPillars: { value: true, label: 'Show' },
-    pillarsRadius: { value: 5, min: 3, max: 15, step: 0.5 },
-    pillarsHeight: { value: 2.5, min: 1, max: 6, step: 0.5 },
+    pillarsRadius: { value: 5.0, min: 3, max: 15, step: 0.5 },
+    pillarsHeight: { value: 1.5, min: 1, max: 6, step: 0.5 },
   })
 
-  // Coin controls
-  const { coinRadius, coinThickness, coinBorder, coinEdgeWidth, coinInnerOpacity, coinOuterOpacity, coinGlowIntensity, coinFaceOffset, coinFaceScale, showCoinFaces } = useControls('Coins', {
-    coinRadius: { value: 0.42, min: 0.1, max: 1.0, step: 0.02, label: 'Size' },
-    coinThickness: { value: 0.12, min: 0.05, max: 0.6, step: 0.02, label: 'Thickness' },
-    coinBorder: { value: 0.04, min: 0.01, max: 0.15, step: 0.01, label: 'Border' },
-    coinEdgeWidth: { value: 0.035, min: 0.01, max: 0.1, step: 0.005, label: 'Edge Width' },
+  // Coin controls - larger and brighter for better visibility
+  const { coinRadius, coinThickness, coinBorder, coinEdgeWidth, coinInnerOpacity, coinOuterOpacity, coinGlowIntensity, coinFaceOffset, coinFaceScale, showCoinFaces, coinHeight } = useControls('Coins', {
+    coinRadius: { value: 0.65, min: 0.1, max: 1.5, step: 0.02, label: 'Size' },
+    coinThickness: { value: 0.15, min: 0.05, max: 0.6, step: 0.02, label: 'Thickness' },
+    coinHeight: { value: 1.8, min: 0.5, max: 4.0, step: 0.1, label: 'Height Above Pillar' },
+    coinBorder: { value: 0.05, min: 0.01, max: 0.15, step: 0.01, label: 'Border' },
+    coinEdgeWidth: { value: 0.045, min: 0.01, max: 0.1, step: 0.005, label: 'Edge Width' },
     showCoinFaces: { value: true, label: 'Show Faces' },
-    coinFaceOffset: { value: 0.05, min: 0.01, max: 0.2, step: 0.005, label: 'Face Offset' },
-    coinFaceScale: { value: 0.8, min: 0.3, max: 0.95, step: 0.05, label: 'Face Scale' },
-    coinInnerOpacity: { value: 0.3, min: 0, max: 1, step: 0.05, label: 'Inner Glow' },
-    coinOuterOpacity: { value: 0.5, min: 0, max: 1, step: 0.05, label: 'Outer Opacity' },
-    coinGlowIntensity: { value: 1.5, min: 0, max: 5, step: 0.1, label: 'Light Intensity' },
+    coinFaceOffset: { value: 0.06, min: 0.01, max: 0.2, step: 0.005, label: 'Face Offset' },
+    coinFaceScale: { value: 0.85, min: 0.3, max: 0.95, step: 0.05, label: 'Face Scale' },
+    coinInnerOpacity: { value: 0.5, min: 0, max: 1, step: 0.05, label: 'Inner Glow' },
+    coinOuterOpacity: { value: 0.7, min: 0, max: 1, step: 0.05, label: 'Outer Opacity' },
+    coinGlowIntensity: { value: 3.0, min: 0, max: 8, step: 0.1, label: 'Light Intensity' },
   })
 
   // Effects controls
@@ -1754,38 +1812,49 @@ function SceneContent({ onChainHover }: { onChainHover?: (chain: ChainData | nul
     showSparkles: { value: true, label: 'Sparkles' },
   })
 
-  // 7 columns arranged in semicircle arc around the pool
+  // 7 columns arranged LEFT TO RIGHT in a horizontal row
   // Height scales based on deposit amounts - more deposits = taller pillar
+  // Sort chains by deposit amount so tallest is on the right
+  const sortedChainIndices = useMemo(() => {
+    return chainData
+      .map((chain, index) => ({ index, amount: chain.depositAmount }))
+      .sort((a, b) => a.amount - b.amount) // Ascending: smallest left, largest right
+      .map(item => item.index)
+  }, [])
+
   const maxDeposit = Math.max(...chainData.map(c => c.depositAmount || 1))
 
   const columnPositions: [number, number, number][] = useMemo(() => {
     const numPillars = chainData.length // 7 pillars
-    const arcRadius = pillarsRadius // Distance from center
-    // Arrange in semicircle behind the pool (from camera's perspective)
-    // Arc spans from ~30° to ~150° (behind the pool, facing camera)
-    const arcAngleStart = Math.PI * 0.15 // Start angle (right side)
-    const arcAngleEnd = Math.PI * 0.85 // End angle (left side)
+    const arcRadius = pillarsRadius // Distance from pool center
+    // Arrange in semicircle AROUND the pool (wrapping behind it)
+    // Arc spans from -120° to +120° (240° arc behind pool)
+    const arcAngleStart = Math.PI * 0.65  // Start angle (left side)
+    const arcAngleEnd = Math.PI * 0.35    // End angle (right side, wrapping around)
+    const totalArc = Math.PI * 1.7        // 306 degrees of arc
 
-    return chainData.map((_, i) => {
+    return Array.from({ length: numPillars }, (_, i) => {
       // Spread pillars evenly across the arc
       const t = numPillars > 1 ? i / (numPillars - 1) : 0.5
-      const angle = arcAngleStart + t * (arcAngleEnd - arcAngleStart)
+      const angle = arcAngleStart + t * totalArc
       const x = Math.cos(angle) * arcRadius
-      const z = -Math.sin(angle) * arcRadius // Negative Z places them behind pool
-      return [x, 0, z] as [number, number, number]
+      const z = -Math.sin(angle) * arcRadius + poolZ // Center around pool
+      return [x + poolX, 0, z] as [number, number, number]
     })
-  }, [pillarsRadius])
+  }, [pillarsRadius, poolX, poolZ])
 
-  // Calculate individual pillar heights based on deposits
+  // Calculate individual pillar heights based on deposits for sorted order
   const pillarHeights = useMemo(() => {
     const minHeight = 1.5
     const maxHeight = 4.5
-    return chainData.map(chain => {
+    // Use sortedChainIndices to get heights in the correct display order
+    return sortedChainIndices.map(chainIndex => {
+      const chain = chainData[chainIndex]
       if (chain.depositAmount === 0) return minHeight
       const ratio = chain.depositAmount / maxDeposit
       return minHeight + ratio * (maxHeight - minHeight)
     })
-  }, [maxDeposit])
+  }, [maxDeposit, sortedChainIndices])
 
   return (
     <>
@@ -1817,36 +1886,41 @@ function SceneContent({ onChainHover }: { onChainHover?: (chain: ChainData | nul
           )}
         </IntroAnimatedGroup>
 
-        {/* Persian columns from left to right - height based on deposits */}
-        {showPillars && columnPositions.map((pos, i) => (
-          <group key={i}>
-            <PersianColumn
-              position={pos}
-              height={pillarHeights[i]}
-              depositAmount={chainData[i].depositAmount}
-              chainColor={chainData[i].color}
-              chainSymbol={chainData[i].symbol}
-            />
-            <ChainCoin
-              position={[pos[0], pillarHeights[i], pos[2]]}
-              chain={chainData[i]}
-              index={i}
-              onHover={onChainHover}
-              coinSettings={{
-                radius: coinRadius,
-                thickness: coinThickness,
-                border: coinBorder,
-                edgeWidth: coinEdgeWidth,
-                innerOpacity: coinInnerOpacity,
-                outerOpacity: coinOuterOpacity,
-                glowIntensity: coinGlowIntensity,
-                faceOffset: coinFaceOffset,
-                faceScale: coinFaceScale,
-                showFaces: showCoinFaces,
-              }}
-            />
-          </group>
-        ))}
+        {/* Persian columns from left to right - sorted by deposit (smallest left, largest right) */}
+        {showPillars && columnPositions.map((pos, i) => {
+          const chainIndex = sortedChainIndices[i]
+          const chain = chainData[chainIndex]
+          return (
+            <group key={chainIndex}>
+              <PersianColumn
+                position={pos}
+                height={pillarHeights[i]}
+                depositAmount={chain.depositAmount}
+                chainColor={chain.color}
+                chainSymbol={chain.symbol}
+              />
+              <ChainCoin
+                position={[pos[0], pillarHeights[i], pos[2]]}
+                chain={chain}
+                index={i}
+                onHover={onChainHover}
+                coinSettings={{
+                  radius: coinRadius,
+                  thickness: coinThickness,
+                  border: coinBorder,
+                  edgeWidth: coinEdgeWidth,
+                  innerOpacity: coinInnerOpacity,
+                  outerOpacity: coinOuterOpacity,
+                  glowIntensity: coinGlowIntensity,
+                  faceOffset: coinFaceOffset,
+                  faceScale: coinFaceScale,
+                  showFaces: showCoinFaces,
+                  heightOffset: coinHeight,
+                }}
+              />
+            </group>
+          )
+        })}
 
         {/* Energy connections removed - was too busy */}
 
@@ -1878,6 +1952,7 @@ export function MigaScene({ className = '' }: MigaSceneProps) {
   const [showPanel, setShowPanel] = useState(false) // Hidden by default
   const [hoveredChain, setHoveredChain] = useState<ChainData | null>(null)
   const [loadingProgress, setLoadingProgress] = useState(0)
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
 
   // Screenshot function
   const takeScreenshot = useCallback(() => {
@@ -1998,6 +2073,8 @@ export function MigaScene({ className = '' }: MigaSceneProps) {
         const rect = containerRef.current.getBoundingClientRect()
         mouseState.x = ((e.clientX - rect.left) / rect.width) * 2 - 1
         mouseState.y = -((e.clientY - rect.top) / rect.height) * 2 + 1
+        // Track screen position for tooltip
+        setMousePos({ x: e.clientX, y: e.clientY })
       }
     }
 
@@ -2075,6 +2152,7 @@ export function MigaScene({ className = '' }: MigaSceneProps) {
 
       {/* Main scene - fades in when loaded */}
       <div className={`w-full h-full transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+{/* Leva close button hidden - panel starts hidden anyway */}
         {/* Leva debug panel - only render when shown */}
         {showPanel && (
           <div className="fixed top-4 right-4 z-[100]">
@@ -2092,60 +2170,30 @@ export function MigaScene({ className = '' }: MigaSceneProps) {
                 },
               }}
             />
-            {/* Close button */}
-            <button
-              onClick={() => setShowPanel(false)}
-              className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-red-500 hover:bg-red-600 border-2 border-white/20 flex items-center justify-center text-white transition-all z-[101] shadow-lg"
-              title="Close Settings"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                <path d="M18 6L6 18M6 6l12 12" />
-              </svg>
-            </button>
           </div>
         )}
         {/* Hidden Leva to keep controls registered when panel is closed */}
         {!showPanel && <Leva hidden />}
 
-        {/* Control buttons - fixed position */}
-        <div className="fixed top-20 right-4 z-50 flex flex-col gap-2">
-          {/* Toggle button for debug panel - gear icon */}
-          <button
-            onClick={() => setShowPanel(!showPanel)}
-            className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${
-              showPanel
-                ? 'bg-white/20 border-white/40 text-white'
-                : 'bg-black/50 border-white/20 text-white/70 hover:text-white hover:bg-black/70'
-            }`}
-            title={showPanel ? 'Hide Settings' : 'Show Settings'}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="12" r="3" />
-              <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
-            </svg>
-          </button>
+{/* Control buttons hidden for cleaner UX - access via keyboard */}
 
-          {/* Screenshot button */}
-          <button
-            onClick={takeScreenshot}
-            className="w-10 h-10 rounded-full bg-black/50 border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:bg-black/70 transition-all"
-            title="Take Screenshot"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2v11z" />
-              <circle cx="12" cy="13" r="4" />
-            </svg>
-          </button>
-        </div>
+{/* Tour navigation and keyboard hints hidden for cleaner UX */}
 
-      {/* Chain tooltip overlay with icon */}
+      {/* Chain tooltip overlay with icon - follows cursor */}
       {hoveredChain && (
-        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
+        <div
+          className="fixed z-[200] pointer-events-none"
+          style={{
+            left: mousePos.x + 20,
+            top: mousePos.y - 20,
+            transform: 'translateY(-100%)',
+          }}
+        >
           <div
-            className="px-6 py-4 rounded-xl backdrop-blur-md border shadow-2xl max-w-sm"
+            className="px-5 py-3 rounded-xl backdrop-blur-md border shadow-2xl max-w-xs"
             style={{
-              background: `linear-gradient(135deg, ${hoveredChain.color}20, ${hoveredChain.color}10)`,
-              borderColor: `${hoveredChain.color}40`,
+              background: `linear-gradient(135deg, ${hoveredChain.color}30, ${hoveredChain.color}15)`,
+              borderColor: `${hoveredChain.color}60`,
             }}
           >
             <div className="flex items-center gap-3 mb-2">
@@ -2177,7 +2225,7 @@ export function MigaScene({ className = '' }: MigaSceneProps) {
                 </span>
               </div>
             </div>
-            <p className="text-white/80 text-sm mb-2">{hoveredChain.description}</p>
+            <p className="text-white/80 text-sm">{hoveredChain.description}</p>
             {'voteOptions' in hoveredChain && hoveredChain.voteOptions && (
               <div className="flex flex-wrap gap-1 mt-2">
                 {hoveredChain.voteOptions.map((opt) => (
@@ -2187,7 +2235,7 @@ export function MigaScene({ className = '' }: MigaSceneProps) {
                 ))}
               </div>
             )}
-            <div className="mt-3 text-xs text-white/50">
+            <div className="mt-2 text-xs text-white/50">
               Click to {hoveredChain.status === 'mystery' ? 'vote' : 'view mint'}
             </div>
           </div>
@@ -2206,7 +2254,7 @@ export function MigaScene({ className = '' }: MigaSceneProps) {
             outputColorSpace: THREE.SRGBColorSpace,
           }}
           dpr={[1, Math.min(window.devicePixelRatio, 2)]}
-          camera={{ position: [0, 12, 10], fov: 45 }}
+          camera={{ position: [0, 6, 16], fov: 50 }}
           style={{ background: 'transparent' }}
         >
           <Suspense fallback={<Loader />}>
