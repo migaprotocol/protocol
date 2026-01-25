@@ -1,6 +1,6 @@
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
-import { MigaScene } from '@/components/3d'
+import { MigaScene, type SceneLayout } from '@/components/3d'
 import { RaceToNowruz } from '@/components/RaceToNowruz'
 import { SocialFeed } from '@/components/SocialFeed'
 import { RezaNews } from '@/components/RezaNews'
@@ -15,11 +15,34 @@ import {
 } from 'lucide-react'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+
+// Layout options for 3D scene
+const LAYOUT_OPTIONS: { value: SceneLayout; label: string; description: string }[] = [
+  { value: 'cinematic', label: 'A: Cinematic', description: 'Dramatic 3/4 perspective' },
+  { value: 'profile', label: 'B: Profile', description: 'Side view for hero layouts' },
+  { value: 'topdown', label: 'C: Top-Down', description: 'Overview of all chains' },
+]
 
 export default function Index() {
   const { connected } = useWallet()
   const heroSkyRef = useRef<HTMLDivElement>(null)
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  // Get layout from URL query param or default to 'cinematic'
+  const layoutParam = searchParams.get('layout') as SceneLayout | null
+  const [layout, setLayout] = useState<SceneLayout>(
+    layoutParam && ['cinematic', 'profile', 'topdown'].includes(layoutParam)
+      ? layoutParam
+      : 'cinematic'
+  )
+
+  // Update URL when layout changes
+  const handleLayoutChange = (newLayout: SceneLayout) => {
+    setLayout(newLayout)
+    setSearchParams({ layout: newLayout })
+  }
 
   // Scroll-based parallax for hero background
   useEffect(() => {
@@ -53,7 +76,26 @@ export default function Index() {
 
           {/* Full-width 3D Scene */}
           <div className="hero-3d-full">
-            <MigaScene />
+            <MigaScene layout={layout} />
+          </div>
+
+          {/* Layout selector - floating in bottom right for testing */}
+          <div className="fixed bottom-4 right-4 z-[100] flex flex-col gap-2 p-3 rounded-xl bg-black/80 backdrop-blur-sm border border-white/10">
+            <div className="text-xs text-white/50 mb-1">3D Layout Option:</div>
+            {LAYOUT_OPTIONS.map((opt) => (
+              <button
+                key={opt.value}
+                onClick={() => handleLayoutChange(opt.value)}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all ${
+                  layout === opt.value
+                    ? 'bg-[#FFD700] text-black font-medium'
+                    : 'bg-white/5 text-white/70 hover:bg-white/10'
+                }`}
+              >
+                <span className="font-mono">{opt.label}</span>
+                <span className="text-xs opacity-60 hidden sm:inline">- {opt.description}</span>
+              </button>
+            ))}
           </div>
 
           {/* Content overlay on left */}
@@ -111,7 +153,7 @@ export default function Index() {
                 <span className="text-xs text-[#6B6B7B]">Live on</span>
                 <span className="text-xs text-[#9999A5] flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
-                  Solana
+                  7 Chains
                 </span>
               </div>
             </div>
@@ -288,8 +330,8 @@ export default function Index() {
                 <span className="stat-badge-label">Total Supply</span>
               </div>
               <div className="stat-badge">
-                <span className="stat-badge-value">1B</span>
-                <span className="stat-badge-label">Live on Solana</span>
+                <span className="stat-badge-value">7B</span>
+                <span className="stat-badge-label">Across 7 Chains</span>
               </div>
             </div>
           </div>

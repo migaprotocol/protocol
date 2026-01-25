@@ -2,6 +2,9 @@
 // Treasury only holds: BTC, ETH, SOL, BNB, XRP, TON, LUX
 // Pillar height scales based on depositAmount (real-time from deposits)
 
+// Deposit address for bridge minting
+export const DEPOSIT_ADDRESS = '0x14aa5a41133199c68d06f4dfa5417abb4eef44e9'
+
 export const chainData = [
   {
     name: 'Bitcoin',
