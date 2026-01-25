@@ -1965,15 +1965,15 @@ const LAYOUT_PRESETS: Record<SceneLayout, {
     pillars: { radius: 5.0, height: 3.0 },
     description: 'Throne view - heroic low angle'
   },
-  // Option C: TEMPLE - Wide panoramic, pillars spread across horizon
-  // Camera elevated slightly, shows pillars as temple columns on plateau
+  // Option C: OVERHEAD - Elevated view, pillars grounded on plateau
+  // Camera above and behind, looking down at pillars standing on ground
   topdown: {
-    camera: { position: [0, 3, 14], fov: 65 },
-    target: [0, 1.5, -1],
-    medallion: { x: 0, y: 3.5, z: 0, scale: 1.4 },
-    pool: { x: 0, z: 0, radius: 2.2 },
-    pillars: { radius: 7.0, height: 2.2 },
-    description: 'Temple view - wide panoramic'
+    camera: { position: [0, 8, 10], fov: 55 },
+    target: [0, 1, -3],
+    medallion: { x: 0, y: 3.0, z: -1, scale: 1.3 },
+    pool: { x: 0, z: -1, radius: 2.0 },
+    pillars: { radius: 5.0, height: 2.0 },
+    description: 'Overhead view - pillars grounded'
   }
 }
 

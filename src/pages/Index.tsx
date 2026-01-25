@@ -22,9 +22,9 @@ import { useSearchParams } from 'react-router-dom'
 
 // Layout options for 3D scene
 const LAYOUT_OPTIONS: { value: SceneLayout; label: string; description: string }[] = [
-  { value: 'cinematic', label: 'A: Cinematic', description: 'Dramatic 3/4 perspective' },
-  { value: 'profile', label: 'B: Profile', description: 'Side view for hero layouts' },
-  { value: 'topdown', label: 'C: Top-Down', description: 'Overview of all chains' },
+  { value: 'cinematic', label: 'A: Arena', description: 'Dramatic 3/4 perspective' },
+  { value: 'profile', label: 'B: Throne', description: 'Heroic low angle view' },
+  { value: 'topdown', label: 'C: Overhead', description: 'Bird\'s eye - pillars grounded' },
 ]
 
 export default function Index() {
