@@ -30,4 +30,5 @@ export {
 
 // Main scene
 export { MigaScene, MigaSceneLite } from './Scene'
+export type { SceneLayout } from './Scene'
 export { default as Scene } from './Scene'

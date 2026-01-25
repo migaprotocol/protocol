@@ -1738,30 +1738,48 @@ function CameraWithControls() {
   return null
 }
 
+// Layout preset type for SceneContent
+type LayoutPreset = {
+  camera: { position: [number, number, number]; fov: number }
+  target: [number, number, number]
+  medallion: { x: number; y: number; z: number; scale: number }
+  pool: { x: number; z: number; radius: number }
+  pillars: { radius: number; height: number }
+  description: string
+}
+
 // Main scene content
-function SceneContent({ onChainHover }: { onChainHover?: (chain: ChainData | null) => void }) {
+function SceneContent({ onChainHover, layoutPreset }: {
+  onChainHover?: (chain: ChainData | null) => void
+  layoutPreset?: LayoutPreset
+}) {
+  // Use layout preset values as defaults, allow Leva overrides
+  const presetMedallion = layoutPreset?.medallion || { x: 0, y: 3.5, z: 0, scale: 1.0 }
+  const presetPool = layoutPreset?.pool || { x: 0, z: 0, radius: 2.0 }
+  const presetPillars = layoutPreset?.pillars || { radius: 5.0, height: 1.5 }
+
   // Medallion controls - positioned above pool center
   const { medallionX, medallionY, medallionZ, medallionScale, showMedallion } = useControls('Medallion', {
     showMedallion: { value: true, label: 'Show' },
-    medallionX: { value: 0, min: -5, max: 5, step: 0.1 },
-    medallionY: { value: 3.5, min: 0, max: 10, step: 0.1 },
-    medallionZ: { value: 0, min: -5, max: 5, step: 0.1 },
-    medallionScale: { value: 1.0, min: 0.5, max: 5, step: 0.1 },
+    medallionX: { value: presetMedallion.x, min: -5, max: 5, step: 0.1 },
+    medallionY: { value: presetMedallion.y, min: 0, max: 10, step: 0.1 },
+    medallionZ: { value: presetMedallion.z, min: -5, max: 5, step: 0.1 },
+    medallionScale: { value: presetMedallion.scale, min: 0.5, max: 5, step: 0.1 },
   })
 
   // Pool controls - centered, pillars wrap around it
   const { poolX, poolZ, poolRadius, showPool } = useControls('Pool', {
     showPool: { value: true, label: 'Show' },
-    poolX: { value: 0, min: -5, max: 5, step: 0.1 },
-    poolZ: { value: 0, min: -5, max: 5, step: 0.1 },
-    poolRadius: { value: 2.0, min: 1, max: 10, step: 0.5 },
+    poolX: { value: presetPool.x, min: -5, max: 5, step: 0.1 },
+    poolZ: { value: presetPool.z, min: -5, max: 5, step: 0.1 },
+    poolRadius: { value: presetPool.radius, min: 1, max: 10, step: 0.5 },
   })
 
   // Pillars controls - arc radius around pool
   const { showPillars, pillarsRadius, pillarsHeight } = useControls('Pillars', {
     showPillars: { value: true, label: 'Show' },
-    pillarsRadius: { value: 5.0, min: 3, max: 15, step: 0.5 },
-    pillarsHeight: { value: 1.5, min: 1, max: 6, step: 0.5 },
+    pillarsRadius: { value: presetPillars.radius, min: 3, max: 15, step: 0.5 },
+    pillarsHeight: { value: presetPillars.height, min: 1, max: 6, step: 0.5 },
   })
 
   // Coin controls - larger and brighter for better visibility
@@ -1916,11 +1934,55 @@ function SceneContent({ onChainHover }: { onChainHover?: (chain: ChainData | nul
   )
 }
 
-interface MigaSceneProps {
-  className?: string
+// Layout presets - 3 options for different visual orientations
+export type SceneLayout = 'cinematic' | 'profile' | 'topdown'
+
+const LAYOUT_PRESETS: Record<SceneLayout, {
+  camera: { position: [number, number, number]; fov: number }
+  target: [number, number, number]
+  medallion: { x: number; y: number; z: number; scale: number }
+  pool: { x: number; z: number; radius: number }
+  pillars: { radius: number; height: number }
+  description: string
+}> = {
+  // Option A: Cinematic - ground-level view, pillars aligned with plateau
+  // Camera low and close, looking at pillars standing on horizon line
+  cinematic: {
+    camera: { position: [4, 1.2, 12], fov: 45 },
+    target: [0, 0.5, 0],
+    medallion: { x: 0, y: 2.0, z: 0, scale: 0.85 },
+    pool: { x: 0, z: 0, radius: 1.4 },
+    pillars: { radius: 4.0, height: 1.0 },
+    description: 'Cinematic ground-level - pillars on plateau'
+  },
+  // Option B: Profile - side angle, pillars grounded on horizon
+  // Scene shifted right so pillars appear on plateau, content on left
+  profile: {
+    camera: { position: [12, 1.5, 10], fov: 38 },
+    target: [1, 0.6, 0],
+    medallion: { x: 1, y: 2.0, z: 0, scale: 1.0 },
+    pool: { x: 1, z: 0, radius: 1.4 },
+    pillars: { radius: 4.0, height: 0.9 },
+    description: 'Profile view - pillars grounded right'
+  },
+  // Option C: Front view - symmetrical, pillars across plateau horizon
+  // Lower angle shows pillars standing tall on the ground plane
+  topdown: {
+    camera: { position: [0, 2.0, 16], fov: 36 },
+    target: [0, 0.5, 0],
+    medallion: { x: 0, y: 2.0, z: 0, scale: 0.85 },
+    pool: { x: 0, z: 0, radius: 1.6 },
+    pillars: { radius: 5.0, height: 1.1 },
+    description: 'Front view - pillars across horizon'
+  }
 }
 
-export function MigaScene({ className = '' }: MigaSceneProps) {
+interface MigaSceneProps {
+  className?: string
+  layout?: SceneLayout
+}
+
+export function MigaScene({ className = '', layout = 'cinematic' }: MigaSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const [isModelLoaded, setIsModelLoaded] = useState(false)
@@ -2217,8 +2279,9 @@ export function MigaScene({ className = '' }: MigaSceneProps) {
         </div>
       )}
 
-        {/* 3D Canvas */}
+        {/* 3D Canvas - key forces remount when layout changes */}
         <Canvas
+          key={layout}
           gl={{
             antialias: true,
             alpha: true,
@@ -2229,11 +2292,11 @@ export function MigaScene({ className = '' }: MigaSceneProps) {
             outputColorSpace: THREE.SRGBColorSpace,
           }}
           dpr={[1, Math.min(window.devicePixelRatio, 2)]}
-          camera={{ position: [0, 6, 16], fov: 50 }}
+          camera={{ position: LAYOUT_PRESETS[layout].camera.position, fov: LAYOUT_PRESETS[layout].camera.fov }}
           style={{ background: 'transparent' }}
         >
           <Suspense fallback={<Loader />}>
-            <SceneContent onChainHover={setHoveredChain} />
+            <SceneContent onChainHover={setHoveredChain} layoutPreset={LAYOUT_PRESETS[layout]} />
           </Suspense>
         </Canvas>
       </div>
@@ -2241,8 +2304,8 @@ export function MigaScene({ className = '' }: MigaSceneProps) {
   )
 }
 
-export function MigaSceneLite({ className = '' }: { className?: string }) {
-  return <MigaScene className={className} />
+export function MigaSceneLite({ className = '', layout = 'cinematic' }: { className?: string; layout?: SceneLayout }) {
+  return <MigaScene className={className} layout={layout} />
 }
 
 export default MigaScene
