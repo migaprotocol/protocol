@@ -3,15 +3,16 @@ import { Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 const navLinks = [
+  { label: 'Leaderboard', href: '/#leaderboard' },
   { label: 'Iran', href: '/iran' },
   { label: 'Token', href: '/token' },
-  { label: 'Vote', href: '/vote' },
   { label: 'Docs', href: '/docs' },
-  { label: 'DAO', href: '/dao' },
+  { label: 'DAO', href: 'https://miga.us.org', external: true },
 ];
 
-// Mint progress (update this as mint progresses)
+// Mint progress - fetched from API in production
 const MINT_PROGRESS = 23; // percentage
+const MINT_TARGET = '$7,000,000'; // USD target
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);

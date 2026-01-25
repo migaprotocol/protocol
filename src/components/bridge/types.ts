@@ -18,6 +18,8 @@ export interface ChainConfig {
   depositAddress?: string;
   memo?: string; // Required memo for XRP/TON
   minAmount?: number; // Minimum deposit amount
+  isRedemptionNetwork?: boolean; // PARS/HANZO - where MIGA can be redeemed
+  isDev?: boolean; // Local development network
 }
 
 export interface DonationAsset {

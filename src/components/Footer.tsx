@@ -1,12 +1,21 @@
 import { Link } from 'react-router-dom';
 
 const footerLinks = {
+  mint: {
+    title: 'Mint Race',
+    items: [
+      { title: 'Leaderboard', href: '/#leaderboard' },
+      { title: 'Mint MIGA', href: '/mint' },
+      { title: 'Redeem on PARS', href: '/redeem' },
+      { title: 'Bridge', href: 'https://bridge.lux.network', external: true },
+    ],
+  },
   protocol: {
     title: 'Protocol',
     items: [
       { title: 'Token', href: '/token' },
-      { title: 'Governance', href: '/vote' },
       { title: 'Documentation', href: '/docs' },
+      { title: 'Whitepaper', href: 'https://github.com/migaprotocol/miga/blob/main/whitepaper/MIGA-Whitepaper.md', external: true },
       { title: 'GitHub', href: 'https://github.com/migaprotocol', external: true },
     ],
   },
@@ -133,10 +142,10 @@ export function Footer() {
           </div>
 
           {/* Navigation columns */}
+          <FooterColumn {...footerLinks.mint} />
           <FooterColumn {...footerLinks.protocol} />
-          <FooterColumn {...footerLinks.ecosystem} />
           <FooterColumn {...footerLinks.community} />
-          <FooterColumn {...footerLinks.legal} />
+          <FooterColumn {...footerLinks.ecosystem} />
         </div>
 
         {/* Bottom bar */}
