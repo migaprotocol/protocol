@@ -1945,15 +1945,15 @@ const LAYOUT_PRESETS: Record<SceneLayout, {
   pillars: { radius: number; height: number }
   description: string
 }> = {
-  // Option A: Cinematic - ground-level view, pillars aligned with plateau
-  // Camera low and close, looking at pillars standing on horizon line
+  // Option A: Cinematic - dramatic view with visible pillars
+  // Optimized for pillars to appear standing on background plateau
   cinematic: {
-    camera: { position: [4, 1.2, 12], fov: 45 },
-    target: [0, 0.5, 0],
-    medallion: { x: 0, y: 2.0, z: 0, scale: 0.85 },
-    pool: { x: 0, z: 0, radius: 1.4 },
-    pillars: { radius: 4.0, height: 1.0 },
-    description: 'Cinematic ground-level - pillars on plateau'
+    camera: { position: [7, 3, 10], fov: 50 },
+    target: [0, 1.5, 0],
+    medallion: { x: 0, y: 3.5, z: 0, scale: 1.2 },
+    pool: { x: 0, z: 0, radius: 2.0 },
+    pillars: { radius: 4.5, height: 1.8 },
+    description: 'Cinematic - pillars on plateau'
   },
   // Option B: Profile - side angle, pillars grounded on horizon
   // Scene shifted right so pillars appear on plateau, content on left
