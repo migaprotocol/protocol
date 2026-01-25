@@ -2234,9 +2234,20 @@ export function MigaScene({ className = '', layout = 'cinematic' }: MigaScenePro
         {/* Hidden Leva to keep controls registered when panel is closed */}
         {!showPanel && <Leva hidden />}
 
-{/* Control buttons hidden for cleaner UX - access via keyboard */}
-
-{/* Tour navigation and keyboard hints hidden for cleaner UX */}
+        {/* Customize toggle button - right side, avoids chat widget */}
+        <button
+          onClick={() => setShowPanel(!showPanel)}
+          className="fixed right-4 top-1/2 -translate-y-1/2 z-[90] group"
+          title="Customize 3D scene"
+        >
+          <div className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/50 hover:text-white hover:bg-black/60 hover:border-white/40 transition-all cursor-pointer">
+            <span className="text-sm font-serif italic">i</span>
+          </div>
+          {/* Tooltip on hover */}
+          <div className="absolute right-full mr-2 top-1/2 -translate-y-1/2 px-2 py-1 rounded bg-black/80 text-white/80 text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Customize
+          </div>
+        </button>
 
       {/* Chain tooltip overlay with icon - follows cursor */}
       {hoveredChain && (
