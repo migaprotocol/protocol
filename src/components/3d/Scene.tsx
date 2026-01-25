@@ -2214,7 +2214,15 @@ export function MigaScene({ className = '', layout = 'cinematic' }: MigaScenePro
 {/* Leva close button hidden - panel starts hidden anyway */}
         {/* Leva debug panel - only render when shown */}
         {showPanel && (
-          <div className="fixed top-4 right-4 z-[100]">
+          <div className="fixed top-28 right-4 z-[100]">
+            {/* Close button for Leva panel */}
+            <button
+              onClick={() => setShowPanel(false)}
+              className="absolute -top-2 -right-2 z-10 w-6 h-6 rounded-full bg-black/60 border border-white/30 flex items-center justify-center text-white/70 hover:text-white hover:bg-black/80 transition-all"
+              title="Close panel"
+            >
+              <span className="text-xs">×</span>
+            </button>
             <Leva
               fill
               flat
@@ -2234,10 +2242,10 @@ export function MigaScene({ className = '', layout = 'cinematic' }: MigaScenePro
         {/* Hidden Leva to keep controls registered when panel is closed */}
         {!showPanel && <Leva hidden />}
 
-        {/* Customize toggle button - right side, avoids chat widget */}
+        {/* Customize toggle button - right side, below header, pointer-events-auto for click only */}
         <button
           onClick={() => setShowPanel(!showPanel)}
-          className="fixed right-4 top-1/2 -translate-y-1/2 z-[90] group"
+          className="fixed right-4 top-28 z-[90] group pointer-events-auto"
           title="Customize 3D scene"
         >
           <div className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/50 hover:text-white hover:bg-black/60 hover:border-white/40 transition-all cursor-pointer">

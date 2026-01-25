@@ -223,15 +223,15 @@ export function RaceToNowruz() {
               <span className="text-sm text-[#9999A5]">Competition ends at Nowruz 1404</span>
             </div>
 
-            <div className="grid grid-cols-4 gap-4 text-center">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 text-center">
               {[
                 { value: timeLeft.days, label: 'Days' },
                 { value: timeLeft.hours, label: 'Hours' },
                 { value: timeLeft.minutes, label: 'Minutes' },
                 { value: timeLeft.seconds, label: 'Seconds' },
               ].map((item) => (
-                <div key={item.label} className="p-4 bg-black/30 rounded-xl">
-                  <div className="text-3xl md:text-5xl font-bold text-gradient-ember font-mono">
+                <div key={item.label} className="p-3 sm:p-4 bg-black/30 rounded-xl">
+                  <div className="text-2xl sm:text-3xl md:text-5xl font-bold text-gradient-ember font-mono">
                     {String(item.value).padStart(2, '0')}
                   </div>
                   <div className="text-xs text-[#6B6B7B] mt-1">{item.label}</div>
@@ -295,10 +295,10 @@ export function RaceToNowruz() {
                     }}
                   />
 
-                  <div className="relative p-4 flex items-center gap-4">
+                  <div className="relative p-3 sm:p-4 flex items-center gap-2 sm:gap-4">
                     {/* Rank */}
                     <div className={`
-                      w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm
+                      w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm
                       ${chain.rank === 1 ? 'bg-[#FFD700] text-black' : ''}
                       ${chain.rank === 2 ? 'bg-[#C0C0C0] text-black' : ''}
                       ${chain.rank === 3 ? 'bg-[#CD7F32] text-black' : ''}
@@ -309,7 +309,7 @@ export function RaceToNowruz() {
 
                     {/* Chain icon */}
                     <div
-                      className="w-10 h-10 rounded-full overflow-hidden border-2"
+                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden border-2"
                       style={{ borderColor: chain.color }}
                     >
                       <img src={chain.icon} alt={chain.name} className="w-full h-full object-cover" />
@@ -340,8 +340,8 @@ export function RaceToNowruz() {
                       </div>
                     </div>
 
-                    {/* Percentage of total */}
-                    <div className="w-20 text-right">
+                    {/* Percentage of total - hidden on mobile */}
+                    <div className="hidden sm:block w-20 text-right">
                       <div className="text-sm font-medium">{percentOfTotal.toFixed(1)}%</div>
                       <div className="text-xs text-[#6B6B7B]">of total</div>
                     </div>
