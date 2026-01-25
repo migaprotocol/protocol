@@ -1945,35 +1945,35 @@ const LAYOUT_PRESETS: Record<SceneLayout, {
   pillars: { radius: number; height: number }
   description: string
 }> = {
-  // Option A: Cinematic - dramatic view with visible pillars
-  // Optimized for pillars to appear standing on background plateau
+  // Option A: ARENA - All 7 pillars visible in semicircle, large medallion center
+  // Camera pulled back to see entire scene, pillars form dramatic backdrop
   cinematic: {
-    camera: { position: [7, 3, 10], fov: 50 },
-    target: [0, 1.5, 0],
-    medallion: { x: 0, y: 3.5, z: 0, scale: 1.2 },
-    pool: { x: 0, z: 0, radius: 2.0 },
-    pillars: { radius: 4.5, height: 1.8 },
-    description: 'Cinematic - pillars on plateau'
+    camera: { position: [0, 4, 12], fov: 60 },
+    target: [0, 1.8, -2],
+    medallion: { x: 0, y: 4.0, z: 0, scale: 1.5 },
+    pool: { x: 0, z: 0, radius: 2.5 },
+    pillars: { radius: 6.0, height: 2.5 },
+    description: 'Arena view - all pillars visible'
   },
-  // Option B: Profile - side angle, pillars grounded on horizon
-  // Scene shifted right so pillars appear on plateau, content on left
+  // Option B: THRONE - Heroic low angle, pillars tower like columns
+  // Camera at ground level looking up, creates epic scale
   profile: {
-    camera: { position: [12, 1.5, 10], fov: 38 },
-    target: [1, 0.6, 0],
-    medallion: { x: 1, y: 2.0, z: 0, scale: 1.0 },
-    pool: { x: 1, z: 0, radius: 1.4 },
-    pillars: { radius: 4.0, height: 0.9 },
-    description: 'Profile view - pillars grounded right'
+    camera: { position: [8, 1.0, 8], fov: 55 },
+    target: [0, 2.5, 0],
+    medallion: { x: 0, y: 4.5, z: 0, scale: 1.8 },
+    pool: { x: 0, z: 0, radius: 2.0 },
+    pillars: { radius: 5.0, height: 3.0 },
+    description: 'Throne view - heroic low angle'
   },
-  // Option C: Front view - symmetrical, pillars across plateau horizon
-  // Lower angle shows pillars standing tall on the ground plane
+  // Option C: TEMPLE - Wide panoramic, pillars spread across horizon
+  // Camera elevated slightly, shows pillars as temple columns on plateau
   topdown: {
-    camera: { position: [0, 2.0, 16], fov: 36 },
-    target: [0, 0.5, 0],
-    medallion: { x: 0, y: 2.0, z: 0, scale: 0.85 },
-    pool: { x: 0, z: 0, radius: 1.6 },
-    pillars: { radius: 5.0, height: 1.1 },
-    description: 'Front view - pillars across horizon'
+    camera: { position: [0, 3, 14], fov: 65 },
+    target: [0, 1.5, -1],
+    medallion: { x: 0, y: 3.5, z: 0, scale: 1.4 },
+    pool: { x: 0, z: 0, radius: 2.2 },
+    pillars: { radius: 7.0, height: 2.2 },
+    description: 'Temple view - wide panoramic'
   }
 }
 
