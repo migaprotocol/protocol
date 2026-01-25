@@ -176,7 +176,7 @@ export function RaceToNowruz() {
   }
 
   return (
-    <section className="section border-t border-white/[0.04] bg-gradient-to-b from-[#0A0A10] to-transparent">
+    <section id="leaderboard" className="section border-t border-white/[0.04] bg-gradient-to-b from-[#0A0A10] to-transparent scroll-mt-32">
       <div className="container-lg">
         {/* Header */}
         <div className="text-center mb-12">

@@ -1,8 +1,13 @@
 // MIGA Protocol - Supported Networks for Minting
 // 7 native chains: BTC, ETH, SOL, BNB, XRP, TON, LUX
 // Stablecoins (USDC/USDT) accepted but auto-swapped to native tokens
+// MIGA redeemable on: PARS, HANZO networks
 
 import type { ChainConfig, DAOWalletConfig, DonationAsset } from './types';
+
+// Environment detection
+const IS_DEV = import.meta.env.DEV;
+const USE_LOCAL = import.meta.env.VITE_USE_LOCAL_NETWORK === 'true';
 
 // Deposit addresses by chain
 const DEPOSIT_ADDRESSES = {
@@ -14,6 +19,9 @@ const DEPOSIT_ADDRESSES = {
   TON: 'UQCx0_0l9AxIouVBxThCRAwO7Yrz6rpQGI-1CS7h-lwjqRTW',
   TON_MEMO: 'GEMGW3X626VA3',
   LUX: '0x14542918a9032248ef30d9bc1d57983691e3ade4',
+  PARS: '0x0000000000000000000000000000000000000000', // TBD - deploy to Pars Network
+  HANZO: '0x0000000000000000000000000000000000000000', // TBD - deploy to Hanzo Network
+  LOCAL: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266', // Anvil default account
 };
 
 // MIGA DAO Treasury configuration - 3-of-5 Utila MPC
@@ -189,6 +197,72 @@ export const MIGA_CHAINS: ChainConfig[] = [
     enabled: true,
     depositAddress: DEPOSIT_ADDRESSES.LUX,
   },
+  // === MIGA Redemption Networks ===
+  {
+    id: 'PARS',
+    name: 'Pars Network',
+    symbol: 'PARS',
+    chainId: 494949,
+    type: 'evm',
+    color: '#E6B800',
+    icon: '/images/tokens/pars.png',
+    explorer: 'https://explore.pars.network',
+    rpc: 'https://rpc.pars.network',
+    nativeAsset: 'PARS',
+    decimals: 18,
+    enabled: true,
+    depositAddress: DEPOSIT_ADDRESSES.PARS,
+    isRedemptionNetwork: true,
+  },
+  {
+    id: 'SPC',
+    name: 'Sparkle Pony',
+    symbol: 'SPC',
+    chainId: 494949, // Same network, alternate RPC
+    type: 'evm',
+    color: '#FF69B4',
+    icon: '/images/tokens/spc.png',
+    explorer: 'https://explore.sparklepony.xyz',
+    rpc: 'https://rpc.sparklepony.xyz',
+    nativeAsset: 'SPC',
+    decimals: 18,
+    enabled: true,
+    depositAddress: DEPOSIT_ADDRESSES.PARS,
+    isRedemptionNetwork: true,
+  },
+  {
+    id: 'HANZO',
+    name: 'Hanzo Network',
+    symbol: 'AI',
+    chainId: 36963,
+    type: 'evm',
+    color: '#00D4FF',
+    icon: '/images/tokens/hanzo.png',
+    explorer: 'https://explore.hanzo.ai',
+    rpc: 'https://rpc.hanzo.ai',
+    nativeAsset: 'AI',
+    decimals: 18,
+    enabled: false, // Enable when deployed
+    depositAddress: DEPOSIT_ADDRESSES.HANZO,
+    isRedemptionNetwork: true,
+  },
+  // Local development network (Anvil)
+  ...(USE_LOCAL ? [{
+    id: 'LOCAL',
+    name: 'Local Dev',
+    symbol: 'ETH',
+    chainId: 31337,
+    type: 'evm' as const,
+    color: '#888888',
+    icon: '/images/tokens/ethereum.png',
+    explorer: '',
+    rpc: 'http://127.0.0.1:8545',
+    nativeAsset: 'ETH',
+    decimals: 18,
+    enabled: true,
+    depositAddress: DEPOSIT_ADDRESSES.LOCAL,
+    isDev: true,
+  }] : []),
 ];
 
 // Supported assets for minting
