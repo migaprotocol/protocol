@@ -15,8 +15,8 @@ import {
 import { useControls, Leva, button, folder } from 'leva'
 import * as THREE from 'three'
 
-// Preload medallion model
-useGLTF.preload('/models/MIGA-3D.glb')
+// Preload medallion model (smaller 11MB version)
+useGLTF.preload('/models/MIGA-medallion.glb')
 
 // Mouse position for parallax
 const mouseState = { x: 0, y: 0 }
@@ -753,7 +753,7 @@ function PoolEdge({ x = 0.5, z = 0, radius = 5 }: { x?: number; z?: number; radi
 function MigaMedallion({ onLoaded, x = 0.8, y = 2.9, z = 0, scale = 2.8 }: { onLoaded?: () => void; x?: number; y?: number; z?: number; scale?: number }) {
   const groupRef = useRef<THREE.Group>(null)
   const glowRef = useRef<THREE.PointLight>(null)
-  const { scene } = useGLTF('/models/MIGA-3D.glb')
+  const { scene } = useGLTF('/models/MIGA-medallion.glb')
   const introProgress = useRef(0)
 
   const clonedScene = useMemo(() => {

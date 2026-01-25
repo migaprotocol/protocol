@@ -11,7 +11,9 @@ import {
   ExternalLink,
   Lock,
   FileCheck,
-  ChevronRight
+  ChevronRight,
+  Settings2,
+  X
 } from 'lucide-react'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
@@ -37,6 +39,9 @@ export default function Index() {
       ? layoutParam
       : 'cinematic'
   )
+
+  // Toggle for layout options panel
+  const [showLayoutPanel, setShowLayoutPanel] = useState(false)
 
   // Update URL when layout changes
   const handleLayoutChange = (newLayout: SceneLayout) => {
@@ -79,23 +84,51 @@ export default function Index() {
             <MigaScene layout={layout} />
           </div>
 
-          {/* Layout selector - floating in bottom right for testing */}
-          <div className="fixed bottom-4 right-4 z-[100] flex flex-col gap-2 p-3 rounded-xl bg-black/80 backdrop-blur-sm border border-white/10">
-            <div className="text-xs text-white/50 mb-1">3D Layout Option:</div>
-            {LAYOUT_OPTIONS.map((opt) => (
+          {/* Layout customization - small toggle button + collapsible panel */}
+          <div className="fixed bottom-4 right-4 z-[100]">
+            {/* Expanded panel */}
+            {showLayoutPanel && (
+              <div className="mb-2 flex flex-col gap-2 p-3 rounded-xl bg-black/90 backdrop-blur-sm border border-white/10 animate-in fade-in slide-in-from-bottom-2 duration-200">
+                <div className="flex items-center justify-between mb-1">
+                  <div className="text-xs text-white/50">3D Layout:</div>
+                  <button
+                    onClick={() => setShowLayoutPanel(false)}
+                    className="p-1 rounded hover:bg-white/10 text-white/50 hover:text-white transition-colors"
+                  >
+                    <X size={14} />
+                  </button>
+                </div>
+                {LAYOUT_OPTIONS.map((opt) => (
+                  <button
+                    key={opt.value}
+                    onClick={() => {
+                      handleLayoutChange(opt.value)
+                      setShowLayoutPanel(false)
+                    }}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all ${
+                      layout === opt.value
+                        ? 'bg-[#FFD700] text-black font-medium'
+                        : 'bg-white/5 text-white/70 hover:bg-white/10'
+                    }`}
+                  >
+                    <span className="font-mono">{opt.label}</span>
+                    <span className="text-xs opacity-60 hidden sm:inline">- {opt.description}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Collapsed customize button */}
+            {!showLayoutPanel && (
               <button
-                key={opt.value}
-                onClick={() => handleLayoutChange(opt.value)}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all ${
-                  layout === opt.value
-                    ? 'bg-[#FFD700] text-black font-medium'
-                    : 'bg-white/5 text-white/70 hover:bg-white/10'
-                }`}
+                onClick={() => setShowLayoutPanel(true)}
+                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-black/60 backdrop-blur-sm border border-white/10 text-white/70 hover:bg-black/80 hover:text-white transition-all text-sm"
+                title="Customize 3D view"
               >
-                <span className="font-mono">{opt.label}</span>
-                <span className="text-xs opacity-60 hidden sm:inline">- {opt.description}</span>
+                <Settings2 size={16} />
+                <span className="hidden sm:inline">Customize</span>
               </button>
-            ))}
+            )}
           </div>
 
           {/* Content overlay on left */}
