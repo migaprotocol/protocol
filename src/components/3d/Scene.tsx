@@ -1990,6 +1990,28 @@ export function MigaScene({ className = '', layout = 'cinematic' }: MigaScenePro
   const [hoveredChain, setHoveredChain] = useState<ChainData | null>(null)
   const [loadingProgress, setLoadingProgress] = useState(0)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Responsive detection
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  // Responsive camera adjustments - pull back on mobile for better view
+  const responsiveCamera = useMemo(() => {
+    const preset = LAYOUT_PRESETS[layout].camera
+    if (isMobile) {
+      // On mobile: pull camera back and widen FOV to see more
+      return {
+        position: [preset.position[0] * 0.8, preset.position[1] * 1.2, preset.position[2] * 1.4] as [number, number, number],
+        fov: Math.min(preset.fov + 15, 80) // Wider FOV on mobile, max 80
+      }
+    }
+    return preset
+  }, [layout, isMobile])
 
   // Screenshot function
   const takeScreenshot = useCallback(() => {
@@ -2279,9 +2301,9 @@ export function MigaScene({ className = '', layout = 'cinematic' }: MigaScenePro
         </div>
       )}
 
-        {/* 3D Canvas - key forces remount when layout changes */}
+        {/* 3D Canvas - key forces remount when layout or screen size changes */}
         <Canvas
-          key={layout}
+          key={`${layout}-${isMobile ? 'mobile' : 'desktop'}`}
           gl={{
             antialias: true,
             alpha: true,
@@ -2292,7 +2314,7 @@ export function MigaScene({ className = '', layout = 'cinematic' }: MigaScenePro
             outputColorSpace: THREE.SRGBColorSpace,
           }}
           dpr={[1, Math.min(window.devicePixelRatio, 2)]}
-          camera={{ position: LAYOUT_PRESETS[layout].camera.position, fov: LAYOUT_PRESETS[layout].camera.fov }}
+          camera={{ position: responsiveCamera.position, fov: responsiveCamera.fov }}
           style={{ background: 'transparent' }}
         >
           <Suspense fallback={<Loader />}>
