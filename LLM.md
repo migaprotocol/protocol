@@ -25,7 +25,7 @@ MIGA Protocol enables multi-chain minting of MIGA tokens with redemption on Pars
 ### Redemption Networks (Destination Chains)
 | Chain | Chain ID | RPC Status | Contract Status |
 |-------|----------|------------|-----------------|
-| Pars Network | 6133 | ⚠️ Offline (405) | NOT DEPLOYED |
+| Pars Network | 494949 | ✅ Live | NOT DEPLOYED |
 | Hanzo Network | 36963 | ⚠️ Offline (502) | NOT DEPLOYED |
 | Local (Anvil) | 31337 | ✅ Running | ✅ Ready for testing |
 
@@ -83,11 +83,11 @@ Source: `/Users/z/work/hanzo/ui/app/lib/contracts.ts`
 ## Deployment Checklist
 
 ### To Enable Pars Network
-1. [ ] Start Pars node: `lux network start && lux chain deploy pars`
-2. [ ] Deploy HanzoRegistry to Pars (6133)
+1. [x] Pars Network live at rpc.pars.network (chain ID 494949)
+2. [ ] Deploy HanzoRegistry to Pars (494949)
 3. [ ] Deploy MigaToken to Pars
 4. [ ] Update contract addresses in `identityService.ts`
-5. [ ] Set `enabled: true` in `networks.ts` for PARS chain
+5. [x] Set `enabled: true` in `networks.ts` for PARS chain
 
 ### To Enable Hanzo Network
 1. [ ] Start Hanzo node (check ~/work/hanzo/node)
@@ -129,11 +129,11 @@ Source: `/Users/z/work/hanzo/ui/app/lib/contracts.ts`
 ### Identity Sites
 | Domain | Network | Location |
 |--------|---------|----------|
-| pars.id | Pars (494949) | `/Users/z/work/pars/pars.network` (redirect /id) |
+| pars.id / pars.network/id | Pars (494949) | `/Users/z/work/pars.network` |
 | hanzo.id | Hanzo (36963) | `/Users/z/work/hanzo/hanzo.id` |
 | lux.id | Lux (96369) | `/Users/z/work/lux/apps/id` |
-| zoo.id | Zoo (200200) | `/Users/z/work/zoo/luxid` |
-| sparklepony.xyz/id | Pars Alt | `/Users/z/work/pars/pars.network` |
+| zoo.id | Zoo (200200) | `/Users/z/work/zoo/luxid` (spec only) |
+| sparklepony.xyz/id | Pars Alt | `/Users/z/work/pars.network` (via CNAME) |
 
 ## FHE Integration (LuxFHE)
 Location: `/Users/z/work/luxfhe`
@@ -158,10 +158,19 @@ Location: `/Users/z/work/luxfhe`
 - **Recipient permit** - One-time decryption for receiver
 
 ## Recent Changes (2026-01-25)
-- Added Pars Network (6133) and Hanzo Network (36963) to chain config
+- **Pars Network corrected to chain ID 494949** (not 6133)
+- Added Sparkle Pony (SPC) as alternate RPC at rpc.sparklepony.xyz
+- Created comprehensive pars.network site with Next.js 15 (deployed to GitHub Pages)
+- Added /id route for pars.id identity minting
+- Updated DID methods: did:pars, did:ai (Hanzo), did:lux, did:zoo
+- Added Hanzo Network (36963) to chain config
 - Added local development support (Anvil, chain ID 31337)
 - Updated identity service with multi-chain contract addresses
 - Created bridge API hooks for leaderboard polling
 - Implemented coercion-resistant identity minting component
 - Found Solana MIGA program: `GGqenYGp3Mp9PJ9xFH1yDeHgAzDpGCmvCpUTLEa6twSu`
 - Identified FHE infrastructure at `/Users/z/work/luxfhe`
+
+### Git Commits (2026-01-25)
+- `44bf7db` feat: Add Pars Network (494949) and identity service (miga/protocol)
+- `17da7dc` feat: Comprehensive site with identity minting (pars.network)
