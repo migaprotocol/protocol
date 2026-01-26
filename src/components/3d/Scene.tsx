@@ -278,14 +278,7 @@ function ChainCoin({
           />
         )}
 
-        {/* Inner glow light */}
-        <pointLight
-          position={[0, 0, 0]}
-          intensity={hovered ? settings.glowIntensity * 2 : settings.glowIntensity}
-          color={coinColor}
-          distance={2}
-          decay={2}
-        />
+        {/* Inner glow handled by outer light for performance */}
 
         {/* Glow rings - rotate vertically with coin */}
         <mesh rotation={[0, 0, 0]}>
@@ -309,21 +302,13 @@ function ChainCoin({
 
       </group>
 
-      {/* Glow light - enhanced brightness */}
+      {/* Single glow light per coin - optimized */}
       <pointLight
         ref={glowRef}
         position={[0, 0, 0]}
-        intensity={isLive ? 8 : 5}
+        intensity={isLive ? 6 : 4}
         color={chain.color}
-        distance={8}
-        decay={2}
-      />
-      {/* Secondary warm highlight */}
-      <pointLight
-        position={[0, 0.2, 0.2]}
-        intensity={isLive ? 3 : 1.5}
-        color="#FFD700"
-        distance={4}
+        distance={6}
         decay={2}
       />
     </group>
