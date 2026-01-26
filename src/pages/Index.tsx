@@ -1,5 +1,6 @@
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
+import { MigaSceneLite } from '@/components/3d'
 import {
   ArrowDown,
   Check,
@@ -57,22 +58,24 @@ export default function Index() {
 
       <main>
         {/* ============================================
-            HERO
+            HERO with 3D Scene
             ============================================ */}
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24">
+          {/* Background gradient */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A12] via-[#07070A] to-[#07070A]" />
-          <div className="absolute inset-0 opacity-[0.03]" style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-            backgroundSize: '50px 50px'
-          }} />
 
+          {/* 3D Scene - Full width behind content */}
+          <div className="absolute inset-0 z-0">
+            <MigaSceneLite />
+          </div>
+
+          {/* Content overlay */}
           <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 mb-8 backdrop-blur-sm">
               <span className="text-sm text-[#FFD700] font-medium">Decentralized Autonomous Organization on Solana</span>
             </div>
 
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight drop-shadow-2xl">
               <span className="text-white">Freedom of</span>
               <br />
               <span className="bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FFD700] bg-clip-text text-transparent">
@@ -80,7 +83,7 @@ export default function Index() {
               </span>
             </h1>
 
-            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-12">
+            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-12 drop-shadow-lg">
               MIGA is a DAO that funds anti-censorship technology, independent media, and cultural expression for the people of Iran.
             </p>
 
@@ -88,14 +91,14 @@ export default function Index() {
               <WalletMultiButton className="!bg-gradient-to-r !from-[#FFD700] !to-[#FFA500] !text-black !font-bold !rounded-full !px-10 !py-5 hover:!shadow-xl hover:!shadow-[#FFD700]/30 !transition-all !text-lg" />
               <a
                 href="#token"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-white/20 text-white hover:bg-white/5 transition-all text-lg font-medium"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-white/20 text-white hover:bg-white/5 transition-all text-lg font-medium backdrop-blur-sm"
               >
                 View Token Details
                 <ArrowDown size={18} />
               </a>
             </div>
 
-            <div className="grid grid-cols-3 gap-8 max-w-xl mx-auto">
+            <div className="grid grid-cols-3 gap-8 max-w-xl mx-auto backdrop-blur-sm bg-black/20 rounded-2xl p-6">
               <div className="text-center">
                 <p className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">1B</p>
                 <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider">Total Supply</p>
