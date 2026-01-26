@@ -127,13 +127,13 @@ Source: `/Users/z/work/hanzo/ui/app/lib/contracts.ts`
 | **Zoo** | 200200 | `did:zoo` | `did:zoo:0xdef0...mnop` |
 
 ### Identity Sites
-| Domain | Network | Location |
-|--------|---------|----------|
-| pars.id / pars.network/id | Pars (494949) | `/Users/z/work/pars.network` |
-| hanzo.id | Hanzo (36963) | `/Users/z/work/hanzo/hanzo.id` |
-| lux.id | Lux (96369) | `/Users/z/work/lux/apps/id` |
-| zoo.id | Zoo (200200) | `/Users/z/work/zoo/luxid` (spec only) |
-| sparklepony.xyz/id | Pars Alt | `/Users/z/work/pars.network` (via CNAME) |
+| Domain | Network | Location | Status |
+|--------|---------|----------|--------|
+| pars.id / pars.network/id | Pars (494949) | `/Users/z/work/pars.network` | ✅ Live |
+| hanzo.id | Hanzo (36963) | `/Users/z/work/hanzo/hanzo.id` | ✅ Exists |
+| lux.id | Lux (96369) | `/Users/z/work/lux/apps/id` | ✅ Exists |
+| zoo.id | Zoo (200200) | `/Users/z/work/zoo/zoo/apps` | ✅ Created |
+| sparklepony.xyz/id | Pars Alt (494949) | `/Users/z/work/pars.network` | ✅ CNAME |
 
 ## FHE Integration (LuxFHE)
 Location: `/Users/z/work/luxfhe`
@@ -174,3 +174,12 @@ Location: `/Users/z/work/luxfhe`
 ### Git Commits (2026-01-25)
 - `44bf7db` feat: Add Pars Network (494949) and identity service (miga/protocol)
 - `17da7dc` feat: Comprehensive site with identity minting (pars.network)
+- `74f1698` feat(did): Add Pars, Zoo, and AI DID methods (hanzo/rust-sdk)
+- `1178d95` feat: Add zoo.id identity site (zoo-labs/zoo)
+
+### DID Stack Replication Complete
+All networks now have:
+- DID method support in hanzo-did Rust crate
+- Identity minting sites deployed
+- Cross-network DID links on all sites
+- Consistent stake-based pricing model
