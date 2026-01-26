@@ -1,425 +1,435 @@
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
-import { MigaScene, type SceneLayout } from '@/components/3d'
-import { RaceToNowruz } from '@/components/RaceToNowruz'
-import { SocialFeed } from '@/components/SocialFeed'
-import { RezaNews } from '@/components/RezaNews'
 import {
   ArrowRight,
+  ArrowDown,
+  Globe,
   Shield,
-  CheckCircle2,
+  Wifi,
+  Radio,
+  Film,
+  Ban,
+  Vote as VoteIcon,
+  Zap,
+  Eye,
+  Check,
+  X as XIcon,
   ExternalLink,
-  Lock,
-  FileCheck,
-  ChevronRight
+  Copy,
 } from 'lucide-react'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
-import { useEffect, useRef, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useState } from 'react'
 
 export default function Index() {
   const { connected } = useWallet()
-  const heroSkyRef = useRef<HTMLDivElement>(null)
-  const [searchParams] = useSearchParams()
+  const [copied, setCopied] = useState(false)
 
-  // Get layout from URL query param or default to 'cinematic'
-  const layoutParam = searchParams.get('layout') as SceneLayout | null
-  const layout: SceneLayout = layoutParam && ['cinematic', 'profile', 'topdown'].includes(layoutParam)
-    ? layoutParam
-    : 'cinematic'
-
-  // Scroll-based parallax for hero background
-  useEffect(() => {
-    const handleScroll = () => {
-      if (heroSkyRef.current) {
-        const scrollY = window.scrollY
-        // Subtle vertical parallax - background moves slower than scroll
-        const parallaxOffset = scrollY * 0.3
-        heroSkyRef.current.style.transform = `translateY(${parallaxOffset}px)`
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  const copyAddress = () => {
+    navigator.clipboard.writeText('MIGAx...pending')
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   return (
     <div className="min-h-screen bg-[#07070A]">
-      {/* Parallax night sky background */}
-      <div className="parallax-night-sky" />
-
       <Header />
 
       <main>
         {/* ============================================
-            HERO SECTION - Full-width 3D overlay with content
+            HERO SECTION
             ============================================ */}
-        <section className="hero-section">
-          {/* Night sky background with scroll parallax */}
-          <div ref={heroSkyRef} className="hero-night-sky" />
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24">
+          {/* Background gradient */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A12] via-[#07070A] to-[#07070A]" />
+          
+          {/* Subtle grid pattern */}
+          <div className="absolute inset-0 opacity-[0.03]" style={{
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+            backgroundSize: '50px 50px'
+          }} />
 
-          {/* Full-width 3D Scene */}
-          <div className="hero-3d-full">
-            <MigaScene layout={layout} />
-          </div>
+          <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 mb-8">
+              <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+              <span className="text-sm text-[#FFD700] font-medium">Decentralized Autonomous Organization on Solana</span>
+            </div>
 
+            {/* Main headline */}
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
+              <span className="text-white">Freedom of</span>
+              <br />
+              <span className="bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FFD700] bg-clip-text text-transparent">
+                Information
+              </span>
+            </h1>
 
-          {/* Content overlay on left */}
-          <div className="hero-content-overlay">
-            <div className="hero-content">
-              <h1 className="mb-6 leading-[1.05]">
-                <span className="block text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold">
-                  <span className="text-gradient-ember">The future of</span>
-                  <br />
-                  <span className="text-gradient-ember">Iran</span>{' '}
-                  <span className="text-[#EDEDF2]">is in your hands.</span>
-                </span>
-              </h1>
+            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-12">
+              MIGA is a DAO that funds anti-censorship technology, independent media, and cultural expression for the people of Iran.
+            </p>
 
-              <p className="hero-subcopy mb-6">
-                A civil government operating system for the global Persian community.
-                Ten DAOs. Full transparency. Quantum-safe privacy.
-              </p>
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+              <WalletMultiButton className="!bg-gradient-to-r !from-[#FFD700] !to-[#FFA500] !text-black !font-bold !rounded-full !px-8 !py-4 hover:!shadow-xl hover:!shadow-[#FFD700]/30 !transition-all !text-lg" />
+              <a
+                href="#token"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white font-medium rounded-full hover:bg-white/5 transition-all text-lg"
+              >
+                View Token Details
+              </a>
+            </div>
 
-              {/* Hidden on mobile for cleaner look */}
-              <p className="hidden md:block text-sm text-[#9999A5] mb-8">
-                <span className="text-[#FFD36A]">pars.network</span> — Decentralized network of blockchains serving the global Persian community.
-                Private. Quantum-safe. Powered by <span className="text-[#B8B8C6]">Lux FHE</span>.
-              </p>
-
-              {/* Button hierarchy: Primary, Secondary, Link */}
-              <div className="flex flex-wrap items-center gap-3 md:gap-4">
-                <a
-                  href="https://dao.miga.network/fund"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hero-cta-btn"
-                >
-                  Join the Movement
-                </a>
-                <a
-                  href="https://github.com/migaprotocol/miga/blob/main/whitepaper/MIGA-Whitepaper.md"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hero-btn-outline"
-                >
-                  Whitepaper
-                </a>
-                <a href="/docs" className="hero-link hidden md:flex">
-                  Read docs <ArrowRight size={14} />
-                </a>
-                {/* Wallet button for connected users */}
-                <div className={connected ? '' : 'hidden'}>
-                  <WalletMultiButton />
-                </div>
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto">
+              <div className="text-center">
+                <p className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">1B</p>
+                <p className="text-sm text-gray-400 mt-2">Total Supply</p>
               </div>
-
-              {/* Subtle chain indicator - hidden on mobile (shown in header) */}
-              <div className="hidden md:flex mt-10 items-center gap-3">
-                <span className="text-xs text-[#6B6B7B]">Live on</span>
-                <span className="text-xs text-[#9999A5] flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
-                  7 Chains
-                </span>
+              <div className="text-center">
+                <p className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">100%</p>
+                <p className="text-sm text-gray-400 mt-2">Community Treasury</p>
+              </div>
+              <div className="text-center">
+                <p className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">0%</p>
+                <p className="text-sm text-gray-400 mt-2">VC Allocation</p>
               </div>
             </div>
-          </div>
 
-          {/* Scroll indicator - hidden on mobile */}
-          <div className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-30">
-            <div className="w-6 h-10 rounded-full border border-white/20 flex items-start justify-center pt-2">
-              <div className="w-1 h-2 bg-white/40 rounded-full animate-bounce" />
+            {/* Scroll indicator */}
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
+              <div className="flex flex-col items-center gap-2 text-gray-500">
+                <span className="text-sm">Scroll</span>
+                <ArrowDown size={20} className="animate-bounce" />
+              </div>
             </div>
           </div>
         </section>
 
         {/* ============================================
-            RACE TO NOWRUZ - Chain Investment Competition
+            THE PROBLEM
             ============================================ */}
-        <RaceToNowruz />
-
-        {/* ============================================
-            TEN DAOs SECTION
-            ============================================ */}
-        <section className="section border-t border-white/[0.04]">
-          <div className="container-lg">
+        <section id="problem" className="py-24 border-t border-white/[0.04]">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="mb-4">
-                Ten DAOs. <span className="text-gradient-ember">One mission.</span>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                The <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">Problem</span>
               </h2>
-              <p className="body-md max-w-2xl mx-auto">
-                Core functions of civil governance, each funded automatically by 1% of protocol fees.
-                Voted, timelocked, and auditable with receipts.
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                Millions of Iranians live under severe restrictions that limit their access to information, culture, and free expression.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-5 gap-4 mb-8">
-              {[
-                { name: 'Security', icon: '🛡️', desc: 'Protection & defense' },
-                { name: 'Treasury', icon: '🏦', desc: 'Capital allocation' },
-                { name: 'Health', icon: '🏥', desc: 'Medical programs' },
-                { name: 'Culture', icon: '🎭', desc: 'Arts & heritage' },
-                { name: 'Research', icon: '🔬', desc: 'Science & innovation' },
-              ].map((dao) => (
-                <div key={dao.name} className="pillar-card text-center py-6">
-                  <div className="text-3xl mb-3">{dao.icon}</div>
-                  <h3 className="text-base mb-1">{dao.name}</h3>
-                  <p className="text-xs text-[#6B6B7B]">{dao.desc}</p>
-                </div>
-              ))}
-            </div>
-            <div className="grid md:grid-cols-5 gap-4">
-              {[
-                { name: 'Infrastructure', icon: '🏗️', desc: 'Building & utilities' },
-                { name: 'Partnerships', icon: '🤝', desc: 'Global relations' },
-                { name: 'Investing', icon: '📈', desc: 'Growth capital' },
-                { name: 'Oversight', icon: '⚖️', desc: 'Accountability' },
-                { name: 'Humanitarian', icon: '❤️', desc: 'Aid & relief' },
-              ].map((dao) => (
-                <div key={dao.name} className="pillar-card text-center py-6">
-                  <div className="text-3xl mb-3">{dao.icon}</div>
-                  <h3 className="text-base mb-1">{dao.name}</h3>
-                  <p className="text-xs text-[#6B6B7B]">{dao.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ============================================
-            HOW IT WORKS
-            ============================================ */}
-        <section className="section-sm bg-gradient-to-b from-transparent via-[#0A0A10] to-transparent">
-          <div className="container-md">
-            <div className="text-center mb-12">
-              <h2 className="mb-4">How it works</h2>
-              <p className="body-md max-w-xl mx-auto">
-                All mint proceeds seed the treasury. Protocol fees fund ongoing operations.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-4 gap-6 relative">
-              {/* Connector line */}
-              <div className="hidden md:block absolute top-6 left-[12%] right-[12%] h-px bg-gradient-to-r from-transparent via-[#FFD36A]/30 to-transparent" />
-
-              {/* Step 1 */}
-              <div className="flow-step">
-                <div className="flow-number mb-4">1</div>
-                <h3 className="mb-2">Mint</h3>
-                <p className="body-sm">
-                  Fair launch token sale. 100% of proceeds go to DAO treasury.
-                </p>
-              </div>
-
-              {/* Step 2 */}
-              <div className="flow-step">
-                <div className="flow-number mb-4">2</div>
-                <h3 className="mb-2">Vote</h3>
-                <p className="body-sm">
-                  All decisions voted on-chain. Timelocked execution. Full receipts.
-                </p>
-              </div>
-
-              {/* Step 3 */}
-              <div className="flow-step">
-                <div className="flow-number mb-4">3</div>
-                <h3 className="mb-2">Fund</h3>
-                <p className="body-sm">
-                  1% of protocol fees auto-distributed to each of the 10 DAOs.
-                </p>
-              </div>
-
-              {/* Step 4 */}
-              <div className="flow-step">
-                <div className="flow-number mb-4">4</div>
-                <h3 className="mb-2">Build</h3>
-                <p className="body-sm">
-                  Humanitarian programs, partnerships, and long-term nation-building.
-                </p>
-              </div>
-            </div>
-
-            {/* Metric callout */}
-            <div className="mt-12 text-center">
-              <div className="stat-badge inline-flex">
-                <span className="stat-badge-value">10%</span>
-                <span className="stat-badge-label">of protocol fees → DAOs</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ============================================
-            TOKENOMICS
-            ============================================ */}
-        <section id="tokenomics" className="section border-t border-white/[0.04]">
-          <div className="container-lg">
-            <div className="text-center mb-16">
-              <h2 className="mb-4">
-                <span className="text-gradient-ember">7B</span> tokens across 7 chains
-              </h2>
-              <p className="body-md max-w-2xl mx-auto">
-                Fair launch. No VCs. No presales. No team allocation.
-                All mint proceeds seed the treasury. Starting as an NGO.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6 mb-12">
-              <div className="card text-center">
-                <div className="text-4xl font-bold text-gradient-ember mb-2">10%</div>
-                <h3 className="text-lg mb-2">Liquidity</h3>
-                <p className="body-sm">
-                  700M tokens paired for deep initial liquidity via Meteora & DEXs
-                </p>
-              </div>
-
-              <div className="card text-center">
-                <div className="text-4xl font-bold text-gradient-ember mb-2">40%</div>
-                <h3 className="text-lg mb-2">Fair Sale</h3>
-                <p className="body-sm">
-                  2.8B tokens sold via bonding curves for fair price discovery
-                </p>
-              </div>
-
-              <div className="card text-center">
-                <div className="text-4xl font-bold text-gradient-ember mb-2">50%</div>
-                <h3 className="text-lg mb-2">DAO Treasury</h3>
-                <p className="body-sm">
-                  3.5B tokens governed by the community for protocol development
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-4">
-              <div className="stat-badge">
-                <span className="stat-badge-value">7,000,000,000</span>
-                <span className="stat-badge-label">Total Supply</span>
-              </div>
-              <div className="stat-badge">
-                <span className="stat-badge-value">7B</span>
-                <span className="stat-badge-label">Across 7 Chains</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ============================================
-            RISK & SECURITY
-            ============================================ */}
-        <section id="security" className="section bg-gradient-to-b from-[#0A0A10] to-transparent">
-          <div className="container-lg">
-            <div className="text-center mb-16">
-              <h2 className="mb-4">
-                Privacy & <span className="text-gradient-ember">Security</span>
-              </h2>
-              <p className="body-md max-w-2xl mx-auto">
-                Built for high-threat environments. Private participation protects people.
-                Publicly verifiable execution ensures accountability.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {/* Quantum Security */}
-              <div className="card">
-                <Shield className="text-emerald-400 mb-4" size={24} />
-                <h3 className="text-lg mb-2">Quantum-Safe</h3>
-                <p className="body-sm mb-4">
-                  Post-quantum cryptography via Lux FHE. Future-proof against quantum attacks.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="text-xs px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded">Active</span>
-                </div>
-              </div>
-
-              {/* Private Participation */}
-              <div className="card">
-                <Lock className="text-[#FFD36A] mb-4" size={24} />
-                <h3 className="text-lg mb-2">Private Participation</h3>
-                <p className="body-sm mb-4">
-                  Identity protection for contributors. Shielded voting to prevent coercion.
-                </p>
-                <a href="#" className="btn-link text-xs">
-                  Learn more <ChevronRight size={12} />
-                </a>
-              </div>
-
-              {/* Public Verification */}
-              <div className="card">
-                <FileCheck className="text-[#FFB14A] mb-4" size={24} />
-                <h3 className="text-lg mb-2">Public Verification</h3>
-                <p className="body-sm mb-4">
-                  All execution auditable on-chain. Full receipts for every transaction.
-                </p>
-                <a href="#" className="btn-link text-xs">
-                  View proofs <ExternalLink size={12} />
-                </a>
-              </div>
-
-              {/* Timelocked Governance */}
-              <div className="card">
-                <CheckCircle2 className="text-[#FF7A2F] mb-4" size={24} />
-                <h3 className="text-lg mb-2">Timelocked Governance</h3>
-                <p className="body-sm mb-4">
-                  All decisions voted and timelocked. No unilateral action possible.
-                </p>
-                <a href="#" className="btn-link text-xs">
-                  View governance <ChevronRight size={12} />
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ============================================
-            ECOSYSTEM
-            ============================================ */}
-        <section className="section border-t border-white/[0.04]">
-          <div className="container-lg">
-            <div className="text-center mb-16">
-              <h2 className="mb-4">Ecosystem</h2>
-              <p className="body-md max-w-2xl mx-auto">
-                Integrated with leading wallets, oracles, bridges, and chains.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[
-                { name: 'Phantom', type: 'Wallet' },
-                { name: 'Solflare', type: 'Wallet' },
-                { name: 'Pyth', type: 'Oracle' },
-                { name: 'Chainlink', type: 'Oracle' },
-                { name: 'Wormhole', type: 'Bridge' },
-                { name: 'LayerZero', type: 'Bridge' },
-                { name: 'Meteora', type: 'DEX' },
-                { name: 'Jupiter', type: 'DEX' },
-              ].map((partner) => (
-                <div key={partner.name} className="card-glass p-5 text-center">
-                  <p className="font-medium mb-1">{partner.name}</p>
-                  <p className="text-xs text-[#6B6B7B]">{partner.type}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* Chains */}
-            <div className="mt-12 text-center">
-              <p className="body-sm mb-4">Supported Chains</p>
-              <div className="flex flex-wrap justify-center gap-3">
+            {/* Daily Reality Cards */}
+            <div className="mb-16">
+              <h3 className="text-xl font-semibold text-center mb-8 text-gray-400">Daily Reality for Iranians</h3>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 {[
-                  { name: 'Solana', status: 'Live' },
-                  { name: 'Ethereum', status: 'Q2' },
-                  { name: 'Base', status: 'Q2' },
-                  { name: 'Arbitrum', status: 'Q3' },
-                  { name: 'Polygon', status: 'Q3' },
-                  { name: 'Lux', status: 'Q4' },
-                  { name: 'Bitcoin', status: '2027' },
-                ].map((chain) => (
-                  <span
-                    key={chain.name}
-                    className={`chain-badge ${chain.status === 'Live' ? 'border-emerald-500/30 text-emerald-400' : ''}`}
-                  >
-                    {chain.name}
-                    {chain.status === 'Live' && <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full ml-1" />}
+                  { icon: Ban, label: 'Information Censorship' },
+                  { icon: Wifi, label: 'Internet Blackouts' },
+                  { icon: Radio, label: 'Restricted Media' },
+                  { icon: Shield, label: 'Limited News Access' },
+                  { icon: Film, label: 'Cultural Repression' },
+                ].map((item) => (
+                  <div key={item.label} className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-white/[0.02] border border-white/[0.04]">
+                    <item.icon className="text-red-400/70" size={28} />
+                    <span className="text-sm text-gray-400 text-center">{item.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Why Traditional NGOs Fail */}
+            <div>
+              <h3 className="text-xl font-semibold text-center mb-8 text-gray-400">Why Traditional NGOs Fail</h3>
+              <div className="flex flex-wrap justify-center gap-4">
+                {['Slow', 'Politicized', 'Blocked', 'Underfunded', 'Centralized'].map((reason) => (
+                  <span key={reason} className="px-6 py-3 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium">
+                    {reason}
+                  </span>
+                ))}
+              </div>
+              <p className="text-center text-xl text-gray-300 mt-12 font-medium">
+                Freedom needs a new financial and governance layer.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ============================================
+            THE SOLUTION
+            ============================================ */}
+        <section id="solution" className="py-24 bg-gradient-to-b from-[#0A0A10] to-transparent">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                The <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">Solution</span>
+              </h2>
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                MIGA is a Decentralized Autonomous Organization (DAO) that enables transparent, community-driven funding for freedom-of-information infrastructure.
+              </p>
+            </div>
+
+            {/* Solution Features */}
+            <div className="grid md:grid-cols-2 gap-6 mb-12">
+              {[
+                { icon: Globe, title: 'Global Fundraising', desc: 'Raise funds from anywhere in the world without borders or restrictions' },
+                { icon: Eye, title: 'On-Chain Transparency', desc: 'Every transaction is publicly verifiable on the Solana blockchain' },
+                { icon: VoteIcon, title: 'Community Governance', desc: 'Token holders vote on which missions receive funding' },
+                { icon: Zap, title: 'Automatic Execution', desc: 'Smart contracts release grants without intermediaries' },
+              ].map((feature) => (
+                <div key={feature.title} className="flex gap-5 p-8 rounded-2xl bg-white/[0.02] border border-white/[0.04] hover:border-[#FFD700]/20 transition-all">
+                  <div className="w-14 h-14 rounded-xl bg-[#FFD700]/10 flex items-center justify-center flex-shrink-0">
+                    <feature.icon className="text-[#FFD700]" size={24} />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2 text-[#EDEDF2]">{feature.title}</h3>
+                    <p className="text-gray-400">{feature.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Tags */}
+            <div className="flex justify-center gap-4 flex-wrap">
+              <span className="px-4 py-2 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 text-[#FFD700] text-sm font-medium">No Borders</span>
+              <span className="px-4 py-2 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 text-[#FFD700] text-sm font-medium">No Intermediaries</span>
+              <span className="px-4 py-2 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 text-[#FFD700] text-sm font-medium">No Single Owner</span>
+            </div>
+          </div>
+        </section>
+
+        {/* ============================================
+            TOKEN OVERVIEW
+            ============================================ */}
+        <section id="token" className="py-24 border-t border-white/[0.04]">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                Token <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">Overview</span>
+              </h2>
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                A simple, transparent token designed purely for community governance.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Token Specifications */}
+              <div className="p-8 rounded-2xl bg-white/[0.02] border border-white/[0.04]">
+                <h3 className="text-xl font-semibold mb-6 text-[#FFD700]">Token Specifications</h3>
+                <div className="space-y-4">
+                  {[
+                    { label: 'Token Name', value: 'MIGA' },
+                    { label: 'Network', value: 'Solana', badge: true },
+                    { label: 'Total Supply', value: '1,000,000,000 MIGA' },
+                    { label: 'Utility', value: 'Governance & Voting' },
+                    { label: 'Voting Power', value: '1 MIGA = 1 Vote' },
+                    { label: 'Treasury', value: '100% to DAO' },
+                    { label: 'Custody', value: 'On-chain Multi-sig Vault' },
+                  ].map((item) => (
+                    <div key={item.label} className="flex justify-between items-center py-3 border-b border-white/[0.04]">
+                      <span className="text-gray-400">{item.label}</span>
+                      <span className="font-medium text-[#EDEDF2] flex items-center gap-2">
+                        {item.badge && <span className="w-2 h-2 bg-emerald-400 rounded-full" />}
+                        {item.value}
+                      </span>
+                    </div>
+                  ))}
+                  {/* Contract Address */}
+                  <div className="flex justify-between items-start py-3">
+                    <span className="text-gray-400">Contract</span>
+                    <div className="text-right flex items-center gap-2">
+                      <code className="text-sm text-[#FFD700] font-mono">MIGAx...pending</code>
+                      <button
+                        onClick={copyAddress}
+                        className="text-gray-500 hover:text-[#FFD700] transition-colors"
+                        title="Copy address"
+                      >
+                        {copied ? <Check size={16} /> : <Copy size={16} />}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Fair Launch Guarantee */}
+              <div className="p-8 rounded-2xl bg-gradient-to-br from-[#FFD700]/10 to-transparent border border-[#FFD700]/20">
+                <h3 className="text-xl font-semibold mb-6 text-[#FFD700]">Fair Launch Guarantee</h3>
+                <p className="text-gray-300 mb-8">
+                  MIGA is built on principles of radical transparency. Every token exists to serve the community, not insiders.
+                </p>
+                <div className="space-y-4 mb-8">
+                  {['No founders allocation', 'No VC allocation', 'No hidden wallets'].map((item) => (
+                    <div key={item} className="flex items-center gap-3">
+                      <Check className="text-emerald-400" size={20} />
+                      <span className="text-gray-300">{item}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="p-6 rounded-xl bg-white/[0.03] text-center">
+                  <p className="text-5xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">100%</p>
+                  <p className="text-gray-400 mt-2">of raised funds go to DAO treasury</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ============================================
+            FUNDING ROADMAP
+            ============================================ */}
+        <section id="roadmap" className="py-24 bg-gradient-to-b from-[#0A0A10] to-transparent">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                Funding <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">Roadmap</span>
+              </h2>
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                Each phase unlocks new governance modules and expands MIGA's impact.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-4 gap-6">
+              {[
+                { phase: 'Phase I', amount: '$5M', items: ['Independent media', 'Encrypted communications', 'Awareness campaigns'] },
+                { phase: 'Phase II', amount: '$10M', items: ['Global cultural campaigns', 'Community hubs', 'Satellite connectivity'] },
+                { phase: 'Phase III', amount: '$50M', items: ['Regional digital freedom infrastructure'] },
+                { phase: 'Phase IV', amount: '$100M', items: ['Global censorship-resistant network for Iranian voices'] },
+              ].map((phase, index) => (
+                <div key={phase.phase} className="relative p-6 rounded-2xl bg-white/[0.02] border border-white/[0.04] hover:border-[#FFD700]/20 transition-all">
+                  {index < 3 && (
+                    <div className="hidden md:block absolute top-1/2 -right-3 w-6 h-px bg-gradient-to-r from-[#FFD700]/30 to-transparent" />
+                  )}
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="text-sm text-gray-500">{phase.phase}</span>
+                    <ArrowRight size={16} className="text-[#FFD700]" />
+                    <span className="text-2xl font-bold text-[#FFD700]">{phase.amount}</span>
+                  </div>
+                  <ul className="space-y-2">
+                    {phase.items.map((item) => (
+                      <li key={item} className="text-sm text-gray-400 flex items-start gap-2">
+                        <span className="text-[#FFD700] mt-1">→</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ============================================
+            WHAT MIGA SUPPORTS
+            ============================================ */}
+        <section className="py-24 border-t border-white/[0.04]">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                What MIGA <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">Supports</span>
+              </h2>
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                MIGA supports only non-violent, civil, and informational initiatives.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* What MIGA Can Fund */}
+              <div className="p-8 rounded-2xl bg-emerald-500/5 border border-emerald-500/20">
+                <h3 className="text-xl font-semibold mb-6 text-emerald-400 flex items-center gap-2">
+                  <Check size={24} /> What MIGA Can Fund
+                </h3>
+                <ul className="space-y-3">
+                  {[
+                    'Independent journalism',
+                    'Anti-censorship technologies',
+                    'Satellite communication access',
+                    'VPN & mesh network tools',
+                    'Cultural content (film, music, art, literature)',
+                    'Educational platforms',
+                    'Human-rights documentation',
+                    'Global awareness campaigns',
+                    'Community events & gatherings',
+                  ].map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-gray-300">
+                      <Check className="text-emerald-400 flex-shrink-0" size={18} />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* What MIGA Will Never Fund */}
+              <div className="p-8 rounded-2xl bg-red-500/5 border border-red-500/20">
+                <h3 className="text-xl font-semibold mb-6 text-red-400 flex items-center gap-2">
+                  <XIcon size={24} /> What MIGA Will Never Fund
+                </h3>
+                <ul className="space-y-3">
+                  {[
+                    'Violence',
+                    'Political parties',
+                    'Military activity',
+                    'Armed groups',
+                    'Election interference',
+                    'State overthrow',
+                  ].map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-gray-300">
+                      <XIcon className="text-red-400 flex-shrink-0" size={18} />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-8 text-sm text-gray-400 italic border-t border-red-500/20 pt-6">
+                  "MIGA is about freedom of information and culture, not power."
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ============================================
+            HOW GOVERNANCE WORKS
+            ============================================ */}
+        <section id="governance" className="py-24 bg-gradient-to-b from-[#0A0A10] to-transparent">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                How Governance <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">Works</span>
+              </h2>
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                A transparent, community-driven process from proposal to execution.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-5 gap-4 mb-12">
+              {[
+                { step: '1', title: 'Submit Proposal', desc: 'Anyone can submit a mission proposal to the DAO' },
+                { step: '2', title: 'Committee Review', desc: 'DAO committee reviews for legality & safety' },
+                { step: '3', title: 'Token Holder Vote', desc: 'MIGA holders vote on approved proposals' },
+                { step: '4', title: 'Automatic Execution', desc: 'Smart contracts release funds upon approval' },
+                { step: '5', title: 'Transparent Reporting', desc: 'All spending is publicly documented on-chain' },
+              ].map((item, index) => (
+                <div key={item.step} className="relative p-6 rounded-2xl bg-white/[0.02] border border-white/[0.04] text-center">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#FFD700] to-[#FFA500] flex items-center justify-center text-black font-bold mb-4 mx-auto">
+                    {item.step}
+                  </div>
+                  <h3 className="font-semibold mb-2 text-[#EDEDF2]">{item.title}</h3>
+                  <p className="text-sm text-gray-400">{item.desc}</p>
+                  {index < 4 && (
+                    <div className="hidden md:block absolute top-10 -right-2 w-4 h-px bg-[#FFD700]/30" />
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Why Solana */}
+            <div className="text-center">
+              <h3 className="text-lg font-semibold text-gray-400 mb-4">Why Solana?</h3>
+              <div className="flex flex-wrap justify-center gap-3">
+                {['Low Fees', 'Fast Voting', 'Global Access', 'Transparent Treasury', 'Real-time Governance'].map((item) => (
+                  <span key={item} className="px-4 py-2 rounded-full bg-white/[0.03] border border-white/[0.04] text-sm text-gray-300">
+                    {item}
                   </span>
                 ))}
               </div>
@@ -428,230 +438,33 @@ export default function Index() {
         </section>
 
         {/* ============================================
-            FINAL CTA
+            THE MOVEMENT - FINAL CTA
             ============================================ */}
-        <section className="section">
-          <div className="container-md text-center">
-            <h2 className="mb-6">
-              Build with <span className="text-gradient-ember">MIGA</span>
+        <section className="py-24 border-t border-white/[0.04]">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-4xl md:text-5xl font-bold mb-8">
+              The <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">Movement</span>
             </h2>
-            <p className="body-lg mb-10 max-w-xl mx-auto">
-              Join the movement. Humanitarian programs, partnerships, and
-              long-term nation-building with every dollar proven on-chain.
+
+            <p className="text-2xl text-gray-300 mb-8">
+              MIGA is not against Iran.
             </p>
 
-            <div className="flex flex-wrap justify-center gap-4">
-              <a
-                href="https://dao.miga.network/fund"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary"
-              >
-                Join the Movement <ArrowRight size={18} />
-              </a>
-              <a href="/docs" className="btn-secondary">
-                Documentation
-              </a>
-              <a href="https://github.com/miga" className="btn-secondary">
-                SDK
-              </a>
+            <p className="text-3xl font-semibold text-white mb-12">
+              It is <span className="text-[#FFD700]">for</span> the Iranian people.
+            </p>
+
+            {/* Values */}
+            <div className="flex justify-center gap-6 flex-wrap mb-12">
+              <span className="px-8 py-4 rounded-2xl bg-[#FFD700]/10 border border-[#FFD700]/20 text-[#FFD700] font-semibold text-lg">For Freedom</span>
+              <span className="px-8 py-4 rounded-2xl bg-[#FFD700]/10 border border-[#FFD700]/20 text-[#FFD700] font-semibold text-lg">For Culture</span>
+              <span className="px-8 py-4 rounded-2xl bg-[#FFD700]/10 border border-[#FFD700]/20 text-[#FFD700] font-semibold text-lg">For Voices</span>
             </div>
+
+            {/* Final CTA */}
+            <WalletMultiButton className="!inline-flex !items-center !justify-center !gap-2 !px-12 !py-5 !bg-gradient-to-r !from-[#FFD700] !to-[#FFA500] !text-black !font-bold !rounded-full hover:!shadow-xl hover:!shadow-[#FFD700]/30 !transition-all !text-xl" />
           </div>
         </section>
-
-        {/* ============================================
-            TOKEN DETAILS
-            ============================================ */}
-        <section id="token" className="section-sm border-t border-white/[0.04]">
-          <div className="container-md">
-            <div className="text-center mb-12">
-              <h2 className="mb-4">
-                <span className="text-gradient-ember">MIGA</span> Token
-              </h2>
-              <p className="body-md max-w-xl mx-auto">
-                Fair launch. Community governed. Multi-chain.
-              </p>
-            </div>
-
-            {/* Token Details Grid */}
-            <div className="grid md:grid-cols-2 gap-6 mb-12">
-              <div className="card">
-                <h3 className="text-lg font-medium mb-4 text-[#FFD36A]">Contract Details</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center py-2 border-b border-white/[0.04]">
-                    <span className="text-[#9999A5]">Token Name</span>
-                    <span className="font-medium">MIGA</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-white/[0.04]">
-                    <span className="text-[#9999A5]">Symbol</span>
-                    <span className="font-medium">MIGA</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-white/[0.04]">
-                    <span className="text-[#9999A5]">Decimals</span>
-                    <span className="font-medium">9</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-white/[0.04]">
-                    <span className="text-[#9999A5]">Network</span>
-                    <span className="font-medium flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
-                      Solana
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-start py-2">
-                    <span className="text-[#9999A5]">Contract</span>
-                    <div className="text-right">
-                      <code className="text-xs text-[#FFD36A] font-mono break-all">
-                        MIGAx...pending
-                      </code>
-                      <button className="ml-2 text-xs text-[#6B6B7B] hover:text-[#FFD36A]">
-                        Copy
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="card">
-                <h3 className="text-lg font-medium mb-4 text-[#FFD36A]">Supply Distribution</h3>
-                <div className="space-y-4">
-                  <div>
-                    <div className="flex justify-between mb-1">
-                      <span className="text-sm">DAO Treasury</span>
-                      <span className="text-sm text-[#FFD36A]">50%</span>
-                    </div>
-                    <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                      <div className="h-full w-[50%] bg-gradient-to-r from-[#FFD36A] to-[#FF7A2F] rounded-full" />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="flex justify-between mb-1">
-                      <span className="text-sm">Fair Sale</span>
-                      <span className="text-sm text-[#FFB14A]">40%</span>
-                    </div>
-                    <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                      <div className="h-full w-[40%] bg-gradient-to-r from-[#FFB14A] to-[#FF7A2F] rounded-full" />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="flex justify-between mb-1">
-                      <span className="text-sm">Liquidity</span>
-                      <span className="text-sm text-[#FF7A2F]">10%</span>
-                    </div>
-                    <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                      <div className="h-full w-[10%] bg-gradient-to-r from-[#FF7A2F] to-[#C9A86C] rounded-full" />
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-6 pt-4 border-t border-white/[0.04]">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-[#9999A5]">Total Supply</span>
-                    <span className="font-medium">7,000,000,000 MIGA</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ============================================
-            TRADE ON METEORA
-            ============================================ */}
-        <section id="trade" className="section-sm bg-gradient-to-b from-[#0A0A10] to-transparent">
-          <div className="container-md">
-            <div className="text-center mb-12">
-              <h2 className="mb-4">Trade on <span className="text-gradient-ember">Meteora</span></h2>
-              <p className="body-md max-w-xl mx-auto">
-                Deep liquidity via DLMM pools. Best execution for MIGA swaps.
-              </p>
-            </div>
-
-            {/* Meteora Integration Card */}
-            <div className="card max-w-2xl mx-auto text-center">
-              <div className="mb-6">
-                <img src="/images/migacoin.png" alt="MIGA" className="w-20 h-20 mx-auto mb-4 rounded-full object-cover" />
-                <h3 className="text-xl font-medium mb-2">MIGA / SOL</h3>
-                <p className="text-sm text-[#9999A5]">Dynamic Liquidity Market Maker</p>
-              </div>
-
-              <div className="grid grid-cols-3 gap-4 mb-8">
-                <div className="p-4 bg-white/[0.02] rounded-lg">
-                  <p className="text-2xl font-bold text-gradient-ember">$0.00</p>
-                  <p className="text-xs text-[#6B6B7B]">Price</p>
-                </div>
-                <div className="p-4 bg-white/[0.02] rounded-lg">
-                  <p className="text-2xl font-bold text-[#EDEDF2]">--</p>
-                  <p className="text-xs text-[#6B6B7B]">24h Volume</p>
-                </div>
-                <div className="p-4 bg-white/[0.02] rounded-lg">
-                  <p className="text-2xl font-bold text-[#EDEDF2]">--</p>
-                  <p className="text-xs text-[#6B6B7B]">TVL</p>
-                </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="https://app.meteora.ag/dlmm/MIGA"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary"
-                >
-                  Trade on Meteora <ExternalLink size={16} />
-                </a>
-                <a
-                  href="https://jup.ag/swap/SOL-MIGA"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-secondary"
-                >
-                  Swap on Jupiter <ExternalLink size={16} />
-                </a>
-              </div>
-            </div>
-
-            {/* How to Buy Steps */}
-            <div className="mt-16">
-              <h3 className="text-center text-lg mb-8">How to Buy</h3>
-              <div className="grid md:grid-cols-3 gap-6">
-                {[
-                  {
-                    step: '01',
-                    title: 'Connect Wallet',
-                    desc: 'Use Phantom, Solflare, or any Solana wallet'
-                  },
-                  {
-                    step: '02',
-                    title: 'Get SOL',
-                    desc: 'Ensure you have SOL for purchase and fees'
-                  },
-                  {
-                    step: '03',
-                    title: 'Swap on Meteora',
-                    desc: 'Buy MIGA through Meteora DLMM pool'
-                  },
-                ].map((item) => (
-                  <div key={item.step} className="card flex items-start gap-4">
-                    <span className="text-[#FFD36A] font-mono text-sm">{item.step}</span>
-                    <div>
-                      <h3 className="text-base font-medium mb-1">{item.title}</h3>
-                      <p className="body-sm">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ============================================
-            SOCIAL FEED - X.com & Farcaster
-            ============================================ */}
-        <SocialFeed />
-
-        {/* ============================================
-            REZA NEWS - Video & News from Cyrus Foundation
-            ============================================ */}
-        <RezaNews />
-
       </main>
 
       <Footer />

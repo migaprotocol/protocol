@@ -1,19 +1,15 @@
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { UserProfileCompact } from './UserProfile';
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
 const navLinks = [
-  { label: 'Leaderboard', href: '/#leaderboard' },
-  { label: 'Iran', href: '/iran' },
-  { label: 'Token', href: '/token' },
-  { label: 'Docs', href: '/docs' },
-  { label: 'DAO', href: 'https://miga.us.org', external: true },
+  { label: 'Problem', href: '#problem' },
+  { label: 'Solution', href: '#solution' },
+  { label: 'Token', href: '#token' },
+  { label: 'Roadmap', href: '#roadmap' },
+  { label: 'Governance', href: '#governance' },
 ];
-
-// Mint progress - fetched from API in production
-const MINT_PROGRESS = 23; // percentage
-const MINT_TARGET = '$7,000,000'; // USD target
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,92 +24,52 @@ export function Header() {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 py-6 px-4 md:px-8">
-      <nav className="nav-glass max-w-[1600px] mx-auto py-4 px-8 rounded-3xl transition-all duration-300">
-        <div className="flex justify-between items-center">
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled ? 'bg-[#07070A]/90 backdrop-blur-xl border-b border-white/5' : ''
+    }`}>
+      <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-20 items-center">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-4 group">
+          <Link to="/" className="flex items-center gap-3 group">
             <img
               src="/images/migacoin.png"
-              alt="MIGA Protocol"
-              className="w-14 h-14 rounded-full object-cover transition-transform group-hover:scale-105 shadow-lg shadow-[#FFD700]/20"
+              alt="MIGA"
+              className="w-10 h-10 rounded-full object-cover shadow-lg shadow-[#FFD700]/20"
             />
-            <span className="text-2xl font-bold tracking-tight text-[#EDEDF2]">
-              MIGA Protocol
-            </span>
+            <span className="text-xl font-bold text-white">MIGA</span>
           </Link>
 
           {/* Desktop Nav - Center */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
-              link.external ? (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="nav-link text-xl font-semibold px-6 py-3 rounded-xl hover:bg-white/[0.08] transition-all"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {link.label}
-                </a>
-              ) : link.href.startsWith('#') ? (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="nav-link text-xl font-semibold px-6 py-3 rounded-xl hover:bg-white/[0.08] transition-all"
-                >
-                  {link.label}
-                </a>
-              ) : (
-                <Link
-                  key={link.label}
-                  to={link.href}
-                  className="nav-link text-xl font-semibold px-6 py-3 rounded-xl hover:bg-white/[0.08] transition-all"
-                >
-                  {link.label}
-                </Link>
-              )
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-gray-400 hover:text-white transition-colors text-sm font-medium"
+              >
+                {link.label}
+              </a>
             ))}
           </div>
 
-          {/* Right side - Mint CTA + Profile */}
+          {/* Right side - Wallet Connect */}
           <div className="hidden md:flex items-center gap-4">
-            {/* Active chain indicator - LEFT of mint button */}
-            <span className="text-base text-[#14F195] hidden lg:flex items-center gap-2 font-semibold">
-              <span className="w-3 h-3 bg-[#14F195] rounded-full animate-pulse" />
-              7 Chains Live
-            </span>
-            <Link
-              to="/mint"
-              className="relative group"
+            <a
+              href="https://miga.us.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-white transition-colors text-sm font-medium"
             >
-              <div className="flex items-center gap-3 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold text-lg px-8 py-3 rounded-full hover:shadow-xl hover:shadow-[#FFD700]/30 transition-all">
-                <span>Mint</span>
-                <span className="text-sm opacity-80">{MINT_PROGRESS}%</span>
-              </div>
-              {/* Progress bar */}
-              <div className="absolute -bottom-1 left-0 right-0 h-1 bg-black/20 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-black/40 transition-all"
-                  style={{ width: `${MINT_PROGRESS}%` }}
-                />
-              </div>
-            </Link>
-            {/* User Profile / Connect Wallet */}
-            <UserProfileCompact />
+              DAO
+            </a>
+            <WalletMultiButton className="!bg-gradient-to-r !from-[#FFD700] !to-[#FFA500] !text-black !font-semibold !rounded-full !px-6 !py-2.5 !text-sm hover:!shadow-lg hover:!shadow-[#FFD700]/30 !transition-all" />
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center gap-2">
-            <Link
-              to="/mint"
-              className="flex items-center gap-1.5 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-semibold px-3 py-1.5 rounded-full text-sm"
-            >
-              <span>Mint</span>
-              <span className="text-xs opacity-80">{MINT_PROGRESS}%</span>
-            </Link>
+            <WalletMultiButton className="!bg-gradient-to-r !from-[#FFD700] !to-[#FFA500] !text-black !font-semibold !rounded-full !px-4 !py-2 !text-xs" />
             <button
-              className="p-2 text-[#B8B8C6] hover:text-[#EDEDF2] transition-colors rounded-lg hover:bg-white/[0.03]"
+              className="p-2 text-gray-400 hover:text-white transition-colors"
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Toggle menu"
             >
@@ -124,40 +80,27 @@ export function Header() {
 
         {/* Mobile Nav */}
         {isOpen && (
-          <div className="md:hidden py-4 border-t border-white/[0.04]">
+          <div className="md:hidden py-4 border-t border-white/5 bg-[#07070A]/95 backdrop-blur-xl">
             <div className="flex flex-col gap-1">
               {navLinks.map((link) => (
-                link.external ? (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    className="nav-link px-4 py-3 rounded-lg hover:bg-white/[0.03]"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {link.label}
-                  </a>
-                ) : link.href.startsWith('#') ? (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    className="nav-link px-4 py-3 rounded-lg hover:bg-white/[0.03]"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {link.label}
-                  </a>
-                ) : (
-                  <Link
-                    key={link.label}
-                    to={link.href}
-                    className="nav-link px-4 py-3 rounded-lg hover:bg-white/[0.03]"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                )
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {link.label}
+                </a>
               ))}
+              <a
+                href="https://miga.us.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                onClick={() => setIsOpen(false)}
+              >
+                DAO
+              </a>
             </div>
           </div>
         )}
