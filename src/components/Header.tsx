@@ -15,6 +15,15 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const navLinks = [
+    { href: '#problem', label: 'Problem' },
+    { href: '#solution', label: 'Solution' },
+    { href: '#token', label: 'Token' },
+    { href: '#roadmap', label: 'Roadmap' },
+    { href: '#governance', label: 'Governance' },
+    { href: '#join', label: 'Join DAO' },
+  ];
+
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled ? 'bg-[#07070A]/90 backdrop-blur-xl border-b border-white/5' : ''
@@ -31,23 +40,17 @@ export function Header() {
             <span className="text-xl font-bold text-white">MIGA</span>
           </Link>
 
-          {/* Desktop Nav - Simple */}
-          <div className="hidden md:flex items-center gap-8">
-            <a
-              href="#token"
-              className="text-gray-400 hover:text-white transition-colors text-sm font-medium"
-            >
-              Token
-            </a>
-            <a
-              href="https://miga.us.org"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-1"
-            >
-              About DAO
-              <ExternalLink size={12} />
-            </a>
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-6">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-gray-400 hover:text-white transition-colors text-sm font-medium"
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
 
           {/* Right side - Wallet Connect */}
@@ -72,23 +75,16 @@ export function Header() {
         {isOpen && (
           <div className="md:hidden py-4 border-t border-white/5 bg-[#07070A]/95 backdrop-blur-xl">
             <div className="flex flex-col gap-1">
-              <a
-                href="#token"
-                className="px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all"
-                onClick={() => setIsOpen(false)}
-              >
-                Token
-              </a>
-              <a
-                href="https://miga.us.org"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all flex items-center gap-1"
-                onClick={() => setIsOpen(false)}
-              >
-                About DAO
-                <ExternalLink size={12} />
-              </a>
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {link.label}
+                </a>
+              ))}
             </div>
           </div>
         )}
