@@ -1,7 +1,6 @@
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import {
-  ArrowRight,
   ArrowDown,
   Check,
   Copy,
@@ -14,12 +13,29 @@ import {
   Satellite,
   GraduationCap,
   Scale,
-  Megaphone,
   Globe,
   Lock,
   Zap,
   Target,
   FileText,
+  X,
+  Clock,
+  Ban,
+  DollarSign,
+  Building,
+  Eye,
+  Radio,
+  Newspaper,
+  Music,
+  Film,
+  BookOpen,
+  Megaphone,
+  Calendar,
+  Sword,
+  Flag,
+  Users2,
+  AlertTriangle,
+  Heart,
 } from 'lucide-react'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
@@ -44,10 +60,7 @@ export default function Index() {
             HERO
             ============================================ */}
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24">
-          {/* Background gradient */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A12] via-[#07070A] to-[#07070A]" />
-
-          {/* Subtle grid pattern */}
           <div className="absolute inset-0 opacity-[0.03]" style={{
             backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
                               linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
@@ -55,12 +68,10 @@ export default function Index() {
           }} />
 
           <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
-            {/* Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 mb-8">
               <span className="text-sm text-[#FFD700] font-medium">Decentralized Autonomous Organization on Solana</span>
             </div>
 
-            {/* Main headline */}
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
               <span className="text-white">Freedom of</span>
               <br />
@@ -70,22 +81,20 @@ export default function Index() {
             </h1>
 
             <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-12">
-              MIGA is a DAO that funds anti-censorship technology to help people in Iran access free and open information.
+              MIGA is a DAO that funds anti-censorship technology, independent media, and cultural expression for the people of Iran.
             </p>
 
-            {/* Primary CTA */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
               <WalletMultiButton className="!bg-gradient-to-r !from-[#FFD700] !to-[#FFA500] !text-black !font-bold !rounded-full !px-10 !py-5 hover:!shadow-xl hover:!shadow-[#FFD700]/30 !transition-all !text-lg" />
               <a
-                href="#problem"
+                href="#token"
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-white/20 text-white hover:bg-white/5 transition-all text-lg font-medium"
               >
-                Learn More
+                View Token Details
                 <ArrowDown size={18} />
               </a>
             </div>
 
-            {/* Stats Row */}
             <div className="grid grid-cols-3 gap-8 max-w-xl mx-auto">
               <div className="text-center">
                 <p className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">1B</p>
@@ -93,139 +102,122 @@ export default function Index() {
               </div>
               <div className="text-center">
                 <p className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">100%</p>
-                <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider">Community</p>
+                <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider">Community Treasury</p>
               </div>
               <div className="text-center">
                 <p className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">0%</p>
-                <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider">VC/Team</p>
+                <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider">VC Allocation</p>
               </div>
             </div>
           </div>
         </section>
 
         {/* ============================================
-            PROBLEM SECTION
+            THE PROBLEM
             ============================================ */}
         <section id="problem" className="py-24 border-t border-white/[0.04]">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <span className="text-sm text-[#FFD700] font-medium uppercase tracking-wider">The Problem</span>
-              <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-6">
-                90 Million People <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">Cut Off</span>
+              <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-6 text-white">
+                Millions Live Under <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">Restrictions</span>
               </h2>
               <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                Iran has some of the most severe internet restrictions in the world, cutting millions of people off from free information.
+                Millions of Iranians live under severe restrictions that limit their access to information, culture, and free expression.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
-              {/* Stats */}
-              <div className="p-8 rounded-3xl bg-gradient-to-br from-red-500/10 to-transparent border border-red-500/20">
-                <h3 className="text-2xl font-bold text-white mb-6">Government Censorship</h3>
-                <div className="space-y-6">
-                  <div>
-                    <div className="flex justify-between items-end mb-2">
-                      <span className="text-gray-400">Websites Blocked</span>
-                      <span className="text-3xl font-bold text-red-400">5M+</span>
-                    </div>
-                    <div className="w-full bg-white/10 rounded-full h-2">
-                      <div className="bg-red-500 h-2 rounded-full" style={{ width: '95%' }} />
-                    </div>
+            {/* Daily Reality */}
+            <div className="mb-12">
+              <h3 className="text-xl font-bold text-white mb-6 text-center">Daily Reality for Iranians</h3>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                {[
+                  { icon: Lock, label: 'Information Censorship' },
+                  { icon: Wifi, label: 'Internet Blackouts' },
+                  { icon: Radio, label: 'Restricted Media' },
+                  { icon: Newspaper, label: 'Limited News Access' },
+                  { icon: Music, label: 'Cultural Repression' },
+                ].map((item) => (
+                  <div key={item.label} className="p-6 rounded-2xl bg-red-500/5 border border-red-500/20 text-center">
+                    <item.icon className="mx-auto text-red-400 mb-3" size={28} />
+                    <p className="text-sm text-gray-400">{item.label}</p>
                   </div>
-                  <div>
-                    <div className="flex justify-between items-end mb-2">
-                      <span className="text-gray-400">Internet Shutdowns (2022)</span>
-                      <span className="text-3xl font-bold text-red-400">187 days</span>
-                    </div>
-                    <div className="w-full bg-white/10 rounded-full h-2">
-                      <div className="bg-red-500 h-2 rounded-full" style={{ width: '51%' }} />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="flex justify-between items-end mb-2">
-                      <span className="text-gray-400">VPN Users Prosecuted</span>
-                      <span className="text-3xl font-bold text-red-400">1000s</span>
-                    </div>
-                    <div className="w-full bg-white/10 rounded-full h-2">
-                      <div className="bg-red-500 h-2 rounded-full" style={{ width: '70%' }} />
-                    </div>
-                  </div>
-                </div>
+                ))}
               </div>
+            </div>
 
-              {/* Impact */}
-              <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/[0.06]">
-                <h3 className="text-2xl font-bold text-white mb-6">Human Impact</h3>
-                <div className="space-y-4">
-                  {[
-                    { icon: Globe, text: 'Instagram, Twitter/X, YouTube, Telegram - all blocked' },
-                    { icon: Lock, text: 'WhatsApp and Signal heavily restricted' },
-                    { icon: Megaphone, text: 'Journalists and activists imprisoned for online speech' },
-                    { icon: Wifi, text: 'Complete internet blackouts during protests' },
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02]">
-                      <div className="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center flex-shrink-0">
-                        <item.icon className="text-red-400" size={20} />
-                      </div>
-                      <p className="text-gray-300">{item.text}</p>
-                    </div>
-                  ))}
-                </div>
+            {/* Why NGOs Fail */}
+            <div className="mb-12">
+              <h3 className="text-xl font-bold text-white mb-6 text-center">Why Traditional NGOs Fail</h3>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                {[
+                  { icon: Clock, label: 'Slow' },
+                  { icon: Flag, label: 'Politicized' },
+                  { icon: Ban, label: 'Blocked' },
+                  { icon: DollarSign, label: 'Underfunded' },
+                  { icon: Building, label: 'Centralized' },
+                ].map((item) => (
+                  <div key={item.label} className="p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] text-center">
+                    <item.icon className="mx-auto text-gray-500 mb-3" size={28} />
+                    <p className="text-sm text-gray-400">{item.label}</p>
+                  </div>
+                ))}
               </div>
             </div>
 
             <div className="text-center p-8 rounded-3xl bg-gradient-to-r from-[#FFD700]/5 to-[#FFA500]/5 border border-[#FFD700]/20">
-              <p className="text-xl text-gray-300 mb-4">
-                During the 2022 Mahsa Amini protests, the government cut internet access for <span className="text-[#FFD700] font-bold">over 6 months</span> to prevent information from spreading.
-              </p>
-              <p className="text-gray-400">
-                Traditional funding can be traced and blocked. <span className="text-white font-medium">Decentralized funding cannot.</span>
+              <p className="text-2xl text-white font-bold">
+                Freedom needs a new financial and governance layer.
               </p>
             </div>
           </div>
         </section>
 
         {/* ============================================
-            SOLUTION SECTION
+            THE SOLUTION
             ============================================ */}
         <section id="solution" className="py-24 bg-gradient-to-b from-[#0A0A10] to-transparent">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <span className="text-sm text-[#FFD700] font-medium uppercase tracking-wider">The Solution</span>
-              <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-6">
-                How <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">MIGA</span> Works
+              <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-6 text-white">
+                <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">MIGA</span> DAO
               </h2>
               <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                A decentralized treasury that funds anti-censorship technology through community governance.
+                MIGA is a Decentralized Autonomous Organization (DAO) that enables transparent, community-driven funding for freedom-of-information infrastructure.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6 mb-16">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
               {[
                 {
-                  step: '1',
-                  icon: Wallet,
-                  title: 'Acquire MIGA',
-                  desc: 'Buy MIGA tokens on Solana. 100% of proceeds go to the community treasury.',
+                  icon: Globe,
+                  title: 'Global Fundraising',
+                  desc: 'Raise funds from anywhere in the world without borders or restrictions',
                 },
                 {
-                  step: '2',
-                  icon: VoteIcon,
-                  title: 'Vote on Proposals',
-                  desc: 'Token holders vote on which anti-censorship projects receive funding.',
+                  icon: Eye,
+                  title: 'On-Chain Transparency',
+                  desc: 'Every transaction is publicly verifiable on the Solana blockchain',
                 },
                 {
-                  step: '3',
+                  icon: Users,
+                  title: 'Community Governance',
+                  desc: 'Token holders vote on which missions receive funding',
+                },
+                {
                   icon: Zap,
-                  title: 'Fund Freedom',
-                  desc: 'Treasury funds are deployed to approved projects fighting censorship.',
+                  title: 'Automatic Execution',
+                  desc: 'Smart contracts release grants without intermediaries',
+                },
+                {
+                  icon: Shield,
+                  title: 'Freedom Infrastructure',
+                  desc: 'Supporting tools for free information flow in Iran',
                 },
               ].map((item) => (
-                <div key={item.step} className="p-8 rounded-3xl bg-white/[0.02] border border-white/[0.06] text-center relative overflow-hidden group hover:border-[#FFD700]/30 transition-all">
-                  <div className="absolute top-4 right-4 text-6xl font-bold text-white/[0.03] group-hover:text-[#FFD700]/10 transition-colors">
-                    {item.step}
-                  </div>
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FFD700]/20 to-[#FFA500]/10 flex items-center justify-center mx-auto mb-6">
+                <div key={item.title} className="p-8 rounded-3xl bg-white/[0.02] border border-white/[0.06] hover:border-[#FFD700]/30 transition-all">
+                  <div className="w-14 h-14 rounded-2xl bg-[#FFD700]/10 flex items-center justify-center mb-6">
                     <item.icon className="text-[#FFD700]" size={28} />
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
@@ -234,53 +226,44 @@ export default function Index() {
               ))}
             </div>
 
-            {/* Why Decentralized */}
-            <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/[0.06]">
-              <h3 className="text-2xl font-bold text-white mb-6 text-center">Why Decentralized?</h3>
-              <div className="grid md:grid-cols-2 gap-6">
-                {[
-                  { title: 'Censorship Resistant', desc: 'No bank accounts to freeze, no organizations to shut down' },
-                  { title: 'Transparent', desc: 'Every transaction visible on-chain, fully auditable' },
-                  { title: 'Permissionless', desc: 'Anyone worldwide can contribute and participate' },
-                  { title: 'Community Controlled', desc: 'No single point of failure or control' },
-                ].map((item) => (
-                  <div key={item.title} className="flex items-start gap-4">
-                    <div className="w-6 h-6 rounded-full bg-[#FFD700]/20 flex items-center justify-center flex-shrink-0 mt-1">
-                      <Check className="text-[#FFD700]" size={14} />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-white mb-1">{item.title}</h4>
-                      <p className="text-gray-400 text-sm">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+            <div className="flex flex-wrap justify-center gap-4">
+              {['No Borders', 'No Intermediaries', 'No Single Owner'].map((tag) => (
+                <span key={tag} className="px-6 py-3 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 text-[#FFD700] font-medium">
+                  {tag}
+                </span>
+              ))}
             </div>
           </div>
         </section>
 
         {/* ============================================
-            TOKEN SECTION
+            TOKEN OVERVIEW
             ============================================ */}
         <section id="token" className="py-24 border-t border-white/[0.04]">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <span className="text-sm text-[#FFD700] font-medium uppercase tracking-wider">Tokenomics</span>
-              <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-6">
-                Token <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">Overview</span>
+              <span className="text-sm text-[#FFD700] font-medium uppercase tracking-wider">Token Overview</span>
+              <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-6 text-white">
+                Simple & <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">Transparent</span>
               </h2>
+              <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+                A simple, transparent token designed purely for community governance.
+              </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-8 mb-12">
               {/* Token Specs */}
               <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/[0.06]">
-                <h3 className="text-xl font-bold text-white mb-6">Token Details</h3>
+                <h3 className="text-xl font-bold text-white mb-6">Token Specifications</h3>
                 <div className="space-y-4">
                   {[
                     { label: 'Token Name', value: 'MIGA' },
                     { label: 'Network', value: 'Solana', badge: true },
-                    { label: 'Total Supply', value: '1,000,000,000' },
+                    { label: 'Total Supply', value: '1,000,000,000 MIGA' },
+                    { label: 'Utility', value: 'Governance & Voting' },
                     { label: 'Voting Power', value: '1 MIGA = 1 Vote' },
+                    { label: 'Treasury', value: '100% to DAO' },
+                    { label: 'Custody', value: 'On-chain Multi-sig Vault' },
                   ].map((item) => (
                     <div key={item.label} className="flex justify-between items-center py-3 border-b border-white/[0.04]">
                       <span className="text-gray-500">{item.label}</span>
@@ -291,62 +274,31 @@ export default function Index() {
                     </div>
                   ))}
                 </div>
-
-                {/* Contract Address */}
-                <div className="mt-6">
-                  <p className="text-sm text-gray-500 mb-2">Contract Address</p>
-                  <div className="flex items-center gap-3 p-4 rounded-xl bg-white/[0.03] border border-white/[0.04]">
-                    <code className="text-[#FFD700] font-mono text-sm flex-1 truncate">MIGAx...pending</code>
-                    <button
-                      onClick={copyAddress}
-                      className="text-gray-500 hover:text-[#FFD700] transition-colors p-2"
-                      title="Copy address"
-                    >
-                      {copied ? <Check size={18} /> : <Copy size={18} />}
-                    </button>
-                  </div>
-                </div>
               </div>
 
-              {/* Distribution */}
-              <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/[0.06]">
-                <h3 className="text-xl font-bold text-white mb-6">Distribution</h3>
-                <div className="space-y-6">
-                  <div>
-                    <div className="flex justify-between mb-2">
-                      <span className="text-gray-400">Liquidity Pool</span>
-                      <span className="text-white font-medium">10%</span>
+              {/* Fair Launch */}
+              <div className="p-8 rounded-3xl bg-gradient-to-br from-[#FFD700]/10 to-transparent border border-[#FFD700]/20">
+                <h3 className="text-xl font-bold text-white mb-6">Fair Launch Guarantee</h3>
+                <p className="text-gray-400 mb-6">
+                  MIGA is built on principles of radical transparency. Every token exists to serve the community, not insiders.
+                </p>
+                <div className="space-y-4 mb-8">
+                  {[
+                    'No founders allocation',
+                    'No VC allocation',
+                    'No hidden wallets',
+                  ].map((item) => (
+                    <div key={item} className="flex items-center gap-3">
+                      <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                        <Check className="text-emerald-400" size={14} />
+                      </div>
+                      <span className="text-gray-300">{item}</span>
                     </div>
-                    <div className="w-full bg-white/10 rounded-full h-3">
-                      <div className="bg-[#FFD700] h-3 rounded-full" style={{ width: '10%' }} />
-                    </div>
-                    <p className="text-xs text-gray-500 mt-1">Initial DEX liquidity</p>
-                  </div>
-                  <div>
-                    <div className="flex justify-between mb-2">
-                      <span className="text-gray-400">Bonding Curve</span>
-                      <span className="text-white font-medium">40%</span>
-                    </div>
-                    <div className="w-full bg-white/10 rounded-full h-3">
-                      <div className="bg-[#FFA500] h-3 rounded-full" style={{ width: '40%' }} />
-                    </div>
-                    <p className="text-xs text-gray-500 mt-1">Year-long public distribution</p>
-                  </div>
-                  <div>
-                    <div className="flex justify-between mb-2">
-                      <span className="text-gray-400">DAO Treasury</span>
-                      <span className="text-white font-medium">50%</span>
-                    </div>
-                    <div className="w-full bg-white/10 rounded-full h-3">
-                      <div className="bg-emerald-500 h-3 rounded-full" style={{ width: '50%' }} />
-                    </div>
-                    <p className="text-xs text-gray-500 mt-1">Community-governed funding</p>
-                  </div>
+                  ))}
                 </div>
-
-                <div className="mt-8 p-4 rounded-xl bg-gradient-to-br from-[#FFD700]/10 to-transparent border border-[#FFD700]/20 text-center">
-                  <p className="text-lg font-bold text-[#FFD700]">Fair Launch</p>
-                  <p className="text-sm text-gray-400">No presale. No VCs. No team allocation.</p>
+                <div className="p-6 rounded-2xl bg-white/[0.04] text-center">
+                  <p className="text-5xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent mb-2">100%</p>
+                  <p className="text-gray-400">of raised funds go to DAO treasury</p>
                 </div>
               </div>
             </div>
@@ -354,241 +306,245 @@ export default function Index() {
         </section>
 
         {/* ============================================
-            ROADMAP SECTION
+            FUNDING ROADMAP
             ============================================ */}
         <section id="roadmap" className="py-24 bg-gradient-to-b from-[#0A0A10] to-transparent">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <span className="text-sm text-[#FFD700] font-medium uppercase tracking-wider">Funding Roadmap</span>
-              <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-6">
-                What MIGA <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">Supports</span>
+              <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-6 text-white">
+                Growing <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">Impact</span>
               </h2>
               <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                Token holders vote on funding allocation. Here's what the community can support:
+                Each phase unlocks new governance modules and expands MIGA's impact.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6 mb-12">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
               {[
                 {
-                  icon: Wifi,
-                  title: 'VPN Infrastructure',
-                  desc: 'Fund free VPN services and mesh networking tools that help Iranians bypass government firewalls.',
-                  examples: ['Outline VPN servers', 'Tor relay nodes', 'Mesh network development'],
+                  phase: 'I',
+                  amount: '$5M',
+                  items: ['Independent media', 'Encrypted communications', 'Awareness campaigns'],
                 },
                 {
-                  icon: Satellite,
-                  title: 'Satellite Internet',
-                  desc: 'Support initiatives to provide satellite internet access that cannot be controlled by the government.',
-                  examples: ['Starlink terminal distribution', 'Satellite modem smuggling', 'Ground station support'],
+                  phase: 'II',
+                  amount: '$10M',
+                  items: ['Global cultural campaigns', 'Community hubs', 'Satellite connectivity'],
                 },
                 {
-                  icon: GraduationCap,
-                  title: 'Digital Literacy',
-                  desc: 'Fund educational programs teaching secure communication and internet safety.',
-                  examples: ['Security workshops', 'Circumvention tool guides', 'Safe messaging training'],
+                  phase: 'III',
+                  amount: '$50M',
+                  items: ['Regional digital freedom infrastructure'],
                 },
                 {
-                  icon: Scale,
-                  title: 'Legal Defense',
-                  desc: 'Support legal funds for journalists, activists, and citizens prosecuted for online activity.',
-                  examples: ['Legal representation', 'Family support funds', 'Advocacy campaigns'],
+                  phase: 'IV',
+                  amount: '$100M',
+                  items: ['Global censorship-resistant network for Iranian voices'],
                 },
-              ].map((item) => (
-                <div key={item.title} className="p-8 rounded-3xl bg-white/[0.02] border border-white/[0.06] hover:border-[#FFD700]/20 transition-all">
-                  <div className="w-14 h-14 rounded-2xl bg-[#FFD700]/10 flex items-center justify-center mb-6">
-                    <item.icon className="text-[#FFD700]" size={28} />
+              ].map((phase, i) => (
+                <div key={phase.phase} className="p-6 rounded-3xl bg-white/[0.02] border border-white/[0.06] relative overflow-hidden">
+                  <div className="absolute top-4 right-4 text-6xl font-bold text-white/[0.03]">
+                    {phase.phase}
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
-                  <p className="text-gray-400 mb-4">{item.desc}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {item.examples.map((example) => (
-                      <span key={example} className="px-3 py-1 rounded-full bg-white/[0.04] text-xs text-gray-400">
-                        {example}
-                      </span>
+                  <p className="text-sm text-[#FFD700] font-medium mb-2">Phase {phase.phase}</p>
+                  <p className="text-3xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent mb-4">
+                    {phase.amount}
+                  </p>
+                  <ul className="space-y-2">
+                    {phase.items.map((item) => (
+                      <li key={item} className="flex items-start gap-2 text-sm text-gray-400">
+                        <span className="text-[#FFD700]">→</span>
+                        {item}
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
               ))}
             </div>
 
-            {/* Funding Milestones */}
-            <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/[0.06]">
-              <h3 className="text-xl font-bold text-white mb-6 text-center">Funding Milestones</h3>
-              <div className="relative">
-                {/* Timeline line */}
-                <div className="absolute left-1/2 top-0 bottom-0 w-px bg-white/10 hidden md:block" />
-
-                <div className="space-y-8">
+            {/* What MIGA Supports */}
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Can Fund */}
+              <div className="p-8 rounded-3xl bg-emerald-500/5 border border-emerald-500/20">
+                <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                  <Check className="text-emerald-400" size={24} />
+                  What MIGA Can Fund
+                </h3>
+                <div className="grid grid-cols-2 gap-3">
                   {[
-                    { amount: '$100K', goal: 'Launch 10 VPN servers in neighboring countries' },
-                    { amount: '$500K', goal: 'Fund satellite terminal distribution network' },
-                    { amount: '$1M', goal: 'Establish permanent legal defense fund' },
-                    { amount: '$5M', goal: 'Build independent mesh network infrastructure' },
-                  ].map((milestone, i) => (
-                    <div key={i} className={`flex items-center gap-6 ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
-                      <div className={`flex-1 p-6 rounded-2xl bg-white/[0.02] ${i % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
-                        <p className="text-2xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent mb-2">
-                          {milestone.amount}
-                        </p>
-                        <p className="text-gray-400">{milestone.goal}</p>
-                      </div>
-                      <div className="w-4 h-4 rounded-full bg-[#FFD700] flex-shrink-0 hidden md:block" />
-                      <div className="flex-1 hidden md:block" />
+                    { icon: Newspaper, label: 'Independent journalism' },
+                    { icon: Shield, label: 'Anti-censorship tech' },
+                    { icon: Satellite, label: 'Satellite access' },
+                    { icon: Wifi, label: 'VPN & mesh networks' },
+                    { icon: Film, label: 'Cultural content' },
+                    { icon: BookOpen, label: 'Educational platforms' },
+                    { icon: FileText, label: 'Human-rights docs' },
+                    { icon: Megaphone, label: 'Awareness campaigns' },
+                    { icon: Calendar, label: 'Community events' },
+                  ].map((item) => (
+                    <div key={item.label} className="flex items-center gap-2 text-sm text-gray-300">
+                      <item.icon size={16} className="text-emerald-400 flex-shrink-0" />
+                      {item.label}
                     </div>
                   ))}
                 </div>
               </div>
+
+              {/* Will Never Fund */}
+              <div className="p-8 rounded-3xl bg-red-500/5 border border-red-500/20">
+                <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                  <X className="text-red-400" size={24} />
+                  What MIGA Will Never Fund
+                </h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { icon: Sword, label: 'Violence' },
+                    { icon: Flag, label: 'Political parties' },
+                    { icon: Target, label: 'Military activity' },
+                    { icon: Users2, label: 'Armed groups' },
+                    { icon: VoteIcon, label: 'Election interference' },
+                    { icon: AlertTriangle, label: 'State overthrow' },
+                  ].map((item) => (
+                    <div key={item.label} className="flex items-center gap-2 text-sm text-gray-400">
+                      <item.icon size={16} className="text-red-400 flex-shrink-0" />
+                      {item.label}
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-6 p-4 rounded-xl bg-white/[0.02]">
+                  <p className="text-sm text-gray-400 italic text-center">
+                    "MIGA is about freedom of information and culture, not power."
+                  </p>
+                </div>
+              </div>
             </div>
+
+            <p className="text-center text-gray-400 mt-8">
+              MIGA supports only <span className="text-white font-medium">non-violent, civil, and informational</span> initiatives.
+            </p>
           </div>
         </section>
 
         {/* ============================================
-            GOVERNANCE SECTION
+            GOVERNANCE
             ============================================ */}
         <section id="governance" className="py-24 border-t border-white/[0.04]">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <span className="text-sm text-[#FFD700] font-medium uppercase tracking-wider">DAO Governance</span>
-              <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-6 text-white">
                 How <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">Governance</span> Works
               </h2>
               <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                MIGA operates as a fully decentralized DAO. Token holders control treasury allocation through on-chain voting.
+                A transparent, community-driven process from proposal to execution.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
-              {/* Voting Process */}
-              <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/[0.06]">
-                <h3 className="text-xl font-bold text-white mb-6">Voting Process</h3>
-                <div className="space-y-4">
-                  {[
-                    { step: '1', title: 'Proposal Submission', desc: 'Any token holder can submit a funding proposal' },
-                    { step: '2', title: 'Community Discussion', desc: '7-day discussion period for feedback' },
-                    { step: '3', title: 'On-Chain Vote', desc: '5-day voting period, 1 MIGA = 1 vote' },
-                    { step: '4', title: 'Execution', desc: 'Approved proposals automatically funded from treasury' },
-                  ].map((item) => (
-                    <div key={item.step} className="flex items-start gap-4">
-                      <div className="w-8 h-8 rounded-full bg-[#FFD700]/20 flex items-center justify-center flex-shrink-0 text-sm font-bold text-[#FFD700]">
-                        {item.step}
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-white">{item.title}</h4>
-                        <p className="text-sm text-gray-400">{item.desc}</p>
-                      </div>
+            {/* Steps */}
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-16">
+              {[
+                { step: '1', title: 'Submit Proposal', desc: 'Anyone can submit a mission proposal to the DAO' },
+                { step: '2', title: 'Committee Review', desc: 'DAO committee reviews for legality & safety' },
+                { step: '3', title: 'Token Holder Vote', desc: 'MIGA holders vote on approved proposals' },
+                { step: '4', title: 'Automatic Execution', desc: 'Smart contracts release funds upon approval' },
+                { step: '5', title: 'Transparent Reporting', desc: 'All spending is publicly documented on-chain' },
+              ].map((item, i) => (
+                <div key={item.step} className="relative">
+                  <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] text-center h-full">
+                    <div className="w-10 h-10 rounded-full bg-[#FFD700] flex items-center justify-center text-black font-bold mx-auto mb-4">
+                      {item.step}
                     </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Governance Stats */}
-              <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/[0.06]">
-                <h3 className="text-xl font-bold text-white mb-6">Governance Parameters</h3>
-                <div className="space-y-4">
-                  {[
-                    { label: 'Proposal Threshold', value: '100,000 MIGA', desc: 'Minimum tokens to submit proposal' },
-                    { label: 'Quorum', value: '4%', desc: 'Minimum participation for valid vote' },
-                    { label: 'Pass Threshold', value: '50%+', desc: 'Simple majority to pass' },
-                    { label: 'Timelock', value: '48 hours', desc: 'Delay before execution' },
-                  ].map((item) => (
-                    <div key={item.label} className="p-4 rounded-xl bg-white/[0.02]">
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="text-gray-400">{item.label}</span>
-                        <span className="font-bold text-[#FFD700]">{item.value}</span>
-                      </div>
-                      <p className="text-xs text-gray-500">{item.desc}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Multi-token Governance */}
-            <div className="p-8 rounded-3xl bg-gradient-to-r from-[#FFD700]/5 to-[#FFA500]/5 border border-[#FFD700]/20">
-              <h3 className="text-xl font-bold text-white mb-4 text-center">Persian DAO Alliance</h3>
-              <p className="text-gray-400 text-center mb-6">
-                MIGA is part of a unified governance system for the Persian diaspora.
-              </p>
-              <div className="grid grid-cols-3 gap-4">
-                {[
-                  { token: 'MIGA', desc: 'Freedom of Information' },
-                  { token: 'CYRUS', desc: 'Cultural Heritage' },
-                  { token: 'PARS', desc: 'Network Infrastructure' },
-                ].map((item) => (
-                  <div key={item.token} className="text-center p-4 rounded-xl bg-white/[0.02]">
-                    <p className="font-bold text-white">{item.token}</p>
-                    <p className="text-xs text-gray-500">{item.desc}</p>
+                    <h4 className="font-semibold text-white mb-2 text-sm">{item.title}</h4>
+                    <p className="text-xs text-gray-400">{item.desc}</p>
                   </div>
+                  {i < 4 && (
+                    <div className="hidden md:block absolute top-1/2 -right-2 transform -translate-y-1/2 text-[#FFD700]">
+                      →
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Why Solana */}
+            <div className="p-8 rounded-3xl bg-gradient-to-r from-[#FFD700]/5 to-[#FFA500]/5 border border-[#FFD700]/20">
+              <h3 className="text-xl font-bold text-white mb-6 text-center">Why Solana?</h3>
+              <div className="flex flex-wrap justify-center gap-4">
+                {[
+                  'Low Fees',
+                  'Fast Voting',
+                  'Global Access',
+                  'Transparent Treasury',
+                  'Real-time Governance',
+                ].map((feature) => (
+                  <span key={feature} className="px-4 py-2 rounded-full bg-white/[0.04] text-sm text-gray-300">
+                    {feature}
+                  </span>
                 ))}
               </div>
-              <p className="text-center mt-4 text-sm text-gray-400">
-                All tokens have equal voting power: <span className="text-[#FFD700]">1 Token = 1 Vote</span> at{' '}
-                <a href="https://pars.vote" target="_blank" rel="noopener noreferrer" className="text-[#FFD700] hover:underline">
-                  pars.vote
-                </a>
-              </p>
             </div>
           </div>
         </section>
 
         {/* ============================================
-            JOIN DAO SECTION
+            THE MOVEMENT
             ============================================ */}
         <section id="join" className="py-24 bg-gradient-to-b from-[#0A0A10] to-transparent">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Join the <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">Movement</span>
+            <h2 className="text-4xl md:text-5xl font-bold mb-8 text-white">
+              The <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">Movement</span>
             </h2>
 
-            <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
-              Get MIGA tokens and become part of a community fighting for freedom of information. Every token is a vote.
-            </p>
+            <div className="mb-12">
+              <p className="text-2xl text-gray-300 mb-6">
+                MIGA is <span className="text-white font-bold">not</span> against Iran.
+              </p>
+              <p className="text-3xl md:text-4xl text-white font-bold mb-8">
+                It is <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">for</span> the Iranian people.
+              </p>
+
+              <div className="flex flex-wrap justify-center gap-4 mb-12">
+                {[
+                  { icon: Shield, label: 'For Freedom' },
+                  { icon: Music, label: 'For Culture' },
+                  { icon: Megaphone, label: 'For Voices' },
+                ].map((item) => (
+                  <div key={item.label} className="flex items-center gap-2 px-6 py-3 rounded-full bg-white/[0.04] border border-white/[0.06]">
+                    <item.icon className="text-[#FFD700]" size={20} />
+                    <span className="text-white font-medium">{item.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
 
             <WalletMultiButton className="!inline-flex !items-center !justify-center !gap-2 !px-12 !py-5 !bg-gradient-to-r !from-[#FFD700] !to-[#FFA500] !text-black !font-bold !rounded-full hover:!shadow-xl hover:!shadow-[#FFD700]/30 !transition-all !text-xl" />
 
             {connected && (
               <p className="mt-6 text-emerald-400 flex items-center justify-center gap-2">
-                <Check size={18} /> Wallet Connected - Ready to participate
+                <Check size={18} /> Wallet Connected
               </p>
             )}
 
-            <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[
-                { icon: Shield, label: 'Secure', desc: 'Audited contracts' },
-                { icon: Users, label: 'Community', desc: 'Fully decentralized' },
-                { icon: Target, label: 'Focused', desc: 'Clear mission' },
-                { icon: FileText, label: 'Transparent', desc: 'On-chain treasury' },
-              ].map((item) => (
-                <div key={item.label} className="text-center">
-                  <div className="w-12 h-12 rounded-xl bg-[#FFD700]/10 flex items-center justify-center mx-auto mb-3">
-                    <item.icon className="text-[#FFD700]" size={24} />
-                  </div>
-                  <p className="font-semibold text-white">{item.label}</p>
-                  <p className="text-xs text-gray-500">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-4 text-sm">
               <a
                 href="https://miga.us.org"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-[#FFD700] hover:text-[#FFA500] transition-colors"
+                className="inline-flex items-center gap-2 text-gray-400 hover:text-[#FFD700] transition-colors"
               >
                 Learn about the Foundation
-                <ExternalLink size={16} />
+                <ExternalLink size={14} />
               </a>
               <span className="text-gray-600 hidden sm:block">|</span>
               <a
                 href="https://pars.vote"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-[#FFD700] hover:text-[#FFA500] transition-colors"
+                className="inline-flex items-center gap-2 text-gray-400 hover:text-[#FFD700] transition-colors"
               >
                 Vote on Proposals
-                <ExternalLink size={16} />
+                <ExternalLink size={14} />
               </a>
             </div>
           </div>
