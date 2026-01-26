@@ -29,7 +29,12 @@ export function Header() {
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
+          <Link to="/" className="flex items-center gap-3 group">
+            <img
+              src="/images/migacoin.png"
+              alt="MIGA"
+              className="w-10 h-10 rounded-full object-cover"
+            />
             <span className="text-2xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">
               MIGA
             </span>
@@ -48,14 +53,14 @@ export function Header() {
             ))}
           </div>
 
-          {/* CTA - Join DAO button */}
+          {/* CTA - Mint button */}
           <div className="hidden md:flex items-center">
-            <a
-              href="#join"
+            <Link
+              to="/mint"
               className="px-6 py-2.5 border-2 border-[#FFD700] text-[#FFD700] font-semibold rounded-lg hover:bg-[#FFD700] hover:text-black transition-all"
             >
-              Join DAO
-            </a>
+              Mint MIGA
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -82,13 +87,13 @@ export function Header() {
                   {link.label}
                 </a>
               ))}
-              <a
-                href="#join"
+              <Link
+                to="/mint"
                 className="mt-4 px-6 py-3 border-2 border-[#FFD700] text-[#FFD700] font-semibold rounded-lg text-center hover:bg-[#FFD700] hover:text-black transition-all"
                 onClick={() => setIsOpen(false)}
               >
-                Join DAO
-              </a>
+                Mint MIGA
+              </Link>
             </div>
           </div>
         )}
