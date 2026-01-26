@@ -1,15 +1,7 @@
 import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ExternalLink } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-
-const navLinks = [
-  { label: 'Problem', href: '#problem' },
-  { label: 'Solution', href: '#solution' },
-  { label: 'Token', href: '#token' },
-  { label: 'Roadmap', href: '#roadmap' },
-  { label: 'Governance', href: '#governance' },
-];
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,29 +31,27 @@ export function Header() {
             <span className="text-xl font-bold text-white">MIGA</span>
           </Link>
 
-          {/* Desktop Nav - Center */}
-          <div className="hidden md:flex items-center gap-6">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-gray-400 hover:text-white transition-colors text-sm font-medium"
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
-
-          {/* Right side - Wallet Connect */}
-          <div className="hidden md:flex items-center gap-4">
+          {/* Desktop Nav - Simple */}
+          <div className="hidden md:flex items-center gap-8">
+            <a
+              href="#token"
+              className="text-gray-400 hover:text-white transition-colors text-sm font-medium"
+            >
+              Token
+            </a>
             <a
               href="https://miga.us.org"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors text-sm font-medium"
+              className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-1"
             >
-              DAO
+              About DAO
+              <ExternalLink size={12} />
             </a>
+          </div>
+
+          {/* Right side - Wallet Connect */}
+          <div className="hidden md:flex items-center gap-4">
             <WalletMultiButton className="!bg-gradient-to-r !from-[#FFD700] !to-[#FFA500] !text-black !font-semibold !rounded-full !px-6 !py-2.5 !text-sm hover:!shadow-lg hover:!shadow-[#FFD700]/30 !transition-all" />
           </div>
 
@@ -82,24 +72,22 @@ export function Header() {
         {isOpen && (
           <div className="md:hidden py-4 border-t border-white/5 bg-[#07070A]/95 backdrop-blur-xl">
             <div className="flex flex-col gap-1">
-              {navLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.label}
-                </a>
-              ))}
+              <a
+                href="#token"
+                className="px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                onClick={() => setIsOpen(false)}
+              >
+                Token
+              </a>
               <a
                 href="https://miga.us.org"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                className="px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all flex items-center gap-1"
                 onClick={() => setIsOpen(false)}
               >
-                DAO
+                About DAO
+                <ExternalLink size={12} />
               </a>
             </div>
           </div>
