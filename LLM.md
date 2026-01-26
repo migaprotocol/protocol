@@ -26,6 +26,7 @@ MIGA Protocol enables multi-chain minting of MIGA tokens with redemption on Pars
 | Chain | Chain ID | RPC Status | Contract Status |
 |-------|----------|------------|-----------------|
 | Pars Network | 494949 | ✅ Live | NOT DEPLOYED |
+| Sparkle Pony Chain | 36911 | ⚠️ TBD | NOT DEPLOYED |
 | Hanzo Network | 36963 | ⚠️ Offline (502) | NOT DEPLOYED |
 | Local (Anvil) | 31337 | ✅ Running | ✅ Ready for testing |
 
@@ -44,13 +45,22 @@ Source: `/Users/z/work/hanzo/ui/app/lib/contracts.ts`
 | Zoo | 200200 | TBD | TBD |
 | Zoo Testnet | 200201 | TBD | TBD |
 | **Pars** | 494949 | TBD | TBD |
+| **Sparkle Pony** | 36911 | TBD | TBD |
+| Sparkle Pony Testnet | 36910 | TBD | TBD |
 
 ### Pars Network Configuration
 - **Chain ID**: 494949
 - **RPC**: https://rpc.pars.network or https://api.pars.network
-- **Alternate**: https://rpc.sparklepony.xyz or https://api.sparklepony.xyz
 - **Explorer**: https://explore.pars.network
 - **Website**: https://pars.network
+- **DID Method**: did:pars
+
+### Sparkle Pony Chain Configuration
+- **Chain ID**: 36911
+- **RPC**: https://rpc.sparklepony.xyz or https://api.sparklepony.xyz
+- **Explorer**: https://explore.sparklepony.xyz
+- **Website**: https://sparklepony.xyz
+- **DID Methods**: did:sparkle, did:spc, did:sparklepony (all three reserved)
 
 ### MIGA Token
 | Network | Address |
@@ -119,21 +129,22 @@ Source: `/Users/z/work/hanzo/ui/app/lib/contracts.ts`
 - Stake-based pricing: 10-100K tokens based on name length
 
 ### DID Methods by Network
-| Network | Chain ID | DID Method | Example |
-|---------|----------|------------|---------|
+| Network | Chain ID | DID Method(s) | Example |
+|---------|----------|---------------|---------|
 | **Pars** | 494949 | `did:pars` | `did:pars:0x1234...abcd` |
-| **Hanzo** | 36963 | `did:ai` | `did:ai:0x5678...efgh` |
-| **Lux** | 96369 | `did:lux` | `did:lux:0x9abc...ijkl` |
-| **Zoo** | 200200 | `did:zoo` | `did:zoo:0xdef0...mnop` |
+| **Sparkle Pony** | 36911 | `did:sparkle`, `did:spc`, `did:sparklepony` | `did:sparkle:0x5678...efgh` |
+| **Hanzo** | 36963 | `did:ai`, `did:hanzo` | `did:ai:0x9abc...ijkl` |
+| **Lux** | 96369 | `did:lux` | `did:lux:0xdef0...mnop` |
+| **Zoo** | 200200 | `did:zoo` | `did:zoo:0x1234...qrst` |
 
 ### Identity Sites
 | Domain | Network | Location | Status |
 |--------|---------|----------|--------|
 | pars.id / pars.network/id | Pars (494949) | `/Users/z/work/pars.network` | ✅ Live |
+| sparklepony.xyz/id | Sparkle Pony (36911) | TBD | ⚠️ Planned |
 | hanzo.id | Hanzo (36963) | `/Users/z/work/hanzo/hanzo.id` | ✅ Exists |
 | lux.id | Lux (96369) | `/Users/z/work/lux/apps/id` | ✅ Exists |
 | zoo.id | Zoo (200200) | `/Users/z/work/zoo/zoo/apps` | ✅ Created |
-| sparklepony.xyz/id | Pars Alt (494949) | `/Users/z/work/pars.network` | ✅ CNAME |
 
 ## FHE Integration (LuxFHE)
 Location: `/Users/z/work/luxfhe`
@@ -159,10 +170,13 @@ Location: `/Users/z/work/luxfhe`
 
 ## Recent Changes (2026-01-25)
 - **Pars Network corrected to chain ID 494949** (not 6133)
-- Added Sparkle Pony (SPC) as alternate RPC at rpc.sparklepony.xyz
+- **Sparkle Pony Chain added as separate network (chain ID 36911)**
+  - SPC reserves three DID methods: did:sparkle, did:spc, did:sparklepony
+  - RPC endpoint: https://rpc.sparklepony.xyz
+  - Explorer: https://explore.sparklepony.xyz
 - Created comprehensive pars.network site with Next.js 15 (deployed to GitHub Pages)
 - Added /id route for pars.id identity minting
-- Updated DID methods: did:pars, did:ai (Hanzo), did:lux, did:zoo
+- Updated DID methods: did:pars, did:sparkle/spc/sparklepony, did:ai (Hanzo), did:lux, did:zoo
 - Added Hanzo Network (36963) to chain config
 - Added local development support (Anvil, chain ID 31337)
 - Updated identity service with multi-chain contract addresses
@@ -172,6 +186,8 @@ Location: `/Users/z/work/luxfhe`
 - Identified FHE infrastructure at `/Users/z/work/luxfhe`
 
 ### Git Commits (2026-01-25)
+- `df050de` feat(did): Add Sparkle Pony Chain (36911) as separate network (hanzo/rust-sdk)
+- `6e917b2` feat: Add Sparkle Pony Chain (36911) as separate network (miga/protocol)
 - `44bf7db` feat: Add Pars Network (494949) and identity service (miga/protocol)
 - `17da7dc` feat: Comprehensive site with identity minting (pars.network)
 - `74f1698` feat(did): Add Pars, Zoo, and AI DID methods (hanzo/rust-sdk)
@@ -180,6 +196,6 @@ Location: `/Users/z/work/luxfhe`
 ### DID Stack Replication Complete
 All networks now have:
 - DID method support in hanzo-did Rust crate
-- Identity minting sites deployed
+- Identity minting sites deployed (sparklepony.xyz/id planned)
 - Cross-network DID links on all sites
 - Consistent stake-based pricing model
