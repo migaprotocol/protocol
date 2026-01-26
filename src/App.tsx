@@ -16,6 +16,7 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import Risks from "./pages/Risks";
 import Vote from "./pages/Vote";
+import Identity from "./pages/Identity";
 import NotFound from "./pages/NotFound";
 
 const basename = import.meta.env.BASE_URL || '/';
@@ -36,6 +37,8 @@ const App = () => (
           <Route path="/propose" element={<Propose />} />
           <Route path="/governance" element={<Governance />} />
           <Route path="/vote" element={<Vote />} />
+          <Route path="/identity" element={<Identity />} />
+          <Route path="/identity/:network" element={<Identity />} />
           <Route path="/iran" element={<Iran />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
