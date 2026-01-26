@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { UserProfileCompact } from './UserProfile';
 
 const navLinks = [
   { label: 'Leaderboard', href: '/#leaderboard' },
@@ -75,7 +76,7 @@ export function Header() {
             ))}
           </div>
 
-          {/* Right side - Mint CTA */}
+          {/* Right side - Mint CTA + Profile */}
           <div className="hidden md:flex items-center gap-4">
             {/* Active chain indicator - LEFT of mint button */}
             <span className="text-base text-[#14F195] hidden lg:flex items-center gap-2 font-semibold">
@@ -98,6 +99,8 @@ export function Header() {
                 />
               </div>
             </Link>
+            {/* User Profile / Connect Wallet */}
+            <UserProfileCompact />
           </div>
 
           {/* Mobile Menu Button */}
