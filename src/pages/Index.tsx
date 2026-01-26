@@ -61,8 +61,13 @@ export default function Index() {
             HERO with 3D Scene
             ============================================ */}
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24">
-          {/* Background gradient */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A12] via-[#07070A] to-[#07070A]" />
+          {/* Persian night sky background */}
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: 'url(/images/persian-night-sky.jpg)' }}
+          />
+          {/* Gradient overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A12]/80 via-[#07070A]/70 to-[#07070A]" />
 
           {/* 3D Scene - Full width behind content */}
           <div className="absolute inset-0 z-0">
@@ -72,7 +77,7 @@ export default function Index() {
           {/* Content overlay */}
           <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 mb-8 backdrop-blur-sm">
-              <span className="text-sm text-[#FFD700] font-medium">Decentralized Autonomous Organization on Solana</span>
+              <span className="text-sm text-[#FFD700] font-medium">Decentralized Autonomous Organization on Pars.Network</span>
             </div>
 
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight drop-shadow-2xl">
@@ -201,7 +206,7 @@ export default function Index() {
                 {
                   icon: Eye,
                   title: 'On-Chain Transparency',
-                  desc: 'Every transaction is publicly verifiable on the Solana blockchain',
+                  desc: 'Every transaction is publicly verifiable on Pars.Network',
                 },
                 {
                   icon: Users,
@@ -261,7 +266,7 @@ export default function Index() {
                 <div className="space-y-4">
                   {[
                     { label: 'Token Name', value: 'MIGA' },
-                    { label: 'Network', value: 'Solana', badge: true },
+                    { label: 'Network', value: 'Pars.Network', badge: true },
                     { label: 'Total Supply', value: '1,000,000,000 MIGA' },
                     { label: 'Utility', value: 'Governance & Voting' },
                     { label: 'Voting Power', value: '1 MIGA = 1 Vote' },
@@ -470,16 +475,19 @@ export default function Index() {
               ))}
             </div>
 
-            {/* Why Solana */}
+            {/* Why Pars.Network */}
             <div className="p-8 rounded-3xl bg-gradient-to-r from-[#FFD700]/5 to-[#FFA500]/5 border border-[#FFD700]/20">
-              <h3 className="text-xl font-bold text-white mb-6 text-center">Why Solana?</h3>
+              <h3 className="text-xl font-bold text-white mb-6 text-center">Why Pars.Network?</h3>
+              <p className="text-gray-400 text-center mb-6 max-w-2xl mx-auto">
+                Built on Lux Network for speed and privacy. Interoperable with Solana, Ethereum, and 5 more chains.
+              </p>
               <div className="flex flex-wrap justify-center gap-4">
                 {[
-                  'Low Fees',
-                  'Fast Voting',
+                  'Near-Zero Fees',
+                  'Sub-Second Finality',
+                  'Privacy-Preserving Voting',
+                  'Multi-Chain Bridges',
                   'Global Access',
-                  'Transparent Treasury',
-                  'Real-time Governance',
                 ].map((feature) => (
                   <span key={feature} className="px-4 py-2 rounded-full bg-white/[0.04] text-sm text-gray-300">
                     {feature}
