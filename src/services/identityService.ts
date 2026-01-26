@@ -6,8 +6,15 @@ import { keccak256, toBytes, encodeFunctionData } from 'viem';
 
 // Contract addresses by chain
 const IDENTITY_CONTRACTS = {
-  // Pars Network (494949) - pars.network / sparklepony.xyz
+  // Pars Network (494949) - pars.network
   494949: {
+    registry: '', // TBD - will be deployed
+    nft: '',
+    token: '',
+  },
+  // Sparkle Pony Chain (36911) - sparklepony.xyz
+  // DID methods: did:sparkle, did:spc, did:sparklepony
+  36911: {
     registry: '', // TBD - will be deployed
     nft: '',
     token: '',
@@ -125,18 +132,33 @@ export function formatDID(address: string, chainId: number): string {
 }
 
 // Get DID method for chain
+// Sparkle Pony reserves: did:sparkle, did:spc, did:sparklepony
 export function getDIDMethodForChain(chainId: number): string {
   switch (chainId) {
-    case 494949: return 'pars';    // Pars Network
-    case 36963: return 'ai';       // Hanzo Network (AI chain)
-    case 96369: return 'lux';      // Lux Network
-    case 200200: return 'zoo';     // Zoo Network
-    case 96370: return 'pars';     // Pars testnet
-    case 36962: return 'ai';       // Hanzo testnet
-    case 96368: return 'lux';      // Lux testnet
-    case 200201: return 'zoo';     // Zoo testnet
-    case 31337: return 'dev';      // Local development
+    case 494949: return 'pars';      // Pars Network
+    case 36911: return 'sparkle';    // Sparkle Pony Chain (also: spc, sparklepony)
+    case 36963: return 'ai';         // Hanzo Network (AI chain)
+    case 96369: return 'lux';        // Lux Network
+    case 200200: return 'zoo';       // Zoo Network
+    case 96370: return 'pars';       // Pars testnet
+    case 36910: return 'sparkle';    // Sparkle Pony testnet
+    case 36962: return 'ai';         // Hanzo testnet
+    case 96368: return 'lux';        // Lux testnet
+    case 200201: return 'zoo';       // Zoo testnet
+    case 31337: return 'dev';        // Local development
     default: return `chain${chainId}`;
+  }
+}
+
+// Get all valid DID methods for a chain (including aliases)
+export function getDIDMethodsForChain(chainId: number): string[] {
+  switch (chainId) {
+    case 36911: return ['sparkle', 'spc', 'sparklepony']; // SPC reserves all three
+    case 494949: return ['pars'];
+    case 36963: return ['ai', 'hanzo'];
+    case 96369: return ['lux'];
+    case 200200: return ['zoo'];
+    default: return [getDIDMethodForChain(chainId)];
   }
 }
 

@@ -20,6 +20,7 @@ const DEPOSIT_ADDRESSES = {
   TON_MEMO: 'GEMGW3X626VA3',
   LUX: '0x14542918a9032248ef30d9bc1d57983691e3ade4',
   PARS: '0x0000000000000000000000000000000000000000', // TBD - deploy to Pars Network
+  SPC: '0x0000000000000000000000000000000000000000', // TBD - deploy to Sparkle Pony Chain
   HANZO: '0x0000000000000000000000000000000000000000', // TBD - deploy to Hanzo Network
   LOCAL: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266', // Anvil default account
 };
@@ -218,7 +219,7 @@ export const MIGA_CHAINS: ChainConfig[] = [
     id: 'SPC',
     name: 'Sparkle Pony',
     symbol: 'SPC',
-    chainId: 494949, // Same network, alternate RPC
+    chainId: 36911, // Sparkle Pony Chain
     type: 'evm',
     color: '#FF69B4',
     icon: '/images/tokens/spc.png',
@@ -227,7 +228,7 @@ export const MIGA_CHAINS: ChainConfig[] = [
     nativeAsset: 'SPC',
     decimals: 18,
     enabled: true,
-    depositAddress: DEPOSIT_ADDRESSES.PARS,
+    depositAddress: DEPOSIT_ADDRESSES.SPC,
     isRedemptionNetwork: true,
   },
   {
