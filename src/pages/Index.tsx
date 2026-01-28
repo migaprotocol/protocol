@@ -1,6 +1,9 @@
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
-import { MigaSceneLite } from '@/components/3d'
+import { MigaSceneLite, MigaMedallionModel } from '@/components/3d'
+import { Canvas } from '@react-three/fiber'
+import { Environment, OrbitControls } from '@react-three/drei'
+import { useNavigate } from 'react-router-dom'
 import {
   ArrowDown,
   Check,
@@ -45,6 +48,7 @@ import { useState } from 'react'
 export default function Index() {
   const { connected } = useWallet()
   const [copied, setCopied] = useState(false)
+  const navigate = useNavigate()
 
   const copyAddress = () => {
     navigator.clipboard.writeText('MIGAx...pending')
@@ -58,7 +62,7 @@ export default function Index() {
 
       <main>
         {/* ============================================
-            HERO with 3D Scene
+            HERO with Medallion
             ============================================ */}
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24">
           {/* Persian night sky background */}
@@ -69,14 +73,37 @@ export default function Index() {
           {/* Gradient overlay for text readability */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A12]/80 via-[#07070A]/70 to-[#07070A]" />
 
-          {/* 3D Scene - Full width behind content */}
-          <div className="absolute inset-0 z-0">
-            <MigaSceneLite />
-          </div>
-
-          {/* Content overlay */}
+          {/* Content */}
           <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 mb-8 backdrop-blur-sm">
+            {/* 3D Medallion - interactive, responsive */}
+            <div className="relative mx-auto mb-8 w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 xl:w-[28rem] xl:h-[28rem]">
+              <div className="absolute inset-0 rounded-full bg-[#FFD700]/15 blur-3xl animate-pulse" />
+              <Canvas
+                camera={{ position: [0, 2, 6], fov: 45 }}
+                gl={{ antialias: true, alpha: true }}
+              >
+                <ambientLight intensity={0.4} />
+                <directionalLight position={[5, 5, 5]} intensity={1.5} color="#FFD700" />
+                <Environment preset="city" />
+                <OrbitControls
+                  enablePan={false}
+                  enableZoom={true}
+                  enableRotate={true}
+                  minDistance={4}
+                  maxDistance={9}
+                  autoRotate
+                  autoRotateSpeed={0.5}
+                />
+                <MigaMedallionModel
+                  x={0} y={0} z={0}
+                  scale={1.8}
+                  interactive
+                  onClick={() => navigate('/mint')}
+                />
+              </Canvas>
+            </div>
+
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 mb-8">
               <span className="text-sm text-[#FFD700] font-medium">Decentralized Autonomous Organization on Pars.Network</span>
             </div>
 
@@ -96,14 +123,14 @@ export default function Index() {
               <WalletMultiButton className="!bg-gradient-to-r !from-[#FFD700] !to-[#FFA500] !text-black !font-bold !rounded-full !px-10 !py-5 hover:!shadow-xl hover:!shadow-[#FFD700]/30 !transition-all !text-lg" />
               <a
                 href="#token"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-white/20 text-white hover:bg-white/5 transition-all text-lg font-medium backdrop-blur-sm"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-white/20 text-white hover:bg-white/5 transition-all text-lg font-medium"
               >
                 View Token Details
                 <ArrowDown size={18} />
               </a>
             </div>
 
-            <div className="grid grid-cols-3 gap-8 max-w-xl mx-auto backdrop-blur-sm bg-black/20 rounded-2xl p-6">
+            <div className="grid grid-cols-3 gap-8 max-w-xl mx-auto bg-black/30 rounded-2xl p-6 border border-white/[0.06]">
               <div className="text-center">
                 <p className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">1B</p>
                 <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider">Total Supply</p>
@@ -561,6 +588,12 @@ export default function Index() {
           </div>
         </section>
       </main>
+
+      {/* 3D Scene */}
+      <section className="relative h-[80vh] overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black z-10 pointer-events-none" />
+        <MigaSceneLite />
+      </section>
 
       <Footer />
     </div>
