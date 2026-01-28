@@ -683,15 +683,15 @@ function ReflectivePool({ x = 0.5, z = 0, radius = 5 }: { x?: number; z?: number
       <circleGeometry args={[radius, 48]} />
       <MeshReflectorMaterial
         blur={[200, 100]}
-        resolution={512}
+        resolution={256}
         mixBlur={0.8}
-        mixStrength={40}
+        mixStrength={20}
         depthScale={1.5}
         minDepthThreshold={0.6}
         color="#0a1825"
         metalness={0.95}
         roughness={0.08}
-        mirror={0.95}
+        mirror={0.7}
       />
     </mesh>
   )
@@ -1085,7 +1085,7 @@ function BlackHolePortal() {
     swirlThickness: { value: 0.08, min: 0.02, max: 0.5, step: 0.01 },
     swirlOpacity: { value: 0.5, min: 0, max: 1, step: 0.1 },
     // Particle settings - smaller and tighter
-    particleCount: { value: 30, min: 20, max: 300, step: 10 },
+    particleCount: { value: 15, min: 20, max: 300, step: 10 },
     particleSize: { value: 0.12, min: 0.05, max: 1, step: 0.05 },
     particleSpeed: { value: 1.5, min: 0.5, max: 5, step: 0.5 },
   }))
@@ -1155,8 +1155,8 @@ function BlackHolePortal() {
   // Generate escaping light beams at various angles
   const beams = useMemo(() => {
     const result = []
-    for (let i = 0; i < 10; i++) {
-      const angle = (i / 10) * Math.PI * 2
+    for (let i = 0; i < 6; i++) {
+      const angle = (i / 6) * Math.PI * 2
       result.push({
         angle,
         speed: 0.8 + Math.random() * 0.4,
@@ -1249,7 +1249,7 @@ function AmbientSparkles() {
   return (
     <>
       <Sparkles
-        count={60}
+        count={30}
         scale={[10, 5, 10]}
         size={0.14}
         speed={0.35}
@@ -1257,7 +1257,7 @@ function AmbientSparkles() {
         color="#FFD700"
       />
       <Sparkles
-        count={40}
+        count={25}
         scale={[4, 3, 4]}
         size={0.16}
         speed={0.6}
@@ -1266,7 +1266,7 @@ function AmbientSparkles() {
         position={[0, 2.8, 0]}
       />
       <Sparkles
-        count={40}
+        count={25}
         scale={[8, 4, 8]}
         size={0.1}
         speed={0.3}
@@ -2200,7 +2200,7 @@ export function MigaScene({ className = '', layout = 'cinematic', onChainClick }
             toneMappingExposure: 1.2,
             outputColorSpace: THREE.SRGBColorSpace,
           }}
-          dpr={[1, Math.min(window.devicePixelRatio, isMobile ? 1 : 1.5)]}
+          dpr={[0.75, Math.min(window.devicePixelRatio, isMobile ? 0.75 : 1)]}
           camera={{ position: responsiveCamera.position, fov: responsiveCamera.fov }}
           style={{ background: 'transparent' }}
         >

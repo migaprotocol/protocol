@@ -698,36 +698,30 @@
   overflow: hidden;
 }
 
-/* Content overlay on left side */
+/* Content overlay — centered text over 3D scene */
 .hero-content-overlay {
   position: absolute;
   inset: 0;
   z-index: 20;
   display: flex;
-  /* Mobile: content at bottom */
-  align-items: flex-end;
+  align-items: center;
+  justify-content: center;
   padding-top: 60px;
   padding-bottom: 2rem;
-  /* Allow pointer events to pass through to 3D scene */
   pointer-events: none;
-  /* Mobile: gradient from bottom for readability */
-  background: linear-gradient(
-    to top,
-    rgba(7, 7, 10, 0.95) 0%,
-    rgba(7, 7, 10, 0.8) 30%,
-    rgba(7, 7, 10, 0.3) 60%,
-    transparent 80%
-  );
+  /* Radial vignette + bottom fade for readability over 3D scene */
+  background:
+    radial-gradient(ellipse at center, rgba(7, 7, 10, 0.4) 0%, rgba(7, 7, 10, 0.7) 70%, rgba(7, 7, 10, 0.9) 100%),
+    linear-gradient(to top, rgba(7, 7, 10, 0.95) 0%, transparent 40%);
 }
 
 .hero-content-overlay .hero-content {
   padding: 1.25rem;
   max-width: 100%;
-  /* Keep pointer-events none so 3D scene is clickable */
   pointer-events: none;
 }
 
-/* Only enable pointer events on interactive elements */
+/* Enable pointer events on interactive elements only */
 .hero-content-overlay .hero-content a,
 .hero-content-overlay .hero-content button {
   pointer-events: auto;
@@ -756,39 +750,16 @@
   }
 }
 
-/* Tablet and up: content on left side */
+/* Desktop: centered content with comfortable max-width */
 @media (min-width: 768px) {
   .hero-content-overlay {
-    align-items: center;
     padding-top: 80px;
     padding-bottom: 0;
-    /* Gradient from left for side layout */
-    background: linear-gradient(
-      to right,
-      rgba(7, 7, 10, 0.85) 0%,
-      rgba(7, 7, 10, 0.6) 35%,
-      rgba(7, 7, 10, 0.2) 55%,
-      transparent 70%
-    );
   }
 
   .hero-content-overlay .hero-content {
     padding: 3rem;
-    max-width: 580px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .hero-content-overlay .hero-content {
-    padding: 4rem 3rem 4rem 6rem;
-    max-width: 620px;
-  }
-}
-
-@media (min-width: 1280px) {
-  .hero-content-overlay .hero-content {
-    padding: 4rem 4rem 4rem 8rem;
-    max-width: 650px;
+    max-width: 900px;
   }
 }
 
