@@ -52,14 +52,16 @@ export function Footer() {
 
           {/* Description */}
           <p className="text-sm text-[#6B6B7B]">
-            Freedom of Information DAO on Solana
+            Freedom of Information DAO
           </p>
 
-          {/* Info */}
+          {/* Legal links */}
           <div className="flex items-center gap-4 text-sm text-[#6B6B7B]">
-            <span>Built with transparency</span>
+            <Link to="/terms" className="hover:text-[#EDEDF2] transition-colors">Terms</Link>
             <span className="text-[#3A3A45]">•</span>
-            <span>Powered by Solana</span>
+            <Link to="/privacy" className="hover:text-[#EDEDF2] transition-colors">Privacy</Link>
+            <span className="text-[#3A3A45]">•</span>
+            <Link to="/risks" className="hover:text-[#EDEDF2] transition-colors">Risks</Link>
           </div>
         </div>
 

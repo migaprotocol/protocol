@@ -146,7 +146,7 @@ export function MintPopup({ open, onClose, onSelectChain }: MintPopupProps) {
       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
 
       {/* Popup */}
-      <div className="relative w-full max-w-lg max-h-[85vh] overflow-hidden rounded-2xl bg-[#0D0D14] border border-[#FFD700]/20 shadow-2xl shadow-[#FFD700]/10">
+      <div data-testid="mint-popup" className="relative w-full max-w-lg max-h-[85vh] overflow-hidden rounded-2xl bg-[#0D0D14] border border-[#FFD700]/20 shadow-2xl shadow-[#FFD700]/10">
         {/* Header */}
         <div className="sticky top-0 z-10 bg-[#0D0D14] border-b border-white/10 px-6 py-4">
           <div className="flex items-center justify-between">
@@ -193,6 +193,7 @@ export function MintPopup({ open, onClose, onSelectChain }: MintPopupProps) {
             return (
               <button
                 key={chain.id}
+                data-testid={`mint-chain-${chain.id}`}
                 onClick={() => handleMintOnChain(chain.id)}
                 className="w-full flex items-center gap-4 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-transparent hover:border-[#FFD700]/30 transition-all group"
               >
@@ -242,8 +243,11 @@ export function MintPopup({ open, onClose, onSelectChain }: MintPopupProps) {
 
         {/* Footer */}
         <div className="sticky bottom-0 bg-[#0D0D14] border-t border-white/10 px-6 py-3">
+          <p className="text-[10px] text-amber-400/80 text-center font-medium mb-1">
+            Mint is not live yet — preview only
+          </p>
           <p className="text-[10px] text-white/30 text-center">
-            100% of funds go to DAO treasury • On-chain verifiable • 1 MIGA = 1 Vote
+            100% of funds go to DAO treasury • Proportional distribution • 1 MIGA = 1 Vote
           </p>
         </div>
       </div>

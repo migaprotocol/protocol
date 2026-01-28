@@ -9,8 +9,8 @@ const chains = [
   { name: 'Base', standard: 'ERC-20', bridge: 'Wormhole', purpose: 'Low-cost transactions', color: '#0052FF', live: false },
   { name: 'Arbitrum', standard: 'ERC-20', bridge: 'Wormhole', purpose: 'L2 scaling', color: '#28A0F0', live: false },
   { name: 'Polygon', standard: 'ERC-20', bridge: 'Wormhole', purpose: 'Mass adoption', color: '#8247E5', live: false },
-  { name: 'Lux', standard: 'ERC-20', bridge: 'Lux Bridge', purpose: 'Privacy features', color: '#C9A227', live: false },
-  { name: 'Bitcoin', standard: 'Runes', bridge: 'Zeus Network', purpose: 'Store of value', color: '#F7931A', live: false },
+  { name: 'Pars Network', standard: 'ERC-20', bridge: 'Native Bridge', purpose: 'Privacy & governance', color: '#C9A227', live: false },
+  { name: 'Bitcoin', standard: 'Native', bridge: 'HD Wallet', purpose: 'Store of value', color: '#F7931A', live: false },
 ];
 
 const governanceTokens = [
@@ -283,27 +283,27 @@ export default function Token() {
             <div className="card rounded-xl p-6">
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-base font-medium mb-2">Wormhole Integration</h3>
-                  <p className="text-sm text-white/50 mb-3">Primary bridge protocol for Solana to EVM chains:</p>
+                  <h3 className="text-base font-medium mb-2">EVM Bridges</h3>
+                  <p className="text-sm text-white/50 mb-3">Cross-chain bridges connect EVM networks:</p>
                   <div className="bg-white/5 rounded-lg p-4 font-mono text-xs text-white/60 overflow-x-auto">
-                    <pre>{`Solana (SPL) --> Wormhole --> Ethereum (wMIGA)
+                    <pre>{`Solana (SPL) --> Bridge --> Ethereum (wMIGA)
                          --> Base (wMIGA)
                          --> Arbitrum (wMIGA)
                          --> Polygon (wMIGA)`}</pre>
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-base font-medium mb-2">Lux Bridge</h3>
-                  <p className="text-sm text-white/50 mb-3">For Ethereum to Lux (privacy features):</p>
+                  <h3 className="text-base font-medium mb-2">Pars Network Bridge</h3>
+                  <p className="text-sm text-white/50 mb-3">Native bridge to Pars Network for privacy and governance:</p>
                   <div className="bg-white/5 rounded-lg p-4 font-mono text-xs text-white/60">
-                    Ethereum → Lux Bridge → Lux (wMIGA)
+                    EVM Chains → Native Bridge → Pars Network (MIGA)
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-base font-medium mb-2">Bitcoin Integration (Planned)</h3>
-                  <p className="text-sm text-white/50 mb-3">Via Zeus Network for Runes/BRC-20:</p>
+                  <h3 className="text-base font-medium mb-2">Bitcoin Integration</h3>
+                  <p className="text-sm text-white/50 mb-3">Native Bitcoin support via HD wallet derivation:</p>
                   <div className="bg-white/5 rounded-lg p-4 font-mono text-xs text-white/60">
-                    Bitcoin (Runes) ↔ Zeus Network ↔ Solana (SPL)
+                    Bitcoin (BTC) → Unique Deposit Address → DAO Treasury
                   </div>
                 </div>
               </div>
