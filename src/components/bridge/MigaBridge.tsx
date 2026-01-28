@@ -309,22 +309,20 @@ export function MigaBridge({ className = '', compact = false, defaultChain = 'SO
         {/* Security Badge */}
         <div className="flex items-center justify-center gap-2 text-xs text-neutral-400">
           <Shield size={14} className="text-emerald-500" />
-          <span>Secured by {MIGA_DAO_WALLET.threshold}-of-{MIGA_DAO_WALLET.signers} Utila MPC</span>
+          <span>Multi-sig secured treasury ({MIGA_DAO_WALLET.threshold}-of-{MIGA_DAO_WALLET.signers})</span>
         </div>
       </div>
 
-      {/* Footer with Lux Bridge link */}
+      {/* Footer */}
       {!compact && (
         <div className="p-4 border-t border-neutral-800">
-          <a
-            href="https://bridge.lux.network"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-gold/10 border border-gold/20 rounded-lg text-gold hover:bg-gold/20 transition-colors text-sm font-medium"
-          >
-            <ArrowRight size={16} />
-            Use Lux Bridge for Cross-Chain Swaps
-          </a>
+          <div className="flex items-center justify-center gap-4 text-[10px] text-neutral-500">
+            <a href="/terms" className="hover:text-neutral-300 transition-colors">Terms</a>
+            <span>|</span>
+            <a href="/privacy" className="hover:text-neutral-300 transition-colors">Privacy</a>
+            <span>|</span>
+            <a href="/risks" className="hover:text-neutral-300 transition-colors">Risks</a>
+          </div>
         </div>
       )}
     </div>

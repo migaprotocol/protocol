@@ -98,13 +98,13 @@ export default function Risks() {
 
             <h2>3. Protocol-Specific Risks</h2>
 
-            <h3>3.1 Bonding Curve Risks</h3>
-            <p>The MIGA bonding curve mechanism involves specific risks:</p>
+            <h3>3.1 Token Distribution Risks</h3>
+            <p>The MIGA mint process involves specific risks:</p>
             <ul>
-              <li>Early participants may have lower entry prices than later participants</li>
-              <li>Selling pressure can affect price discovery</li>
-              <li>Slippage may occur on large transactions</li>
-              <li>The curve cannot be reversed or modified once deployed</li>
+              <li>Token distribution is proportional to contributions at mint close</li>
+              <li>The value of contributed assets may fluctuate before distribution</li>
+              <li>Chain Leaderboard rankings affect relative allocations</li>
+              <li>Mint parameters are set by governance and cannot be reversed</li>
             </ul>
 
             <h3>3.2 Governance Risks</h3>
@@ -121,28 +121,23 @@ export default function Risks() {
 
             <h3>3.3 Multi-Chain Risks</h3>
             <p>
-              MIGA operates across seven blockchain networks, each with unique risks:
+              MIGA accepts contributions across 7+ blockchain networks, each with unique risks:
             </p>
             <ul>
-              <li><strong>Solana:</strong> Network congestion, validator concentration</li>
+              <li><strong>Bitcoin:</strong> Irreversible transactions, longer confirmation times</li>
               <li><strong>Ethereum:</strong> High gas fees, MEV exposure</li>
-              <li><strong>Base/Arbitrum/Polygon:</strong> L2 sequencer risks, bridge dependencies</li>
-              <li><strong>Lux:</strong> Newer network, smaller validator set</li>
-              <li><strong>Bitcoin (Runes):</strong> Experimental standard, limited tooling</li>
+              <li><strong>EVM L2s (Base, Optimism, Arbitrum):</strong> Sequencer risks, bridge dependencies</li>
+              <li><strong>Solana:</strong> Network congestion, validator concentration</li>
+              <li><strong>XRP / TON:</strong> Memo requirements — missing memo results in lost funds</li>
+              <li><strong>Pars Network:</strong> New network, evolving validator set</li>
             </ul>
 
             <h3>3.4 Bridge Risks</h3>
             <p>
-              Cross-chain bridges are historically high-risk components in DeFi:
-            </p>
-            <ul>
-              <li><strong>Wormhole:</strong> Has experienced exploits in the past</li>
-              <li><strong>Lux Bridge:</strong> Dependent on validator security</li>
-              <li><strong>Zeus Network:</strong> Newer technology with limited track record</li>
-            </ul>
-            <p>
-              Bridge failures can result in loss of bridged assets, inability to transfer tokens,
-              or price discrepancies between chains.
+              Cross-chain bridges are historically high-risk components in DeFi. Bridge failures
+              can result in loss of bridged assets, inability to transfer tokens, or price
+              discrepancies between chains. All bridge infrastructure used by MIGA undergoes
+              security review, but no bridge is risk-free.
             </p>
 
             <h2>4. Regulatory and Legal Risks</h2>
@@ -226,10 +221,10 @@ export default function Risks() {
               <li>Yield strategies carry their own DeFi risks</li>
             </ul>
 
-            <h3>6.2 Program Token Risks</h3>
+            <h3>6.2 Program Risks</h3>
             <p>
-              Each of the ten DAO program tokens (AMN, KHAZ, DAD, etc.) carries specific risks
-              related to their domain and investment strategies. Research each program before
+              Each funded program carries specific risks related to its domain, jurisdiction,
+              and implementation. Research each program and its governance proposals before
               participating.
             </p>
 

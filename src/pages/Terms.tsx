@@ -37,13 +37,40 @@ export default function Terms() {
               you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these
               Terms, do not use the Services.
             </p>
+
+            <h2>2. Nature of the Protocol</h2>
+
+            <h3>2.1 Decentralized Autonomous Organization</h3>
             <p>
-              The Protocol is operated by MIGA Foundation, a decentralized autonomous organization.
-              These Terms constitute a legally binding agreement between you and the Protocol's
-              governance participants.
+              MIGA is a decentralized on-chain DAO owned by no single person or entity. The DAO is
+              governed by its token holders through on-chain voting. During the initial fundraise
+              period, governance and fund distribution for humanitarian causes is facilitated through
+              infrastructure provided by supporting organizations.
             </p>
 
-            <h2>2. Eligibility</h2>
+            <h3>2.2 Non-Custodial</h3>
+            <p>
+              The Protocol is entirely non-custodial. No entity has custody of your wallet or the
+              funds you send. All contributions are sent directly to on-chain multi-signature
+              treasury addresses. No intermediary takes custody of funds at any point.
+            </p>
+
+            <h3>2.3 Humanitarian Purpose</h3>
+            <p>
+              MIGA exists to fund anti-censorship technology, independent media, and cultural
+              expression for the people of Iran. 100% of contributed funds (less blockchain
+              processing fees) go to the DAO multi-sig treasury. No fees are taken by any party.
+              This is a humanitarian effort.
+            </p>
+
+            <h3>2.4 Tax Deductibility</h3>
+            <p>
+              Contributions to the MIGA DAO may qualify as tax-deductible charitable donations
+              depending on your jurisdiction. Consult with a qualified tax professional regarding
+              the deductibility of your contribution. The Protocol does not provide tax advice.
+            </p>
+
+            <h2>3. Eligibility</h2>
             <p>
               You must be at least 18 years old and capable of forming a binding contract to use the
               Services. By using the Services, you represent and warrant that:
@@ -51,115 +78,111 @@ export default function Terms() {
             <ul>
               <li>You are at least 18 years of age</li>
               <li>You have the legal capacity to enter into these Terms</li>
-              <li>You are not located in, or a citizen/resident of, any jurisdiction where use of the Services would be illegal or prohibited</li>
+              <li>You are not located in, or a citizen or resident of, any Restricted Jurisdiction (see Section 4)</li>
               <li>You are not subject to any sanctions or listed on any prohibited party lists</li>
               <li>Your use of the Services does not violate any applicable laws or regulations</li>
             </ul>
 
-            <h2>3. Nature of the Protocol</h2>
-            <h3>3.1 Decentralized Infrastructure</h3>
+            <h2>4. Restricted Jurisdictions</h2>
             <p>
-              MIGA is a decentralized protocol that operates on multiple blockchain networks. The Protocol
-              consists of smart contracts deployed across Solana, Ethereum, Base, Arbitrum, Polygon, Lux,
-              and Bitcoin (via Runes). No single entity controls the Protocol.
-            </p>
-
-            <h3>3.2 Non-Custodial</h3>
-            <p>
-              The Protocol is entirely non-custodial. You maintain complete control over your digital
-              assets at all times. The Protocol does not have access to, control over, or custody of
-              your assets, private keys, or funds.
-            </p>
-
-            <h3>3.3 Governance</h3>
-            <p>
-              Protocol governance is conducted through on-chain voting mechanisms. PARS and vePARS token
-              holders have the ability to propose and vote on changes to Protocol parameters, treasury
-              allocations, and other governance matters.
-            </p>
-
-            <h2>4. Services Description</h2>
-            <p>The Protocol provides the following services:</p>
-            <ul>
-              <li><strong>Token Operations</strong>: Acquisition and transfer of MIGA tokens via bonding curves and DEX liquidity pools</li>
-              <li><strong>Governance</strong>: Participation in DAO governance through PARS and vePARS tokens</li>
-              <li><strong>Cross-Chain Bridges</strong>: Transfer of tokens between supported blockchain networks</li>
-              <li><strong>Treasury Participation</strong>: Access to DAO-governed treasury programs</li>
-              <li><strong>Community Features</strong>: Chapter participation, proposal submission, and voting</li>
-            </ul>
-
-            <h2>5. Risks and Disclaimers</h2>
-            <h3>5.1 Blockchain Risks</h3>
-            <p>
-              Using blockchain technology involves inherent risks including but not limited to:
+              The Services are <strong>not available</strong> to persons located in, incorporated in,
+              or citizens of the following jurisdictions ("Restricted Jurisdictions"):
             </p>
             <ul>
-              <li>Smart contract vulnerabilities and exploits</li>
-              <li>Blockchain network congestion and failures</li>
-              <li>Private key loss resulting in permanent loss of assets</li>
-              <li>Regulatory changes affecting blockchain operations</li>
-              <li>Bridge failures or security breaches</li>
+              <li><strong>Iran</strong> (Islamic Republic of Iran)</li>
+              <li><strong>North Korea</strong> (Democratic People's Republic of Korea)</li>
+              <li><strong>Cuba</strong></li>
+              <li><strong>Syria</strong></li>
+              <li><strong>Russia</strong></li>
+              <li><strong>Belarus</strong></li>
+              <li><strong>Myanmar</strong> (Burma)</li>
+              <li><strong>Venezuela</strong></li>
+              <li><strong>Zimbabwe</strong></li>
+              <li><strong>Sudan</strong></li>
+              <li><strong>South Sudan</strong></li>
+              <li><strong>Somalia</strong></li>
+              <li><strong>Libya</strong></li>
+              <li><strong>Yemen</strong></li>
+              <li>The <strong>Crimea</strong>, <strong>Donetsk</strong>, and <strong>Luhansk</strong> regions of Ukraine</li>
             </ul>
-
-            <h3>5.2 Financial Risks</h3>
             <p>
-              Digital assets are highly volatile. The value of MIGA tokens and other digital assets
-              can fluctuate significantly. You should not invest more than you can afford to lose.
-              Past performance does not indicate future results.
+              This list reflects jurisdictions subject to comprehensive sanctions by the United States
+              (OFAC), European Union, and United Nations. It may be updated as sanctions regimes change.
+            </p>
+            <p>
+              <strong>Note regarding Iran:</strong> While MIGA's mission is to support the Iranian people's
+              access to information and culture, US sanctions law prohibits financial transactions
+              with persons in Iran. The DAO's funded programs operate outside Iran and serve the
+              global Iranian diaspora and civil society organizations that provide tools and resources
+              accessible to Iranians.
             </p>
 
-            <h3>5.3 No Financial Advice</h3>
+            <h2>5. Token Distribution</h2>
+            <h3>5.1 Proportional Allocation</h3>
             <p>
-              Nothing in the Services constitutes financial, investment, legal, or tax advice.
-              You should consult with qualified professionals before making any financial decisions.
+              MIGA tokens are distributed proportionally based on the total value contributed through
+              each supported chain at mint time. The Chain Leaderboard tracks contributions by network.
+              Final distribution ratios are determined at the close of each mint phase.
             </p>
 
-            <h2>6. Prohibited Activities</h2>
+            <h3>5.2 No Investment Contract</h3>
+            <p>
+              MIGA tokens are governance tokens that grant voting power in the DAO (1 MIGA = 1 Vote).
+              They are not securities, investment contracts, or financial instruments. MIGA tokens
+              do not represent equity, debt, or any claim to profits or revenue.
+            </p>
+
+            <h3>5.3 Fair Launch</h3>
+            <p>
+              There is no founders allocation, no VC allocation, and no hidden wallets. 100% of the
+              token supply is distributed to contributors through the public mint process.
+            </p>
+
+            <h2>6. DAO Governance</h2>
+            <p>
+              MIGA token holders participate in governance through on-chain voting. Governance decisions
+              include treasury allocations, grant proposals, and protocol parameters. All governance
+              actions are executed by smart contracts and recorded on-chain.
+            </p>
+
+            <h2>7. Risks and Disclaimers</h2>
+            <p>
+              Using blockchain technology involves inherent risks including smart contract vulnerabilities,
+              blockchain network failures, private key loss, and regulatory changes. Digital assets are
+              highly volatile. You should not contribute more than you can afford to lose. See our
+              <a href="/risks">Risk Disclosure</a> for comprehensive information.
+            </p>
+
+            <h2>8. Prohibited Activities</h2>
             <p>You agree not to:</p>
             <ul>
+              <li>Use the Services from a Restricted Jurisdiction</li>
               <li>Use the Services for any illegal purpose or in violation of any laws</li>
-              <li>Attempt to exploit, hack, or compromise the Protocol's smart contracts</li>
-              <li>Engage in market manipulation or fraudulent trading activities</li>
+              <li>Attempt to exploit or compromise the Protocol's smart contracts</li>
               <li>Use the Services to launder money or finance terrorism</li>
+              <li>Misrepresent your identity or jurisdiction</li>
               <li>Interfere with or disrupt the Protocol's infrastructure</li>
-              <li>Violate the intellectual property rights of others</li>
-              <li>Use automated systems to abuse or exploit the Services</li>
             </ul>
 
-            <h2>7. Intellectual Property</h2>
+            <h2>9. Intellectual Property</h2>
             <p>
-              The Protocol's smart contracts are open source and available under their respective licenses.
-              The MIGA brand, logos, and website content are owned by the MIGA Foundation and contributors.
-              You may not use MIGA trademarks without prior written permission.
-            </p>
-
-            <h2>8. Privacy</h2>
-            <p>
-              Your use of the Services is also governed by our <a href="/privacy">Privacy Policy</a>.
-              Please review the Privacy Policy to understand our practices regarding data collection
-              and use.
-            </p>
-
-            <h2>9. Indemnification</h2>
-            <p>
-              You agree to indemnify, defend, and hold harmless the MIGA Foundation, its contributors,
-              DAO participants, and affiliates from any claims, damages, losses, or expenses arising
-              from your use of the Services or violation of these Terms.
+              The Protocol's smart contracts are open source. The MIGA brand, logos, and website content
+              are owned by the MIGA DAO and its contributors.
             </p>
 
             <h2>10. Limitation of Liability</h2>
             <p>
-              TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE PROTOCOL AND ITS CONTRIBUTORS SHALL NOT BE
-              LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES,
-              INCLUDING LOSS OF PROFITS, DATA, OR DIGITAL ASSETS, REGARDLESS OF THE CAUSE OF ACTION
-              OR THE THEORY OF LIABILITY.
+              TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE PROTOCOL, ITS CONTRIBUTORS, GOVERNANCE
+              PARTICIPANTS, AND SUPPORTING ORGANIZATIONS SHALL NOT BE LIABLE FOR ANY INDIRECT,
+              INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING LOSS OF PROFITS,
+              DATA, OR DIGITAL ASSETS.
             </p>
 
-            <h2>11. Dispute Resolution</h2>
+            <h2>11. Indemnification</h2>
             <p>
-              Any disputes arising from these Terms or your use of the Services shall be resolved
-              through binding arbitration in accordance with the rules of the International Chamber
-              of Commerce. The arbitration shall be conducted in English.
+              You agree to indemnify, defend, and hold harmless the MIGA DAO, its contributors,
+              governance participants, and supporting organizations from any claims, damages, losses,
+              or expenses arising from your use of the Services or violation of these Terms.
             </p>
 
             <h2>12. Modifications</h2>
@@ -177,7 +200,7 @@ export default function Terms() {
 
             <h2>14. Contact</h2>
             <p>
-              For questions about these Terms, please reach out through our community channels:
+              For questions about these Terms:
             </p>
             <ul>
               <li>Discord: <a href="https://discord.gg/miga" target="_blank" rel="noopener noreferrer">discord.gg/miga</a></li>

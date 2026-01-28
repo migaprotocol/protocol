@@ -130,6 +130,7 @@ export default function Index() {
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
               <button
+                data-testid="mint-button-hero"
                 onClick={() => setMintOpen(true)}
                 className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold rounded-full px-10 py-5 hover:shadow-xl hover:shadow-[#FFD700]/30 transition-all text-lg cursor-pointer"
               >
@@ -263,6 +264,11 @@ export default function Index() {
                   icon: Shield,
                   title: 'Freedom Infrastructure',
                   desc: 'Supporting tools for free information flow in Iran',
+                },
+                {
+                  icon: Lock,
+                  title: 'Censorship Resistant',
+                  desc: 'No single entity can shut down, freeze, or censor the DAO or its treasury',
                 },
               ].map((item) => (
                 <div key={item.title} className="p-8 rounded-3xl bg-white/[0.02] border border-white/[0.06] hover:border-[#FFD700]/30 transition-all">
@@ -518,15 +524,22 @@ export default function Index() {
 
             {/* Why Pars.Network */}
             <div className="p-8 rounded-3xl bg-gradient-to-r from-[#FFD700]/5 to-[#FFA500]/5 border border-[#FFD700]/20">
-              <h3 className="text-xl font-bold text-white mb-6 text-center">Why Pars.Network?</h3>
+              <h3 className="text-xl font-bold text-white mb-6 text-center">
+                Why{' '}
+                <a href="https://pars.network" target="_blank" rel="noopener noreferrer" className="text-[#FFD700] hover:underline">
+                  Pars Network
+                </a>
+                ?
+              </h3>
               <p className="text-gray-400 text-center mb-6 max-w-2xl mx-auto">
-                Built on Lux Network for speed and privacy. Interoperable with Solana, Ethereum, and 5 more chains.
+                A sovereign, privacy-first blockchain designed for communities under censorship. Quantum-safe encryption, private governance, and interoperability with 7+ chains.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 {[
                   'Near-Zero Fees',
                   'Sub-Second Finality',
-                  'Privacy-Preserving Voting',
+                  'Quantum-Safe Encryption',
+                  'Private Voting',
                   'Multi-Chain Bridges',
                   'Global Access',
                 ].map((feature) => (
@@ -571,6 +584,7 @@ export default function Index() {
             </div>
 
             <button
+              data-testid="mint-button-footer"
               onClick={() => setMintOpen(true)}
               className="inline-flex items-center justify-center gap-2 px-12 py-5 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold rounded-full hover:shadow-xl hover:shadow-[#FFD700]/30 transition-all text-xl cursor-pointer"
             >

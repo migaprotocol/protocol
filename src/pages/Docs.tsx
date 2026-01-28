@@ -176,8 +176,8 @@ export default function Docs() {
                 <tr><td>Base</td><td>ERC-20</td><td>Wormhole</td><td>Low-cost transactions</td></tr>
                 <tr><td>Arbitrum</td><td>ERC-20</td><td>Wormhole</td><td>L2 scaling</td></tr>
                 <tr><td>Polygon</td><td>ERC-20</td><td>Wormhole</td><td>Mass adoption</td></tr>
-                <tr><td>Lux</td><td>ERC-20</td><td>Lux Bridge</td><td>Privacy features</td></tr>
-                <tr><td>Bitcoin</td><td>Runes</td><td>Zeus Network</td><td>Store of value</td></tr>
+                <tr><td>Pars Network</td><td>ERC-20</td><td>Native Bridge</td><td>Privacy & governance</td></tr>
+                <tr><td>Bitcoin</td><td>Native</td><td>HD Wallet</td><td>Store of value</td></tr>
               </tbody>
             </table>
 
@@ -242,7 +242,7 @@ export default function Docs() {
 
             <h2 id="ten-daos">The Ten DAOs: Specialized Pillars</h2>
             <p>
-              The DAO layer operates on EVM (Ethereum/Lux) while the token remains native on Solana:
+              The DAO layer operates on EVM (Ethereum/Pars Network) while the token remains native on Solana:
             </p>
             <table>
               <thead>
@@ -310,16 +310,16 @@ export default function Docs() {
                          --> Polygon (wMIGA)`}
             </pre>
 
-            <h3>Lux Bridge</h3>
-            <p>For Ethereum to Lux (privacy features):</p>
+            <h3>Pars Network Bridge</h3>
+            <p>Native bridge to Pars Network for privacy and governance:</p>
             <pre className="text-xs bg-white/5 p-4 rounded overflow-x-auto">
-{`Ethereum --> Lux Bridge --> Lux (wMIGA)`}
+{`EVM Chains --> Native Bridge --> Pars Network (MIGA)`}
             </pre>
 
-            <h3>Bitcoin Integration (Planned)</h3>
-            <p>Via Zeus Network for Runes/BRC-20:</p>
+            <h3>Bitcoin Integration</h3>
+            <p>Native Bitcoin support via HD wallet derivation:</p>
             <pre className="text-xs bg-white/5 p-4 rounded overflow-x-auto">
-{`Bitcoin (Runes) <--> Zeus Network <--> Solana (SPL)`}
+{`Bitcoin (BTC) --> Unique Deposit Address --> DAO Treasury`}
             </pre>
 
             <h2 id="shariah">Shariah Compliance Framework</h2>
@@ -479,19 +479,19 @@ export default function Docs() {
 
             <h2 id="privacy">Privacy & Security</h2>
 
-            <h3>Multi-Chain Privacy Stack</h3>
+            <h3>Pars Network Privacy Stack</h3>
             <table>
               <thead>
                 <tr>
-                  <th>Chain</th>
+                  <th>Layer</th>
                   <th>Function</th>
                 </tr>
               </thead>
               <tbody>
-                <tr><td>C-Chain (Lux)</td><td>Public governance, receipts</td></tr>
-                <tr><td>T-Chain (Lux)</td><td>Private voting (TFHE), threshold ops</td></tr>
-                <tr><td>Z-Chain (Lux)</td><td>Shielded treasury + FHE private compute</td></tr>
-                <tr><td>Q-Chain (Lux)</td><td>Post-quantum communications (ML-KEM)</td></tr>
+                <tr><td>EVM Layer</td><td>Public governance, receipts, smart contracts</td></tr>
+                <tr><td>Privacy Layer</td><td>Private voting (TFHE), threshold operations</td></tr>
+                <tr><td>Shielded Layer</td><td>Shielded treasury + FHE private compute</td></tr>
+                <tr><td>Session Layer</td><td>Post-quantum communications (ML-KEM)</td></tr>
               </tbody>
             </table>
 
@@ -511,7 +511,7 @@ export default function Docs() {
             </table>
 
             <h3>Post-Quantum Security</h3>
-            <p>Hybrid cryptography via Lux Network (ML-DSA, Ringtail, FHE):</p>
+            <p>Hybrid cryptography via Pars Network (ML-DSA, Ringtail, FHE):</p>
             <ul>
               <li><strong>Key Exchange</strong>: X25519 + ML-KEM-768</li>
               <li><strong>Signatures</strong>: Ed25519 + ML-DSA-65 (Ringtail)</li>

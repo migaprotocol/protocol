@@ -27,7 +27,7 @@ const features = [
   {
     icon: Shield,
     title: '3-of-5 MPC Security',
-    description: 'All funds are secured by Utila MPC with 3-of-5 DAO signers required for any transaction.',
+    description: 'All funds are secured by multi-sig with 3-of-5 DAO signers required for any transaction.',
   },
   {
     icon: Users,
@@ -150,7 +150,7 @@ export default function Mint() {
                 <div className="flex items-start gap-3">
                   <Shield className="text-emerald-500 mt-0.5" size={20} />
                   <div>
-                    <p className="text-sm font-medium text-emerald-400 mb-1">Secured by Utila MPC</p>
+                    <p className="text-sm font-medium text-emerald-400 mb-1">Multi-sig secured</p>
                     <p className="text-xs text-emerald-300/70">
                       All treasury operations require {MIGA_DAO_WALLET.threshold} of {MIGA_DAO_WALLET.signers} DAO
                       signers. No single point of failure.
