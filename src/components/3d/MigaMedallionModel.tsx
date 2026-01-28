@@ -127,13 +127,13 @@ export function MigaMedallionModel({
         onClick={handleClick}
       >
         <primitive object={clonedScene} />
-        {/* Primary golden glow */}
+        {/* Primary golden glow — consolidated from 6 lights to 2 */}
         <pointLight
           ref={glowRef}
           position={[0, 0, 0]}
           intensity={6}
           color="#FFD700"
-          distance={15}
+          distance={12}
           decay={2}
         />
         {/* Warm accent from below */}
@@ -142,36 +142,6 @@ export function MigaMedallionModel({
           intensity={2}
           color="#FF9900"
           distance={6}
-          decay={2}
-        />
-        {/* Subtle cool accent for contrast */}
-        <pointLight
-          position={[0.4, 0.2, -0.3]}
-          intensity={0.8}
-          color="#7C3AED"
-          distance={4}
-          decay={2}
-        />
-        {/* Additional reflection accent lights */}
-        <pointLight
-          position={[1.2, 0.5, 0.8]}
-          intensity={1.2}
-          color="#FFD700"
-          distance={5}
-          decay={2}
-        />
-        <pointLight
-          position={[-0.8, 0.3, 0.6]}
-          intensity={1.0}
-          color="#FFA500"
-          distance={4}
-          decay={2}
-        />
-        <pointLight
-          position={[0, -0.2, 1.0]}
-          intensity={0.8}
-          color="#E8D5B5"
-          distance={4}
           decay={2}
         />
       </group>
