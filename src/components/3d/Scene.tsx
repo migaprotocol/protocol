@@ -177,9 +177,9 @@ function ChainCoin({
   }
 
   const handleClick = () => {
-    onClick?.(chain)
-    // Navigate to mint page internally
-    if (chain.mintUrl) {
+    if (onClick) {
+      onClick(chain)
+    } else if (chain.mintUrl) {
       window.location.href = chain.mintUrl
     }
   }
@@ -1734,8 +1734,9 @@ type LayoutPreset = {
 }
 
 // Main scene content
-function SceneContent({ onChainHover, layoutPreset }: {
+function SceneContent({ onChainHover, onChainClick, layoutPreset }: {
   onChainHover?: (chain: ChainData | null) => void
+  onChainClick?: (chain: ChainData) => void
   layoutPreset?: LayoutPreset
 }) {
   // Use layout preset values as defaults, allow Leva overrides
@@ -1882,6 +1883,7 @@ function SceneContent({ onChainHover, layoutPreset }: {
                 chain={chain}
                 index={i}
                 onHover={onChainHover}
+                onClick={onChainClick}
                 coinSettings={{
                   radius: coinRadius,
                   thickness: coinThickness,
@@ -1965,9 +1967,10 @@ const LAYOUT_PRESETS: Record<SceneLayout, {
 interface MigaSceneProps {
   className?: string
   layout?: SceneLayout
+  onChainClick?: (chain: ChainData) => void
 }
 
-export function MigaScene({ className = '', layout = 'cinematic' }: MigaSceneProps) {
+export function MigaScene({ className = '', layout = 'cinematic', onChainClick }: MigaSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const [isModelLoaded, setIsModelLoaded] = useState(false)
@@ -2322,7 +2325,7 @@ export function MigaScene({ className = '', layout = 'cinematic' }: MigaScenePro
           style={{ background: 'transparent' }}
         >
           <Suspense fallback={<Loader />}>
-            <SceneContent onChainHover={setHoveredChain} layoutPreset={LAYOUT_PRESETS[layout]} />
+            <SceneContent onChainHover={setHoveredChain} onChainClick={onChainClick} layoutPreset={LAYOUT_PRESETS[layout]} />
           </Suspense>
         </Canvas>
       </div>
@@ -2330,8 +2333,8 @@ export function MigaScene({ className = '', layout = 'cinematic' }: MigaScenePro
   )
 }
 
-export function MigaSceneLite({ className = '', layout = 'cinematic' }: { className?: string; layout?: SceneLayout }) {
-  return <MigaScene className={className} layout={layout} />
+export function MigaSceneLite({ className = '', layout = 'cinematic', onChainClick }: { className?: string; layout?: SceneLayout; onChainClick?: (chain: ChainData) => void }) {
+  return <MigaScene className={className} layout={layout} onChainClick={onChainClick} />
 }
 
 export default MigaScene
