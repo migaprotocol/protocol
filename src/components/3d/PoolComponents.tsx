@@ -10,15 +10,15 @@ export function ReflectivePool({ x = 0.5, z = 0, radius = 5 }: { x?: number; z?:
       <circleGeometry args={[radius, 48]} />
       <MeshReflectorMaterial
         blur={[200, 100]}
-        resolution={512}
+        resolution={256}
         mixBlur={0.8}
-        mixStrength={40}
+        mixStrength={20}
         depthScale={1.5}
         minDepthThreshold={0.6}
         color="#0a1825"
         metalness={0.95}
         roughness={0.08}
-        mirror={0.95}
+        mirror={0.7}
       />
     </mesh>
   )

@@ -127,7 +127,7 @@ export function BlackHolePortal() {
     swirlThickness: { value: 0.08, min: 0.02, max: 0.5, step: 0.01 },
     swirlOpacity: { value: 0.5, min: 0, max: 1, step: 0.1 },
     // Particle settings - smaller and tighter
-    particleCount: { value: 30, min: 20, max: 300, step: 10 },
+    particleCount: { value: 15, min: 10, max: 300, step: 10 },
     particleSize: { value: 0.12, min: 0.05, max: 1, step: 0.05 },
     particleSpeed: { value: 1.5, min: 0.5, max: 5, step: 0.5 },
   }))
@@ -197,8 +197,8 @@ export function BlackHolePortal() {
   // Generate escaping light beams at various angles
   const beams = useMemo(() => {
     const result = []
-    for (let i = 0; i < 10; i++) {
-      const angle = (i / 10) * Math.PI * 2
+    for (let i = 0; i < 6; i++) {
+      const angle = (i / 6) * Math.PI * 2
       result.push({
         angle,
         speed: 0.8 + Math.random() * 0.4,

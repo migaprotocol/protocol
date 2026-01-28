@@ -1,8 +1,6 @@
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
-import { MigaSceneLite, MigaMedallionModel } from '@/components/3d'
-import { Canvas } from '@react-three/fiber'
-import { Environment, OrbitControls } from '@react-three/drei'
+import { MigaSceneLite } from '@/components/3d'
 import {
   ArrowDown,
   Check,
@@ -35,58 +33,10 @@ import {
   Users2,
   AlertTriangle,
 } from 'lucide-react'
-import { useState, useCallback, useEffect, useRef } from 'react'
+import { useState, useCallback } from 'react'
 import { MintPopup } from '@/components/MintPopup'
 import { ChainMintDrawer } from '@/components/ChainMintDrawer'
 import type { ChainData } from '@/components/3d'
-
-function HeroMedallion({ onMintClick }: { onMintClick: () => void }) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const el = containerRef.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect() } },
-      { rootMargin: '200px' }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
-
-  return (
-    <div ref={containerRef} className="relative mx-auto mb-8 w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 xl:w-[28rem] xl:h-[28rem]">
-      <div className="absolute inset-0 rounded-full bg-[#FFD700]/15 blur-3xl animate-pulse" />
-      {visible && (
-        <Canvas
-          camera={{ position: [0, 2, 6], fov: 45 }}
-          gl={{ antialias: true, alpha: true }}
-          dpr={[1, Math.min(window.devicePixelRatio, 1.5)]}
-        >
-          <ambientLight intensity={0.4} />
-          <directionalLight position={[5, 5, 5]} intensity={1.5} color="#FFD700" />
-          <Environment preset="city" />
-          <OrbitControls
-            enablePan={false}
-            enableZoom={true}
-            enableRotate={true}
-            minDistance={4}
-            maxDistance={9}
-            autoRotate
-            autoRotateSpeed={0.5}
-          />
-          <MigaMedallionModel
-            x={0} y={0} z={0}
-            scale={1.8}
-            interactive
-            onClick={onMintClick}
-          />
-        </Canvas>
-      )}
-    </div>
-  )
-}
 
 export default function Index() {
   const [mintOpen, setMintOpen] = useState(false)
@@ -119,21 +69,17 @@ export default function Index() {
 
       <main>
         {/* ============================================
-            HERO with Medallion
+            HERO with 3D Scene Background
             ============================================ */}
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24">
-          {/* Persian night sky background */}
-          <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: 'url(/images/persian-night-sky.jpg)' }}
-          />
-          {/* Gradient overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A12]/80 via-[#07070A]/70 to-[#07070A]" />
+        <section className="hero-section">
+          {/* 3D pillar scene as full background */}
+          <div className="hero-3d-full">
+            <MigaSceneLite onChainClick={handleSceneChainClick} />
+          </div>
 
-          {/* Content */}
-          <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
-            {/* 3D Medallion - lazy-mounted when visible */}
-            <HeroMedallion onMintClick={() => setMintOpen(true)} />
+          {/* Gradient overlay for text readability */}
+          <div className="hero-content-overlay">
+            <div className="hero-content mx-auto text-center w-full max-w-5xl px-4 sm:px-6 lg:px-8">
 
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 mb-8">
               <span className="text-sm text-[#FFD700] font-medium">Decentralized Autonomous Organization on Pars.Network</span>
@@ -182,6 +128,7 @@ export default function Index() {
                 <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider">VC Allocation</p>
               </div>
             </div>
+          </div>
           </div>
         </section>
 
@@ -638,12 +585,6 @@ export default function Index() {
           </div>
         </section>
       </main>
-
-      {/* 3D Scene — click a pillar to mint on that chain */}
-      <section className="relative h-[80vh] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black z-10 pointer-events-none" />
-        <MigaSceneLite onChainClick={handleSceneChainClick} />
-      </section>
 
       <Footer />
 
