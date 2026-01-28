@@ -3,20 +3,15 @@ import { Footer } from '@/components/Footer'
 import { MigaSceneLite, MigaMedallionModel } from '@/components/3d'
 import { Canvas } from '@react-three/fiber'
 import { Environment, OrbitControls } from '@react-three/drei'
-import { useNavigate } from 'react-router-dom'
 import {
   ArrowDown,
   Check,
-  Copy,
   ExternalLink,
-  Wallet,
   Shield,
   Users,
   Vote as VoteIcon,
   Wifi,
   Satellite,
-  GraduationCap,
-  Scale,
   Globe,
   Lock,
   Zap,
@@ -39,22 +34,36 @@ import {
   Flag,
   Users2,
   AlertTriangle,
-  Heart,
 } from 'lucide-react'
-import { useWallet } from '@solana/wallet-adapter-react'
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
+import { MintPopup } from '@/components/MintPopup'
+import { ChainMintDrawer } from '@/components/ChainMintDrawer'
+import type { ChainData } from '@/components/3d'
 
 export default function Index() {
-  const { connected } = useWallet()
-  const [copied, setCopied] = useState(false)
-  const navigate = useNavigate()
+  const [mintOpen, setMintOpen] = useState(false)
+  const [drawerChainId, setDrawerChainId] = useState<string | null>(null)
 
-  const copyAddress = () => {
-    navigator.clipboard.writeText('MIGAx...pending')
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+  // Map chain data IDs (BTC/ETH/SOL from chainData.ts) to network IDs (BITCOIN/ETHEREUM/SOLANA from networks.ts)
+  const chainDataToNetworkId: Record<string, string> = {
+    BTC: 'BITCOIN',
+    ETH: 'ETHEREUM',
+    SOL: 'SOLANA',
+    BNB: 'BSC',
+    XRP: 'XRP',
+    TON: 'TON',
+    LUX: 'LUX',
   }
+
+  const handleSelectChain = useCallback((chainId: string) => {
+    setDrawerChainId(chainId)
+  }, [])
+
+  const handleSceneChainClick = useCallback((chain: ChainData) => {
+    // Map 3D scene chain symbol to network ID
+    const networkId = chainDataToNetworkId[chain.symbol] || chain.symbol.toUpperCase()
+    setDrawerChainId(networkId)
+  }, [])
 
   return (
     <div className="min-h-screen bg-[#07070A]">
@@ -98,7 +107,7 @@ export default function Index() {
                   x={0} y={0} z={0}
                   scale={1.8}
                   interactive
-                  onClick={() => navigate('/mint')}
+                  onClick={() => setMintOpen(true)}
                 />
               </Canvas>
             </div>
@@ -120,7 +129,12 @@ export default function Index() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-              <WalletMultiButton className="!bg-gradient-to-r !from-[#FFD700] !to-[#FFA500] !text-black !font-bold !rounded-full !px-10 !py-5 hover:!shadow-xl hover:!shadow-[#FFD700]/30 !transition-all !text-lg" />
+              <button
+                onClick={() => setMintOpen(true)}
+                className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold rounded-full px-10 py-5 hover:shadow-xl hover:shadow-[#FFD700]/30 transition-all text-lg cursor-pointer"
+              >
+                Mint MIGA
+              </button>
               <a
                 href="#token"
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-white/20 text-white hover:bg-white/5 transition-all text-lg font-medium"
@@ -556,13 +570,12 @@ export default function Index() {
               </div>
             </div>
 
-            <WalletMultiButton className="!inline-flex !items-center !justify-center !gap-2 !px-12 !py-5 !bg-gradient-to-r !from-[#FFD700] !to-[#FFA500] !text-black !font-bold !rounded-full hover:!shadow-xl hover:!shadow-[#FFD700]/30 !transition-all !text-xl" />
-
-            {connected && (
-              <p className="mt-6 text-emerald-400 flex items-center justify-center gap-2">
-                <Check size={18} /> Wallet Connected
-              </p>
-            )}
+            <button
+              onClick={() => setMintOpen(true)}
+              className="inline-flex items-center justify-center gap-2 px-12 py-5 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold rounded-full hover:shadow-xl hover:shadow-[#FFD700]/30 transition-all text-xl cursor-pointer"
+            >
+              Mint MIGA
+            </button>
 
             <div className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-4 text-sm">
               <a
@@ -589,13 +602,27 @@ export default function Index() {
         </section>
       </main>
 
-      {/* 3D Scene */}
+      {/* 3D Scene — click a pillar to mint on that chain */}
       <section className="relative h-[80vh] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black z-10 pointer-events-none" />
-        <MigaSceneLite />
+        <MigaSceneLite onChainClick={handleSceneChainClick} />
       </section>
 
       <Footer />
+
+      {/* Mint Popup — pick a chain */}
+      <MintPopup
+        open={mintOpen}
+        onClose={() => setMintOpen(false)}
+        onSelectChain={handleSelectChain}
+      />
+
+      {/* Chain Mint Drawer — deposit on selected chain */}
+      <ChainMintDrawer
+        open={!!drawerChainId}
+        chainId={drawerChainId}
+        onClose={() => setDrawerChainId(null)}
+      />
     </div>
   )
 }
