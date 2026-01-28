@@ -89,7 +89,7 @@ function InnerRing() {
 
   return (
     <mesh position={[0, 0, 0.05]} rotation={[Math.PI / 2, 0, 0]}>
-      <torusGeometry args={[1.3, 0.12, 16, 128]} />
+      <torusGeometry args={[1.3, 0.12, 12, 64]} />
       <meshStandardMaterial
         map={edgeTexture}
         bumpMap={edgeTexture}
@@ -159,7 +159,7 @@ function ReededEdgeRings() {
       {/* Inner ring */}
       <group ref={ring1Ref}>
         <mesh rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[rings[0].radius, ringThickness, 16, 128]} />
+          <torusGeometry args={[rings[0].radius, ringThickness, 12, 64]} />
           <meshStandardMaterial
             map={createRingMaterial(rings[0].repeat)}
             bumpMap={createRingMaterial(rings[0].repeat)}
@@ -176,7 +176,7 @@ function ReededEdgeRings() {
       {/* Middle ring */}
       <group ref={ring2Ref}>
         <mesh rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[rings[1].radius, ringThickness, 16, 128]} />
+          <torusGeometry args={[rings[1].radius, ringThickness, 12, 64]} />
           <meshStandardMaterial
             map={createRingMaterial(rings[1].repeat)}
             bumpMap={createRingMaterial(rings[1].repeat)}
@@ -193,7 +193,7 @@ function ReededEdgeRings() {
       {/* Outer ring */}
       <group ref={ring3Ref}>
         <mesh rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[rings[2].radius, ringThickness, 16, 128]} />
+          <torusGeometry args={[rings[2].radius, ringThickness, 12, 64]} />
           <meshStandardMaterial
             map={createRingMaterial(rings[2].repeat)}
             bumpMap={createRingMaterial(rings[2].repeat)}
@@ -249,7 +249,7 @@ function AmberGems() {
 function CenterDisc() {
   return (
     <mesh position={[0, 0, 0.02]}>
-      <circleGeometry args={[1.15, 64]} />
+      <circleGeometry args={[1.15, 32]} />
       <meshStandardMaterial
         color="#0a0a15"
         metalness={0.1}
@@ -262,26 +262,15 @@ function CenterDisc() {
 // The M logo (three pillars) with glowing crystal material
 function MLogo() {
   const groupRef = useRef<THREE.Group>(null)
-  const leftGlowRef = useRef<THREE.PointLight>(null)
   const centerGlowRef = useRef<THREE.PointLight>(null)
-  const rightGlowRef = useRef<THREE.PointLight>(null)
 
   useFrame((state) => {
     if (groupRef.current) {
-      // Subtle breathing effect
       const scale = 1 + Math.sin(state.clock.elapsedTime * 2) * 0.02
       groupRef.current.scale.set(scale, scale, scale)
     }
-    // Pulsing glow lights for each crystal
-    const t = state.clock.elapsedTime
-    if (leftGlowRef.current) {
-      leftGlowRef.current.intensity = 1.5 + Math.sin(t * 1.8) * 0.5
-    }
     if (centerGlowRef.current) {
-      centerGlowRef.current.intensity = 2.0 + Math.sin(t * 2.0 + 1) * 0.6
-    }
-    if (rightGlowRef.current) {
-      rightGlowRef.current.intensity = 1.5 + Math.sin(t * 1.6 + 2) * 0.5
+      centerGlowRef.current.intensity = 2.5 + Math.sin(state.clock.elapsedTime * 2.0) * 0.6
     }
   })
 
@@ -303,20 +292,17 @@ function MLogo() {
     })
   }, [])
 
-  // Glowing crystal material - enhanced with emissive glow
+  // Crystal material — meshStandardMaterial (cheaper than meshPhysicalMaterial)
   const crystalMaterial = (color: string, emissiveColor: string) => (
-    <meshPhysicalMaterial
+    <meshStandardMaterial
       color={color}
       emissive={emissiveColor}
-      emissiveIntensity={0.8}
-      metalness={0.15}
-      roughness={0.05}
-      transmission={0.5}
-      thickness={0.5}
-      clearcoat={1}
-      clearcoatRoughness={0.08}
-      ior={1.6}
+      emissiveIntensity={1.0}
+      metalness={0.3}
+      roughness={0.1}
       envMapIntensity={2.0}
+      transparent
+      opacity={0.85}
     />
   )
 
@@ -326,47 +312,24 @@ function MLogo() {
       <mesh geometry={pillarGeometry} position={[-0.35, 0, 0]}>
         {crystalMaterial('#88DDFF', '#44AAFF')}
       </mesh>
-      <pointLight
-        ref={leftGlowRef}
-        position={[-0.35, 0, 0.15]}
-        intensity={1.5}
-        color="#88DDFF"
-        distance={1.5}
-        decay={2}
-      />
 
       {/* Center pillar - magenta crystal (brightest) */}
       <mesh geometry={pillarGeometry} position={[0, 0.05, 0]}>
         {crystalMaterial('#FFB6FF', '#FF66FF')}
       </mesh>
-      <pointLight
-        ref={centerGlowRef}
-        position={[0, 0.05, 0.15]}
-        intensity={2.0}
-        color="#FFB6FF"
-        distance={2}
-        decay={2}
-      />
 
       {/* Right pillar - green crystal */}
       <mesh geometry={pillarGeometry} position={[0.35, 0, 0]}>
         {crystalMaterial('#88FFAA', '#44FF88')}
       </mesh>
-      <pointLight
-        ref={rightGlowRef}
-        position={[0.35, 0, 0.15]}
-        intensity={1.5}
-        color="#88FFAA"
-        distance={1.5}
-        decay={2}
-      />
 
-      {/* Central combined glow for overall illumination */}
+      {/* Single combined glow — replaces 4 separate point lights */}
       <pointLight
-        position={[0, 0, 0.2]}
-        intensity={1.0}
-        color="#FFFFFF"
-        distance={2}
+        ref={centerGlowRef}
+        position={[0, 0, 0.15]}
+        intensity={2.5}
+        color="#FFB6FF"
+        distance={2.5}
         decay={2}
       />
     </group>
@@ -450,7 +413,7 @@ function GlowRing() {
 
   return (
     <mesh ref={ringRef} position={[0, 0, -0.15]}>
-      <ringGeometry args={[2.3, 2.8, 64]} />
+      <ringGeometry args={[2.3, 2.8, 32]} />
       <meshStandardMaterial
         color="#FF8C00"
         emissive="#FF6B00"

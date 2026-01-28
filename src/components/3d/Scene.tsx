@@ -68,7 +68,7 @@ function CoinFace({
 
   return (
     <mesh position={position} rotation={rotation}>
-      <circleGeometry args={[radius, 64]} />
+      <circleGeometry args={[radius, 32]} />
       <meshStandardMaterial
         map={texture}
         metalness={0.2}
@@ -195,7 +195,7 @@ function ChainCoin({
           onPointerOut={handlePointerOut}
           onClick={handleClick}
         >
-          <sphereGeometry args={[0.25, 32, 32]} />
+          <sphereGeometry args={[0.25, 16, 16]} />
           <meshStandardMaterial
             color={chain.color}
             emissive={chain.color}
@@ -208,7 +208,7 @@ function ChainCoin({
         </mesh>
         {/* Outer mystery ring */}
         <mesh rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[0.35, 0.02, 16, 32]} />
+          <torusGeometry args={[0.35, 0.02, 8, 24]} />
           <meshStandardMaterial
             color={chain.color}
             emissive={chain.color}
@@ -239,13 +239,13 @@ function ChainCoin({
           onPointerOut={handlePointerOut}
           onClick={handleClick}
         >
-          <cylinderGeometry args={[settings.radius * 1.1, settings.radius * 1.1, settings.thickness * 2, 16]} />
+          <cylinderGeometry args={[settings.radius * 1.1, settings.radius * 1.1, settings.thickness * 2, 12]} />
           <meshBasicMaterial transparent opacity={0} />
         </mesh>
 
         {/* Coin edge - open-ended cylinder (side only, no caps) */}
         <mesh>
-          <cylinderGeometry args={[settings.radius, settings.radius, settings.thickness, 64, 1, true]} />
+          <cylinderGeometry args={[settings.radius, settings.radius, settings.thickness, 32, 1, true]} />
           <meshStandardMaterial
             color={coinColor}
             emissive={coinEmissive}
@@ -306,9 +306,9 @@ function ChainCoin({
       <pointLight
         ref={glowRef}
         position={[0, 0, 0]}
-        intensity={isLive ? 6 : 4}
+        intensity={isLive ? 4 : 2.5}
         color={chain.color}
-        distance={6}
+        distance={5}
         decay={2}
       />
     </group>
@@ -356,7 +356,7 @@ function PersianColumn({
     <group ref={groupRef} position={[position[0], 0, position[2]]}>
       {/* Shadow/dark glow at base - circular gradient */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.005, 0]}>
-        <circleGeometry args={[0.8, 32]} />
+        <circleGeometry args={[0.8, 16]} />
         <meshBasicMaterial
           color="#000000"
           transparent
@@ -366,7 +366,7 @@ function PersianColumn({
       </mesh>
       {/* Outer shadow ring - softer */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.003, 0]}>
-        <ringGeometry args={[0.6, 1.2, 32]} />
+        <ringGeometry args={[0.6, 1.2, 16]} />
         <meshBasicMaterial
           color="#000000"
           transparent
@@ -377,19 +377,19 @@ function PersianColumn({
 
       {/* Wide stone base */}
       <mesh position={[0, 0.04, 0]}>
-        <cylinderGeometry args={[radius * 2.4, radius * 2.8, 0.08, 24]} />
+        <cylinderGeometry args={[radius * 2.4, radius * 2.8, 0.08, 16]} />
         <meshStandardMaterial color="#1a0f08" metalness={0.1} roughness={0.92} />
       </mesh>
 
       {/* Second tier */}
       <mesh position={[0, 0.12, 0]}>
-        <cylinderGeometry args={[radius * 2, radius * 2.4, 0.08, 24]} />
+        <cylinderGeometry args={[radius * 2, radius * 2.4, 0.08, 16]} />
         <meshStandardMaterial color="#2a1810" metalness={0.12} roughness={0.88} />
       </mesh>
 
       {/* Base ornament ring */}
       <mesh position={[0, 0.2, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[radius * 1.5, 0.028, 16, 48]} />
+        <torusGeometry args={[radius * 1.5, 0.028, 16, 16]} />
         <meshStandardMaterial
           color="#C9A86C"
           metalness={0.75}
@@ -401,7 +401,7 @@ function PersianColumn({
 
       {/* Main column shaft - marble-like */}
       <mesh position={[0, height / 2 + 0.24, 0]}>
-        <cylinderGeometry args={[radius * 0.92, radius * 1.02, height, 32, 1]} />
+        <cylinderGeometry args={[radius * 0.92, radius * 1.02, height, 16, 1]} />
         <meshStandardMaterial
           color="#DED5C8"
           metalness={0.02}
@@ -416,7 +416,7 @@ function PersianColumn({
           position={[0, height * t + 0.24, 0]}
           rotation={[Math.PI / 2, 0, 0]}
         >
-          <torusGeometry args={[radius * 1.02, 0.016, 12, 48]} />
+          <torusGeometry args={[radius * 1.02, 0.016, 12, 16]} />
           <meshStandardMaterial
             color="#D4AF37"
             metalness={0.92}
@@ -429,19 +429,19 @@ function PersianColumn({
 
       {/* Capital echinus */}
       <mesh position={[0, height + 0.3, 0]}>
-        <cylinderGeometry args={[radius * 1.6, radius * 1.0, 0.12, 24]} />
+        <cylinderGeometry args={[radius * 1.6, radius * 1.0, 0.12, 16]} />
         <meshStandardMaterial color="#DED5C8" metalness={0.04} roughness={0.75} />
       </mesh>
 
       {/* Capital abacus (top plate) - round disc instead of square */}
       <mesh position={[0, height + 0.42, 0]}>
-        <cylinderGeometry args={[radius * 1.8, radius * 1.8, 0.08, 32]} />
+        <cylinderGeometry args={[radius * 1.8, radius * 1.8, 0.08, 16]} />
         <meshStandardMaterial color="#C9A86C" metalness={0.4} roughness={0.45} />
       </mesh>
 
       {/* Gold ring around top */}
       <mesh position={[0, height + 0.42, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[radius * 1.8, 0.02, 12, 32]} />
+        <torusGeometry args={[radius * 1.8, 0.02, 12, 16]} />
         <meshStandardMaterial
           color="#D4AF37"
           metalness={0.9}
@@ -483,7 +483,7 @@ function PersianColumn({
 
           {/* Deposit glow ring - brighter intensity */}
           <mesh position={[0, height * 0.6 + 0.3, 0]} rotation={[Math.PI / 2, 0, 0]}>
-            <torusGeometry args={[radius * 1.3, 0.03, 16, 48]} />
+            <torusGeometry args={[radius * 1.3, 0.03, 16, 16]} />
             <meshStandardMaterial
               color={chainColor}
               emissive={chainColor}
@@ -680,10 +680,10 @@ function IntroAnimatedGroup({ children }: { children: React.ReactNode }) {
 function ReflectivePool({ x = 0.5, z = 0, radius = 5 }: { x?: number; z?: number; radius?: number }) {
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[x, 0.01, z]} receiveShadow>
-      <circleGeometry args={[radius, 96]} />
+      <circleGeometry args={[radius, 48]} />
       <MeshReflectorMaterial
-        blur={[400, 200]}
-        resolution={1024}
+        blur={[200, 100]}
+        resolution={512}
         mixBlur={0.8}
         mixStrength={40}
         depthScale={1.5}
@@ -715,7 +715,7 @@ function PoolEdge({ x = 0.5, z = 0, radius = 5 }: { x?: number; z?: number; radi
     <group position={[x, 0, z]}>
       {/* Simple thin gold ring - minimal edge */}
       <mesh ref={innerGoldRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]}>
-        <ringGeometry args={[r - 0.02, r + 0.05, 96]} />
+        <ringGeometry args={[r - 0.02, r + 0.05, 48]} />
         <meshStandardMaterial
           color="#D4AF37"
           metalness={0.96}
@@ -727,7 +727,7 @@ function PoolEdge({ x = 0.5, z = 0, radius = 5 }: { x?: number; z?: number; radi
 
       {/* Thin outer accent */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.018, 0]}>
-        <ringGeometry args={[r + 0.05, r + 0.12, 96]} />
+        <ringGeometry args={[r + 0.05, r + 0.12, 48]} />
         <meshStandardMaterial color="#1a0f08" metalness={0.1} roughness={0.9} />
       </mesh>
     </group>
@@ -804,13 +804,13 @@ function MigaMedallion({ onLoaded, x = 0.8, y = 2.9, z = 0, scale = 2.8 }: { onL
     <Float speed={0.8} rotationIntensity={0.03} floatIntensity={0.2}>
       <group ref={groupRef} scale={0.5} position={[x, y - 2, z]}>
         <primitive object={clonedScene} />
-        {/* Primary golden glow */}
+        {/* Primary golden glow — consolidated from 6 lights to 2 */}
         <pointLight
           ref={glowRef}
           position={[0, 0, 0]}
           intensity={6}
           color="#FFD700"
-          distance={15}
+          distance={12}
           decay={2}
         />
         {/* Warm accent from below */}
@@ -819,36 +819,6 @@ function MigaMedallion({ onLoaded, x = 0.8, y = 2.9, z = 0, scale = 2.8 }: { onL
           intensity={2}
           color="#FF9900"
           distance={6}
-          decay={2}
-        />
-        {/* Subtle cool accent for contrast */}
-        <pointLight
-          position={[0.4, 0.2, -0.3]}
-          intensity={0.8}
-          color="#7C3AED"
-          distance={4}
-          decay={2}
-        />
-        {/* Additional reflection accent lights */}
-        <pointLight
-          position={[1.2, 0.5, 0.8]}
-          intensity={1.2}
-          color="#FFD700"
-          distance={5}
-          decay={2}
-        />
-        <pointLight
-          position={[-0.8, 0.3, 0.6]}
-          intensity={1.0}
-          color="#FFA500"
-          distance={4}
-          decay={2}
-        />
-        <pointLight
-          position={[0, -0.2, 1.0]}
-          intensity={0.8}
-          color="#E8D5B5"
-          distance={4}
           decay={2}
         />
       </group>
@@ -895,8 +865,6 @@ function OrbitingReflectionLights() {
     <group>
       <OrbitingReflectionLight color="#FFD700" speed={0.3} radius={2.2} yOffset={2.9} intensity={1.8} />
       <OrbitingReflectionLight color="#FFA500" speed={0.25} radius={2.5} yOffset={2.7} intensity={1.3} reverse />
-      <OrbitingReflectionLight color="#FFE4B5" speed={0.35} radius={1.8} yOffset={3.0} intensity={1.0} />
-      <OrbitingReflectionLight color="#7C3AED" speed={0.28} radius={2.4} yOffset={2.5} intensity={0.7} reverse />
     </group>
   )
 }
@@ -940,18 +908,10 @@ function LightRibbon({ color, speed, radius, yOffset, reverse = false }: {
 function LightRibbons() {
   return (
     <group position={[0, 0, 0]}>
-      {/* Outer arcs - tighter */}
       <LightRibbon color="#FFD700" speed={0.25} radius={2.8} yOffset={2.8} />
       <LightRibbon color="#FFA500" speed={0.22} radius={3.0} yOffset={3.0} reverse />
-      <LightRibbon color="#FFE4B5" speed={0.28} radius={3.2} yOffset={2.5} />
-      {/* Mid-range arcs - closer */}
-      <LightRibbon color="#FF8866" speed={0.3} radius={2.4} yOffset={2.9} />
       <LightRibbon color="#7C3AED" speed={0.26} radius={2.6} yOffset={2.6} reverse />
-      <LightRibbon color="#C9A86C" speed={0.32} radius={2.2} yOffset={2.4} />
-      {/* Inner accent arcs - tight */}
       <LightRibbon color="#FFCC00" speed={0.35} radius={1.8} yOffset={3.1} reverse />
-      <LightRibbon color="#E8A838" speed={0.38} radius={1.6} yOffset={2.7} />
-      <LightRibbon color="#9D7AED" speed={0.34} radius={2.0} yOffset={2.8} reverse />
     </group>
   )
 }
@@ -995,19 +955,9 @@ function FogSwirl({ radius, speed, yOffset, opacity, color, reverse = false }: {
 function VolumetricFogSwirls() {
   return (
     <group>
-      {/* Outer wisps - closer in */}
       <FogSwirl radius={2.8} speed={0.1} yOffset={2.6} opacity={0.025} color="#FFD700" />
-      <FogSwirl radius={3.0} speed={0.09} yOffset={2.9} opacity={0.02} color="#FFA500" reverse />
-      <FogSwirl radius={2.6} speed={0.11} yOffset={2.3} opacity={0.02} color="#E8D5B5" />
-
-      {/* Mid-range wisps - tighter */}
       <FogSwirl radius={2.2} speed={0.14} yOffset={2.7} opacity={0.03} color="#9D7AED" reverse />
-      <FogSwirl radius={2.4} speed={0.12} yOffset={3.0} opacity={0.025} color="#C9A86C" />
-      <FogSwirl radius={2.0} speed={0.15} yOffset={2.4} opacity={0.03} color="#7C3AED" />
-
-      {/* Inner accent wisps - compact */}
       <FogSwirl radius={1.6} speed={0.18} yOffset={2.8} opacity={0.035} color="#FFD700" reverse />
-      <FogSwirl radius={1.8} speed={0.16} yOffset={2.6} opacity={0.03} color="#FFCC00" />
     </group>
   )
 }
@@ -1071,8 +1021,8 @@ function SpiralArm({ index, totalArms, speed, radius, thickness, color, opacity,
   // Create spiral trail of spheres
   const points = useMemo(() => {
     const pts = []
-    for (let i = 0; i < 12; i++) {
-      const t = i / 12
+    for (let i = 0; i < 8; i++) {
+      const t = i / 8
       const r = t * radius
       const angle = t * Math.PI * 1.5 // Spiral twist
       pts.push({
@@ -1090,7 +1040,7 @@ function SpiralArm({ index, totalArms, speed, radius, thickness, color, opacity,
       {points.map((pt, i) => (
         <mesh key={i} position={[pt.x, pt.y, pt.z]} scale={pt.scale} raycast={() => null}>
           <sphereGeometry args={[thickness, 8, 8]} />
-          <meshBasicMaterial color={color} transparent opacity={opacity * (1 - i/12 * 0.5)} depthWrite={false} />
+          <meshBasicMaterial color={color} transparent opacity={opacity * (1 - i/8 * 0.5)} depthWrite={false} />
         </mesh>
       ))}
     </group>
@@ -1129,13 +1079,13 @@ function BlackHolePortal() {
     showSwirl: true,
     showBeams: true,
     // Swirl settings - tighter
-    swirlArms: { value: 5, min: 2, max: 12, step: 1 },
+    swirlArms: { value: 3, min: 2, max: 12, step: 1 },
     swirlSpeed: { value: 0.4, min: 0.1, max: 2, step: 0.1 },
     swirlRadius: { value: 2.5, min: 1, max: 10, step: 0.5 },
     swirlThickness: { value: 0.08, min: 0.02, max: 0.5, step: 0.01 },
     swirlOpacity: { value: 0.5, min: 0, max: 1, step: 0.1 },
     // Particle settings - smaller and tighter
-    particleCount: { value: 60, min: 20, max: 300, step: 10 },
+    particleCount: { value: 30, min: 20, max: 300, step: 10 },
     particleSize: { value: 0.12, min: 0.05, max: 1, step: 0.05 },
     particleSpeed: { value: 1.5, min: 0.5, max: 5, step: 0.5 },
   }))
@@ -1205,8 +1155,8 @@ function BlackHolePortal() {
   // Generate escaping light beams at various angles
   const beams = useMemo(() => {
     const result = []
-    for (let i = 0; i < 24; i++) {
-      const angle = (i / 24) * Math.PI * 2
+    for (let i = 0; i < 10; i++) {
+      const angle = (i / 10) * Math.PI * 2
       result.push({
         angle,
         speed: 0.8 + Math.random() * 0.4,
@@ -1223,13 +1173,13 @@ function BlackHolePortal() {
     <group ref={groupRef} position={[portalX, portalY, portalZ]} rotation={[portalRotX, 0, portalRotZ]} scale={portalScale}>
       {/* Glowing center core */}
       <mesh ref={coreRef} position={[0, 0.02, 0]}>
-        <sphereGeometry args={[coreRadius, 32, 32]} />
+        <sphereGeometry args={[coreRadius, 16, 16]} />
         <meshBasicMaterial color="#FFD700" transparent opacity={0.8} />
       </mesh>
 
       {/* Inner glow ring */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.03, 0]}>
-        <ringGeometry args={[coreRadius * 0.8, coreRadius * 1.2, 64]} />
+        <ringGeometry args={[coreRadius * 0.8, coreRadius * 1.2, 32]} />
         <meshBasicMaterial color="#FFA500" transparent opacity={0.5} depthWrite={false} side={THREE.DoubleSide} />
       </mesh>
 
@@ -1290,26 +1240,6 @@ function BlackHolePortal() {
         color="#FFD700"
         position={[0, 2, 0]}
       />
-      {/* Particles - purple accent */}
-      <Sparkles
-        count={Math.floor(particleCount * 0.6)}
-        scale={[swirlRadius * 1.5, 6, swirlRadius * 1.5]}
-        size={particleSize * 0.8}
-        speed={particleSpeed * 1.2}
-        opacity={0.5}
-        color="#9D7AED"
-        position={[0, 1.5, 0]}
-      />
-      {/* Particles - orange */}
-      <Sparkles
-        count={Math.floor(particleCount * 0.4)}
-        scale={[swirlRadius, 4, swirlRadius]}
-        size={particleSize * 0.6}
-        speed={particleSpeed * 0.8}
-        opacity={0.55}
-        color="#FFA500"
-        position={[0, 1, 0]}
-      />
     </group>
   )
 }
@@ -1318,79 +1248,30 @@ function BlackHolePortal() {
 function AmbientSparkles() {
   return (
     <>
-      {/* Main field of micro particles - smaller */}
-      <Sparkles
-        count={120}
-        scale={[12, 6, 12]}
-        size={0.15}
-        speed={0.3}
-        opacity={0.4}
-        color="#FFE4B5"
-      />
-      {/* Gold dust spread - tighter */}
-      <Sparkles
-        count={80}
-        scale={[10, 5, 10]}
-        size={0.12}
-        speed={0.4}
-        opacity={0.45}
-        color="#FFD700"
-      />
-      {/* Concentrated near coin - tiny */}
-      <Sparkles
-        count={50}
-        scale={[4, 3, 4]}
-        size={0.18}
-        speed={0.6}
-        opacity={0.55}
-        color="#FFD700"
-        position={[0, 2.8, 0]}
-      />
-      {/* Purple accent field - smaller */}
       <Sparkles
         count={60}
-        scale={[10, 4, 10]}
+        scale={[10, 5, 10]}
+        size={0.14}
+        speed={0.35}
+        opacity={0.4}
+        color="#FFD700"
+      />
+      <Sparkles
+        count={40}
+        scale={[4, 3, 4]}
+        size={0.16}
+        speed={0.6}
+        opacity={0.5}
+        color="#FFE4B5"
+        position={[0, 2.8, 0]}
+      />
+      <Sparkles
+        count={40}
+        scale={[8, 4, 8]}
         size={0.1}
         speed={0.3}
         opacity={0.3}
         color="#9D7AED"
-      />
-      {/* Amber micro dust */}
-      <Sparkles
-        count={50}
-        scale={[8, 4, 8]}
-        size={0.08}
-        speed={0.4}
-        opacity={0.35}
-        color="#FF9944"
-      />
-      {/* Tiny fast magic dust near coin */}
-      <Sparkles
-        count={60}
-        scale={[5, 3, 5]}
-        size={0.1}
-        speed={0.8}
-        opacity={0.5}
-        color="#FFFACD"
-        position={[0, 2.6, 0]}
-      />
-      {/* Cream particles - tighter */}
-      <Sparkles
-        count={70}
-        scale={[12, 5, 12]}
-        size={0.08}
-        speed={0.35}
-        opacity={0.3}
-        color="#E8D5B5"
-      />
-      {/* Micro white dust - smaller spread */}
-      <Sparkles
-        count={80}
-        scale={[14, 4, 14]}
-        size={0.06}
-        speed={0.5}
-        opacity={0.25}
-        color="#FFFFFF"
       />
     </>
   )
@@ -2315,12 +2196,11 @@ export function MigaScene({ className = '', layout = 'cinematic', onChainClick }
             antialias: true,
             alpha: true,
             powerPreference: 'high-performance',
-            preserveDrawingBuffer: true, // Required for screenshots
             toneMapping: THREE.ACESFilmicToneMapping,
             toneMappingExposure: 1.2,
             outputColorSpace: THREE.SRGBColorSpace,
           }}
-          dpr={[1, Math.min(window.devicePixelRatio, 2)]}
+          dpr={[1, Math.min(window.devicePixelRatio, isMobile ? 1 : 1.5)]}
           camera={{ position: responsiveCamera.position, fov: responsiveCamera.fov }}
           style={{ background: 'transparent' }}
         >

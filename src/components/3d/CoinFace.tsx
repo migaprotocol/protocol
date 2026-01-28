@@ -42,7 +42,7 @@ export function CoinFace({
 
   return (
     <mesh position={position} rotation={rotation}>
-      <circleGeometry args={[radius, 64]} />
+      <circleGeometry args={[radius, 32]} />
       <meshStandardMaterial
         map={texture}
         metalness={0.2}

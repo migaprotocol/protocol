@@ -63,8 +63,8 @@ function SpiralArm({ index, totalArms, speed, radius, thickness, color, opacity,
   // Create spiral trail of spheres
   const points = useMemo(() => {
     const pts = []
-    for (let i = 0; i < 12; i++) {
-      const t = i / 12
+    for (let i = 0; i < 8; i++) {
+      const t = i / 8
       const r = t * radius
       const angle = t * Math.PI * 1.5 // Spiral twist
       pts.push({
@@ -121,13 +121,13 @@ export function BlackHolePortal() {
     showSwirl: true,
     showBeams: true,
     // Swirl settings - tighter
-    swirlArms: { value: 5, min: 2, max: 12, step: 1 },
+    swirlArms: { value: 3, min: 2, max: 12, step: 1 },
     swirlSpeed: { value: 0.4, min: 0.1, max: 2, step: 0.1 },
     swirlRadius: { value: 2.5, min: 1, max: 10, step: 0.5 },
     swirlThickness: { value: 0.08, min: 0.02, max: 0.5, step: 0.01 },
     swirlOpacity: { value: 0.5, min: 0, max: 1, step: 0.1 },
     // Particle settings - smaller and tighter
-    particleCount: { value: 60, min: 20, max: 300, step: 10 },
+    particleCount: { value: 30, min: 20, max: 300, step: 10 },
     particleSize: { value: 0.12, min: 0.05, max: 1, step: 0.05 },
     particleSpeed: { value: 1.5, min: 0.5, max: 5, step: 0.5 },
   }))
@@ -197,8 +197,8 @@ export function BlackHolePortal() {
   // Generate escaping light beams at various angles
   const beams = useMemo(() => {
     const result = []
-    for (let i = 0; i < 24; i++) {
-      const angle = (i / 24) * Math.PI * 2
+    for (let i = 0; i < 10; i++) {
+      const angle = (i / 10) * Math.PI * 2
       result.push({
         angle,
         speed: 0.8 + Math.random() * 0.4,
@@ -215,13 +215,13 @@ export function BlackHolePortal() {
     <group ref={groupRef} position={[portalX, portalY, portalZ]} rotation={[portalRotX, 0, portalRotZ]} scale={portalScale}>
       {/* Glowing center core */}
       <mesh ref={coreRef} position={[0, 0.02, 0]}>
-        <sphereGeometry args={[coreRadius, 32, 32]} />
+        <sphereGeometry args={[coreRadius, 16, 16]} />
         <meshBasicMaterial color="#FFD700" transparent opacity={0.8} />
       </mesh>
 
       {/* Inner glow ring */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.03, 0]}>
-        <ringGeometry args={[coreRadius * 0.8, coreRadius * 1.2, 64]} />
+        <ringGeometry args={[coreRadius * 0.8, coreRadius * 1.2, 32]} />
         <meshBasicMaterial color="#FFA500" transparent opacity={0.5} depthWrite={false} side={THREE.DoubleSide} />
       </mesh>
 
@@ -272,7 +272,7 @@ export function BlackHolePortal() {
         decay={2}
       />
 
-      {/* Particles rising from swirl - gold */}
+      {/* Single sparkle instance for portal particles */}
       <Sparkles
         count={particleCount}
         scale={[swirlRadius * 2, 8, swirlRadius * 2]}
@@ -281,26 +281,6 @@ export function BlackHolePortal() {
         opacity={0.6}
         color="#FFD700"
         position={[0, 2, 0]}
-      />
-      {/* Particles - purple accent */}
-      <Sparkles
-        count={Math.floor(particleCount * 0.6)}
-        scale={[swirlRadius * 1.5, 6, swirlRadius * 1.5]}
-        size={particleSize * 0.8}
-        speed={particleSpeed * 1.2}
-        opacity={0.5}
-        color="#9D7AED"
-        position={[0, 1.5, 0]}
-      />
-      {/* Particles - orange */}
-      <Sparkles
-        count={Math.floor(particleCount * 0.4)}
-        scale={[swirlRadius, 4, swirlRadius]}
-        size={particleSize * 0.6}
-        speed={particleSpeed * 0.8}
-        opacity={0.55}
-        color="#FFA500"
-        position={[0, 1, 0]}
       />
     </group>
   )

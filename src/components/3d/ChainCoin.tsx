@@ -94,7 +94,7 @@ export function ChainCoin({
           onPointerOut={handlePointerOut}
           onClick={handleClick}
         >
-          <sphereGeometry args={[0.25, 32, 32]} />
+          <sphereGeometry args={[0.25, 16, 16]} />
           <meshStandardMaterial
             color={chain.color}
             emissive={chain.color}
@@ -107,7 +107,7 @@ export function ChainCoin({
         </mesh>
         {/* Outer mystery ring */}
         <mesh rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[0.35, 0.02, 16, 32]} />
+          <torusGeometry args={[0.35, 0.02, 8, 24]} />
           <meshStandardMaterial
             color={chain.color}
             emissive={chain.color}
@@ -138,13 +138,13 @@ export function ChainCoin({
           onPointerOut={handlePointerOut}
           onClick={handleClick}
         >
-          <cylinderGeometry args={[settings.radius * 1.1, settings.radius * 1.1, settings.thickness * 2, 16]} />
+          <cylinderGeometry args={[settings.radius * 1.1, settings.radius * 1.1, settings.thickness * 2, 12]} />
           <meshBasicMaterial transparent opacity={0} />
         </mesh>
 
         {/* Coin edge - open-ended cylinder (side only, no caps) */}
         <mesh>
-          <cylinderGeometry args={[settings.radius, settings.radius, settings.thickness, 64, 1, true]} />
+          <cylinderGeometry args={[settings.radius, settings.radius, settings.thickness, 32, 1, true]} />
           <meshStandardMaterial
             color={coinColor}
             emissive={coinEmissive}
@@ -177,32 +177,16 @@ export function ChainCoin({
           />
         )}
 
-        {/* Inner glow light */}
-        <pointLight
-          position={[0, 0, 0]}
-          intensity={hovered ? settings.glowIntensity * 2 : settings.glowIntensity}
-          color={coinColor}
-          distance={2}
-          decay={2}
-        />
 
       </group>
 
-      {/* Glow light - enhanced brightness */}
+      {/* Single glow light per coin — consolidated from 3 to 1 */}
       <pointLight
         ref={glowRef}
         position={[0, 0, 0]}
-        intensity={isLive ? 5 : 3}
+        intensity={isLive ? 4 : 2.5}
         color={chain.color}
-        distance={6}
-        decay={2}
-      />
-      {/* Secondary warm highlight */}
-      <pointLight
-        position={[0, 0.2, 0.2]}
-        intensity={isLive ? 2 : 1}
-        color="#FFD700"
-        distance={3}
+        distance={5}
         decay={2}
       />
     </group>

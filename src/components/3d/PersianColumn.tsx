@@ -46,7 +46,7 @@ export function PersianColumn({
     <group ref={groupRef} position={[position[0], 0, position[2]]}>
       {/* Shadow/dark glow at base - circular gradient */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.005, 0]}>
-        <circleGeometry args={[0.8, 32]} />
+        <circleGeometry args={[0.8, 16]} />
         <meshBasicMaterial
           color="#000000"
           transparent
@@ -56,7 +56,7 @@ export function PersianColumn({
       </mesh>
       {/* Outer shadow ring - softer */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.003, 0]}>
-        <ringGeometry args={[0.6, 1.2, 32]} />
+        <ringGeometry args={[0.6, 1.2, 16]} />
         <meshBasicMaterial
           color="#000000"
           transparent
@@ -67,13 +67,13 @@ export function PersianColumn({
 
       {/* Wide stone base */}
       <mesh position={[0, 0.04, 0]}>
-        <cylinderGeometry args={[radius * 2.4, radius * 2.8, 0.08, 24]} />
+        <cylinderGeometry args={[radius * 2.4, radius * 2.8, 0.08, 16]} />
         <meshStandardMaterial color="#1a0f08" metalness={0.1} roughness={0.92} />
       </mesh>
 
       {/* Second tier */}
       <mesh position={[0, 0.12, 0]}>
-        <cylinderGeometry args={[radius * 2, radius * 2.4, 0.08, 24]} />
+        <cylinderGeometry args={[radius * 2, radius * 2.4, 0.08, 16]} />
         <meshStandardMaterial color="#2a1810" metalness={0.12} roughness={0.88} />
       </mesh>
 
@@ -91,7 +91,7 @@ export function PersianColumn({
 
       {/* Main column shaft - marble-like */}
       <mesh position={[0, height / 2 + 0.24, 0]}>
-        <cylinderGeometry args={[radius * 0.92, radius * 1.02, height, 32, 1]} />
+        <cylinderGeometry args={[radius * 0.92, radius * 1.02, height, 16, 1]} />
         <meshStandardMaterial
           color="#DED5C8"
           metalness={0.02}
@@ -119,13 +119,13 @@ export function PersianColumn({
 
       {/* Capital echinus */}
       <mesh position={[0, height + 0.3, 0]}>
-        <cylinderGeometry args={[radius * 1.6, radius * 1.0, 0.12, 24]} />
+        <cylinderGeometry args={[radius * 1.6, radius * 1.0, 0.12, 16]} />
         <meshStandardMaterial color="#DED5C8" metalness={0.04} roughness={0.75} />
       </mesh>
 
       {/* Capital abacus (top plate) - round disc instead of square */}
       <mesh position={[0, height + 0.42, 0]}>
-        <cylinderGeometry args={[radius * 1.8, radius * 1.8, 0.08, 32]} />
+        <cylinderGeometry args={[radius * 1.8, radius * 1.8, 0.08, 16]} />
         <meshStandardMaterial color="#C9A86C" metalness={0.4} roughness={0.45} />
       </mesh>
 

@@ -80,21 +80,12 @@ export function Lighting() {
         intensity={0.3}
       />
 
-      {/* Rim light for depth */}
+      {/* Single rim/fill light — consolidated from 2 */}
       <pointLight
         position={[-8, 4, -10]}
         intensity={0.5}
         color="#C9A86C"
         distance={25}
-        decay={2}
-      />
-
-      {/* Additional fill from front */}
-      <pointLight
-        position={[5, 3, 8]}
-        intensity={0.3}
-        color="#FFE4B5"
-        distance={20}
         decay={2}
       />
     </>
