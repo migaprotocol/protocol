@@ -1,6 +1,7 @@
-import { X, ExternalLink, Shield, Copy, Check, QrCode, Info, ChevronDown, AlertCircle } from 'lucide-react'
+import { X, ExternalLink, Shield, Copy, Check, QrCode, Info, ChevronDown, AlertCircle, TrendingUp } from 'lucide-react'
 import { useState, useMemo, useEffect } from 'react'
 import { MIGA_CHAINS, MIGA_DAO_WALLET, getChainAssets } from '@/components/bridge/networks'
+import { getMintPrice, getChainProgress, getChainAllocation, formatUsd, formatMiga, CHAIN_RAISED, CHAIN_MAX_USD } from '@/lib/bondingCurve'
 
 interface ChainMintDrawerProps {
   open: boolean
@@ -99,7 +100,7 @@ export function ChainMintDrawer({ open, chainId, onClose }: ChainMintDrawerProps
                   Mint on {chain.name}
                 </h2>
                 <p className="text-xs text-white/50">
-                  Send {chain.symbol} → Claim MIGA on Pars Network
+                  Send {chain.symbol} → Claim MIGA at ${getMintPrice(chainId!).toFixed(2)}/MIGA
                 </p>
               </div>
             </div>
@@ -123,6 +124,37 @@ export function ChainMintDrawer({ open, chainId, onClose }: ChainMintDrawerProps
               </p>
             </div>
           </div>
+
+          {/* Bonding curve price */}
+          {chainId && CHAIN_MAX_USD[chainId] && (
+            <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <TrendingUp size={14} className="text-gold" />
+                  <span className="text-xs font-medium text-white/60">Current Mint Price</span>
+                </div>
+                <span className="text-xs text-white/30">{getChainProgress(chainId).toFixed(1)}% filled</span>
+              </div>
+              <div className="flex items-end justify-between mb-3">
+                <p className="text-2xl font-bold text-gold">${getMintPrice(chainId).toFixed(2)}</p>
+                <p className="text-xs text-white/30">per MIGA</p>
+              </div>
+              <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden mb-2">
+                <div
+                  className="h-full rounded-full transition-all"
+                  style={{
+                    width: `${Math.max(getChainProgress(chainId), 1)}%`,
+                    backgroundColor: chain?.color || '#FFD700',
+                    opacity: getChainProgress(chainId) > 0 ? 1 : 0.3,
+                  }}
+                />
+              </div>
+              <div className="flex items-center justify-between text-[10px] text-white/30">
+                <span>{formatUsd(CHAIN_RAISED[chainId] || 0)} raised</span>
+                <span>{formatMiga(getChainAllocation(chainId))} MIGA available</span>
+              </div>
+            </div>
+          )}
 
           {/* Step indicator */}
           <div className="flex items-center gap-3">

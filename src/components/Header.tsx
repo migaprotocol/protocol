@@ -8,6 +8,7 @@ const navLinks = [
   { label: 'Token', href: '#token' },
   { label: 'Roadmap', href: '#roadmap' },
   { label: 'Governance', href: '#governance' },
+  { label: 'Share', href: '/share', isRoute: true },
 ];
 
 export function Header() {
@@ -43,13 +44,23 @@ export function Header() {
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-gray-400 hover:text-white transition-colors text-sm font-medium"
-              >
-                {link.label}
-              </a>
+              link.isRoute ? (
+                <Link
+                  key={link.label}
+                  to={link.href}
+                  className="text-gray-400 hover:text-white transition-colors text-sm font-medium"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="text-gray-400 hover:text-white transition-colors text-sm font-medium"
+                >
+                  {link.label}
+                </a>
+              )
             ))}
           </div>
 
@@ -78,14 +89,25 @@ export function Header() {
           <div className="md:hidden py-4 border-t border-white/5 bg-[#07070A]/95 backdrop-blur-xl">
             <div className="flex flex-col gap-2">
               {navLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.label}
-                </a>
+                link.isRoute ? (
+                  <Link
+                    key={link.label}
+                    to={link.href}
+                    className="px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    className="px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {link.label}
+                  </a>
+                )
               ))}
               <Link
                 to="/mint"

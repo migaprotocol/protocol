@@ -2,31 +2,41 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { MigaBridge } from '@/components/bridge';
 import { MIGA_CHAINS, MIGA_DAO_WALLET } from '@/components/bridge/networks';
-import { Wallet, Shield, ExternalLink, ArrowRight, Sparkles, Users, Lock, TrendingUp } from 'lucide-react';
+import { Wallet, Shield, ExternalLink, ArrowRight, Sparkles, Users, Lock, TrendingUp, Share2 } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
+import {
+  getMintPrice,
+  getChainProgress,
+  getChainAllocation,
+  formatUsd,
+  formatMiga,
+  getTotalRaised,
+  CHAIN_RAISED,
+  CHAIN_MAX_USD,
+} from '@/lib/bondingCurve';
 
 const steps = [
   {
     number: '1',
     title: 'Select Chain',
-    description: 'Choose from 7 supported blockchains',
+    description: 'Choose from 10 supported blockchains',
   },
   {
     number: '2',
-    title: 'Send Payment',
+    title: 'Send Funds',
     description: 'Send tokens to the DAO treasury address',
   },
   {
     number: '3',
-    title: 'Receive MIGA',
-    description: 'Get MIGA tokens on Lux network via bridge',
+    title: 'Claim MIGA',
+    description: 'Claim MIGA on Pars Network after Nowruz',
   },
 ];
 
 const features = [
   {
     icon: Shield,
-    title: '3-of-5 MPC Security',
+    title: '3-of-5 Multi-sig',
     description: 'All funds are secured by multi-sig with 3-of-5 DAO signers required for any transaction.',
   },
   {
@@ -77,6 +87,9 @@ export default function Mint() {
   
   const defaultChain = getChainId(chain);
 
+  const mintableChains = MIGA_CHAINS.filter(c => c.enabled && !c.isRedemptionNetwork);
+  const totalRaised = getTotalRaised();
+
   return (
     <div className="min-h-screen flex flex-col bg-black">
       <Header />
@@ -87,16 +100,100 @@ export default function Mint() {
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/10 border border-gold/20 text-gold text-sm mb-6">
               <Sparkles size={16} />
-              <span>Multi-Chain Minting Open</span>
+              <span>Multi-Chain Minting</span>
             </div>
             <h1 className="text-4xl lg:text-6xl font-medium tracking-tight mb-4">
               Mint <span className="text-gold">$MIGA</span>
             </h1>
-            <p className="text-white/60 max-w-2xl mx-auto">
-              Mint from any of 7 supported chains. All funds go directly to the DAO treasury
-              and are used for protocol development and community initiatives.
+            <p className="text-white/60 max-w-2xl mx-auto mb-6">
+              Mint from any of 10 supported chains. Each chain has its own bonding curve from
+              $0.01 to $1. All funds go directly to the DAO treasury.
             </p>
+            <div className="inline-flex items-center gap-6 text-sm">
+              <div className="text-center">
+                <p className="text-2xl font-bold text-gold">{formatUsd(totalRaised)}</p>
+                <p className="text-white/40 text-xs">Total Raised</p>
+              </div>
+              <div className="w-px h-8 bg-white/10" />
+              <div className="text-center">
+                <p className="text-2xl font-bold text-white">10</p>
+                <p className="text-white/40 text-xs">Chains</p>
+              </div>
+              <div className="w-px h-8 bg-white/10" />
+              <div className="text-center">
+                <p className="text-2xl font-bold text-white">$0.01</p>
+                <p className="text-white/40 text-xs">Starting Price</p>
+              </div>
+            </div>
           </div>
+
+          {/* Chain Leaderboard / Pillars */}
+          <section className="mb-12">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-medium flex items-center gap-2">
+                <TrendingUp size={20} className="text-gold" />
+                Chain Leaderboard
+              </h2>
+              <span className="text-xs text-white/30">Bonding curve: $0.01 → $1.00</span>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+              {mintableChains.map((chain) => {
+                const price = getMintPrice(chain.id);
+                const progress = getChainProgress(chain.id);
+                const raised = CHAIN_RAISED[chain.id] || 0;
+                const maxUsd = CHAIN_MAX_USD[chain.id] || 0;
+                const allocation = getChainAllocation(chain.id);
+
+                return (
+                  <Link
+                    key={chain.id}
+                    to={`/mint/${chain.id.toLowerCase()}`}
+                    className="group p-4 bg-white/[0.03] border border-white/10 rounded-xl hover:border-gold/30 transition-all"
+                  >
+                    {/* Chain icon + name */}
+                    <div className="flex items-center gap-2 mb-3">
+                      <div
+                        className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
+                        style={{ backgroundColor: `${chain.color}20` }}
+                      >
+                        <img
+                          src={chain.icon}
+                          alt={chain.name}
+                          className="w-4 h-4"
+                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        />
+                      </div>
+                      <span className="text-sm font-medium truncate">{chain.name}</span>
+                    </div>
+
+                    {/* Price */}
+                    <p className="text-lg font-bold text-gold mb-1">
+                      ${price.toFixed(2)}
+                    </p>
+                    <p className="text-[10px] text-white/30 mb-3">per MIGA</p>
+
+                    {/* Progress bar */}
+                    <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden mb-2">
+                      <div
+                        className="h-full rounded-full transition-all duration-500"
+                        style={{
+                          width: `${Math.max(progress, 1)}%`,
+                          backgroundColor: chain.color,
+                          opacity: progress > 0 ? 1 : 0.3,
+                        }}
+                      />
+                    </div>
+
+                    {/* Stats */}
+                    <div className="flex items-center justify-between text-[10px] text-white/40">
+                      <span>{formatUsd(raised)}</span>
+                      <span>{formatMiga(allocation)} MIGA</span>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
 
           {/* Main Content */}
           <div className="grid lg:grid-cols-2 gap-8 mb-16">
@@ -113,7 +210,7 @@ export default function Mint() {
               </h2>
 
               <div className="space-y-4 mb-8">
-                {steps.map((step, idx) => (
+                {steps.map((step) => (
                   <div key={step.number} className="flex items-start gap-4">
                     <div className="w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center text-gold font-mono font-bold flex-shrink-0">
                       {step.number}
@@ -126,22 +223,26 @@ export default function Mint() {
                 ))}
               </div>
 
-              {/* Supported Chains */}
+              {/* Bonding Curve Explainer */}
               <div className="card rounded-xl p-6 mb-6">
-                <h3 className="text-base font-medium mb-4">Supported Chains</h3>
-                <div className="flex flex-wrap gap-2">
-                  {MIGA_CHAINS.filter(c => c.enabled).map((chain) => (
-                    <div
-                      key={chain.id}
-                      className="flex items-center gap-2 px-3 py-2 bg-white/5 rounded-lg"
-                    >
-                      <div
-                        className="w-2 h-2 rounded-full"
-                        style={{ backgroundColor: chain.color }}
-                      />
-                      <span className="text-sm">{chain.name}</span>
-                    </div>
-                  ))}
+                <h3 className="text-base font-medium mb-3">Bonding Curve Pricing</h3>
+                <p className="text-sm text-white/50 mb-4">
+                  Each chain starts at <span className="text-gold font-medium">$0.01</span> per MIGA and increases to{' '}
+                  <span className="text-gold font-medium">$1.00</span> as more is raised. Cheaper chains offer more MIGA per dollar — creating arbitrage opportunities across chains.
+                </p>
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="p-3 bg-white/5 rounded-lg text-center">
+                    <p className="text-lg font-bold text-emerald-400">$0.01</p>
+                    <p className="text-[10px] text-white/30">First Mint</p>
+                  </div>
+                  <div className="p-3 bg-white/5 rounded-lg text-center">
+                    <p className="text-lg font-bold text-amber-400">$0.50</p>
+                    <p className="text-[10px] text-white/30">Midpoint</p>
+                  </div>
+                  <div className="p-3 bg-white/5 rounded-lg text-center">
+                    <p className="text-lg font-bold text-red-400">$1.00</p>
+                    <p className="text-[10px] text-white/30">Last Mint</p>
+                  </div>
                 </div>
               </div>
 
@@ -178,14 +279,21 @@ export default function Mint() {
           {/* CTA */}
           <section className="text-center">
             <div className="card rounded-xl p-8 max-w-2xl mx-auto">
-              <h3 className="text-xl font-medium mb-4">Learn More About MIGA</h3>
+              <h3 className="text-xl font-medium mb-4">Spread the Word</h3>
               <p className="text-white/50 mb-6">
-                Read our whitepaper to understand the tokenomics, governance structure, and roadmap.
+                Share MIGA with your community. Every chain has its own bonding curve — help your chain win the leaderboard.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Link
-                  to="/token"
+                  to="/share"
                   className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gold text-black font-semibold rounded-full hover:bg-gold/90 transition-colors"
+                >
+                  <Share2 size={18} />
+                  Share MIGA
+                </Link>
+                <Link
+                  to="/token"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-white/20 rounded-full hover:bg-white/5 transition-colors"
                 >
                   <Wallet size={18} />
                   Token Details
@@ -195,7 +303,7 @@ export default function Mint() {
                   className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-white/20 rounded-full hover:bg-white/5 transition-colors"
                 >
                   <ExternalLink size={18} />
-                  Read Whitepaper
+                  Whitepaper
                 </Link>
               </div>
             </div>
