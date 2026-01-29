@@ -66,9 +66,14 @@ export default function Index() {
 
             {/* Text content below medallion */}
             <div className="text-center max-w-4xl mx-auto">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 mb-4 sm:mb-6">
-                <span className="text-xs sm:text-sm text-[#FFD700] font-medium">DAO on Pars.Network</span>
-              </div>
+              <a
+                href="https://pars.network"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 mb-4 sm:mb-6 hover:bg-[#FFD700]/20 transition-colors"
+              >
+                <span className="text-xs sm:text-sm text-[#FFD700] font-medium">DAO on Pars Network</span>
+              </a>
 
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-5 leading-tight">
                 <span className="text-white">Freedom of</span>
