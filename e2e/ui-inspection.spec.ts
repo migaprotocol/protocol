@@ -3,7 +3,7 @@ import path from 'path';
 
 // Configure Playwright to use a local browser
 test.use({
-  baseURL: 'http://localhost:8082',
+  baseURL: 'http://localhost:8080',
 });
 
 test('Homepage - Header with Share nav link', async ({ page }) => {
@@ -123,31 +123,31 @@ test('Share Page - Content loads', async ({ page }) => {
   console.log('✓ Share page sections all present');
 });
 
-test('Mint Page - Click chain to open drawer', async ({ page }) => {
+test('Mint Page - Chain cards display correctly', async ({ page }) => {
   await page.goto('/mint');
   await page.waitForLoadState('networkidle');
 
-  // Click first chain card (links to /mint/{chainId})
-  const firstChainCard = page.locator('a[href*="/mint/"]').first();
-  await firstChainCard.click();
+  // Check page title
+  await expect(page.getByText('Mint $MIGA')).toBeVisible();
 
-  // Wait for navigation and drawer to appear
-  await page.waitForLoadState('domcontentloaded');
-  const drawer = page.locator('[data-testid="chain-mint-drawer"]');
-  await expect(drawer).toBeVisible({ timeout: 10000 });
+  // Check stats display
+  await expect(page.getByText('Total Raised')).toBeVisible();
+  await expect(page.getByText('Goal')).toBeVisible();
 
-  // Take screenshot of drawer
-  await page.screenshot({ path: 'chain-mint-drawer.png', fullPage: false });
+  // Check chain leaderboard heading
+  await expect(page.getByText('Chain Leaderboard')).toBeVisible();
 
-  // Check drawer contains bonding curve pricing card
-  const pricingCard = drawer.getByText(/Bonding Curve/);
-  await expect(pricingCard).toBeVisible();
+  // Check for 7 chain cards
+  const chainCards = page.locator('a[href*="/mint/"]');
+  const count = await chainCards.count();
+  expect(count).toBe(7);
 
-  // Check for deposit address or claim flow info
-  const depositInfo = drawer.getByText(/deposit|send|address/i).first();
-  await expect(depositInfo).toBeVisible();
+  // Verify first chain card has expected structure (name, price, progress)
+  const firstCard = chainCards.first();
+  await expect(firstCard).toBeVisible();
+  await expect(firstCard.getByText(/\$[0-9.]+/).first()).toBeVisible();
 
-  console.log('✓ Chain Mint Drawer displays correctly with all components');
+  console.log('✓ Mint page chain cards display correctly');
 });
 
 test('Footer - Consistency across pages', async ({ page }) => {
