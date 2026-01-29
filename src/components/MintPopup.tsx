@@ -1,86 +1,5 @@
-import { useState, useEffect } from 'react'
-import { X, Zap, TrendingUp } from 'lucide-react'
-import { MIGA_CHAINS } from '@/components/bridge/networks'
-
-interface ChainFunding {
-  id: string
-  name: string
-  symbol: string
-  color: string
-  icon: string
-  raised: number
-  target: number
-  minters: number
-  enabled: boolean
-}
-
-// Simulated live funding data per chain
-// In production this would come from on-chain reads
-const FUNDING_DATA: ChainFunding[] = MIGA_CHAINS
-  .filter(c => c.enabled && !c.isRedemptionNetwork)
-  .map(c => ({
-    id: c.id,
-    name: c.name,
-    symbol: c.nativeAsset,
-    color: c.color,
-    icon: c.icon,
-    raised: 0,
-    target: 0,
-    minters: 0,
-    enabled: c.enabled,
-  }))
-
-// Phase I target: $5M split across chains
-const PHASE_TARGET = 5_000_000
-const CHAIN_TARGETS: Record<string, number> = {
-  BITCOIN: 1_500_000,
-  ETHEREUM: 1_000_000,
-  BASE: 300_000,
-  OPTIMISM: 200_000,
-  ARBITRUM: 200_000,
-  BSC: 300_000,
-  SOLANA: 800_000,
-  XRP: 200_000,
-  TON: 300_000,
-  LUX: 200_000,
-}
-
-// Simulated raised amounts (demo)
-const CHAIN_RAISED: Record<string, number> = {
-  BITCOIN: 42_800,
-  ETHEREUM: 128_500,
-  BASE: 31_200,
-  OPTIMISM: 8_400,
-  ARBITRUM: 12_100,
-  BSC: 18_700,
-  SOLANA: 215_600,
-  XRP: 5_300,
-  TON: 9_800,
-  LUX: 3_200,
-}
-
-const CHAIN_MINTERS: Record<string, number> = {
-  BITCOIN: 34,
-  ETHEREUM: 412,
-  BASE: 187,
-  OPTIMISM: 56,
-  ARBITRUM: 89,
-  BSC: 143,
-  SOLANA: 1247,
-  XRP: 28,
-  TON: 67,
-  LUX: 15,
-}
-
-function formatUSD(n: number): string {
-  if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(2)}M`
-  if (n >= 1_000) return `$${(n / 1_000).toFixed(1)}K`
-  return `$${n.toFixed(0)}`
-}
-
-function formatNumber(n: number): string {
-  return n.toLocaleString()
-}
+import { X, Zap, TrendingUp, Loader2 } from 'lucide-react'
+import { useTreasury, formatUsd, formatNative, FUND_TARGET } from '@/lib/treasury'
 
 interface MintPopupProps {
   open: boolean
@@ -89,49 +8,9 @@ interface MintPopupProps {
 }
 
 export function MintPopup({ open, onClose, onSelectChain }: MintPopupProps) {
-  const [chains, setChains] = useState<ChainFunding[]>([])
-  const [totalRaised, setTotalRaised] = useState(0)
-  const [totalMinters, setTotalMinters] = useState(0)
-
-  useEffect(() => {
-    // Initialize with demo data
-    const data = FUNDING_DATA.map(c => ({
-      ...c,
-      raised: CHAIN_RAISED[c.id] || 0,
-      target: CHAIN_TARGETS[c.id] || 500_000,
-      minters: CHAIN_MINTERS[c.id] || 0,
-    }))
-    setChains(data)
-    setTotalRaised(data.reduce((sum, c) => sum + c.raised, 0))
-    setTotalMinters(data.reduce((sum, c) => sum + c.minters, 0))
-  }, [])
-
-  // Simulate live updates
-  useEffect(() => {
-    if (!open) return
-    const interval = setInterval(() => {
-      setChains(prev => {
-        const updated = prev.map(c => {
-          // Random small increment to simulate live activity
-          const bump = Math.random() < 0.3 ? Math.floor(Math.random() * 500) + 50 : 0
-          const minterBump = bump > 0 && Math.random() < 0.2 ? 1 : 0
-          return {
-            ...c,
-            raised: c.raised + bump,
-            minters: c.minters + minterBump,
-          }
-        })
-        setTotalRaised(updated.reduce((sum, c) => sum + c.raised, 0))
-        setTotalMinters(updated.reduce((sum, c) => sum + c.minters, 0))
-        return updated
-      })
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [open])
+  const { chains, totalUsd, progressPct, loading } = useTreasury()
 
   if (!open) return null
-
-  const totalPct = Math.min((totalRaised / PHASE_TARGET) * 100, 100)
 
   const handleMintOnChain = (chainId: string) => {
     onClose()
@@ -156,7 +35,7 @@ export function MintPopup({ open, onClose, onSelectChain }: MintPopupProps) {
               </div>
               <div>
                 <h2 className="text-lg font-bold text-white">Mint MIGA</h2>
-                <p className="text-xs text-white/50">Phase I — Freedom Fund</p>
+                <p className="text-xs text-white/50">Freedom Fund — on-chain treasury</p>
               </div>
             </div>
             <button onClick={onClose} className="p-2 rounded-lg hover:bg-white/10 transition-colors">
@@ -168,77 +47,103 @@ export function MintPopup({ open, onClose, onSelectChain }: MintPopupProps) {
           <div className="mt-4">
             <div className="flex items-end justify-between mb-2">
               <div>
-                <span className="text-2xl font-bold text-[#FFD700]">{formatUSD(totalRaised)}</span>
-                <span className="text-sm text-white/40 ml-2">/ {formatUSD(PHASE_TARGET)}</span>
+                <span className="text-2xl font-bold text-[#FFD700]">{formatUsd(totalUsd)}</span>
+                <span className="text-sm text-white/40 ml-2">/ {formatUsd(FUND_TARGET)}</span>
               </div>
               <div className="flex items-center gap-1 text-xs text-white/50">
-                <TrendingUp size={12} />
-                <span>{formatNumber(totalMinters)} minters</span>
+                {loading ? (
+                  <Loader2 size={12} className="animate-spin" />
+                ) : (
+                  <TrendingUp size={12} />
+                )}
+                <span>{chains.length} chains</span>
               </div>
             </div>
             <div className="h-2 bg-white/10 rounded-full overflow-hidden">
               <div
                 className="h-full rounded-full bg-gradient-to-r from-[#FFD700] to-[#FFA500] transition-all duration-1000"
-                style={{ width: `${totalPct}%` }}
+                style={{ width: `${Math.max(progressPct, 0.5)}%` }}
               />
             </div>
-            <p className="text-xs text-white/30 mt-1">{totalPct.toFixed(1)}% of Phase I target</p>
+            <p className="text-xs text-white/30 mt-1">{progressPct.toFixed(1)}% of goal</p>
           </div>
         </div>
 
         {/* Chain list */}
         <div className="overflow-y-auto px-6 py-4 space-y-3" style={{ maxHeight: 'calc(85vh - 200px)' }}>
-          {chains.map(chain => {
-            const pct = Math.min((chain.raised / chain.target) * 100, 100)
-            return (
-              <button
-                key={chain.id}
-                data-testid={`mint-chain-${chain.id}`}
-                onClick={() => handleMintOnChain(chain.id)}
-                className="w-full flex items-center gap-4 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-transparent hover:border-[#FFD700]/30 transition-all group"
-              >
-                {/* Chain icon */}
-                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
-                  <img
-                    src={chain.icon}
-                    alt={chain.name}
-                    className="w-6 h-6 object-contain"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = 'none'
-                    }}
-                  />
-                </div>
-
-                {/* Info + progress */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm font-medium text-white group-hover:text-[#FFD700] transition-colors">
-                      {chain.name}
-                    </span>
-                    <span className="text-xs text-white/50">{formatUSD(chain.raised)}</span>
-                  </div>
-                  <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full transition-all duration-1000"
-                      style={{
-                        width: `${pct}%`,
-                        backgroundColor: chain.color,
+          {loading && chains.length === 0 ? (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 size={24} className="text-[#FFD700] animate-spin" />
+              <span className="text-white/40 text-sm ml-3">Fetching on-chain balances...</span>
+            </div>
+          ) : (
+            chains.map(chain => {
+              const chainPct = totalUsd > 0 ? (chain.usdValue / FUND_TARGET) * 100 : 0
+              return (
+                <button
+                  key={chain.id}
+                  data-testid={`mint-chain-${chain.id}`}
+                  onClick={() => handleMintOnChain(chain.id)}
+                  className="w-full flex items-center gap-4 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-transparent hover:border-[#FFD700]/30 transition-all group"
+                >
+                  {/* Chain icon */}
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden"
+                    style={{ backgroundColor: `${chain.color}20` }}
+                  >
+                    <img
+                      src={chain.icon}
+                      alt={chain.name}
+                      className="w-6 h-6 object-contain"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none'
                       }}
                     />
                   </div>
-                  <div className="flex items-center justify-between mt-1">
-                    <span className="text-[10px] text-white/30">{pct.toFixed(1)}%</span>
-                    <span className="text-[10px] text-white/30">{chain.minters} minters</span>
-                  </div>
-                </div>
 
-                {/* Mint CTA */}
-                <div className="flex-shrink-0 px-3 py-1.5 rounded-lg bg-[#FFD700]/10 text-[#FFD700] text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-                  Mint →
-                </div>
-              </button>
-            )
-          })}
+                  {/* Info + progress */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium text-white group-hover:text-[#FFD700] transition-colors">
+                          {chain.name}
+                        </span>
+                        {chain.subChains && (
+                          <span className="text-[10px] text-white/20">
+                            incl. {chain.subChains.filter(s => s !== 'Mainnet').join(', ')}
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-xs text-white/50">{formatUsd(chain.usdValue)}</span>
+                    </div>
+                    <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                      <div
+                        className="h-full rounded-full transition-all duration-1000"
+                        style={{
+                          width: `${Math.max(chainPct, 0.5)}%`,
+                          backgroundColor: chain.color,
+                          opacity: chain.usdValue > 0 ? 1 : 0.3,
+                        }}
+                      />
+                    </div>
+                    <div className="flex items-center justify-between mt-1">
+                      <span className="text-[10px] text-white/30">
+                        {formatNative(chain.nativeBalance, chain.symbol)}
+                      </span>
+                      <span className="text-[10px] text-white/30">
+                        {chain.price > 0 ? `$${chain.price.toLocaleString()}` : '—'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Mint CTA */}
+                  <div className="flex-shrink-0 px-3 py-1.5 rounded-lg bg-[#FFD700]/10 text-[#FFD700] text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                    Mint →
+                  </div>
+                </button>
+              )
+            })
+          )}
         </div>
 
         {/* Footer */}
@@ -247,7 +152,7 @@ export function MintPopup({ open, onClose, onSelectChain }: MintPopupProps) {
             Mint is not live yet — preview only
           </p>
           <p className="text-[10px] text-white/30 text-center">
-            100% of funds go to DAO treasury • Proportional distribution • 1 MIGA = 1 Vote
+            100% of funds go to DAO treasury • All tokens swap to native asset • 1 MIGA = 1 Vote
           </p>
         </div>
       </div>
