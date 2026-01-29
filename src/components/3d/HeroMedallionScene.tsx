@@ -16,27 +16,47 @@ function LoadingFallback() {
   )
 }
 
-// The 3D medallion model
-function MedallionModel({ scale = 1 }: { scale?: number }) {
+// The 3D medallion model with hover/click interaction
+function MedallionModel({ scale = 1, onClick }: { scale?: number; onClick?: () => void }) {
   const { scene } = useGLTF('/models/MIGA-medallion.glb')
   const groupRef = useRef<THREE.Group>(null)
+  const [hovered, setHovered] = useState(false)
+  const targetScale = useRef(scale)
+
+  // Update cursor on hover
+  useEffect(() => {
+    document.body.style.cursor = hovered ? 'pointer' : 'auto'
+    targetScale.current = hovered ? scale * 1.1 : scale
+    return () => { document.body.style.cursor = 'auto' }
+  }, [hovered, scale])
 
   useFrame((state) => {
     if (groupRef.current) {
       // Gentle floating rotation
       groupRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.15
       groupRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.3) * 0.05
+
+      // Smooth scale transition on hover
+      const currentScale = groupRef.current.scale.x
+      const newScale = THREE.MathUtils.lerp(currentScale, targetScale.current, 0.1)
+      groupRef.current.scale.setScalar(newScale)
     }
   })
 
   return (
     <Float speed={1.5} rotationIntensity={0.15} floatIntensity={0.3}>
-      <group ref={groupRef} scale={scale}>
+      <group
+        ref={groupRef}
+        scale={scale}
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => setHovered(false)}
+        onClick={onClick}
+      >
         <primitive object={scene.clone()} />
-        {/* Glow behind medallion */}
+        {/* Glow behind medallion - brighter on hover */}
         <pointLight
           position={[0, 0, -0.5]}
-          intensity={3}
+          intensity={hovered ? 5 : 3}
           color="#FFD700"
           distance={5}
           decay={2}
@@ -76,26 +96,27 @@ function ResponsiveCamera() {
 }
 
 // The scene content
-function SceneContent({ isMobile }: { isMobile: boolean }) {
-  const scale = isMobile ? 0.8 : 1
+function SceneContent({ isMobile, onClick }: { isMobile: boolean; onClick?: () => void }) {
+  // Larger scale for better visibility
+  const scale = isMobile ? 1.2 : 1.5
 
   return (
     <>
       <ResponsiveCamera />
 
       {/* Lighting */}
-      <ambientLight intensity={0.4} />
+      <ambientLight intensity={0.5} />
       <directionalLight
         position={[5, 5, 5]}
-        intensity={1.5}
+        intensity={2}
         color="#FFFFFF"
       />
-      <pointLight position={[-3, 3, 2]} intensity={0.8} color="#FFD700" />
-      <pointLight position={[3, -3, 2]} intensity={0.5} color="#8B7500" />
+      <pointLight position={[-3, 3, 2]} intensity={1} color="#FFD700" />
+      <pointLight position={[3, -3, 2]} intensity={0.8} color="#8B7500" />
 
-      {/* The medallion */}
+      {/* The medallion - interactive */}
       <Suspense fallback={<LoadingFallback />}>
-        <MedallionModel scale={scale} />
+        <MedallionModel scale={scale} onClick={onClick} />
       </Suspense>
 
       {/* Sparkles */}
@@ -111,7 +132,7 @@ function SceneContent({ isMobile }: { isMobile: boolean }) {
 }
 
 // Main exported component
-export function HeroMedallionScene({ className = '' }: { className?: string }) {
+export function HeroMedallionScene({ className = '', onClick }: { className?: string; onClick?: () => void }) {
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
@@ -133,7 +154,7 @@ export function HeroMedallionScene({ className = '' }: { className?: string }) {
         }}
         style={{ background: 'transparent' }}
       >
-        <SceneContent isMobile={isMobile} />
+        <SceneContent isMobile={isMobile} onClick={onClick} />
       </Canvas>
     </div>
   )

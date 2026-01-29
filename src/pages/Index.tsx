@@ -56,12 +56,13 @@ export default function Index() {
             ============================================ */}
         <section className="relative min-h-screen flex flex-col bg-[#07070A]">
           {/* Content - stacked layout with medallion on top */}
-          <div className="flex-1 flex flex-col items-center justify-center pt-20 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8">
+          <div className="flex-1 flex flex-col items-center justify-center pt-16 sm:pt-20 pb-8 px-4 sm:px-6 lg:px-8">
 
-            {/* 3D Medallion - contained size */}
-            <div className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 mb-6 sm:mb-8">
-              <HeroMedallionScene />
+            {/* 3D Medallion - large, interactive, click to mint */}
+            <div className="w-64 h-64 sm:w-80 sm:h-80 md:w-[400px] md:h-[400px] lg:w-[480px] lg:h-[480px] mb-4 sm:mb-6">
+              <HeroMedallionScene onClick={() => setMintOpen(true)} />
             </div>
+            <p className="text-xs text-gray-500 mb-4 sm:mb-6">Click medallion to mint</p>
 
             {/* Text content below medallion */}
             <div className="text-center max-w-4xl mx-auto">
