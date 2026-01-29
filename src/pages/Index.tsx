@@ -72,14 +72,14 @@ export default function Index() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 mb-4 sm:mb-6 hover:bg-[#FFD700]/20 transition-colors"
               >
-                <span className="text-xs sm:text-sm text-[#FFD700] font-medium">DAO on Pars Network</span>
+                <span className="text-xs sm:text-sm text-[#FFD700] font-medium">MIGA DAO on Pars Network</span>
               </a>
 
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-5 leading-tight">
-                <span className="text-white">Freedom of</span>
+                <span className="text-white">Make Iran</span>
                 <br />
                 <span className="bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FFD700] bg-clip-text text-transparent">
-                  Information
+                  Great Again
                 </span>
               </h1>
 
