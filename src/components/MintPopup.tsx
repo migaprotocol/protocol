@@ -71,10 +71,10 @@ export function MintPopup({ open, onClose, onSelectChain }: MintPopupProps) {
 
         {/* Chain list */}
         <div className="overflow-y-auto px-6 py-4 space-y-3" style={{ maxHeight: 'calc(85vh - 200px)' }}>
-          {loading && chains.length === 0 ? (
+          {chains.length === 0 ? (
             <div className="flex items-center justify-center py-8">
               <Loader2 size={24} className="text-[#FFD700] animate-spin" />
-              <span className="text-white/40 text-sm ml-3">Fetching on-chain balances...</span>
+              <span className="text-white/40 text-sm ml-3">Loading chains...</span>
             </div>
           ) : (
             chains.map(chain => {
