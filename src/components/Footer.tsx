@@ -43,7 +43,7 @@ export function Footer() {
 
           {/* Description */}
           <p className="text-sm text-[#6B6B7B]">
-            Freedom of Information DAO
+            Make Iran Great Again
           </p>
 
           {/* Legal links */}
