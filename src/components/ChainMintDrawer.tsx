@@ -1,7 +1,8 @@
 import { X, ExternalLink, Shield, Copy, Check, QrCode, Info, ChevronDown, AlertCircle, TrendingUp } from 'lucide-react'
 import { useState, useMemo, useEffect } from 'react'
 import { MIGA_CHAINS, MIGA_DAO_WALLET, getChainAssets } from '@/components/bridge/networks'
-import { getMintPrice, getChainProgress, getChainAllocation, formatUsd, formatMiga, CHAIN_RAISED, CHAIN_MAX_USD } from '@/lib/bondingCurve'
+import { useTreasury, formatUsd, FUND_TARGET } from '@/lib/treasury'
+import { getMintPrice, getChainProgress, getChainAllocation, formatMiga, CHAIN_MAX_USD, TREASURY_CHAIN_MAP } from '@/lib/bondingCurve'
 
 interface ChainMintDrawerProps {
   open: boolean
@@ -15,6 +16,8 @@ export function ChainMintDrawer({ open, chainId, onClose }: ChainMintDrawerProps
   const [selectedAsset, setSelectedAsset] = useState('')
   const [showAssetDropdown, setShowAssetDropdown] = useState(false)
   const [receivingAddress, setReceivingAddress] = useState('')
+
+  const { chains } = useTreasury()
 
   const isValidEvmAddress = (addr: string) => /^0x[a-fA-F0-9]{40}$/.test(addr)
   const hasValidReceiving = isValidEvmAddress(receivingAddress)
@@ -30,6 +33,15 @@ export function ChainMintDrawer({ open, chainId, onClose }: ChainMintDrawerProps
     () => assets.find(a => a.symbol === selectedAsset) || assets[0],
     [assets, selectedAsset],
   )
+
+  // Get treasury chain for consolidated pricing
+  const treasuryChainId = chainId ? (TREASURY_CHAIN_MAP[chainId] || chainId) : null
+  const treasuryChain = useMemo(
+    () => treasuryChainId ? chains.find(c => c.id === treasuryChainId) : null,
+    [treasuryChainId, chains]
+  )
+  const raisedUsd = treasuryChain?.usdValue || 0
+  const maxUsd = treasuryChainId ? (CHAIN_MAX_USD[treasuryChainId] || 0) : 0
 
   // Reset state when chain changes
   useEffect(() => {
@@ -62,6 +74,14 @@ export function ChainMintDrawer({ open, chainId, onClose }: ChainMintDrawerProps
   }
 
   if (!open || !chain) return null
+
+  const currentPrice = getMintPrice(raisedUsd, chainId!)
+  const progress = getChainProgress(raisedUsd, chainId!)
+  const allocation = getChainAllocation(chainId!)
+
+  // Check if this is an ETH L2
+  const isEthL2 = ['BASE', 'OPTIMISM', 'ARBITRUM'].includes(chainId!)
+  const l2Note = isEthL2 ? 'Contributes to Ethereum treasury' : null
 
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
@@ -100,7 +120,7 @@ export function ChainMintDrawer({ open, chainId, onClose }: ChainMintDrawerProps
                   Mint on {chain.name}
                 </h2>
                 <p className="text-xs text-white/50">
-                  Send {chain.symbol} → Claim MIGA at ${getMintPrice(chainId!).toFixed(2)}/MIGA
+                  Send {chain.symbol} → Claim MIGA at ${currentPrice.toFixed(2)}/MIGA
                 </p>
               </div>
             </div>
@@ -125,33 +145,43 @@ export function ChainMintDrawer({ open, chainId, onClose }: ChainMintDrawerProps
             </div>
           </div>
 
+          {/* L2 note */}
+          {l2Note && (
+            <div className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20">
+              <p className="text-xs text-blue-300/80">
+                <span className="font-medium text-blue-200">{chain.name}</span>{' '}
+                deposits contribute to the consolidated Ethereum treasury. All ETH L2s share the same bonding curve.
+              </p>
+            </div>
+          )}
+
           {/* Bonding curve price */}
-          {chainId && CHAIN_MAX_USD[chainId] && (
+          {treasuryChainId && maxUsd > 0 && (
             <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
                   <TrendingUp size={14} className="text-gold" />
                   <span className="text-xs font-medium text-white/60">Current Mint Price</span>
                 </div>
-                <span className="text-xs text-white/30">{getChainProgress(chainId).toFixed(1)}% filled</span>
+                <span className="text-xs text-white/30">{progress.toFixed(1)}% filled</span>
               </div>
               <div className="flex items-end justify-between mb-3">
-                <p className="text-2xl font-bold text-gold">${getMintPrice(chainId).toFixed(2)}</p>
+                <p className="text-2xl font-bold text-gold">${currentPrice.toFixed(2)}</p>
                 <p className="text-xs text-white/30">per MIGA</p>
               </div>
               <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden mb-2">
                 <div
                   className="h-full rounded-full transition-all"
                   style={{
-                    width: `${Math.max(getChainProgress(chainId), 1)}%`,
-                    backgroundColor: chain?.color || '#FFD700',
-                    opacity: getChainProgress(chainId) > 0 ? 1 : 0.3,
+                    width: `${Math.max(progress, 1)}%`,
+                    backgroundColor: treasuryChain?.color || chain.color,
+                    opacity: progress > 0 ? 1 : 0.3,
                   }}
                 />
               </div>
               <div className="flex items-center justify-between text-[10px] text-white/30">
-                <span>{formatUsd(CHAIN_RAISED[chainId] || 0)} raised</span>
-                <span>{formatMiga(getChainAllocation(chainId))} MIGA available</span>
+                <span>{formatUsd(raisedUsd)} raised</span>
+                <span>{formatMiga(allocation)} MIGA available</span>
               </div>
             </div>
           )}
