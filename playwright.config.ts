@@ -9,7 +9,7 @@ export default defineConfig({
   reporter: 'list',
   timeout: 60000,
   use: {
-    baseURL: 'http://localhost:8081',
+    baseURL: 'http://localhost:8080',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     navigationTimeout: 30000,
@@ -22,8 +22,8 @@ export default defineConfig({
   ],
   webServer: {
     command: 'pnpm dev',
-    url: 'http://localhost:8081',
+    url: 'http://localhost:8080',
     reuseExistingServer: true,
-    timeout: 30000,
+    timeout: 120000,
   },
 });

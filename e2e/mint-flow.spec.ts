@@ -214,7 +214,7 @@ test.describe('ChainMintDrawer Details', () => {
     await enterReceivingAddress(page);
 
     const drawer = page.locator('[data-testid="chain-mint-drawer"]');
-    await expect(drawer.getByText('DAO Treasury Address')).toBeVisible({ timeout: 10000 });
+    await expect(drawer.getByText('DAO Treasury Address', { exact: true })).toBeVisible({ timeout: 10000 });
   });
 
   test('drawer shows multi-sig security badge', async ({ page }) => {
