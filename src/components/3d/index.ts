@@ -32,3 +32,6 @@ export {
 export { MigaScene, MigaSceneLite } from './Scene'
 export type { SceneLayout } from './Scene'
 export { default as Scene } from './Scene'
+
+// Hero medallion scene (simple single medallion for mobile-friendly hero)
+export { HeroMedallionScene } from './HeroMedallionScene'
