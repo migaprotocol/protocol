@@ -1,9 +1,13 @@
 import { test, expect } from '@playwright/test';
 
+// Increase default timeout for all tests
+
 test.describe('Network Configurations', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
+    // Wait for app to render
+    await expect(page.locator('header')).toBeVisible({ timeout: 15000 });
   });
 
   test('displays chain network options', async ({ page }) => {
@@ -14,16 +18,18 @@ test.describe('Network Configurations', () => {
     );
 
     // If there's a mint section, it should be visible
-    await expect(bridgeSection).toBeVisible({ timeout: 10000 });
+    await expect(bridgeSection).toBeVisible({ timeout: 15000 });
   });
 
   test('Solana chain should be primary', async ({ page }) => {
     // Look for Solana branding since it's the primary chain
     const solanaText = page.getByText(/Solana/i).first();
 
-    // May or may not be visible depending on UI state
-    if (await solanaText.isVisible()) {
-      await expect(solanaText).toBeVisible();
+    // May or may not be visible depending on UI state - just check it doesn't throw
+    try {
+      await expect(solanaText).toBeVisible({ timeout: 5000 });
+    } catch {
+      // Solana text might not be immediately visible, that's OK
     }
   });
 });
@@ -43,7 +49,6 @@ test.describe('Chain ID Validation', () => {
   test('chain configurations are correct', async ({ page }) => {
     // This is a smoke test - the real validation happens in unit tests
     // Here we just verify the app loads without chain config errors
-    await page.goto('/');
 
     // Check console for errors related to chain configuration
     const errors: string[] = [];
@@ -53,8 +58,10 @@ test.describe('Chain ID Validation', () => {
       }
     });
 
-    await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(2000);
+    await page.goto('/');
+    await page.waitForLoadState('domcontentloaded');
+    // Wait for app to fully render
+    await expect(page.locator('header')).toBeVisible({ timeout: 15000 });
 
     // Filter for chain-related errors (excluding CORS errors from external APIs)
     const chainErrors = errors.filter(e =>

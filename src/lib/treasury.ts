@@ -268,9 +268,20 @@ import { useState, useEffect, useCallback } from 'react'
 
 const REFRESH_INTERVAL = 60_000 // 60s
 
+// Default chain data shown while loading or on API failure
+const DEFAULT_CHAINS: ChainBalance[] = [
+  { id: 'BITCOIN', name: 'Bitcoin', symbol: 'BTC', color: '#F7931A', icon: '/images/tokens/bitcoin.png', nativeBalance: 0, usdValue: 0, price: 0 },
+  { id: 'ETHEREUM', name: 'Ethereum', symbol: 'ETH', color: '#627EEA', icon: '/images/tokens/ethereum.png', nativeBalance: 0, usdValue: 0, price: 0, subChains: ['Mainnet', 'Base', 'Optimism', 'Arbitrum'] },
+  { id: 'BSC', name: 'BNB Chain', symbol: 'BNB', color: '#F0B90B', icon: '/images/tokens/bnb.png', nativeBalance: 0, usdValue: 0, price: 0 },
+  { id: 'SOLANA', name: 'Solana', symbol: 'SOL', color: '#9945FF', icon: '/images/tokens/solana.png', nativeBalance: 0, usdValue: 0, price: 0 },
+  { id: 'XRP', name: 'XRP Ledger', symbol: 'XRP', color: '#23292F', icon: '/images/tokens/xrp.png', nativeBalance: 0, usdValue: 0, price: 0 },
+  { id: 'TON', name: 'TON', symbol: 'TON', color: '#0088CC', icon: '/images/tokens/ton.png', nativeBalance: 0, usdValue: 0, price: 0 },
+  { id: 'LUX', name: 'Lux', symbol: 'LUX', color: '#E84142', icon: '/images/tokens/lux.png', nativeBalance: 0, usdValue: 0, price: 0 },
+]
+
 export function useTreasury() {
   const [state, setState] = useState<TreasuryState>({
-    chains: [],
+    chains: DEFAULT_CHAINS,
     totalUsd: 0,
     progressPct: 0,
     lastUpdated: 0,
@@ -282,7 +293,8 @@ export function useTreasury() {
       const data = await fetchTreasuryBalances()
       setState(data)
     } catch {
-      // Keep previous state on error
+      // Use default chains on error (allows UI to still function)
+      setState(prev => prev.chains.length > 0 ? prev : { ...prev, chains: DEFAULT_CHAINS })
     } finally {
       setLoading(false)
     }
