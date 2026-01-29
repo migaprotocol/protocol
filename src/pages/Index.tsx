@@ -54,24 +54,22 @@ export default function Index() {
         {/* ============================================
             HERO with Medallion
             ============================================ */}
-        <section className="relative min-h-screen flex flex-col">
-          {/* 3D Medallion Scene - centered */}
-          <div className="absolute inset-0 z-0">
-            <HeroMedallionScene />
-          </div>
+        <section className="relative min-h-screen flex flex-col bg-[#07070A]">
+          {/* Content - stacked layout with medallion on top */}
+          <div className="flex-1 flex flex-col items-center justify-center pt-20 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8">
 
-          {/* Gradient overlays for readability */}
-          <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-t from-[#07070A] via-transparent to-[#07070A]/50" />
-          <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-r from-[#07070A]/80 via-transparent to-[#07070A]/80" />
+            {/* 3D Medallion - contained size */}
+            <div className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 mb-6 sm:mb-8">
+              <HeroMedallionScene />
+            </div>
 
-          {/* Content overlay */}
-          <div className="relative z-20 flex-1 flex flex-col items-center justify-center pt-20 pb-12 px-4 sm:px-6 lg:px-8">
+            {/* Text content below medallion */}
             <div className="text-center max-w-4xl mx-auto">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 mb-6 sm:mb-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 mb-4 sm:mb-6">
                 <span className="text-xs sm:text-sm text-[#FFD700] font-medium">DAO on Pars.Network</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-5 leading-tight">
                 <span className="text-white">Freedom of</span>
                 <br />
                 <span className="bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FFD700] bg-clip-text text-transparent">
@@ -79,21 +77,21 @@ export default function Index() {
                 </span>
               </h1>
 
-              <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-8 sm:mb-10 px-4">
-                MIGA is a DAO that funds anti-censorship technology, independent media, and cultural expression for the people of Iran.
+              <p className="text-sm sm:text-base md:text-lg text-gray-400 max-w-xl mx-auto mb-6 sm:mb-8 px-2">
+                A DAO funding anti-censorship technology, independent media, and cultural expression for the people of Iran.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-10 sm:mb-12">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-10">
                 <button
                   data-testid="mint-button-hero"
                   onClick={() => setMintOpen(true)}
-                  className="w-full sm:w-auto bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold rounded-full px-8 sm:px-10 py-4 sm:py-5 hover:shadow-xl hover:shadow-[#FFD700]/30 transition-all text-base sm:text-lg cursor-pointer"
+                  className="w-full sm:w-auto bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold rounded-full px-8 py-4 hover:shadow-xl hover:shadow-[#FFD700]/30 transition-all text-base cursor-pointer"
                 >
                   Mint MIGA
                 </button>
                 <a
                   href="#leaderboard"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-4 rounded-full border border-white/20 text-white hover:bg-white/5 transition-all text-base sm:text-lg font-medium"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full border border-white/20 text-white hover:bg-white/5 transition-all text-base font-medium"
                 >
                   View Leaderboard
                   <ArrowDown size={18} />
@@ -101,17 +99,17 @@ export default function Index() {
               </div>
 
               {/* Stats row */}
-              <div className="grid grid-cols-3 gap-4 sm:gap-8 max-w-md sm:max-w-xl mx-auto bg-black/40 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/[0.08]">
+              <div className="grid grid-cols-3 gap-3 sm:gap-6 max-w-sm sm:max-w-md mx-auto bg-white/[0.03] backdrop-blur-sm rounded-2xl p-4 sm:p-5 border border-white/[0.06]">
                 <div className="text-center">
-                  <p className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">1B</p>
+                  <p className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">1B</p>
                   <p className="text-[10px] sm:text-xs text-gray-500 mt-1 uppercase tracking-wider">Supply</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">100%</p>
+                  <p className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">100%</p>
                   <p className="text-[10px] sm:text-xs text-gray-500 mt-1 uppercase tracking-wider">Treasury</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">0%</p>
+                  <p className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">0%</p>
                   <p className="text-[10px] sm:text-xs text-gray-500 mt-1 uppercase tracking-wider">VC</p>
                 </div>
               </div>
@@ -119,7 +117,7 @@ export default function Index() {
           </div>
 
           {/* Scroll indicator */}
-          <div className="relative z-20 pb-8 text-center">
+          <div className="pb-6 text-center">
             <a href="#problem" className="inline-flex flex-col items-center gap-2 text-gray-500 hover:text-white transition-colors">
               <span className="text-xs uppercase tracking-wider">Scroll</span>
               <ArrowDown size={16} className="animate-bounce" />
