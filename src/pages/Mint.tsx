@@ -1,25 +1,17 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { MigaBridge } from '@/components/bridge';
-import { MIGA_CHAINS, MIGA_DAO_WALLET } from '@/components/bridge/networks';
-import { Wallet, Shield, ExternalLink, ArrowRight, Sparkles, Users, Lock, TrendingUp, Share2 } from 'lucide-react';
+import { MIGA_DAO_WALLET } from '@/components/bridge/networks';
+import { Wallet, Shield, ExternalLink, ArrowRight, Sparkles, Users, Lock, TrendingUp, Share2, Loader2 } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
-import {
-  getMintPrice,
-  getChainProgress,
-  getChainAllocation,
-  formatUsd,
-  formatMiga,
-  getTotalRaised,
-  CHAIN_RAISED,
-  CHAIN_MAX_USD,
-} from '@/lib/bondingCurve';
+import { useTreasury, formatUsd, formatNative, FUND_TARGET } from '@/lib/treasury';
+import { getMintPrice, getChainProgress, getChainAllocation, formatMiga, CHAIN_MAX_USD } from '@/lib/bondingCurve';
 
 const steps = [
   {
     number: '1',
     title: 'Select Chain',
-    description: 'Choose from 10 supported blockchains',
+    description: 'Choose from 7 supported blockchains',
   },
   {
     number: '2',
@@ -58,7 +50,8 @@ const features = [
 
 export default function Mint() {
   const { chain } = useParams<{ chain?: string }>();
-  
+  const { chains, totalUsd, loading } = useTreasury();
+
   // Map URL param to chain ID (e.g., 'solana' -> 'SOLANA')
   const getChainId = (chainSlug?: string): string => {
     if (!chainSlug) return 'SOLANA';
@@ -68,11 +61,11 @@ export default function Mint() {
       btc: 'BITCOIN',
       ethereum: 'ETHEREUM',
       eth: 'ETHEREUM',
-      base: 'BASE',
-      optimism: 'OPTIMISM',
-      op: 'OPTIMISM',
-      arbitrum: 'ARBITRUM',
-      arb: 'ARBITRUM',
+      base: 'ETHEREUM',
+      optimism: 'ETHEREUM',
+      op: 'ETHEREUM',
+      arbitrum: 'ETHEREUM',
+      arb: 'ETHEREUM',
       bnb: 'BSC',
       bsc: 'BSC',
       solana: 'SOLANA',
@@ -84,11 +77,8 @@ export default function Mint() {
     };
     return chainMap[slug] || 'SOLANA';
   };
-  
-  const defaultChain = getChainId(chain);
 
-  const mintableChains = MIGA_CHAINS.filter(c => c.enabled && !c.isRedemptionNetwork);
-  const totalRaised = getTotalRaised();
+  const defaultChain = getChainId(chain);
 
   return (
     <div className="min-h-screen flex flex-col bg-black">
@@ -106,18 +96,22 @@ export default function Mint() {
               Mint <span className="text-gold">$MIGA</span>
             </h1>
             <p className="text-white/60 max-w-2xl mx-auto mb-6">
-              Mint from any of 10 supported chains. Each chain has its own bonding curve from
+              Mint from any of 7 supported chains. Each chain has its own bonding curve from
               $0.01 to $1. All funds go directly to the DAO treasury.
             </p>
             <div className="inline-flex items-center gap-6 text-sm">
               <div className="text-center">
-                <p className="text-2xl font-bold text-gold">{formatUsd(totalRaised)}</p>
+                {loading ? (
+                  <Loader2 size={24} className="text-gold animate-spin mx-auto mb-1" />
+                ) : (
+                  <p className="text-2xl font-bold text-gold">{formatUsd(totalUsd)}</p>
+                )}
                 <p className="text-white/40 text-xs">Total Raised</p>
               </div>
               <div className="w-px h-8 bg-white/10" />
               <div className="text-center">
-                <p className="text-2xl font-bold text-white">10</p>
-                <p className="text-white/40 text-xs">Chains</p>
+                <p className="text-2xl font-bold text-white">{formatUsd(FUND_TARGET)}</p>
+                <p className="text-white/40 text-xs">Goal</p>
               </div>
               <div className="w-px h-8 bg-white/10" />
               <div className="text-center">
@@ -136,63 +130,82 @@ export default function Mint() {
               </h2>
               <span className="text-xs text-white/30">Bonding curve: $0.01 → $1.00</span>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-              {mintableChains.map((chain) => {
-                const price = getMintPrice(chain.id);
-                const progress = getChainProgress(chain.id);
-                const raised = CHAIN_RAISED[chain.id] || 0;
-                const maxUsd = CHAIN_MAX_USD[chain.id] || 0;
-                const allocation = getChainAllocation(chain.id);
 
-                return (
-                  <Link
-                    key={chain.id}
-                    to={`/mint/${chain.id.toLowerCase()}`}
-                    className="group p-4 bg-white/[0.03] border border-white/10 rounded-xl hover:border-gold/30 transition-all"
-                  >
-                    {/* Chain icon + name */}
-                    <div className="flex items-center gap-2 mb-3">
-                      <div
-                        className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
-                        style={{ backgroundColor: `${chain.color}20` }}
-                      >
-                        <img
-                          src={chain.icon}
-                          alt={chain.name}
-                          className="w-4 h-4"
-                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+            {loading && chains.length === 0 ? (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 size={24} className="text-gold animate-spin" />
+                <span className="text-white/40 text-sm ml-3">Loading on-chain balances...</span>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+                {chains.map((chainData) => {
+                  const price = getMintPrice(chainData.usdValue, chainData.id);
+                  const progress = getChainProgress(chainData.usdValue, chainData.id);
+                  const allocation = getChainAllocation(chainData.id);
+                  const maxUsd = CHAIN_MAX_USD[chainData.id] || 0;
+
+                  return (
+                    <Link
+                      key={chainData.id}
+                      to={`/mint/${chainData.id.toLowerCase()}`}
+                      className="group p-4 bg-white/[0.03] border border-white/10 rounded-xl hover:border-gold/30 transition-all"
+                    >
+                      {/* Chain icon + name */}
+                      <div className="flex items-center gap-2 mb-3">
+                        <div
+                          className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
+                          style={{ backgroundColor: `${chainData.color}20` }}
+                        >
+                          <img
+                            src={chainData.icon}
+                            alt={chainData.name}
+                            className="w-4 h-4"
+                            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                          />
+                        </div>
+                        <span className="text-sm font-medium truncate">{chainData.name}</span>
+                      </div>
+
+                      {/* Price */}
+                      <p className="text-lg font-bold text-gold mb-1">
+                        ${price.toFixed(2)}
+                      </p>
+                      <p className="text-[10px] text-white/30 mb-3">per MIGA</p>
+
+                      {/* Progress bar */}
+                      <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden mb-2">
+                        <div
+                          className="h-full rounded-full transition-all duration-500"
+                          style={{
+                            width: `${Math.max(progress, 1)}%`,
+                            backgroundColor: chainData.color,
+                            opacity: progress > 0 ? 1 : 0.3,
+                          }}
                         />
                       </div>
-                      <span className="text-sm font-medium truncate">{chain.name}</span>
-                    </div>
 
-                    {/* Price */}
-                    <p className="text-lg font-bold text-gold mb-1">
-                      ${price.toFixed(2)}
-                    </p>
-                    <p className="text-[10px] text-white/30 mb-3">per MIGA</p>
+                      {/* Stats */}
+                      <div className="flex items-center justify-between text-[10px] text-white/40">
+                        <span>{formatUsd(chainData.usdValue)}</span>
+                        <span>/ {formatUsd(maxUsd)}</span>
+                      </div>
 
-                    {/* Progress bar */}
-                    <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden mb-2">
-                      <div
-                        className="h-full rounded-full transition-all duration-500"
-                        style={{
-                          width: `${Math.max(progress, 1)}%`,
-                          backgroundColor: chain.color,
-                          opacity: progress > 0 ? 1 : 0.3,
-                        }}
-                      />
-                    </div>
+                      {/* Native balance */}
+                      <p className="text-[10px] text-white/20 mt-1">
+                        {formatNative(chainData.nativeBalance, chainData.symbol)}
+                      </p>
 
-                    {/* Stats */}
-                    <div className="flex items-center justify-between text-[10px] text-white/40">
-                      <span>{formatUsd(raised)}</span>
-                      <span>{formatMiga(allocation)} MIGA</span>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
+                      {/* ETH subchains note */}
+                      {chainData.subChains && (
+                        <p className="text-[9px] text-white/15 mt-1">
+                          incl. {chainData.subChains.join(', ')}
+                        </p>
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
           </section>
 
           {/* Main Content */}
