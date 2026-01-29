@@ -17,9 +17,9 @@ test.describe('Full Mint Flow', () => {
     const popup = page.locator('[data-testid="mint-popup"]');
     await expect(popup).toBeVisible({ timeout: 5000 });
 
-    // Should show "Mint MIGA" heading and "Phase I" text
+    // Should show "Mint MIGA" heading and goal info
     await expect(popup.getByText('Mint MIGA')).toBeVisible();
-    await expect(popup.getByText(/Phase I/)).toBeVisible();
+    await expect(popup.getByText(/% of goal/)).toBeVisible();
   });
 
   test('footer "Mint MIGA" button opens MintPopup', async ({ page }) => {
@@ -39,16 +39,16 @@ test.describe('Full Mint Flow', () => {
     const popup = page.locator('[data-testid="mint-popup"]');
     await expect(popup).toBeVisible({ timeout: 5000 });
 
-    // Should show multiple chain buttons
+    // Should show 7 consolidated chain buttons (BTC, ETH, BNB, SOL, XRP, TON, LUX)
     const chainBtns = popup.locator('button[data-testid^="mint-chain-"]');
     const count = await chainBtns.count();
-    expect(count).toBeGreaterThanOrEqual(7); // BTC, ETH, Base, OP, ARB, BSC, SOL, XRP, TON, LUX
+    expect(count).toBe(7);
 
-    // Should show total raised amount and minter count
-    await expect(popup.getByText(/minters/)).toBeVisible();
+    // Should show progress info
+    await expect(popup.getByText(/% of goal/)).toBeVisible();
 
-    // Should show progress percentage
-    await expect(popup.getByText(/% of Phase I target/)).toBeVisible();
+    // Should show chain count
+    await expect(popup.getByText(/7 chains/)).toBeVisible();
   });
 
   test('MintPopup shows specific chains', async ({ page }) => {
@@ -80,7 +80,7 @@ test.describe('Full Mint Flow', () => {
     await expect(popup).toBeVisible({ timeout: 5000 });
 
     // Click backdrop (the black overlay behind the popup)
-    await page.locator('.bg-black\\/80').click({ position: { x: 10, y: 10 } });
+    await page.locator('.absolute.inset-0.bg-black\\/80').click({ position: { x: 10, y: 10 } });
 
     await expect(popup).not.toBeVisible({ timeout: 3000 });
   });
@@ -263,7 +263,7 @@ test.describe('ChainMintDrawer Details', () => {
     await expect(drawer).toBeVisible();
 
     // Click backdrop
-    await page.locator('.bg-black\\/70').click({ position: { x: 10, y: 10 } });
+    await page.locator('.absolute.inset-0.bg-black\\/70').click({ position: { x: 10, y: 10 } });
 
     await expect(drawer).not.toBeVisible({ timeout: 3000 });
   });
@@ -291,7 +291,7 @@ test.describe('Full Round-Trip Flow', () => {
     await expect(page.locator('[data-testid="deposit-address"]')).toBeVisible();
 
     // Step 4: Close drawer
-    await page.locator('.bg-black\\/70').click({ position: { x: 10, y: 10 } });
+    await page.locator('.absolute.inset-0.bg-black\\/70').click({ position: { x: 10, y: 10 } });
     await expect(drawer).not.toBeVisible({ timeout: 3000 });
 
     // Step 5: Re-open popup and select a different chain
