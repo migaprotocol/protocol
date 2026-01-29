@@ -1,6 +1,7 @@
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
-import { MigaSceneLite } from '@/components/3d'
+import { HeroMedallionScene } from '@/components/3d'
+import { RaceToNowruz } from '@/components/RaceToNowruz'
 import {
   ArrowDown,
   Check,
@@ -33,35 +34,17 @@ import {
   Users2,
   AlertTriangle,
 } from 'lucide-react'
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { MintPopup } from '@/components/MintPopup'
 import { ChainMintDrawer } from '@/components/ChainMintDrawer'
-import type { ChainData } from '@/components/3d'
 
 export default function Index() {
   const [mintOpen, setMintOpen] = useState(false)
   const [drawerChainId, setDrawerChainId] = useState<string | null>(null)
 
-  // Map chain data IDs (BTC/ETH/SOL from chainData.ts) to network IDs (BITCOIN/ETHEREUM/SOLANA from networks.ts)
-  const chainDataToNetworkId: Record<string, string> = {
-    BTC: 'BITCOIN',
-    ETH: 'ETHEREUM',
-    SOL: 'SOLANA',
-    BNB: 'BSC',
-    XRP: 'XRP',
-    TON: 'TON',
-    LUX: 'LUX',
-  }
-
-  const handleSelectChain = useCallback((chainId: string) => {
+  const handleSelectChain = (chainId: string) => {
     setDrawerChainId(chainId)
-  }, [])
-
-  const handleSceneChainClick = useCallback((chain: ChainData) => {
-    // Map 3D scene chain symbol to network ID
-    const networkId = chainDataToNetworkId[chain.symbol] || chain.symbol.toUpperCase()
-    setDrawerChainId(networkId)
-  }, [])
+  }
 
   return (
     <div className="min-h-screen bg-[#07070A]">
@@ -69,66 +52,78 @@ export default function Index() {
 
       <main>
         {/* ============================================
-            HERO with 3D Scene Background
+            HERO with Medallion
             ============================================ */}
-        <section className="hero-section">
-          {/* 3D pillar scene as full background */}
-          <div className="hero-3d-full">
-            <MigaSceneLite onChainClick={handleSceneChainClick} />
+        <section className="relative min-h-screen flex flex-col">
+          {/* 3D Medallion Scene - centered */}
+          <div className="absolute inset-0 z-0">
+            <HeroMedallionScene />
           </div>
 
-          {/* Gradient overlay for text readability */}
-          <div className="hero-content-overlay">
-            <div className="hero-content mx-auto text-center w-full max-w-5xl px-4 sm:px-6 lg:px-8">
+          {/* Gradient overlays for readability */}
+          <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-t from-[#07070A] via-transparent to-[#07070A]/50" />
+          <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-r from-[#07070A]/80 via-transparent to-[#07070A]/80" />
 
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 mb-8">
-              <span className="text-sm text-[#FFD700] font-medium">Decentralized Autonomous Organization on Pars.Network</span>
-            </div>
-
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight drop-shadow-2xl">
-              <span className="text-white">Freedom of</span>
-              <br />
-              <span className="bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FFD700] bg-clip-text text-transparent">
-                Information
-              </span>
-            </h1>
-
-            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-12 drop-shadow-lg">
-              MIGA is a DAO that funds anti-censorship technology, independent media, and cultural expression for the people of Iran.
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-              <button
-                data-testid="mint-button-hero"
-                onClick={() => setMintOpen(true)}
-                className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold rounded-full px-10 py-5 hover:shadow-xl hover:shadow-[#FFD700]/30 transition-all text-lg cursor-pointer"
-              >
-                Mint MIGA
-              </button>
-              <a
-                href="#token"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-white/20 text-white hover:bg-white/5 transition-all text-lg font-medium"
-              >
-                View Token Details
-                <ArrowDown size={18} />
-              </a>
-            </div>
-
-            <div className="grid grid-cols-3 gap-8 max-w-xl mx-auto bg-black/30 rounded-2xl p-6 border border-white/[0.06]">
-              <div className="text-center">
-                <p className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">1B</p>
-                <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider">Total Supply</p>
+          {/* Content overlay */}
+          <div className="relative z-20 flex-1 flex flex-col items-center justify-center pt-20 pb-12 px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-4xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 mb-6 sm:mb-8">
+                <span className="text-xs sm:text-sm text-[#FFD700] font-medium">DAO on Pars.Network</span>
               </div>
-              <div className="text-center">
-                <p className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">100%</p>
-                <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider">Community Treasury</p>
+
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
+                <span className="text-white">Freedom of</span>
+                <br />
+                <span className="bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FFD700] bg-clip-text text-transparent">
+                  Information
+                </span>
+              </h1>
+
+              <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-8 sm:mb-10 px-4">
+                MIGA is a DAO that funds anti-censorship technology, independent media, and cultural expression for the people of Iran.
+              </p>
+
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-10 sm:mb-12">
+                <button
+                  data-testid="mint-button-hero"
+                  onClick={() => setMintOpen(true)}
+                  className="w-full sm:w-auto bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold rounded-full px-8 sm:px-10 py-4 sm:py-5 hover:shadow-xl hover:shadow-[#FFD700]/30 transition-all text-base sm:text-lg cursor-pointer"
+                >
+                  Mint MIGA
+                </button>
+                <a
+                  href="#leaderboard"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-4 rounded-full border border-white/20 text-white hover:bg-white/5 transition-all text-base sm:text-lg font-medium"
+                >
+                  View Leaderboard
+                  <ArrowDown size={18} />
+                </a>
               </div>
-              <div className="text-center">
-                <p className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">0%</p>
-                <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider">VC Allocation</p>
+
+              {/* Stats row */}
+              <div className="grid grid-cols-3 gap-4 sm:gap-8 max-w-md sm:max-w-xl mx-auto bg-black/40 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/[0.08]">
+                <div className="text-center">
+                  <p className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">1B</p>
+                  <p className="text-[10px] sm:text-xs text-gray-500 mt-1 uppercase tracking-wider">Supply</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">100%</p>
+                  <p className="text-[10px] sm:text-xs text-gray-500 mt-1 uppercase tracking-wider">Treasury</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">0%</p>
+                  <p className="text-[10px] sm:text-xs text-gray-500 mt-1 uppercase tracking-wider">VC</p>
+                </div>
               </div>
             </div>
           </div>
+
+          {/* Scroll indicator */}
+          <div className="relative z-20 pb-8 text-center">
+            <a href="#problem" className="inline-flex flex-col items-center gap-2 text-gray-500 hover:text-white transition-colors">
+              <span className="text-xs uppercase tracking-wider">Scroll</span>
+              <ArrowDown size={16} className="animate-bounce" />
+            </a>
           </div>
         </section>
 
@@ -584,6 +579,11 @@ export default function Index() {
             </div>
           </div>
         </section>
+
+        {/* ============================================
+            CHAIN RACE LEADERBOARD
+            ============================================ */}
+        <RaceToNowruz />
       </main>
 
       <Footer />
