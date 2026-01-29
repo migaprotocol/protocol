@@ -2,7 +2,7 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Share2, Copy, Check, Twitter, MessageCircle, Link as LinkIcon, Users, TrendingUp, Zap, Globe } from 'lucide-react';
 import { useState } from 'react';
-import { MIGA_CHAINS } from '@/components/bridge/networks';
+import { CONSOLIDATED_CHAINS } from '@/lib/bondingCurve';
 
 const SHARE_BASE_URL = 'https://migaprotocol.xyz';
 
@@ -31,7 +31,7 @@ const shareMessages = [
     icon: Users,
     color: '#FFD700',
     messages: [
-      'Hey — check out MIGA. It\'s a DAO funding anti-censorship tools and independent media for Iran. Fair launch on 10 chains, bonding curve from $0.01 to $1. No VC, no team tokens.\n\nmigaprotocol.xyz',
+      'Hey — check out MIGA. It\'s a DAO funding anti-censorship tools and independent media for Iran. Fair launch on 7 chains, bonding curve from $0.01 to $1. No VC, no team tokens.\n\nmigaprotocol.xyz',
     ],
   },
 ];
@@ -50,7 +50,7 @@ const strategies = [
   {
     icon: Globe,
     title: 'Multi-Chain Strategy',
-    description: 'Spread across chains to find the best price. Bitcoin and Ethereum fill fastest. Try Arbitrum, Optimism, or TON for potentially cheaper entry points.',
+    description: 'Spread across chains to find the best price. Bitcoin and Ethereum fill fastest. Try Solana, TON, or LUX for potentially cheaper entry points.',
   },
   {
     icon: Users,
@@ -67,8 +67,6 @@ export default function Share() {
     setCopiedIdx(idx);
     setTimeout(() => setCopiedIdx(null), 2000);
   };
-
-  const mintableChains = MIGA_CHAINS.filter(c => c.enabled && !c.isRedemptionNetwork);
 
   return (
     <div className="min-h-screen flex flex-col bg-black">
@@ -125,8 +123,8 @@ export default function Share() {
             <p className="text-sm text-white/40 mb-4">
               Share a direct link to mint on a specific chain. Each chain has its own bonding curve — cheaper chains attract early minters.
             </p>
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
-              {mintableChains.map((chain) => (
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
+              {CONSOLIDATED_CHAINS.map((chain) => (
                 <button
                   key={chain.id}
                   onClick={() => copyText(`${SHARE_BASE_URL}/mint/${chain.id.toLowerCase()}`, `chain-${chain.id}`)}
@@ -225,7 +223,7 @@ export default function Share() {
                 '0% founders / VC allocation',
                 '100% of raised funds → DAO treasury',
                 '1 MIGA = 1 vote in governance',
-                '10 supported chains for minting',
+                '7 supported chains for minting',
                 'Bonding curve: $0.01 → $1 per chain',
                 'Mint closes at Nowruz (March 20)',
                 'Unsold MIGA returns to DAO',
