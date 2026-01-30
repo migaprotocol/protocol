@@ -80,7 +80,7 @@ export function RaceToNowruz() {
   const [selectedChain, setSelectedChain] = useState<string | null>(null)
 
   // Live treasury data from on-chain APIs
-  const { chains, totalUsd, loading } = useTreasury()
+  const { chains, totalUsd, loading, isTestnet } = useTreasury()
 
   // Track previous amounts for 24h change calculation
   const previousAmountsRef = useRef<Record<string, number>>({})
@@ -147,6 +147,13 @@ export function RaceToNowruz() {
       <div className="container-lg">
         {/* Header */}
         <div className="text-center mb-12">
+          {/* Testnet indicator */}
+          {isTestnet && (
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-500/20 border border-orange-500/40 rounded-full mb-4 text-orange-400 text-xs font-medium">
+              <span className="w-2 h-2 bg-orange-400 rounded-full animate-pulse" />
+              TESTNET MODE — Data from test networks
+            </div>
+          )}
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#FFD36A]/10 border border-[#FFD36A]/20 rounded-full mb-6">
             <Trophy className="w-4 h-4 text-[#FFD36A]" />
             <span className="text-sm text-[#FFD36A] font-medium">Race to Nowruz</span>
