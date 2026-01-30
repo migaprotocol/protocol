@@ -9,10 +9,8 @@ const team = [
     image: '/images/cyrus-pahlavi.png',
     bio: 'Leading with a vision of uniting the Persian diaspora and preserving our cultural heritage for future generations.',
     links: {
-      twitter: 'https://x.com/PahsaCyrus',
-      website: 'https://www.cyruspahlavi.com/about',
-      linkedin: 'https://www.linkedin.com/in/cyruspahlavi',
-      instagram: 'https://www.instagram.com/cyruspahlavi',
+      website: 'https://www.cyruspahlavi.com',
+      instagram: 'https://www.instagram.com/cyruspahlavi1',
     },
   },
   {
