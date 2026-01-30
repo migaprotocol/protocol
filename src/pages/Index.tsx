@@ -2,6 +2,7 @@ import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { HeroMedallionScene } from '@/components/3d'
 import { RaceToNowruz } from '@/components/RaceToNowruz'
+import { MigaCalculator } from '@/components/MigaCalculator'
 import {
   ArrowDown,
   Check,
@@ -107,7 +108,7 @@ export default function Index() {
               {/* Stats row */}
               <div className="grid grid-cols-3 gap-3 sm:gap-6 max-w-sm sm:max-w-md mx-auto bg-white/[0.03] backdrop-blur-sm rounded-2xl p-4 sm:p-5 border border-white/[0.06]">
                 <div className="text-center">
-                  <p className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">1B</p>
+                  <p className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">7B</p>
                   <p className="text-[10px] sm:text-xs text-gray-500 mt-1 uppercase tracking-wider">Supply</p>
                 </div>
                 <div className="text-center">
@@ -283,7 +284,7 @@ export default function Index() {
                   {[
                     { label: 'Token Name', value: 'MIGA' },
                     { label: 'Network', value: 'Pars.Network', badge: true },
-                    { label: 'Total Supply', value: '1,000,000,000 MIGA' },
+                    { label: 'Total Supply', value: '7,000,000,000 MIGA' },
                     { label: 'Utility', value: 'Governance & Voting' },
                     { label: 'Voting Power', value: '1 MIGA = 1 Vote' },
                     { label: 'Treasury', value: '100% to DAO' },
@@ -588,6 +589,11 @@ export default function Index() {
             CHAIN RACE LEADERBOARD
             ============================================ */}
         <RaceToNowruz />
+
+        {/* ============================================
+            MIGA CALCULATOR
+            ============================================ */}
+        <MigaCalculator />
       </main>
 
       <Footer />
