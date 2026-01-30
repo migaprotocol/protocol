@@ -18,6 +18,8 @@ import Risks from "./pages/Risks";
 import Vote from "./pages/Vote";
 import Identity from "./pages/Identity";
 import Share from "./pages/Share";
+import Calculator from "./pages/Calculator";
+import Leaderboard from "./pages/Leaderboard";
 import NotFound from "./pages/NotFound";
 
 const basename = import.meta.env.BASE_URL || '/';
@@ -45,6 +47,8 @@ const App = () => (
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/risks" element={<Risks />} />
           <Route path="/share" element={<Share />} />
+          <Route path="/calculator" element={<Calculator />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <GlobalChatWidget />
