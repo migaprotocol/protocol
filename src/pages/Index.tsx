@@ -588,7 +588,7 @@ export default function Index() {
         {/* ============================================
             CHAIN RACE LEADERBOARD
             ============================================ */}
-        <RaceToNowruz />
+        <RaceToNowruz onSelectChain={handleSelectChain} />
 
         {/* ============================================
             MIGA CALCULATOR

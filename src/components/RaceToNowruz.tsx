@@ -66,7 +66,11 @@ interface TimeLeft {
   seconds: number
 }
 
-export function RaceToNowruz() {
+interface RaceToNowruzProps {
+  onSelectChain?: (chainId: string) => void
+}
+
+export function RaceToNowruz({ onSelectChain }: RaceToNowruzProps) {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 })
   const [selectedChain, setSelectedChain] = useState<string | null>(null)
 
@@ -234,7 +238,15 @@ export function RaceToNowruz() {
               return (
                 <div
                   key={chain.symbol}
-                  onClick={() => setSelectedChain(isSelected ? null : chain.symbol)}
+                  onClick={() => {
+                    if (isSelected) {
+                      // If already expanded, open deposit drawer
+                      onSelectChain?.(chain.id)
+                    } else {
+                      // First click expands
+                      setSelectedChain(chain.symbol)
+                    }
+                  }}
                   className={`
                     relative overflow-hidden rounded-xl border transition-all cursor-pointer
                     ${isLeader ? 'border-[#FFD36A]/50 bg-gradient-to-r from-[#FFD36A]/10 to-transparent' : 'border-white/[0.06] bg-[#0f0f1a]'}
@@ -326,12 +338,15 @@ export function RaceToNowruz() {
                         </div>
                       </div>
                       <div>
-                        <a
-                          href={chain.mintUrl}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            onSelectChain?.(chain.id)
+                          }}
                           className="inline-flex items-center gap-1 px-3 py-2 bg-[#FFD36A] text-black text-sm font-medium rounded-lg hover:bg-[#FFE57A] transition-colors"
                         >
-                          Fight Now <Swords className="w-3 h-3" />
-                        </a>
+                          Deposit Now <Swords className="w-3 h-3" />
+                        </button>
                       </div>
                     </div>
                   )}

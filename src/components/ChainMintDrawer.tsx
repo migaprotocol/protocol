@@ -1,5 +1,6 @@
 import { X, ExternalLink, Shield, Copy, Check, QrCode, Info, ChevronDown, AlertCircle, TrendingUp } from 'lucide-react'
 import { useState, useMemo, useEffect } from 'react'
+import { QRCodeSVG } from 'qrcode.react'
 import { MIGA_CHAINS, MIGA_DAO_WALLET, getChainAssets } from '@/components/bridge/networks'
 import { useTreasury, formatUsd, FUND_TARGET } from '@/lib/treasury'
 import { getMintPrice, getChainProgress, getChainAllocation, formatMiga, CHAIN_MAX_USD, TREASURY_CHAIN_MAP } from '@/lib/bondingCurve'
@@ -314,9 +315,14 @@ export function ChainMintDrawer({ open, chainId, onClose }: ChainMintDrawerProps
 
             {showQR && hasAddress && (
               <div className="flex justify-center p-6 bg-white rounded-none">
-                <div className="w-40 h-40 bg-neutral-100 rounded-lg flex items-center justify-center text-neutral-400 text-xs">
-                  QR Code
-                </div>
+                <QRCodeSVG
+                  value={depositAddress}
+                  size={160}
+                  level="M"
+                  includeMargin={false}
+                  bgColor="#ffffff"
+                  fgColor="#000000"
+                />
               </div>
             )}
 

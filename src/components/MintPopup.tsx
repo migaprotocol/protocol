@@ -1,5 +1,5 @@
 import { X, Zap, TrendingUp, Loader2 } from 'lucide-react'
-import { useTreasury, formatUsd, formatNative, FUND_TARGET } from '@/lib/treasury'
+import { useTreasury, formatUsd, formatNative } from '@/lib/treasury'
 
 interface MintPopupProps {
   open: boolean
@@ -43,12 +43,12 @@ export function MintPopup({ open, onClose, onSelectChain }: MintPopupProps) {
             </button>
           </div>
 
-          {/* Total progress */}
+          {/* Total raised */}
           <div className="mt-4">
             <div className="flex items-end justify-between mb-2">
               <div>
                 <span className="text-2xl font-bold text-[#FFD700]">{formatUsd(totalUsd)}</span>
-                <span className="text-sm text-white/40 ml-2">/ {formatUsd(FUND_TARGET)}</span>
+                <span className="text-sm text-white/40 ml-2">raised</span>
               </div>
               <div className="flex items-center gap-1 text-xs text-white/50">
                 {loading ? (
@@ -59,13 +59,6 @@ export function MintPopup({ open, onClose, onSelectChain }: MintPopupProps) {
                 <span>{chains.length} chains</span>
               </div>
             </div>
-            <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-[#FFD700] to-[#FFA500] transition-all duration-1000"
-                style={{ width: `${Math.max(progressPct, 0.5)}%` }}
-              />
-            </div>
-            <p className="text-xs text-white/30 mt-1">{progressPct.toFixed(1)}% of goal</p>
           </div>
         </div>
 
@@ -78,7 +71,7 @@ export function MintPopup({ open, onClose, onSelectChain }: MintPopupProps) {
             </div>
           ) : (
             chains.map(chain => {
-              const chainPct = totalUsd > 0 ? (chain.usdValue / FUND_TARGET) * 100 : 0
+              const chainPct = totalUsd > 0 ? (chain.usdValue / totalUsd) * 100 : 0
               return (
                 <button
                   key={chain.id}
