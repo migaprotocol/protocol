@@ -181,7 +181,7 @@ export function ChainMintDrawer({ open, chainId, onClose }: ChainMintDrawerProps
 
           {/* Step indicator */}
           <div className="flex items-center gap-3">
-            {['Send Funds', 'Wait for Nowruz', 'Claim MIGA'].map(
+            {['Deposit Now', 'Race Ends Nowruz', 'Claim MIGA'].map(
               (step, i) => {
                 return (
                   <div key={step} className="flex items-center gap-2 flex-1">
@@ -391,24 +391,20 @@ export function ChainMintDrawer({ open, chainId, onClose }: ChainMintDrawerProps
               <Info size={16} className="text-blue-400 mt-0.5 flex-shrink-0" />
               <div className="text-xs text-blue-200/80 space-y-2">
                 <p>
-                  Send{' '}
+                  <span className="font-medium text-blue-200">Race to deposit</span> — send{' '}
                   <span className="font-medium text-blue-200">
                     {asset?.symbol || chain.symbol}
                   </span>{' '}
-                  on{' '}
-                  <span className="font-medium text-blue-200">
-                    {chain.name}
-                  </span>{' '}
-                  to the DAO treasury address above.
+                  to the DAO treasury before the mint closes at Nowruz. The more you deposit, the more MIGA you receive.
                 </p>
                 <p className="text-blue-300/50">
-                  All funds go directly to the multi-sig DAO treasury. After the mint closes at <span className="text-blue-200">Nowruz (March 20)</span>, MIGA is distributed proportionally based on each chain's total contributions.
+                  All funds go directly to the multi-sig DAO treasury. MIGA is distributed proportionally based on each chain's total contributions.
                 </p>
                 <p className="text-blue-300/50">
-                  <span className="font-medium text-blue-200">Claiming unlocks at Nowruz</span> — prove you control your sending wallet to receive MIGA on Pars Network. No need to enter an address now.
+                  <span className="font-medium text-blue-200">Claiming opens at Nowruz (March 20)</span> — prove you control your sending wallet to receive MIGA on Pars Network.
                 </p>
                 <p className="text-blue-300/50">
-                  The <span className="text-blue-200">Chain Leaderboard</span> tracks which networks contribute the most. Higher-performing chains may receive bonus allocation.
+                  The <span className="text-blue-200">Chain Leaderboard</span> tracks which networks contribute the most. #1 chain wins 40% of all tokens.
                 </p>
               </div>
             </div>
