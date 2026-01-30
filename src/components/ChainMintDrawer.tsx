@@ -15,14 +15,8 @@ export function ChainMintDrawer({ open, chainId, onClose }: ChainMintDrawerProps
   const [showQR, setShowQR] = useState(false)
   const [selectedAsset, setSelectedAsset] = useState('')
   const [showAssetDropdown, setShowAssetDropdown] = useState(false)
-  const [receivingAddress, setReceivingAddress] = useState('')
 
   const { chains } = useTreasury()
-
-  const isValidEvmAddress = (addr: string) => /^0x[a-fA-F0-9]{40}$/.test(addr)
-  const hasValidReceiving = isValidEvmAddress(receivingAddress)
-  const isBitcoin = chainId === 'BITCOIN'
-  const isEvmSource = chainId ? ['ETHEREUM', 'BASE', 'OPTIMISM', 'ARBITRUM', 'BSC', 'LUX'].includes(chainId) : false
 
   const chain = useMemo(
     () => (chainId ? MIGA_CHAINS.find(c => c.id === chainId) : null),
@@ -49,7 +43,6 @@ export function ChainMintDrawer({ open, chainId, onClose }: ChainMintDrawerProps
     setShowQR(false)
     setSelectedAsset('')
     setShowAssetDropdown(false)
-    setReceivingAddress('')
   }, [chainId])
 
   const depositAddress =
@@ -188,16 +181,15 @@ export function ChainMintDrawer({ open, chainId, onClose }: ChainMintDrawerProps
 
           {/* Step indicator */}
           <div className="flex items-center gap-3">
-            {['Your Address', 'Send Funds', 'Claim MIGA'].map(
+            {['Send Funds', 'Wait for Nowruz', 'Claim MIGA'].map(
               (step, i) => {
-                const activeStep = hasValidReceiving ? 1 : 0
                 return (
                   <div key={step} className="flex items-center gap-2 flex-1">
                     <div
                       className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold"
                       style={{
-                        backgroundColor: i <= activeStep ? chain.color : 'rgba(255,255,255,0.1)',
-                        color: i <= activeStep ? '#000' : 'rgba(255,255,255,0.5)',
+                        backgroundColor: i === 0 ? chain.color : 'rgba(255,255,255,0.1)',
+                        color: i === 0 ? '#000' : 'rgba(255,255,255,0.5)',
                       }}
                     >
                       {i + 1}
@@ -213,56 +205,6 @@ export function ChainMintDrawer({ open, chainId, onClose }: ChainMintDrawerProps
               },
             )}
           </div>
-
-          {/* Step 1: Receiving address */}
-          <div className="rounded-2xl bg-white/[0.03] border border-white/10 overflow-hidden">
-            <div className="px-4 py-3 border-b border-white/5">
-              <span className="text-xs font-medium text-white/60">
-                Step 1: Pars Network Receiving Address
-              </span>
-            </div>
-            <div className="p-4 space-y-3">
-              <p className="text-xs text-white/50">
-                Enter the EVM address where you'll claim MIGA tokens on Pars Network after the mint closes.
-              </p>
-              <input
-                type="text"
-                value={receivingAddress}
-                onChange={(e) => setReceivingAddress(e.target.value.trim())}
-                placeholder="0x..."
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-sm font-mono text-gold placeholder:text-white/20 focus:outline-none focus:border-gold/40 transition-colors"
-              />
-              {receivingAddress && !hasValidReceiving && (
-                <p className="text-xs text-red-400">Enter a valid EVM address (0x + 40 hex characters)</p>
-              )}
-              {hasValidReceiving && (
-                <p className="text-xs text-emerald-400">Valid address</p>
-              )}
-              {isEvmSource && !receivingAddress && (
-                <p className="text-xs text-white/30">
-                  Tip: Your {chain.name} wallet address works as your Pars Network address.
-                </p>
-              )}
-              {!isEvmSource && !receivingAddress && (
-                <p className="text-xs text-white/30">
-                  You can also claim later by proving ownership of your sending wallet.
-                </p>
-              )}
-            </div>
-          </div>
-
-          {/* Step 2: Payment details (gated behind valid receiving address) */}
-          {hasValidReceiving ? (<>
-
-          {/* Non-EVM claim note */}
-          {!isEvmSource && (
-            <div className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20">
-              <p className="text-xs text-blue-300/80">
-                <span className="font-medium text-blue-200">How claiming works:</span>{' '}
-                After the mint closes at Nowruz, prove you control your {chain.name} sending wallet to claim MIGA on Pars Network. Your receiving address above will be linked to your contribution.
-              </p>
-            </div>
-          )}
 
           {/* Asset selector (if chain has multiple assets) */}
           {assets.length > 1 && (
@@ -463,7 +405,7 @@ export function ChainMintDrawer({ open, chainId, onClose }: ChainMintDrawerProps
                   All funds go directly to the multi-sig DAO treasury. After the mint closes at <span className="text-blue-200">Nowruz (March 20)</span>, MIGA is distributed proportionally based on each chain's total contributions.
                 </p>
                 <p className="text-blue-300/50">
-                  Claim MIGA natively on <span className="text-blue-200">Pars Network</span> by proving you control your sending wallet. Unsold MIGA returns to the DAO for future fundraises.
+                  <span className="font-medium text-blue-200">Claiming unlocks at Nowruz</span> — prove you control your sending wallet to receive MIGA on Pars Network. No need to enter an address now.
                 </p>
                 <p className="text-blue-300/50">
                   The <span className="text-blue-200">Chain Leaderboard</span> tracks which networks contribute the most. Higher-performing chains may receive bonus allocation.
@@ -471,13 +413,6 @@ export function ChainMintDrawer({ open, chainId, onClose }: ChainMintDrawerProps
               </div>
             </div>
           </div>
-
-          </>) : (
-            <div className="text-center py-8 space-y-2">
-              <p className="text-white/30 text-sm">Enter your Pars Network receiving address to continue</p>
-              <p className="text-white/20 text-xs">Any EVM-compatible address works on Pars Network</p>
-            </div>
-          )}
 
           {/* Security + legal links */}
           <div className="flex items-center justify-center gap-2 py-3 text-xs text-white/30">
