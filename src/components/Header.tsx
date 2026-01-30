@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { getNetworkMode } from '@/lib/treasury';
 
 const navLinks = [
   { label: 'Problem', href: '#problem' },
@@ -14,6 +15,7 @@ const navLinks = [
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const isTestnet = getNetworkMode() === 'testnet';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,16 +32,23 @@ export function Header() {
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <img
-              src="/images/migacoin-small.png"
-              alt="MIGA"
-              className="w-10 h-10 rounded-full object-cover"
-            />
-            <span className="text-2xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">
-              MIGA
-            </span>
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link to="/" className="flex items-center gap-3 group">
+              <img
+                src="/images/migacoin-small.png"
+                alt="MIGA"
+                className="w-10 h-10 rounded-full object-cover"
+              />
+              <span className="text-2xl font-bold bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">
+                MIGA
+              </span>
+            </Link>
+            {isTestnet && (
+              <span className="px-2 py-0.5 text-[10px] font-medium bg-orange-500/20 text-orange-400 border border-orange-500/30 rounded">
+                TESTNET
+              </span>
+            )}
+          </div>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
