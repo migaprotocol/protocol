@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { TrendingUp, TrendingDown, Trophy, Flame, Clock, ExternalLink, Medal } from 'lucide-react'
+import { TrendingUp, TrendingDown, Trophy, Flame, Clock, ExternalLink, Users, Swords } from 'lucide-react'
 import { useTreasury, type ChainBalance } from '@/lib/treasury'
 
 // Nowruz 2025 - March 20, 2025 at 09:01 UTC (vernal equinox)
@@ -16,21 +16,20 @@ const CHAIN_META: Record<string, { color: string; mintUrl: string }> = {
   LUX:      { color: '#C9A227', mintUrl: '/mint/lux' },
 }
 
-// Token allocation distribution:
-// - Winner (#1): 40% of fair sale tokens
-// - 2nd place: 20%
-// - 3rd place: 15%
-// - 4th-7th: Split remaining 25% proportionally
-const FAIR_SALE_TOKENS = 2_800_000_000 // 40% of 7B = 2.8B tokens for fair sale
-const WINNER_BONUS = 0.40 // 40% to #1
-const SECOND_BONUS = 0.20 // 20% to #2
-const THIRD_BONUS = 0.15 // 15% to #3
-const REMAINING_POOL = 0.25 // 25% split among 4th-7th
+// Token allocation: 7B MIGA total
+// - Each chain STARTS with 1B MIGA allocation
+// - Chains that deposit MORE steal from chains that deposit LESS
+// - Final allocation = (your chain's USD / total USD) × 7B
+// - Unsold allocation returns to DAO treasury
+const TOTAL_MIGA = 7_000_000_000 // 7B total supply
+const BASE_PER_CHAIN = 1_000_000_000 // 1B base allocation per chain
 
 interface RaceChain extends ChainBalance {
   mintUrl: string
   previousAmount: number
   tokenAllocation: number
+  allocationPct: number
+  deltaFromBase: number // +/- from 1B base
   rank: number
 }
 
@@ -39,23 +38,13 @@ function calculateAllocations(chains: ChainBalance[], previousAmounts: Record<st
   const sorted = [...chains].sort((a, b) => b.usdValue - a.usdValue)
 
   return sorted.map((chain, index) => {
-    let allocation = 0
-    if (totalDeposits > 0) {
-      if (index === 0) {
-        allocation = FAIR_SALE_TOKENS * WINNER_BONUS
-      } else if (index === 1) {
-        allocation = FAIR_SALE_TOKENS * SECOND_BONUS
-      } else if (index === 2) {
-        allocation = FAIR_SALE_TOKENS * THIRD_BONUS
-      } else {
-        // Split remaining 25% proportionally among 4th-7th based on deposits
-        const remainingChains = sorted.slice(3)
-        const remainingDeposits = remainingChains.reduce((sum, c) => sum + c.usdValue, 0)
-        if (remainingDeposits > 0) {
-          allocation = (chain.usdValue / remainingDeposits) * FAIR_SALE_TOKENS * REMAINING_POOL
-        }
-      }
-    }
+    // Proportional allocation: your share = (your USD / total USD) × 7B
+    // If equal deposits: each gets 1B (14.28%)
+    // If you deposit MORE: you steal from weaker chains
+    const allocationPct = totalDeposits > 0 ? chain.usdValue / totalDeposits : 1 / 7
+    const allocation = TOTAL_MIGA * allocationPct
+    const deltaFromBase = allocation - BASE_PER_CHAIN // +/- from 1B base
+
     const meta = CHAIN_META[chain.id] || { color: '#888', mintUrl: '/mint' }
     return {
       ...chain,
@@ -63,6 +52,8 @@ function calculateAllocations(chains: ChainBalance[], previousAmounts: Record<st
       color: meta.color,
       previousAmount: previousAmounts[chain.id] || 0,
       tokenAllocation: Math.floor(allocation),
+      allocationPct: allocationPct * 100,
+      deltaFromBase: Math.floor(deltaFromBase),
       rank: index + 1,
     }
   })
@@ -135,12 +126,6 @@ export function RaceToNowruz() {
     return ((current - previous) / previous) * 100
   }
 
-  const getAllocationPercent = (rank: number) => {
-    if (rank === 1) return '40%'
-    if (rank === 2) return '20%'
-    if (rank === 3) return '15%'
-    return '~6%'
-  }
 
   return (
     <section id="leaderboard" className="section border-t border-white/[0.04] bg-gradient-to-b from-[#0A0A10] to-transparent scroll-mt-32">
@@ -155,36 +140,33 @@ export function RaceToNowruz() {
             </div>
           )}
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#FFD36A]/10 border border-[#FFD36A]/20 rounded-full mb-6">
-            <Trophy className="w-4 h-4 text-[#FFD36A]" />
+            <Swords className="w-4 h-4 text-[#FFD36A]" />
             <span className="text-sm text-[#FFD36A] font-medium">Race to Nowruz</span>
           </div>
           <h2 className="mb-4">
-            <span className="text-gradient-ember">7 Chains Compete</span> for <span className="text-gradient-ember">MIGA</span>
+            <span className="text-gradient-ember">7 Chains Fight</span> for <span className="text-gradient-ember">7B MIGA</span>
           </h2>
           <p className="body-md max-w-2xl mx-auto">
-            Which blockchain community will raise the most?
-            <strong className="text-white"> The #1 chain wins 40% of all tokens.</strong>
-            {' '}Deposit on your chain to boost its ranking. All proceeds fund the DAO treasury.
+            Each chain starts with <strong className="text-[#FFD36A]">1 Billion MIGA</strong>.
+            {' '}Deposit more than other chains to <strong className="text-white">steal their allocation</strong>.
+            {' '}100% of deposits fund the DAO. Unsold tokens return to treasury.
           </p>
         </div>
 
-        {/* Prize Distribution */}
+        {/* How It Works */}
         <div className="max-w-3xl mx-auto mb-8">
-          <div className="flex justify-center gap-4 flex-wrap">
-            <div className="flex items-center gap-2 px-4 py-2 bg-[#FFD700]/10 border border-[#FFD700]/30 rounded-lg">
-              <Medal className="w-4 h-4 text-[#FFD700]" />
-              <span className="text-sm"><strong className="text-[#FFD700]">1st: 40%</strong> of tokens</span>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="p-4 bg-[#0f0f1a] border border-white/[0.06] rounded-xl text-center">
+              <div className="text-2xl font-bold text-[#FFD36A] mb-1">1B</div>
+              <div className="text-sm text-[#9999A5]">Starting allocation per chain</div>
             </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-[#C0C0C0]/10 border border-[#C0C0C0]/30 rounded-lg">
-              <Medal className="w-4 h-4 text-[#C0C0C0]" />
-              <span className="text-sm"><strong className="text-[#C0C0C0]">2nd: 20%</strong></span>
+            <div className="p-4 bg-[#0f0f1a] border border-white/[0.06] rounded-xl text-center">
+              <div className="text-2xl font-bold text-emerald-400 mb-1">+</div>
+              <div className="text-sm text-[#9999A5]">Deposit more = steal from others</div>
             </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-[#CD7F32]/10 border border-[#CD7F32]/30 rounded-lg">
-              <Medal className="w-4 h-4 text-[#CD7F32]" />
-              <span className="text-sm"><strong className="text-[#CD7F32]">3rd: 15%</strong></span>
-            </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg">
-              <span className="text-sm text-[#9999A5]">4th-7th: Split 25%</span>
+            <div className="p-4 bg-[#0f0f1a] border border-white/[0.06] rounded-xl text-center">
+              <div className="text-2xl font-bold text-red-400 mb-1">−</div>
+              <div className="text-sm text-[#9999A5]">Deposit less = lose allocation</div>
             </div>
           </div>
         </div>
@@ -298,8 +280,11 @@ export function RaceToNowruz() {
                           LIVE
                         </span>
                       </div>
-                      <div className="text-xs text-[#6B6B7B]">
-                        Wins <strong className="text-white">{getAllocationPercent(chain.rank)}</strong> → {formatTokens(chain.tokenAllocation)} MIGA
+                      <div className="text-xs flex items-center gap-2">
+                        <span className="text-[#6B6B7B]">{formatTokens(chain.tokenAllocation)} MIGA</span>
+                        <span className={chain.deltaFromBase >= 0 ? 'text-emerald-400' : 'text-red-400'}>
+                          ({chain.deltaFromBase >= 0 ? '+' : ''}{formatTokens(chain.deltaFromBase)} from 1B)
+                        </span>
                       </div>
                     </div>
 
@@ -325,12 +310,14 @@ export function RaceToNowruz() {
                   {isSelected && (
                     <div className="px-4 pb-4 pt-2 border-t border-white/[0.04] grid grid-cols-2 md:grid-cols-4 gap-4">
                       <div>
-                        <div className="text-xs text-[#6B6B7B]">Prize Position</div>
-                        <div className="font-medium">{getAllocationPercent(chain.rank)} of tokens</div>
+                        <div className="text-xs text-[#6B6B7B]">Share of Total</div>
+                        <div className="font-medium">{chain.allocationPct.toFixed(1)}%</div>
                       </div>
                       <div>
-                        <div className="text-xs text-[#6B6B7B]">Token Allocation</div>
-                        <div className="font-medium">{formatTokens(chain.tokenAllocation)}</div>
+                        <div className="text-xs text-[#6B6B7B]">Gain/Loss from 1B</div>
+                        <div className={`font-medium ${chain.deltaFromBase >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                          {chain.deltaFromBase >= 0 ? '+' : ''}{formatTokens(chain.deltaFromBase)}
+                        </div>
                       </div>
                       <div>
                         <div className="text-xs text-[#6B6B7B]">24h Change</div>
@@ -343,7 +330,7 @@ export function RaceToNowruz() {
                           href={chain.mintUrl}
                           className="inline-flex items-center gap-1 px-3 py-2 bg-[#FFD36A] text-black text-sm font-medium rounded-lg hover:bg-[#FFE57A] transition-colors"
                         >
-                          Deposit <ExternalLink className="w-3 h-3" />
+                          Fight Now <Swords className="w-3 h-3" />
                         </a>
                       </div>
                     </div>
@@ -354,16 +341,42 @@ export function RaceToNowruz() {
           </div>
         </div>
 
+        {/* Top Contributors */}
+        <div className="max-w-4xl mx-auto mt-16">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl font-medium flex items-center gap-2">
+              <Users className="w-5 h-5 text-[#FFD36A]" />
+              Top Contributors
+            </h3>
+            <span className="text-sm text-[#6B6B7B]">Your name on the leaderboard</span>
+          </div>
+
+          <div className="card bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a] border border-white/[0.06] text-center py-12">
+            <div className="text-[#FFD36A] text-4xl mb-4">👑</div>
+            <h4 className="text-lg font-medium mb-2">Be the First Champion</h4>
+            <p className="text-sm text-[#9999A5] max-w-md mx-auto mb-6">
+              Deposit on any chain to appear on the contributor leaderboard.
+              Top contributors get recognition and exclusive benefits.
+            </p>
+            <a
+              href="/mint"
+              className="inline-flex items-center gap-2 px-6 py-3 border border-[#FFD36A] text-[#FFD36A] font-medium rounded-lg hover:bg-[#FFD36A] hover:text-black transition-all"
+            >
+              Join Now <Trophy className="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+
         {/* CTA */}
         <div className="mt-12 text-center">
           <p className="text-sm text-[#9999A5] mb-4">
-            Deposit on any chain to boost its ranking. Winner takes 40%.
+            Pick your chain. Deposit more than rivals. Steal their MIGA.
           </p>
           <a
             href="/mint"
             className="btn-primary inline-flex items-center gap-2"
           >
-            Join the Race <Flame className="w-4 h-4" />
+            Join the Fight <Swords className="w-4 h-4" />
           </a>
         </div>
       </div>

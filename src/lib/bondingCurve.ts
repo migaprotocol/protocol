@@ -1,14 +1,14 @@
 // MIGA Bonding Curve - Per-Chain Pricing
 //
-// 7 consolidated chains. Each has its own bonding curve:
-// - Starting price: $0.01 per MIGA
-// - Ending price: $1.00 per MIGA (when chain target is reached)
-// - Linear curve: price = 0.01 + 0.99 * (raised / chainTarget)
+// 7 chains compete for 7B MIGA tokens.
+// - If all chains invest equally: each gets 1B MIGA
+// - If a chain invests MORE than others: they "steal" from weaker chains
+// - Allocation is proportional to each chain's USD contribution
 //
-// Total target: $100M across all chains.
-// Real on-chain balances from treasury.ts drive pricing.
+// All asset values converted to USD (using BTC as reference) at mint time.
+// Real on-chain balances from treasury.ts drive allocation.
 
-export const TOTAL_SUPPLY = 1_000_000_000 // 1B MIGA total
+export const TOTAL_SUPPLY = 7_000_000_000 // 7B MIGA total (1B per chain if equal)
 export const FUND_TARGET = 100_000_000    // $100M goal
 export const MIN_PRICE = 0.01             // Starting price per MIGA
 export const MAX_PRICE = 1.00             // Ending price per MIGA
