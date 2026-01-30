@@ -34,25 +34,48 @@ export function Footer() {
   return (
     <footer className="bg-[#07070A] border-t border-white/[0.04] py-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-3">
-            <img src="/images/migacoin.png" alt="MIGA" className="w-10 h-10 rounded-full object-cover" />
-            <span className="text-xl font-bold text-[#EDEDF2]">MIGA</span>
-          </Link>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+          {/* Brand */}
+          <div className="col-span-2 md:col-span-1">
+            <Link to="/" className="flex items-center gap-3 mb-4">
+              <img src="/images/migacoin.png" alt="MIGA" className="w-10 h-10 rounded-full object-cover" />
+              <span className="text-xl font-bold text-[#EDEDF2]">MIGA</span>
+            </Link>
+            <p className="text-sm text-[#6B6B7B]">
+              Freedom of Information DAO for the Iranian people.
+            </p>
+          </div>
 
-          {/* Description */}
-          <p className="text-sm text-[#6B6B7B]">
-            Make Iran Great Again
-          </p>
+          {/* Protocol */}
+          <div>
+            <h4 className="text-sm font-semibold text-white mb-4">Protocol</h4>
+            <div className="flex flex-col gap-2 text-sm text-[#6B6B7B]">
+              <Link to="/mint" className="hover:text-[#EDEDF2] transition-colors">Mint</Link>
+              <a href="/#calculator" className="hover:text-[#EDEDF2] transition-colors">Calculator</a>
+              <a href="/#leaderboard" className="hover:text-[#EDEDF2] transition-colors">Leaderboard</a>
+              <Link to="/share" className="hover:text-[#EDEDF2] transition-colors">Share & Earn</Link>
+            </div>
+          </div>
 
-          {/* Legal links */}
-          <div className="flex items-center gap-4 text-sm text-[#6B6B7B]">
-            <Link to="/terms" className="hover:text-[#EDEDF2] transition-colors">Terms</Link>
-            <span className="text-[#3A3A45]">•</span>
-            <Link to="/privacy" className="hover:text-[#EDEDF2] transition-colors">Privacy</Link>
-            <span className="text-[#3A3A45]">•</span>
-            <Link to="/risks" className="hover:text-[#EDEDF2] transition-colors">Risks</Link>
+          {/* About */}
+          <div>
+            <h4 className="text-sm font-semibold text-white mb-4">About</h4>
+            <div className="flex flex-col gap-2 text-sm text-[#6B6B7B]">
+              <Link to="/team" className="hover:text-[#EDEDF2] transition-colors">Team</Link>
+              <Link to="/docs" className="hover:text-[#EDEDF2] transition-colors">Docs</Link>
+              <Link to="/governance" className="hover:text-[#EDEDF2] transition-colors">Governance</Link>
+              <Link to="/dao" className="hover:text-[#EDEDF2] transition-colors">DAO</Link>
+            </div>
+          </div>
+
+          {/* Legal */}
+          <div>
+            <h4 className="text-sm font-semibold text-white mb-4">Legal</h4>
+            <div className="flex flex-col gap-2 text-sm text-[#6B6B7B]">
+              <Link to="/terms" className="hover:text-[#EDEDF2] transition-colors">Terms</Link>
+              <Link to="/privacy" className="hover:text-[#EDEDF2] transition-colors">Privacy</Link>
+              <Link to="/risks" className="hover:text-[#EDEDF2] transition-colors">Risks</Link>
+            </div>
           </div>
         </div>
 

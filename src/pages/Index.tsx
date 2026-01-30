@@ -586,6 +586,76 @@ export default function Index() {
         </section>
 
         {/* ============================================
+            LEADERSHIP
+            ============================================ */}
+        <section id="leadership" className="py-24 border-t border-white/[0.04]">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <span className="text-sm text-[#FFD700] font-medium uppercase tracking-wider">Leadership</span>
+              <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-6 text-white">
+                Guided by <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">Vision</span>
+              </h2>
+              <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+                MIGA is led by dedicated individuals committed to preserving Persian heritage and empowering the global diaspora.
+              </p>
+            </div>
+
+            {/* Cyrus Pahlavi Featured */}
+            <div className="max-w-3xl mx-auto mb-12">
+              <div className="p-8 rounded-3xl bg-gradient-to-br from-[#FFD700]/10 to-transparent border border-[#FFD700]/20">
+                <div className="flex flex-col md:flex-row items-center gap-8">
+                  <div className="w-40 h-40 rounded-full overflow-hidden flex-shrink-0 border-4 border-[#FFD700]/30">
+                    <img
+                      src="/images/cyrus-pahlavi.png"
+                      alt="Cyrus Pahlavi"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="text-center md:text-left">
+                    <h3 className="text-2xl font-bold text-white mb-1">Cyrus Pahlavi</h3>
+                    <p className="text-[#FFD700] font-medium mb-4">Founding Chair</p>
+                    <p className="text-gray-400 mb-6">
+                      Leading with a vision of uniting the Persian diaspora and preserving our cultural heritage for future generations.
+                    </p>
+                    <div className="flex items-center justify-center md:justify-start gap-4">
+                      <a
+                        href="https://x.com/PahsaCyrus"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-400 hover:text-[#FFD700] transition-colors"
+                      >
+                        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg>
+                      </a>
+                      <a
+                        href="https://www.cyruspahlavi.com/about"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-400 hover:text-[#FFD700] transition-colors"
+                      >
+                        <Globe size={20} />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* View Full Team Link */}
+            <div className="text-center">
+              <a
+                href="/team"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 text-white hover:bg-white/5 hover:border-[#FFD700]/30 transition-all font-medium"
+              >
+                View Full Team
+                <ExternalLink size={16} />
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* ============================================
             CHAIN RACE LEADERBOARD
             ============================================ */}
         <RaceToNowruz onSelectChain={handleSelectChain} />
