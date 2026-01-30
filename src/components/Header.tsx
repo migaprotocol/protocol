@@ -7,8 +7,8 @@ const navLinks = [
   { label: 'Problem', href: '#problem' },
   { label: 'Solution', href: '#solution' },
   { label: 'Token', href: '#token' },
+  { label: 'Calculator', href: '#calculator' },
   { label: 'Roadmap', href: '#roadmap' },
-  { label: 'Governance', href: '#governance' },
   { label: 'Share', href: '/share', isRoute: true },
 ];
 

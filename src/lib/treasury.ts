@@ -396,7 +396,13 @@ export function useTreasury() {
     return () => clearInterval(interval)
   }, [refresh])
 
-  return { ...state, loading, refresh }
+  // Build prices object from chain data for easy lookup
+  const prices: Record<string, number> = {}
+  for (const chain of state.chains) {
+    prices[chain.id] = chain.price
+  }
+
+  return { ...state, loading, refresh, prices }
 }
 
 // --- Formatting ---
