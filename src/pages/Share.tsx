@@ -12,7 +12,7 @@ const shareMessages = [
     icon: Twitter,
     color: '#1DA1F2',
     messages: [
-      'MIGA is the Freedom of Information DAO for the Iranian people. Mint from any chain — BTC, ETH, SOL, and more. 100% goes to the DAO treasury. No VC allocation. Fair launch.\n\nmigaprotocol.xyz',
+      'Make Iran Great Again 🇮🇷\n\nMIGA is a DAO for the Iranian people. Mint from any chain — BTC, ETH, SOL, and more. 100% goes to the DAO treasury. No VC allocation. Fair launch.\n\nmigaprotocol.xyz',
       'Each chain has its own bonding curve from $0.01 to $1. Find the cheapest chain and mint first.\n\nThe arbitrage window is open.\n\nmigaprotocol.xyz/mint',
       'MIGA funds anti-censorship tech, independent media, and cultural expression for Iran. Not against Iran — for the Iranian people.\n\nmigaprotocol.xyz',
     ],
@@ -22,7 +22,7 @@ const shareMessages = [
     icon: MessageCircle,
     color: '#0088CC',
     messages: [
-      'MIGA — Freedom of Information DAO\n\nMint from any chain (BTC, ETH, SOL, BNB, XRP, TON, LUX)\n100% to DAO treasury\nNo founders allocation\n1 MIGA = 1 Vote\n\nmigaprotocol.xyz',
+      'MIGA — Make Iran Great Again 🇮🇷\n\nMint from any chain (BTC, ETH, SOL, BNB, XRP, TON, LUX)\n100% to DAO treasury\nNo founders allocation\n1 MIGA = 1 Vote\n\nmigaprotocol.xyz',
       'Each chain has its own bonding curve: $0.01 → $1\n\nCheaper chains = more MIGA per dollar\nArbitrage between chains until prices equalize\n\nmigaprotocol.xyz/mint',
     ],
   },
@@ -84,7 +84,7 @@ export default function Share() {
               Share <span className="text-gold">MIGA</span>
             </h1>
             <p className="text-white/60 max-w-2xl mx-auto">
-              Help build the freedom of information movement. Share MIGA with your community
+              Help Make Iran Great Again. Share MIGA with your community
               and help fund anti-censorship technology for the Iranian people.
             </p>
           </div>
