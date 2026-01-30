@@ -1,0 +1,593 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - region "Notifications alt+T"
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - navigation [ref=e5]:
+        - generic [ref=e6]:
+          - link "MIGA MIGA" [ref=e7] [cursor=pointer]:
+            - /url: /
+            - img "MIGA" [ref=e8]
+            - generic [ref=e9]: MIGA
+          - generic [ref=e10]:
+            - link "Problem" [ref=e11] [cursor=pointer]:
+              - /url: "#problem"
+            - link "Solution" [ref=e12] [cursor=pointer]:
+              - /url: "#solution"
+            - link "Token" [ref=e13] [cursor=pointer]:
+              - /url: "#token"
+            - link "Roadmap" [ref=e14] [cursor=pointer]:
+              - /url: "#roadmap"
+            - link "Governance" [ref=e15] [cursor=pointer]:
+              - /url: "#governance"
+            - link "Share" [ref=e16] [cursor=pointer]:
+              - /url: /share
+          - link "Mint MIGA" [ref=e18] [cursor=pointer]:
+            - /url: /mint
+    - main [ref=e19]:
+      - generic [ref=e20]:
+        - generic [ref=e21]:
+          - paragraph [ref=e27]: Click medallion to mint
+          - generic [ref=e28]:
+            - link "MIGA DAO on Pars Network" [ref=e29] [cursor=pointer]:
+              - /url: https://pars.network
+              - generic [ref=e30]: MIGA DAO on Pars Network
+            - heading "Make Iran Great Again" [level=1] [ref=e31]:
+              - text: Make Iran
+              - text: Great Again
+            - paragraph [ref=e32]: A DAO funding anti-censorship technology, independent media, and cultural expression for the people of Iran.
+            - generic [ref=e33]:
+              - button "Mint MIGA" [ref=e34] [cursor=pointer]
+              - link "View Leaderboard" [ref=e35] [cursor=pointer]:
+                - /url: "#leaderboard"
+                - text: View Leaderboard
+                - img [ref=e36]
+            - generic [ref=e38]:
+              - generic [ref=e39]:
+                - paragraph [ref=e40]: 1B
+                - paragraph [ref=e41]: Supply
+              - generic [ref=e42]:
+                - paragraph [ref=e43]: 100%
+                - paragraph [ref=e44]: Treasury
+              - generic [ref=e45]:
+                - paragraph [ref=e46]: 0%
+                - paragraph [ref=e47]: VC
+        - link "Scroll" [ref=e49] [cursor=pointer]:
+          - /url: "#problem"
+          - generic [ref=e50]: Scroll
+          - img [ref=e51]
+      - generic [ref=e54]:
+        - generic [ref=e55]:
+          - text: The Problem
+          - heading "Millions Live Under Restrictions" [level=2] [ref=e56]
+          - paragraph [ref=e57]: Millions of Iranians live under severe restrictions that limit their access to information, culture, and free expression.
+        - generic [ref=e58]:
+          - heading "Daily Reality for Iranians" [level=3] [ref=e59]
+          - generic [ref=e60]:
+            - generic [ref=e61]:
+              - img [ref=e62]
+              - paragraph [ref=e65]: Information Censorship
+            - generic [ref=e66]:
+              - img [ref=e67]
+              - paragraph [ref=e71]: Internet Blackouts
+            - generic [ref=e72]:
+              - img [ref=e73]
+              - paragraph [ref=e79]: Restricted Media
+            - generic [ref=e80]:
+              - img [ref=e81]
+              - paragraph [ref=e84]: Limited News Access
+            - generic [ref=e85]:
+              - img [ref=e86]
+              - paragraph [ref=e90]: Cultural Repression
+        - generic [ref=e91]:
+          - heading "Why Traditional NGOs Fail" [level=3] [ref=e92]
+          - generic [ref=e93]:
+            - generic [ref=e94]:
+              - img [ref=e95]
+              - paragraph [ref=e98]: Slow
+            - generic [ref=e99]:
+              - img [ref=e100]
+              - paragraph [ref=e102]: Politicized
+            - generic [ref=e103]:
+              - img [ref=e104]
+              - paragraph [ref=e107]: Blocked
+            - generic [ref=e108]:
+              - img [ref=e109]
+              - paragraph [ref=e111]: Underfunded
+            - generic [ref=e112]:
+              - img [ref=e113]
+              - paragraph [ref=e116]: Centralized
+        - paragraph [ref=e118]: Freedom needs a new financial and governance layer.
+      - generic [ref=e120]:
+        - generic [ref=e121]:
+          - text: The Solution
+          - heading "MIGA DAO" [level=2] [ref=e122]
+          - paragraph [ref=e123]: MIGA is a Decentralized Autonomous Organization (DAO) that enables transparent, community-driven funding for freedom-of-information infrastructure.
+        - generic [ref=e124]:
+          - generic [ref=e125]:
+            - img [ref=e127]
+            - heading "Global Fundraising" [level=3] [ref=e130]
+            - paragraph [ref=e131]: Raise funds from anywhere in the world without borders or restrictions
+          - generic [ref=e132]:
+            - img [ref=e134]
+            - heading "On-Chain Transparency" [level=3] [ref=e137]
+            - paragraph [ref=e138]: Every transaction is publicly verifiable on Pars.Network
+          - generic [ref=e139]:
+            - img [ref=e141]
+            - heading "Community Governance" [level=3] [ref=e146]
+            - paragraph [ref=e147]: Token holders vote on which missions receive funding
+          - generic [ref=e148]:
+            - img [ref=e150]
+            - heading "Automatic Execution" [level=3] [ref=e152]
+            - paragraph [ref=e153]: Smart contracts release grants without intermediaries
+          - generic [ref=e154]:
+            - img [ref=e156]
+            - heading "Freedom Infrastructure" [level=3] [ref=e158]
+            - paragraph [ref=e159]: Supporting tools for free information flow in Iran
+          - generic [ref=e160]:
+            - img [ref=e162]
+            - heading "Censorship Resistant" [level=3] [ref=e165]
+            - paragraph [ref=e166]: No single entity can shut down, freeze, or censor the DAO or its treasury
+        - generic [ref=e167]:
+          - generic [ref=e168]: No Borders
+          - generic [ref=e169]: No Intermediaries
+          - generic [ref=e170]: No Single Owner
+      - generic [ref=e172]:
+        - generic [ref=e173]:
+          - text: Token Overview
+          - heading "Simple & Transparent" [level=2] [ref=e174]
+          - paragraph [ref=e175]: A simple, transparent token designed purely for community governance.
+        - generic [ref=e176]:
+          - generic [ref=e177]:
+            - heading "Token Specifications" [level=3] [ref=e178]
+            - generic [ref=e179]:
+              - generic [ref=e180]:
+                - generic [ref=e181]: Token Name
+                - generic [ref=e182]: MIGA
+              - generic [ref=e183]:
+                - generic [ref=e184]: Network
+                - generic [ref=e185]: Pars.Network
+              - generic [ref=e187]:
+                - generic [ref=e188]: Total Supply
+                - generic [ref=e189]: 1,000,000,000 MIGA
+              - generic [ref=e190]:
+                - generic [ref=e191]: Utility
+                - generic [ref=e192]: Governance & Voting
+              - generic [ref=e193]:
+                - generic [ref=e194]: Voting Power
+                - generic [ref=e195]: 1 MIGA = 1 Vote
+              - generic [ref=e196]:
+                - generic [ref=e197]: Treasury
+                - generic [ref=e198]: 100% to DAO
+              - generic [ref=e199]:
+                - generic [ref=e200]: Custody
+                - generic [ref=e201]: On-chain Multi-sig Vault
+          - generic [ref=e202]:
+            - heading "Fair Launch Guarantee" [level=3] [ref=e203]
+            - paragraph [ref=e204]: MIGA is built on principles of radical transparency. Every token exists to serve the community, not insiders.
+            - generic [ref=e205]:
+              - generic [ref=e206]:
+                - img [ref=e208]
+                - generic [ref=e210]: No founders allocation
+              - generic [ref=e211]:
+                - img [ref=e213]
+                - generic [ref=e215]: No VC allocation
+              - generic [ref=e216]:
+                - img [ref=e218]
+                - generic [ref=e220]: No hidden wallets
+            - generic [ref=e221]:
+              - paragraph [ref=e222]: 100%
+              - paragraph [ref=e223]: of raised funds go to DAO treasury
+      - generic [ref=e225]:
+        - generic [ref=e226]:
+          - text: Funding Roadmap
+          - heading "Growing Impact" [level=2] [ref=e227]
+          - paragraph [ref=e228]: Each phase unlocks new governance modules and expands MIGA's impact.
+        - generic [ref=e229]:
+          - generic [ref=e230]:
+            - generic [ref=e231]: I
+            - paragraph [ref=e232]: Phase I
+            - paragraph [ref=e233]: $5M
+            - list [ref=e234]:
+              - listitem [ref=e235]:
+                - generic [ref=e236]: →
+                - text: Independent media
+              - listitem [ref=e237]:
+                - generic [ref=e238]: →
+                - text: Encrypted communications
+              - listitem [ref=e239]:
+                - generic [ref=e240]: →
+                - text: Awareness campaigns
+          - generic [ref=e241]:
+            - generic [ref=e242]: II
+            - paragraph [ref=e243]: Phase II
+            - paragraph [ref=e244]: $10M
+            - list [ref=e245]:
+              - listitem [ref=e246]:
+                - generic [ref=e247]: →
+                - text: Global cultural campaigns
+              - listitem [ref=e248]:
+                - generic [ref=e249]: →
+                - text: Community hubs
+              - listitem [ref=e250]:
+                - generic [ref=e251]: →
+                - text: Satellite connectivity
+          - generic [ref=e252]:
+            - generic [ref=e253]: III
+            - paragraph [ref=e254]: Phase III
+            - paragraph [ref=e255]: $50M
+            - list [ref=e256]:
+              - listitem [ref=e257]:
+                - generic [ref=e258]: →
+                - text: Regional digital freedom infrastructure
+          - generic [ref=e259]:
+            - generic [ref=e260]: IV
+            - paragraph [ref=e261]: Phase IV
+            - paragraph [ref=e262]: $100M
+            - list [ref=e263]:
+              - listitem [ref=e264]:
+                - generic [ref=e265]: →
+                - text: Global censorship-resistant network for Iranian voices
+        - generic [ref=e266]:
+          - generic [ref=e267]:
+            - heading "What MIGA Can Fund" [level=3] [ref=e268]:
+              - img [ref=e269]
+              - text: What MIGA Can Fund
+            - generic [ref=e271]:
+              - generic [ref=e272]:
+                - img [ref=e273]
+                - text: Independent journalism
+              - generic [ref=e276]:
+                - img [ref=e277]
+                - text: Anti-censorship tech
+              - generic [ref=e279]:
+                - img [ref=e280]
+                - text: Satellite access
+              - generic [ref=e286]:
+                - img [ref=e287]
+                - text: VPN & mesh networks
+              - generic [ref=e291]:
+                - img [ref=e292]
+                - text: Cultural content
+              - generic [ref=e294]:
+                - img [ref=e295]
+                - text: Educational platforms
+              - generic [ref=e297]:
+                - img [ref=e298]
+                - text: Human-rights docs
+              - generic [ref=e301]:
+                - img [ref=e302]
+                - text: Awareness campaigns
+              - generic [ref=e305]:
+                - img [ref=e306]
+                - text: Community events
+          - generic [ref=e308]:
+            - heading "What MIGA Will Never Fund" [level=3] [ref=e309]:
+              - img [ref=e310]
+              - text: What MIGA Will Never Fund
+            - generic [ref=e313]:
+              - generic [ref=e314]:
+                - img [ref=e315]
+                - text: Violence
+              - generic [ref=e320]:
+                - img [ref=e321]
+                - text: Political parties
+              - generic [ref=e323]:
+                - img [ref=e324]
+                - text: Military activity
+              - generic [ref=e328]:
+                - img [ref=e329]
+                - text: Armed groups
+              - generic [ref=e333]:
+                - img [ref=e334]
+                - text: Election interference
+              - generic [ref=e337]:
+                - img [ref=e338]
+                - text: State overthrow
+            - paragraph [ref=e341]: "\"MIGA is about freedom of information and culture, not power.\""
+        - paragraph [ref=e342]: MIGA supports only non-violent, civil, and informational initiatives.
+      - generic [ref=e344]:
+        - generic [ref=e345]:
+          - text: DAO Governance
+          - heading "How Governance Works" [level=2] [ref=e346]
+          - paragraph [ref=e347]: A transparent, community-driven process from proposal to execution.
+        - generic [ref=e348]:
+          - generic [ref=e349]:
+            - generic [ref=e350]:
+              - generic [ref=e351]: "1"
+              - heading "Submit Proposal" [level=4] [ref=e352]
+              - paragraph [ref=e353]: Anyone can submit a mission proposal to the DAO
+            - generic [ref=e354]: →
+          - generic [ref=e355]:
+            - generic [ref=e356]:
+              - generic [ref=e357]: "2"
+              - heading "Committee Review" [level=4] [ref=e358]
+              - paragraph [ref=e359]: DAO committee reviews for legality & safety
+            - generic [ref=e360]: →
+          - generic [ref=e361]:
+            - generic [ref=e362]:
+              - generic [ref=e363]: "3"
+              - heading "Token Holder Vote" [level=4] [ref=e364]
+              - paragraph [ref=e365]: MIGA holders vote on approved proposals
+            - generic [ref=e366]: →
+          - generic [ref=e367]:
+            - generic [ref=e368]:
+              - generic [ref=e369]: "4"
+              - heading "Automatic Execution" [level=4] [ref=e370]
+              - paragraph [ref=e371]: Smart contracts release funds upon approval
+            - generic [ref=e372]: →
+          - generic [ref=e374]:
+            - generic [ref=e375]: "5"
+            - heading "Transparent Reporting" [level=4] [ref=e376]
+            - paragraph [ref=e377]: All spending is publicly documented on-chain
+        - generic [ref=e378]:
+          - heading "Why Pars Network?" [level=3] [ref=e379]:
+            - text: Why
+            - link "Pars Network" [ref=e380] [cursor=pointer]:
+              - /url: https://pars.network
+            - text: "?"
+          - paragraph [ref=e381]: A sovereign, privacy-first blockchain designed for communities under censorship. Quantum-safe encryption, private governance, and interoperability with 7+ chains.
+          - generic [ref=e382]:
+            - generic [ref=e383]: Near-Zero Fees
+            - generic [ref=e384]: Sub-Second Finality
+            - generic [ref=e385]: Quantum-Safe Encryption
+            - generic [ref=e386]: Private Voting
+            - generic [ref=e387]: Multi-Chain Bridges
+            - generic [ref=e388]: Global Access
+      - generic [ref=e390]:
+        - heading "The Movement" [level=2] [ref=e391]
+        - generic [ref=e392]:
+          - paragraph [ref=e393]: MIGA is not against Iran.
+          - paragraph [ref=e394]: It is for the Iranian people.
+          - generic [ref=e395]:
+            - generic [ref=e396]:
+              - img [ref=e397]
+              - generic [ref=e399]: For Freedom
+            - generic [ref=e400]:
+              - img [ref=e401]
+              - generic [ref=e405]: For Culture
+            - generic [ref=e406]:
+              - img [ref=e407]
+              - generic [ref=e410]: For Voices
+        - button "Mint MIGA" [ref=e411] [cursor=pointer]
+        - generic [ref=e412]:
+          - link "Learn about the Foundation" [ref=e413] [cursor=pointer]:
+            - /url: https://miga.us.org
+            - text: Learn about the Foundation
+            - img [ref=e414]
+          - generic [ref=e418]: "|"
+          - link "Vote on Proposals" [ref=e419] [cursor=pointer]:
+            - /url: https://pars.vote
+            - text: Vote on Proposals
+            - img [ref=e420]
+      - generic [ref=e425]:
+        - generic [ref=e426]:
+          - generic [ref=e427]:
+            - img [ref=e428]
+            - generic [ref=e434]: Race to Nowruz
+          - heading "7 Chains Compete for MIGA" [level=2] [ref=e435]
+          - paragraph [ref=e436]:
+            - text: Which blockchain community will raise the most?
+            - strong [ref=e437]: "The #1 chain wins 40% of all tokens."
+            - text: Deposit on your chain to boost its ranking. All proceeds fund the DAO treasury.
+        - generic [ref=e439]:
+          - generic [ref=e440]:
+            - img [ref=e441]
+            - generic [ref=e447]:
+              - strong [ref=e448]: "1st: 40%"
+              - text: of tokens
+          - generic [ref=e449]:
+            - img [ref=e450]
+            - strong [ref=e457]: "2nd: 20%"
+          - generic [ref=e458]:
+            - img [ref=e459]
+            - strong [ref=e466]: "3rd: 15%"
+          - generic [ref=e468]: "4th-7th: Split 25%"
+        - generic [ref=e470]:
+          - generic [ref=e471]:
+            - img [ref=e472]
+            - generic [ref=e475]: Competition ends at Nowruz 1404
+          - generic [ref=e476]:
+            - generic [ref=e477]:
+              - generic [ref=e478]: "00"
+              - generic [ref=e479]: Days
+            - generic [ref=e480]:
+              - generic [ref=e481]: "00"
+              - generic [ref=e482]: Hours
+            - generic [ref=e483]:
+              - generic [ref=e484]: "00"
+              - generic [ref=e485]: Minutes
+            - generic [ref=e486]:
+              - generic [ref=e487]: "00"
+              - generic [ref=e488]: Seconds
+          - paragraph [ref=e490]: March 20, 2025 • Persian New Year • نوروز ۱۴۰۴
+        - generic [ref=e492]:
+          - generic [ref=e493]: $18.95M
+          - paragraph [ref=e494]: Total Invested Across All 7 Chains
+        - generic [ref=e495]:
+          - generic [ref=e496]:
+            - heading "Live Leaderboard" [level=3] [ref=e497]:
+              - img [ref=e498]
+              - text: Live Leaderboard
+            - generic [ref=e504]: Rankings update with each deposit
+          - generic [ref=e505]:
+            - generic [ref=e508] [cursor=pointer]:
+              - generic [ref=e509]: "1"
+              - img "XRP Ledger" [ref=e511]
+              - generic [ref=e512]:
+                - generic [ref=e513]:
+                  - generic [ref=e514]: XRP Ledger
+                  - generic [ref=e515]: XRP
+                  - generic [ref=e516]: LIVE
+                - generic [ref=e517]:
+                  - text: Wins
+                  - strong [ref=e518]: 40%
+                  - text: → 1.12B MIGA
+              - generic [ref=e519]:
+                - generic [ref=e520]: $15.25M
+                - generic [ref=e521]:
+                  - img [ref=e522]
+                  - text: +0.0%
+              - generic [ref=e525]:
+                - generic [ref=e526]: 80.5%
+                - generic [ref=e527]: of total
+            - generic [ref=e530] [cursor=pointer]:
+              - generic [ref=e531]: "2"
+              - img "TON" [ref=e533]
+              - generic [ref=e534]:
+                - generic [ref=e535]:
+                  - generic [ref=e536]: TON
+                  - generic [ref=e537]: TON
+                  - generic [ref=e538]: LIVE
+                - generic [ref=e539]:
+                  - text: Wins
+                  - strong [ref=e540]: 20%
+                  - text: → 560.0M MIGA
+              - generic [ref=e541]:
+                - generic [ref=e542]: $3.70M
+                - generic [ref=e543]:
+                  - img [ref=e544]
+                  - text: +0.0%
+              - generic [ref=e547]:
+                - generic [ref=e548]: 19.5%
+                - generic [ref=e549]: of total
+            - generic [ref=e552] [cursor=pointer]:
+              - generic [ref=e553]: "3"
+              - img "Bitcoin" [ref=e555]
+              - generic [ref=e556]:
+                - generic [ref=e557]:
+                  - generic [ref=e558]: Bitcoin
+                  - generic [ref=e559]: BTC
+                  - generic [ref=e560]: LIVE
+                - generic [ref=e561]:
+                  - text: Wins
+                  - strong [ref=e562]: 15%
+                  - text: → 420.0M MIGA
+              - generic [ref=e563]:
+                - generic [ref=e564]: $0
+                - generic [ref=e565]:
+                  - img [ref=e566]
+                  - text: +0.0%
+              - generic [ref=e569]:
+                - generic [ref=e570]: 0.0%
+                - generic [ref=e571]: of total
+            - generic [ref=e574] [cursor=pointer]:
+              - generic [ref=e575]: "4"
+              - img "Ethereum" [ref=e577]
+              - generic [ref=e578]:
+                - generic [ref=e579]:
+                  - generic [ref=e580]: Ethereum
+                  - generic [ref=e581]: ETH
+                  - generic [ref=e582]: LIVE
+                - generic [ref=e583]:
+                  - text: Wins
+                  - strong [ref=e584]: ~6%
+                  - text: → 0 MIGA
+              - generic [ref=e585]:
+                - generic [ref=e586]: $0
+                - generic [ref=e587]:
+                  - img [ref=e588]
+                  - text: +0.0%
+              - generic [ref=e591]:
+                - generic [ref=e592]: 0.0%
+                - generic [ref=e593]: of total
+            - generic [ref=e596] [cursor=pointer]:
+              - generic [ref=e597]: "5"
+              - img "BNB Chain" [ref=e599]
+              - generic [ref=e600]:
+                - generic [ref=e601]:
+                  - generic [ref=e602]: BNB Chain
+                  - generic [ref=e603]: BNB
+                  - generic [ref=e604]: LIVE
+                - generic [ref=e605]:
+                  - text: Wins
+                  - strong [ref=e606]: ~6%
+                  - text: → 0 MIGA
+              - generic [ref=e607]:
+                - generic [ref=e608]: $0
+                - generic [ref=e609]:
+                  - img [ref=e610]
+                  - text: +0.0%
+              - generic [ref=e613]:
+                - generic [ref=e614]: 0.0%
+                - generic [ref=e615]: of total
+            - generic [ref=e618] [cursor=pointer]:
+              - generic [ref=e619]: "6"
+              - img "Solana" [ref=e621]
+              - generic [ref=e622]:
+                - generic [ref=e623]:
+                  - generic [ref=e624]: Solana
+                  - generic [ref=e625]: SOL
+                  - generic [ref=e626]: LIVE
+                - generic [ref=e627]:
+                  - text: Wins
+                  - strong [ref=e628]: ~6%
+                  - text: → 0 MIGA
+              - generic [ref=e629]:
+                - generic [ref=e630]: $0
+                - generic [ref=e631]:
+                  - img [ref=e632]
+                  - text: +0.0%
+              - generic [ref=e635]:
+                - generic [ref=e636]: 0.0%
+                - generic [ref=e637]: of total
+            - generic [ref=e640] [cursor=pointer]:
+              - generic [ref=e641]: "7"
+              - img "Lux" [ref=e643]
+              - generic [ref=e644]:
+                - generic [ref=e645]:
+                  - generic [ref=e646]: Lux
+                  - generic [ref=e647]: LUX
+                  - generic [ref=e648]: LIVE
+                - generic [ref=e649]:
+                  - text: Wins
+                  - strong [ref=e650]: ~6%
+                  - text: → 0 MIGA
+              - generic [ref=e651]:
+                - generic [ref=e652]: $0
+                - generic [ref=e653]:
+                  - img [ref=e654]
+                  - text: +0.0%
+              - generic [ref=e657]:
+                - generic [ref=e658]: 0.0%
+                - generic [ref=e659]: of total
+        - generic [ref=e660]:
+          - paragraph [ref=e661]: Deposit on any chain to boost its ranking. Winner takes 40%.
+          - link "Join the Race" [ref=e662] [cursor=pointer]:
+            - /url: /mint
+            - text: Join the Race
+            - img [ref=e663]
+    - contentinfo [ref=e665]:
+      - generic [ref=e666]:
+        - generic [ref=e667]:
+          - link "MIGA MIGA" [ref=e668] [cursor=pointer]:
+            - /url: /
+            - img "MIGA" [ref=e669]
+            - generic [ref=e670]: MIGA
+          - paragraph [ref=e671]: Make Iran Great Again
+          - generic [ref=e672]:
+            - link "Terms" [ref=e673] [cursor=pointer]:
+              - /url: /terms
+            - generic [ref=e674]: •
+            - link "Privacy" [ref=e675] [cursor=pointer]:
+              - /url: /privacy
+            - generic [ref=e676]: •
+            - link "Risks" [ref=e677] [cursor=pointer]:
+              - /url: /risks
+        - generic [ref=e679]:
+          - paragraph [ref=e680]: © 2026 MIGA DAO. All treasury funds are on-chain and publicly verifiable.
+          - generic [ref=e681]:
+            - link "X" [ref=e682] [cursor=pointer]:
+              - /url: https://x.com/MIGAProtocol
+              - img [ref=e683]
+            - link "Telegram" [ref=e685] [cursor=pointer]:
+              - /url: https://t.me/MIGADAO
+              - img [ref=e686]
+            - link "GitHub" [ref=e688] [cursor=pointer]:
+              - /url: https://github.com/migaprotocol
+              - img [ref=e689]
+  - button "MIGA Chat" [ref=e691] [cursor=pointer]:
+    - img "MIGA Chat" [ref=e692]
+```
