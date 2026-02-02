@@ -21,7 +21,7 @@ const DEPOSIT_ADDRESSES = {
   LUX: '0x14542918a9032248ef30d9bc1d57983691e3ade4',
   PARS: '0x0000000000000000000000000000000000000000', // TBD - deploy to Pars Network
   SPC: '0x0000000000000000000000000000000000000000', // TBD - deploy to Sparkle Pony Chain
-  HANZO: '0x0000000000000000000000000000000000000000', // TBD - deploy to Hanzo Network
+  HANZO: '0x0000000000000000000000000000000000000000', // TBD - deploy to Pars Network
   LOCAL: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266', // Anvil default account
 };
 
@@ -233,14 +233,14 @@ export const MIGA_CHAINS: ChainConfig[] = [
   },
   {
     id: 'HANZO',
-    name: 'Hanzo Network',
+    name: 'Pars Network',
     symbol: 'AI',
     chainId: 36963,
     type: 'evm',
     color: '#00D4FF',
-    icon: '/images/tokens/hanzo.png',
-    explorer: 'https://explore.hanzo.ai',
-    rpc: 'https://rpc.hanzo.ai',
+    icon: '/images/tokens/Pars Network.png',
+    explorer: 'https://explore.Pars Network.ai',
+    rpc: 'https://rpc.Pars Network.ai',
     nativeAsset: 'AI',
     decimals: 18,
     enabled: false, // Enable when deployed

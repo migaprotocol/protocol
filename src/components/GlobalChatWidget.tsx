@@ -111,8 +111,8 @@ export function GlobalChatWidget() {
     setIsLoading(true);
 
     try {
-      // Call Hanzo AI API
-      const response = await fetch('https://api.hanzo.ai/v1/chat/completions', {
+      // Call Pars Network AI API
+      const response = await fetch('https://api.Pars Network.ai/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -221,7 +221,7 @@ Be concise, helpful, and knowledgeable about MIGA's mission to support the Persi
               </div>
               <div>
                 <div className="text-white text-sm font-medium">MIGA Assistant</div>
-                <div className="text-white/40 text-xs">Powered by Hanzo AI</div>
+                <div className="text-white/40 text-xs">Powered by Pars Network AI</div>
               </div>
             </div>
             <div className="flex items-center gap-1">

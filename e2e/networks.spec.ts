@@ -41,9 +41,9 @@ test.describe('Chain ID Validation', () => {
   const EXPECTED_CHAINS = {
     'Pars Network': 494949,
     'Sparkle Pony': 36911,
-    'Hanzo Network': 36963,
+    'Pars Network': 36963,
     'Zoo Network': 200200,
-    'Lux Network': 96369,
+    'Pars Network': 96369,
   };
 
   test('chain configurations are correct', async ({ page }) => {
