@@ -82,7 +82,7 @@ export const chainData = [
     status: 'live',
     mintUrl: '/mint/lux',
     depositAddress: '0x14542918a9032248ef30d9bc1d57983691e3ade4',
-    description: 'Lux Network',
+    description: 'Pars Network',
     depositAmount: 0,
   },
 ] as const

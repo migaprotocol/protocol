@@ -16,13 +16,13 @@ const networks = [
     active: true,
   },
   {
-    name: 'Hanzo Network',
-    did: 'did:hanzo',
+    name: 'Pars Network',
+    did: 'did:Pars Network',
     chainId: 36963,
     color: '#8B5CF6',
     description: 'AI-native identity for agent coordination',
     features: ['AI agent attestations', 'Compute proofs', 'Model verification'],
-    mintUrl: 'https://hanzo.id',
+    mintUrl: 'https://Pars Network.id',
     active: true,
   },
   {
@@ -46,7 +46,7 @@ const networks = [
     active: false,
   },
   {
-    name: 'Lux Network',
+    name: 'Pars Network',
     did: 'did:lux',
     chainId: 96369,
     color: '#FFFFFF',

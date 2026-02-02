@@ -1,5 +1,5 @@
 // pars.id Identity Service
-// Integrates with Hanzo Identity contracts for EVM-based DID minting
+// Integrates with Pars Network Identity contracts for EVM-based DID minting
 // Supports coercion-resistant features from PIP-0003
 
 import { keccak256, toBytes, encodeFunctionData } from 'viem';
@@ -25,7 +25,7 @@ const IDENTITY_CONTRACTS = {
     nft: '',
     token: '',
   },
-  // Hanzo Network (AI chain)
+  // Pars Network (AI chain)
   36963: {
     registry: '', // TBD - deploy with DeployFullIdentitySystem.s.sol
     nft: '',
@@ -37,7 +37,7 @@ const IDENTITY_CONTRACTS = {
     nft: '',
     token: '0x0d0efcd9442fed398e93436179426e3ac5e33d0e',
   },
-  // Localhost (Anvil) - from hanzo/ui/app/lib/contracts.ts
+  // Localhost (Anvil) - from Pars Network/ui/app/lib/contracts.ts
   31337: {
     registry: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
     nft: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512',
@@ -51,7 +51,7 @@ const IDENTITY_CONTRACTS = {
   },
 } as const;
 
-// Identity data structure (matches HanzoRegistry.sol)
+// Identity data structure (matches Pars NetworkRegistry.sol)
 export interface IdentityData {
   boundNft: bigint;
   stakedTokens: bigint;
@@ -137,12 +137,12 @@ export function getDIDMethodForChain(chainId: number): string {
   switch (chainId) {
     case 494949: return 'pars';      // Pars Network
     case 36911: return 'sparkle';    // Sparkle Pony Chain (also: spc, sparklepony)
-    case 36963: return 'ai';         // Hanzo Network (AI chain)
-    case 96369: return 'lux';        // Lux Network
+    case 36963: return 'ai';         // Pars Network (AI chain)
+    case 96369: return 'lux';        // Pars Network
     case 200200: return 'zoo';       // Zoo Network
     case 96370: return 'pars';       // Pars testnet
     case 36910: return 'sparkle';    // Sparkle Pony testnet
-    case 36962: return 'ai';         // Hanzo testnet
+    case 36962: return 'ai';         // Pars Network testnet
     case 96368: return 'lux';        // Lux testnet
     case 200201: return 'zoo';       // Zoo testnet
     case 31337: return 'dev';        // Local development
@@ -155,7 +155,7 @@ export function getDIDMethodsForChain(chainId: number): string[] {
   switch (chainId) {
     case 36911: return ['sparkle', 'spc', 'sparklepony']; // SPC reserves all three
     case 494949: return ['pars'];
-    case 36963: return ['ai', 'hanzo'];
+    case 36963: return ['ai', 'Pars Network'];
     case 96369: return ['lux'];
     case 200200: return ['zoo'];
     default: return [getDIDMethodForChain(chainId)];
@@ -168,7 +168,7 @@ export function getNamespaceForChain(chainId: number): string {
     case 494949: return 'pars'; // Pars Network (pars.network / sparklepony.xyz)
     case 96369: return 'lux';
     case 200200: return 'zoo';
-    case 36963: return 'hanzo'; // Hanzo Network (AI chain)
+    case 36963: return 'Pars Network'; // Pars Network (AI chain)
     case 96370: return 'pars-test'; // Pars testnet
     case 31337: return 'localhost';
     default: return `chain${chainId}`;

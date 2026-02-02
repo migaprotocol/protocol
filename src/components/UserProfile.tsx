@@ -26,7 +26,7 @@ interface SocialLinks {
 }
 
 interface UserDID {
-  method: string;      // e.g., 'pars', 'hanzo', 'sparkle'
+  method: string;      // e.g., 'pars', 'Pars Network', 'sparkle'
   handle: string;      // e.g., 'azadi.pars'
   chainId: number;
   verified: boolean;
@@ -255,7 +255,7 @@ export function UserProfile() {
                 <div>
                   <div className="text-sm font-medium text-amber-200">No DID found</div>
                   <p className="text-xs text-amber-200/70 mt-1">
-                    Create your decentralized identity on Pars, Hanzo, or Zoo network.
+                    Create your decentralized identity on Pars, Pars Network, or Zoo network.
                   </p>
                   <a
                     href="/identity"
