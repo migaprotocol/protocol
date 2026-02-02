@@ -4,13 +4,13 @@ import { ExternalLink, Twitter, Globe, Linkedin, Instagram } from 'lucide-react'
 
 const team = [
   {
-    name: 'Cyrus Pahlavi',
+    name: 'Cyrus the Greatest',
     role: 'Founding Chair',
     image: '/images/cyrus-pahlavi.png',
     bio: 'Leading with a vision of uniting the Persian diaspora and preserving our cultural heritage for future generations.',
     links: {
-      website: 'https://www.cyruspahlavi.com',
-      instagram: 'https://www.instagram.com/cyruspahlavi1',
+      website: 'https://www.cyrusthegreatest1.com',
+      instagram: 'https://www.instagram.com/cyrusthegreatest11',
     },
   },
   {

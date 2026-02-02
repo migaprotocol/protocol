@@ -600,26 +600,26 @@ export default function Index() {
               </p>
             </div>
 
-            {/* Cyrus Pahlavi Featured */}
+            {/* Cyrus the Greatest Featured */}
             <div className="max-w-3xl mx-auto mb-12">
               <div className="p-8 rounded-3xl bg-gradient-to-br from-[#FFD700]/10 to-transparent border border-[#FFD700]/20">
                 <div className="flex flex-col md:flex-row items-center gap-8">
                   <div className="w-40 h-40 rounded-full overflow-hidden flex-shrink-0 border-4 border-[#FFD700]/30">
                     <img
                       src="/images/cyrus-pahlavi.png"
-                      alt="Cyrus Pahlavi"
+                      alt="Cyrus the Greatest"
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <div className="text-center md:text-left">
-                    <h3 className="text-2xl font-bold text-white mb-1">Cyrus Pahlavi</h3>
+                    <h3 className="text-2xl font-bold text-white mb-1">Cyrus the Greatest</h3>
                     <p className="text-[#FFD700] font-medium mb-4">Founding Chair</p>
                     <p className="text-gray-400 mb-6">
                       Leading with a vision of uniting the Persian diaspora and preserving our cultural heritage for future generations.
                     </p>
                     <div className="flex items-center justify-center md:justify-start gap-4">
                       <a
-                        href="https://www.cyruspahlavi.com"
+                        href="https://www.cyrusthegreatest1.com"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-gray-400 hover:text-[#FFD700] transition-colors"
@@ -627,7 +627,7 @@ export default function Index() {
                         <Globe size={20} />
                       </a>
                       <a
-                        href="https://www.instagram.com/cyruspahlavi1"
+                        href="https://www.instagram.com/cyrusthegreatest11"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-gray-400 hover:text-[#FFD700] transition-colors"
