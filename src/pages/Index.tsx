@@ -2,7 +2,6 @@ import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { HeroMedallionScene } from '@/components/3d'
 import { RaceToNowruz } from '@/components/RaceToNowruz'
-import { MigaCalculator } from '@/components/MigaCalculator'
 import {
   ArrowDown,
   Check,
@@ -659,11 +658,6 @@ export default function Index() {
             CHAIN RACE LEADERBOARD
             ============================================ */}
         <RaceToNowruz onSelectChain={handleSelectChain} />
-
-        {/* ============================================
-            MIGA CALCULATOR
-            ============================================ */}
-        <MigaCalculator />
       </main>
 
       <Footer />
