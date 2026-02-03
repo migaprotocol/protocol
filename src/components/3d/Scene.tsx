@@ -619,24 +619,15 @@ function EnergyConnections({ positions, pillarsHeight }: {
         </group>
       ))}
 
-      {/* Ambient energy sparkles around the coin circle */}
+      {/* Subtle ambient glow around the coin circle */}
       <Sparkles
-        count={80}
-        scale={[12, 3, 12]}
-        size={0.15}
-        speed={0.8}
-        opacity={0.5}
+        count={20}
+        scale={[10, 2, 10]}
+        size={0.08}
+        speed={0.4}
+        opacity={0.3}
         color="#FFD700"
         position={[0, pillarsHeight + 4.2, -2]}
-      />
-      <Sparkles
-        count={60}
-        scale={[10, 2, 10]}
-        size={0.12}
-        speed={1.0}
-        opacity={0.4}
-        color="#FFFFFF"
-        position={[0, pillarsHeight + 4.5, -2]}
       />
     </group>
   )
@@ -1244,34 +1235,26 @@ function BlackHolePortal() {
   )
 }
 
-// More sparkles for magical atmosphere - smaller and tighter
+// Subtle sparkles for atmosphere - reduced for cleaner look
 function AmbientSparkles() {
   return (
     <>
       <Sparkles
-        count={30}
-        scale={[10, 5, 10]}
-        size={0.14}
-        speed={0.35}
-        opacity={0.4}
+        count={12}
+        scale={[8, 4, 8]}
+        size={0.08}
+        speed={0.2}
+        opacity={0.25}
         color="#FFD700"
       />
       <Sparkles
-        count={25}
-        scale={[4, 3, 4]}
-        size={0.16}
-        speed={0.6}
-        opacity={0.5}
-        color="#FFE4B5"
-        position={[0, 2.8, 0]}
-      />
-      <Sparkles
-        count={25}
-        scale={[8, 4, 8]}
+        count={8}
+        scale={[3, 2, 3]}
         size={0.1}
         speed={0.3}
         opacity={0.3}
-        color="#9D7AED"
+        color="#FFE4B5"
+        position={[0, 3.5, 0]}
       />
     </>
   )
@@ -1818,7 +1801,7 @@ const LAYOUT_PRESETS: Record<SceneLayout, {
   cinematic: {
     camera: { position: [0, 4, 12], fov: 60 },
     target: [0, 1.8, -2],
-    medallion: { x: 0, y: 4.0, z: 0, scale: 1.5 },
+    medallion: { x: 0, y: 4.0, z: 0, scale: 2.2 },
     pool: { x: 0, z: 0, radius: 2.5 },
     pillars: { radius: 6.0, height: 2.5 },
     description: 'Arena view - all pillars visible'
@@ -1828,7 +1811,7 @@ const LAYOUT_PRESETS: Record<SceneLayout, {
   profile: {
     camera: { position: [8, 1.0, 8], fov: 55 },
     target: [0, 2.5, 0],
-    medallion: { x: 0, y: 4.5, z: 0, scale: 1.8 },
+    medallion: { x: 0, y: 4.5, z: 0, scale: 2.5 },
     pool: { x: 0, z: 0, radius: 2.0 },
     pillars: { radius: 5.0, height: 3.0 },
     description: 'Throne view - heroic low angle'
@@ -1838,7 +1821,7 @@ const LAYOUT_PRESETS: Record<SceneLayout, {
   topdown: {
     camera: { position: [0, 8, 10], fov: 55 },
     target: [0, 1, -3],
-    medallion: { x: 0, y: 3.0, z: -1, scale: 1.3 },
+    medallion: { x: 0, y: 3.0, z: -1, scale: 2.0 },
     pool: { x: 0, z: -1, radius: 2.0 },
     pillars: { radius: 5.0, height: 2.0 },
     description: 'Overhead view - pillars grounded'

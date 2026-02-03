@@ -51,7 +51,7 @@ export function Footer() {
             <h4 className="text-sm font-semibold text-white mb-4">Protocol</h4>
             <div className="flex flex-col gap-2 text-sm text-[#6B6B7B]">
               <Link to="/mint" className="hover:text-[#EDEDF2] transition-colors">Mint</Link>
-              <a href="/#calculator" className="hover:text-[#EDEDF2] transition-colors">Calculator</a>
+              <Link to="/calculator" className="hover:text-[#EDEDF2] transition-colors">Calculator</Link>
               <a href="/#leaderboard" className="hover:text-[#EDEDF2] transition-colors">Leaderboard</a>
               <Link to="/share" className="hover:text-[#EDEDF2] transition-colors">Share & Earn</Link>
             </div>
