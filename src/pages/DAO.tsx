@@ -1,5 +1,6 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { MigaScene } from '@/components/3d';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { Link } from 'react-router-dom';
@@ -251,6 +252,12 @@ export default function DAO() {
       <Header />
 
       <main className="flex-1 pt-24 pb-16">
+        {/* 3D Pillars Scene */}
+        <section className="relative h-[500px] md:h-[600px] lg:h-[700px] mb-8">
+          <MigaScene className="absolute inset-0" layout="cinematic" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#07070A] via-transparent to-transparent pointer-events-none" />
+        </section>
+
         {/* Hero */}
         <section className="container-lg mb-16">
           <div className="text-center max-w-3xl mx-auto">

@@ -7,7 +7,7 @@ const team = [
     name: 'Cyrus the Greatest',
     role: 'Founding Chair',
     image: '/images/cyrus-pahlavi.png',
-    bio: 'Leading with a vision of uniting the Persian diaspora and preserving our cultural heritage for future generations.',
+    bio: 'Visual artist and actor. Born in Tehran, educated at Institut Le Rosey and Parsons School of Design. His work explores themes of exile, identity, and nature.',
     links: {
       website: 'https://www.cyrusthegreatest1.com',
       instagram: 'https://www.instagram.com/cyrusthegreatest11',
