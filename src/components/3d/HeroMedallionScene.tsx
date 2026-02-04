@@ -97,8 +97,8 @@ function ResponsiveCamera() {
 
 // The scene content
 function SceneContent({ isMobile, onClick }: { isMobile: boolean; onClick?: () => void }) {
-  // Larger scale for better visibility
-  const scale = isMobile ? 1.2 : 1.5
+  // Larger scale for better visibility - increased from 1.2/1.5 to 1.6/2.0
+  const scale = isMobile ? 1.6 : 2.0
 
   return (
     <>
