@@ -4,13 +4,14 @@ import { ExternalLink, Twitter, Globe, Linkedin, Instagram } from 'lucide-react'
 
 const team = [
   {
-    name: 'Cyrus the Greatest',
+    name: 'Cyrus Pahlavi',
     role: 'Founding Chair',
     image: '/images/cyrus-pahlavi.png',
     bio: 'Visual artist and actor. Born in Tehran, educated at Institut Le Rosey and Parsons School of Design. His work explores themes of exile, identity, and nature.',
     links: {
-      website: 'https://www.cyrusthegreatest1.com',
-      instagram: 'https://www.instagram.com/cyrusthegreatest11',
+      website: 'https://www.cyruspahlavi.com',
+      instagram: 'https://www.instagram.com/cyruspahlavi',
+      linkedin: 'https://www.linkedin.com/in/cyruspahlavi',
     },
   },
   {
