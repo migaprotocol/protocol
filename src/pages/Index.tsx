@@ -1,6 +1,6 @@
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
-import { HeroMedallionScene } from '@/components/3d'
+import { HeroMedallionScene, MigaScene } from '@/components/3d'
 import { RaceToNowruz } from '@/components/RaceToNowruz'
 import {
   ArrowDown,
@@ -599,26 +599,26 @@ export default function Index() {
               </p>
             </div>
 
-            {/* Cyrus the Greatest Featured */}
+            {/* Cyrus Pahlavi Featured */}
             <div className="max-w-3xl mx-auto mb-12">
               <div className="p-8 rounded-3xl bg-gradient-to-br from-[#FFD700]/10 to-transparent border border-[#FFD700]/20">
                 <div className="flex flex-col md:flex-row items-center gap-8">
                   <div className="w-40 h-40 rounded-full overflow-hidden flex-shrink-0 border-4 border-[#FFD700]/30">
                     <img
                       src="/images/cyrus-pahlavi.png"
-                      alt="Cyrus the Greatest"
+                      alt="Cyrus Pahlavi"
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <div className="text-center md:text-left">
-                    <h3 className="text-2xl font-bold text-white mb-1">Cyrus the Greatest</h3>
+                    <h3 className="text-2xl font-bold text-white mb-1">Cyrus Pahlavi</h3>
                     <p className="text-[#FFD700] font-medium mb-4">Founding Chair</p>
                     <p className="text-gray-400 mb-6">
                       Leading with a vision of uniting the Persian diaspora and preserving our cultural heritage for future generations.
                     </p>
                     <div className="flex items-center justify-center md:justify-start gap-4">
                       <a
-                        href="https://www.cyrusthegreatest1.com"
+                        href="https://www.cyruspahlavi.com"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-gray-400 hover:text-[#FFD700] transition-colors"
@@ -626,7 +626,7 @@ export default function Index() {
                         <Globe size={20} />
                       </a>
                       <a
-                        href="https://www.instagram.com/cyrusthegreatest11"
+                        href="https://www.instagram.com/cyruspahlavi"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-gray-400 hover:text-[#FFD700] transition-colors"
@@ -658,6 +658,26 @@ export default function Index() {
             CHAIN RACE LEADERBOARD
             ============================================ */}
         <RaceToNowruz onSelectChain={handleSelectChain} />
+
+        {/* ============================================
+            3D PILLARS SCENE - Multi-chain visualization
+            ============================================ */}
+        <section id="pillars" className="py-24 border-t border-white/[0.04]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-8">
+              <span className="text-sm text-[#FFD700] font-medium uppercase tracking-wider">Multi-Chain Treasury</span>
+              <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-6 text-white">
+                Bridge to <span className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">MIGA</span>
+              </h2>
+              <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+                Mint MIGA from 7 different blockchains. Each pillar represents a bridge to freedom.
+              </p>
+            </div>
+            <div className="h-[600px] md:h-[700px] rounded-3xl overflow-hidden border border-white/[0.06]">
+              <MigaScene layout="cinematic" onChainClick={(chain) => handleSelectChain(chain.id)} />
+            </div>
+          </div>
+        </section>
       </main>
 
       <Footer />
