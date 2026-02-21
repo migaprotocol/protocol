@@ -13,13 +13,13 @@ const steps = [
   },
   {
     number: '2',
-    title: 'Send Donation',
+    title: 'Send Contribution',
     description: 'Send tokens to the DAO treasury address',
   },
   {
     number: '3',
-    title: 'Receive MIGA',
-    description: 'Get MIGA tokens on Lux network via bridge',
+    title: 'Claim at Launch',
+    description: 'Receive MIGA tokens when trading goes live in 2026',
   },
 ];
 
@@ -41,8 +41,8 @@ const features = [
   },
   {
     icon: TrendingUp,
-    title: 'Fair Launch',
-    description: '0% team allocation. Everyone participates equally through the bonding curve.',
+    title: 'Early Bird Pricing',
+    description: 'Pre-sale contributors get the best rates. Price increases after Nowruz.',
   },
 ];
 
@@ -57,14 +57,14 @@ export default function Mint() {
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/10 border border-gold/20 text-gold text-sm mb-6">
               <Sparkles size={16} />
-              <span>Multi-Chain Donations Open</span>
+              <span>Pre-Sale Live — Best Prices Until Nowruz</span>
             </div>
             <h1 className="text-4xl lg:text-6xl font-medium tracking-tight mb-4">
-              Mint <span className="text-gold">$MIGA</span>
+              Fund <span className="text-gold">$MIGA</span>
             </h1>
             <p className="text-white/60 max-w-2xl mx-auto">
-              Donate from any of 7 supported chains. All donations go directly to the DAO treasury
-              and are used for protocol development and community initiatives.
+              Join the pre-sale from any of 7 supported chains. All contributions go directly to the DAO treasury
+              to fund Persian governance and community initiatives. Token launches New Year's 2026.
             </p>
           </div>
 

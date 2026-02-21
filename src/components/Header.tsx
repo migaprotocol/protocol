@@ -10,8 +10,8 @@ const navLinks = [
   { label: 'DAO', href: '/dao' },
 ];
 
-// Mint progress (update this as mint progresses)
-const MINT_PROGRESS = 23; // percentage
+// Pre-sale progress (update this as pre-sale progresses)
+const PRESALE_PROGRESS = 23; // percentage
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -86,14 +86,14 @@ export function Header() {
               className="relative group"
             >
               <div className="flex items-center gap-2 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-semibold px-5 py-2 rounded-full hover:shadow-lg hover:shadow-[#FFD700]/20 transition-all">
-                <span>Mint</span>
-                <span className="text-xs opacity-80">{MINT_PROGRESS}%</span>
+                <span>Pre-Sale</span>
+                <span className="text-xs opacity-80">{PRESALE_PROGRESS}%</span>
               </div>
               {/* Progress bar */}
               <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-black/20 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-black/40 transition-all"
-                  style={{ width: `${MINT_PROGRESS}%` }}
+                  style={{ width: `${PRESALE_PROGRESS}%` }}
                 />
               </div>
             </Link>
@@ -105,8 +105,8 @@ export function Header() {
               to="/mint"
               className="flex items-center gap-1.5 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-semibold px-3 py-1.5 rounded-full text-sm"
             >
-              <span>Mint</span>
-              <span className="text-xs opacity-80">{MINT_PROGRESS}%</span>
+              <span>Pre-Sale</span>
+              <span className="text-xs opacity-80">{PRESALE_PROGRESS}%</span>
             </Link>
             <button
               className="p-2 text-[#B8B8C6] hover:text-[#EDEDF2] transition-colors rounded-lg hover:bg-white/[0.03]"

@@ -159,8 +159,8 @@ export function RaceToNowruz() {
             <span className="text-gradient-ember">7 Chains</span> compete for <span className="text-gradient-ember">2.8B</span> MIGA
           </h2>
           <p className="body-md max-w-2xl mx-auto">
-            The more your chain invests, the more tokens it gets. Race ends at Nowruz.
-            All proceeds fund the DAO treasury. 10% reserved for liquidity.
+            The more your chain contributes, the larger its token allocation. Pre-sale ends at Nowruz —
+            this is your window for the best prices. Token launches New Year's 2026.
           </p>
         </div>
 
@@ -169,7 +169,7 @@ export function RaceToNowruz() {
           <div className="card bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a] border border-[#FFD36A]/20">
             <div className="flex items-center justify-center gap-2 mb-6">
               <Clock className="w-5 h-5 text-[#FFD36A]" />
-              <span className="text-sm text-[#9999A5]">Sale ends at Nowruz 1404</span>
+              <span className="text-sm text-[#9999A5]">Pre-sale closes at Nowruz 1404 — Lock in the best price</span>
             </div>
 
             <div className="grid grid-cols-4 gap-4 text-center">
@@ -342,13 +342,13 @@ export function RaceToNowruz() {
         {/* CTA */}
         <div className="mt-12 text-center">
           <p className="text-sm text-[#9999A5] mb-4">
-            Deposit to your chain's MPC wallet. Tokens distributed proportionally at Nowruz.
+            Contribute to your chain's MPC wallet now for the best rates. Tokens distributed at launch (New Year's 2026).
           </p>
           <a
             href="/mint"
             className="btn-primary inline-flex items-center gap-2"
           >
-            Join the Race <Flame className="w-4 h-4" />
+            Join the Pre-Sale <Flame className="w-4 h-4" />
           </a>
         </div>
       </div>

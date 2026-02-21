@@ -186,7 +186,7 @@ export default function Index() {
             <div className="text-center mb-12">
               <h2 className="mb-4">How it works</h2>
               <p className="body-md max-w-xl mx-auto">
-                All mint proceeds seed the treasury. Protocol fees fund ongoing operations.
+                All pre-sale contributions seed the treasury. Token launches New Year's 2026.
               </p>
             </div>
 
@@ -197,9 +197,9 @@ export default function Index() {
               {/* Step 1 */}
               <div className="flow-step">
                 <div className="flow-number mb-4">1</div>
-                <h3 className="mb-2">Mint</h3>
+                <h3 className="mb-2">Fund</h3>
                 <p className="body-sm">
-                  Fair launch token sale. 100% of proceeds go to DAO treasury.
+                  Pre-sale now through Nowruz. Best prices for early supporters.
                 </p>
               </div>
 
@@ -215,18 +215,18 @@ export default function Index() {
               {/* Step 3 */}
               <div className="flow-step">
                 <div className="flow-number mb-4">3</div>
-                <h3 className="mb-2">Fund</h3>
+                <h3 className="mb-2">Launch</h3>
                 <p className="body-sm">
-                  1% of protocol fees auto-distributed to each of the 10 DAOs.
+                  Token goes live New Year's 2026. Claim your allocation and trade.
                 </p>
               </div>
 
               {/* Step 4 */}
               <div className="flow-step">
                 <div className="flow-number mb-4">4</div>
-                <h3 className="mb-2">Build</h3>
+                <h3 className="mb-2">Govern</h3>
                 <p className="body-sm">
-                  Humanitarian programs, partnerships, and long-term nation-building.
+                  10 DAOs fund humanitarian programs, partnerships, and nation-building.
                 </p>
               </div>
             </div>
@@ -251,8 +251,8 @@ export default function Index() {
                 <span className="text-gradient-ember">7B</span> tokens across 7 chains
               </h2>
               <p className="body-md max-w-2xl mx-auto">
-                Fair launch. No VCs. No presales. No team allocation.
-                All mint proceeds seed the treasury. Starting as an NGO.
+                Community-first launch. No VCs. No team allocation.
+                All contributions seed the sovereign treasury. Built as an NGO.
               </p>
             </div>
 
@@ -267,9 +267,9 @@ export default function Index() {
 
               <div className="card text-center">
                 <div className="text-4xl font-bold text-gradient-ember mb-2">40%</div>
-                <h3 className="text-lg mb-2">Fair Sale</h3>
+                <h3 className="text-lg mb-2">Pre-Sale</h3>
                 <p className="body-sm">
-                  2.8B tokens sold via bonding curves for fair price discovery
+                  2.8B tokens allocated to early supporters at the best rates
                 </p>
               </div>
 
@@ -460,7 +460,7 @@ export default function Index() {
                 <span className="text-gradient-ember">MIGA</span> Token
               </h2>
               <p className="body-md max-w-xl mx-auto">
-                Fair launch. Community governed. Multi-chain.
+                Pre-sale live now. Token launches New Year's 2026. Multi-chain.
               </p>
             </div>
 
@@ -516,7 +516,7 @@ export default function Index() {
                   </div>
                   <div>
                     <div className="flex justify-between mb-1">
-                      <span className="text-sm">Fair Sale</span>
+                      <span className="text-sm">Pre-Sale</span>
                       <span className="text-sm text-[#FFB14A]">40%</span>
                     </div>
                     <div className="h-2 bg-white/5 rounded-full overflow-hidden">
