@@ -153,7 +153,7 @@ export function RaceToNowruz({ onSelectChain }: RaceToNowruzProps) {
           <p className="body-md max-w-2xl mx-auto">
             Each chain starts with <strong className="text-[#FFD36A]">1 Billion MIGA</strong>.
             {' '}Deposit more than other chains to <strong className="text-white">steal their allocation</strong>.
-            {' '}100% of deposits fund the DAO. Unsold tokens return to treasury.
+            {' '}Pre-sale ends at Nowruz — this is your window for the best prices. Token launches New Year's 2026.
           </p>
         </div>
 
@@ -180,7 +180,7 @@ export function RaceToNowruz({ onSelectChain }: RaceToNowruzProps) {
           <div className="card bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a] border border-[#FFD36A]/20">
             <div className="flex items-center justify-center gap-2 mb-6">
               <Clock className="w-5 h-5 text-[#FFD36A]" />
-              <span className="text-sm text-[#9999A5]">Competition ends at Nowruz 1404</span>
+              <span className="text-sm text-[#9999A5]">Pre-sale closes at Nowruz 1404 — Lock in the best price</span>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 text-center">
@@ -385,13 +385,13 @@ export function RaceToNowruz({ onSelectChain }: RaceToNowruzProps) {
         {/* CTA */}
         <div className="mt-12 text-center">
           <p className="text-sm text-[#9999A5] mb-4">
-            Pick your chain. Deposit more than rivals. Steal their MIGA.
+            Contribute now for the best rates. Tokens distributed at launch (New Year's 2026).
           </p>
           <a
             href="/mint"
             className="btn-primary inline-flex items-center gap-2"
           >
-            Join the Fight <Swords className="w-4 h-4" />
+            Join the Pre-Sale <Swords className="w-4 h-4" />
           </a>
         </div>
       </div>

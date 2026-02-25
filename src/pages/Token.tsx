@@ -132,7 +132,7 @@ export default function Token() {
               </div>
               <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
                 <p className="text-emerald-400 text-sm font-medium">No team allocation. No advisor tokens. No VC rounds.</p>
-                <p className="text-white/50 text-xs mt-1">The team participates like everyone else through the public bonding curve.</p>
+                <p className="text-white/50 text-xs mt-1">Pre-sale open now through Nowruz. Token launches New Year's 2026.</p>
               </div>
             </div>
           </section>
@@ -145,7 +145,7 @@ export default function Token() {
             </h2>
             <div className="card rounded-xl p-6">
               <p className="text-white/60 text-sm mb-6">
-                The bonding curve provides fair price discovery with no presale or preferential treatment.
+                Pre-sale contributors lock in early pricing before the bonding curve goes live at New Year's 2026.
               </p>
               <div className="grid md:grid-cols-2 gap-6 mb-6">
                 <div className="space-y-3">
