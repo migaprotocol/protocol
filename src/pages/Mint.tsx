@@ -90,14 +90,14 @@ export default function Mint() {
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/10 border border-gold/20 text-gold text-sm mb-6">
               <Sparkles size={16} />
-              <span>Multi-Chain Minting</span>
+              <span>Pre-Sale Live — Best Prices Until Nowruz</span>
             </div>
             <h1 className="text-4xl lg:text-6xl font-medium tracking-tight mb-4">
-              Mint <span className="text-gold">$MIGA</span>
+              Fund <span className="text-gold">$MIGA</span>
             </h1>
             <p className="text-white/60 max-w-2xl mx-auto mb-6">
-              Mint from any of 7 supported chains. Each chain has its own bonding curve from
-              $0.01 to $1. All funds go directly to the DAO treasury.
+              Join the pre-sale from any of 7 supported chains. Each chain has its own bonding curve from
+              $0.01 to $1. All funds go directly to the DAO treasury. Token launches New Year's 2026.
             </p>
             <div className="inline-flex items-center gap-6 text-sm">
               <div className="text-center">
