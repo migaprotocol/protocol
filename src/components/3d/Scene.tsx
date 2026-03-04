@@ -18,7 +18,7 @@ import * as THREE from 'three'
 // Preload medallion model (smaller 11MB version)
 useGLTF.preload('/models/MIGA-medallion.glb')
 
-// Mouse position for parallax
+
 const mouseState = { x: 0, y: 0 }
 
 // Ground plane removed - was showing ugly square
